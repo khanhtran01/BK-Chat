@@ -1,11 +1,10 @@
-import * as React from "react";
+import { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
 
 // import component MUI
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
 // import icons
@@ -18,13 +17,12 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import ChatPanel from "./PanelComponents/Chat";
 
 // import from soutce code
-import logo from "../../logo/logo.png";
 import { bcolors, textcolor } from "../../colors";
+import Context from "../../context";
 // import panelTab
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
   return (
     <div
       style={{
@@ -37,7 +35,6 @@ function TabPanel(props) {
       {value === index && (
         <Box
           sx={{
-            p: 3,
             backgroundColor: bcolors.bluedark,
             height: "100%",
           }}
@@ -90,7 +87,9 @@ TabPanel.propTypes = {
 };
 
 export default function SideBar() {
-  const [value, setValue] = React.useState(1);
+  const [value, setValue] = useState(1);
+  const client = useContext(Context);
+  console.log("rendering ...");
   const listElements = [
     <AccountCircleIcon
       sx={{
@@ -124,8 +123,6 @@ export default function SideBar() {
   return (
     <Box
       sx={{
-        flexGrow: 1,
-        bgcolor: "background.paper",
         display: "flex",
         height: "100%",
       }}
@@ -138,7 +135,6 @@ export default function SideBar() {
       <TabPanel value={value} index={0}></TabPanel>
       <TabPanel value={value} index={1}>
         <ChatPanel />
-        Item Two
       </TabPanel>
       <TabPanel value={value} index={2}>
         Item Three

@@ -5,12 +5,14 @@ import AccountCircle from "@mui/icons-material/AccountCircle";
 import { v4 as uuidv4 } from "uuid";
 
 function InputText(props) {
-  const { color, title, hide } = props;
+  const { color, title, hide, text, setText } = props;
   return (
     <TextField
       id={uuidv4()}
       label={title}
       type={hide ? "password" : "text"}
+      value={text}
+      onChange={(e) => setText(e.target.value)}
       sx={{
         ".MuiFormLabel-root": {
           color: color,

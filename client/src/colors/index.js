@@ -5,6 +5,10 @@ const bcolors = {
   main: "#7269ef",
   secondary: "#867fec",
   sidebar: "#36404a",
+  chatboard: "#262e35",
+  online: "#44b700",
+  busy: "#ffd166",
+  offline: "#adb5bd",
 };
 const textcolor = {
   sidedark: "#8f9198",

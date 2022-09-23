@@ -3,11 +3,13 @@ import { styled } from "@mui/material/styles";
 import Badge from "@mui/material/Badge";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
+import PropTypes from "prop-types";
+import { bcolors } from "../../colors";
 
-const StyledBadge = styled(Badge)(({ theme }) => ({
+const StyledBadge = styled(Badge)(({ theme, status }) => ({
   "& .MuiBadge-badge": {
-    backgroundColor: "#44b700",
-    color: "#44b700",
+    backgroundColor: status === "online" ? bcolors.online : bcolors.offline,
+    color: bcolors.online,
     boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
     "&::after": {
       position: "absolute",
@@ -34,22 +36,46 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 export default function BadgeAvatars(props) {
-  const { marginTop } = props;
+  const { marginTop, url, status } = props;
   return (
-    <Stack direction="row" spacing={2}>
+    <Stack
+      direction="row"
+      spacing={2}
+      sx={{
+        marginTop: marginTop,
+      }}
+    >
       <StyledBadge
         overlap="circular"
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         variant="dot"
+        sx={{
+          "& .MuiBadge-badge": {
+            "&::after": {
+              backgroundColor:
+                status === "online"
+                  ? bcolors.online
+                  : status === "offline"
+                  ? bcolors.offline
+                  : bcolors.busy,
+              animation: "none",
+            },
+          },
+        }}
       >
-        <Avatar
-          alt="Remy Sharp"
-          src="https://khoinguonsangtao.vn/wp-content/uploads/2022/02/anh-dai-dien-fb-dep.jpg"
-          sx={{
-            marginTop: marginTop,
-          }}
-        />
+        <Avatar alt="Remy Sharp" src={url} />
       </StyledBadge>
     </Stack>
   );
 }
+
+BadgeAvatars.propTypes = {
+  marginTop: PropTypes.string,
+  url: PropTypes.string.isRequired,
+  type: PropTypes.string,
+};
+
+BadgeAvatars.defaultProps = {
+  marginTop: "0px",
+  type: "badge",
+};
