@@ -42,18 +42,14 @@ class UserController {
     async storeAccount(req, res, next) {
         try {
             const account = await Account.find({
-                $or: [{
-                    username: req.body.username
-                }, {
-                    email: req.body.email
-                }]
+                email: req.body.email
             });
             if (account.length > 0) {
                 res.status(401).json({ message: "Username or Email is exit" })
             } else {
+                req.body.address = '';
                 req.body.desc = '';
                 req.body.avatar = '/img/avatar-default.png';
-                req.body.background_img = '/img/background_default.jpg';
                 bcrypt.hash(req.body.password, saltRounds, async function (err, hash) {
                     req.body.password = hash;
                     const _account = await new Account(req.body);
