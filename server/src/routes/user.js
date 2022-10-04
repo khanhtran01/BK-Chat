@@ -3,20 +3,15 @@ const route = express.Router();
 const uploads = require('../util/multer.cloudinary');
 const UpdateInfoController = require('../app/controllers/UpdateInfoController');
 const UserController = require('../app/controllers/UserController');
-const MessageController = require('../app/controllers/MessageController');
+const ConversationController = require('../app/controllers/ConversationController');
 
-route.post('/update-personal-infor', uploads.fields([{
-    name: 'avatar',
-    maxCount: 1
-}, {
-    name: 'background_img',
-    maxCount: 1
-}]), UpdateInfoController.personalInfor);
+// avatar, username, desc, address
+route.put('/update-personal-info', uploads.single('avatar'), UpdateInfoController.personalInfor);
 
-route.post('/search-contact', UserController.seachUser);
+// route.post('/search-contact', UserController.seachUser);
 
-route.post('/new-contact', MessageController.newMessage);
+// route.post('/new-contact', ConversationController.newMessage);
 
-route.get('/get-infor', UserController.personalInfo);
+// route.get('/get-infor', UserController.personalInfo);
 
 module.exports = route;
