@@ -10,9 +10,10 @@ function InputText(props) {
     <TextField
       id={uuidv4()}
       label={title}
+      name={title}
       type={hide ? "password" : "text"}
       value={text}
-      onChange={(e) => setText(e.target.value)}
+      onChange={setText}
       sx={{
         ".MuiFormLabel-root": {
           color: color,

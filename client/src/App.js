@@ -1,7 +1,7 @@
 // import SideBar from "./layout/sidebar";
 import Box from "@mui/material/Box";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-
+import AuthContextProvider from "./context/authContext";
 import Dashboard from "./layout/dashboard";
 import SignUp from "./layout/signup";
 import SignIn from "./layout/signin";
@@ -14,13 +14,15 @@ function App() {
         height: "100vh",
       }}
     >
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Dashboard />} />
-          <Route path="/auth/login" element={<SignIn />} />
-          <Route path="/auth/register" element={<SignUp />} />
-        </Routes>
-      </BrowserRouter>
+      <AuthContextProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/auth/login" element={<SignIn />} />
+            <Route path="/auth/register" element={<SignUp />} />
+          </Routes>
+        </BrowserRouter>
+      </AuthContextProvider>
     </Box>
   );
 }
