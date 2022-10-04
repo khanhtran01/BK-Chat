@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import Box from "@mui/material/Box";
 import logo from "./img/logo.png";
 import Typography from "@mui/material/Typography";
@@ -9,14 +9,45 @@ import Checkbox from "@mui/material/Checkbox";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Button from "@mui/material/Button";
-
+import CircularProgress from "@mui/material/CircularProgress";
 import { useNavigate } from "react-router-dom";
-
+import { AuthContext } from "../../context/authContext";
 import { bcolors, textcolor } from "../../colors";
+
+import axios from "axios";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 function SignIn() {
+  const { loginUser } = useContext(AuthContext);
+
+  const [loginForm, setLoginForm] = useState({
+    username: "",
+    password: "",
+  });
+
+  const [isSubmiting, setIsSubmiting] = useState(false);
+
+  const { username, password } = loginForm;
+
+  const onChangeLoginForm = (event) =>
+    setLoginForm({ ...loginForm, [event.target.name]: event.target.value });
+
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmiting(true);
+    await loginUser(loginForm);
+    navigate("/");
+    await axios
+      .get("/api")
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   const navigate = useNavigate();
   const handleNavigate = (link) => {
     navigate(link);
@@ -80,8 +111,19 @@ function SignIn() {
             height={150}
             justifyContent="space-between"
           >
-            <InputText color={textcolor.white} title={"USERNAME"} />
-            <InputText color={textcolor.white} title={"PASSWORD"} hide />
+            <InputText
+              color={textcolor.white}
+              title={"username"}
+              text={username}
+              setText={onChangeLoginForm}
+            />
+            <InputText
+              color={textcolor.white}
+              title={"password"}
+              text={password}
+              setText={onChangeLoginForm}
+              hide
+            />
           </Box>
           <Box
             display="flex"
@@ -129,9 +171,22 @@ function SignIn() {
             },
           }}
           variant="contained"
-          onClick={() => handleNavigate("/")}
+          onClick={onSubmit}
         >
-          Sign in
+          {isSubmiting ? (
+            <CircularProgress
+              variant="indeterminate"
+              disableShrink
+              size={25}
+              thickness={4}
+              sx={{
+                color: "white",
+                animationDuration: "550ms",
+              }}
+            />
+          ) : (
+            "Sign in"
+          )}
         </Button>
       </Box>
       <Box mt={4} display="flex">
