@@ -19,7 +19,7 @@ import axios from "axios";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 function SignIn() {
-  const { loginUser } = useContext(AuthContext);
+  const { loginUser, authState } = useContext(AuthContext);
 
   const [loginForm, setLoginForm] = useState({
     username: "",
@@ -37,15 +37,7 @@ function SignIn() {
     event.preventDefault();
     setIsSubmiting(true);
     await loginUser(loginForm);
-    navigate("/");
-    await axios
-      .get("/api")
-      .then(function (response) {
-        console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    navigate("/dashboard");
   };
 
   const navigate = useNavigate();
@@ -57,6 +49,7 @@ function SignIn() {
       sx={{
         backgroundColor: bcolors.bluedark,
         height: "100%",
+        width: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",

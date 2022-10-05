@@ -89,7 +89,6 @@ TabPanel.propTypes = {
 export default function SideBar() {
   const [value, setValue] = useState(1);
   const client = useContext(Context);
-  console.log("rendering ...");
   const listElements = [
     <AccountCircleIcon
       sx={{

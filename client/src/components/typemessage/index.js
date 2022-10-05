@@ -5,7 +5,6 @@ import Box from "@mui/material/Box";
 import { bcolors, textcolor } from "../../colors";
 
 export default function InputText({ text, setText }) {
-  console.log(text);
   return (
     <Box
       sx={{

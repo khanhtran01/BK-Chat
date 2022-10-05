@@ -4,12 +4,12 @@ import SearchInput from "../../../search";
 import { textcolor } from "../../../../colors";
 import ActivateList from "../../../activateList";
 import FriendBox from "../../../friendbox";
-import { useContext } from "react";
-import Context from "../../../../context";
+// import { useContext } from "react";
+// import Context from "../../../../context";
 import { v4 as uuidv4 } from "uuid";
 import { clientList } from "./data";
 function ChatPanel() {
-  const [client, setClient] = useContext(Context);
+  // const [client, setClient] = useContext(Context);
   return (
     <Box sx={{ height: "100%" }}>
       <Box sx={{ height: "13.75rem", p: 3 }}>
@@ -50,8 +50,8 @@ function ChatPanel() {
               key={uuidv4()}
               id={friend.id}
               url={friend.img}
-              selected={friend.id === client}
-              setSelected={setClient}
+              // selected={friend.id === client}
+              // setSelected={setClient}
               status={friend.status}
             />
           ))}
