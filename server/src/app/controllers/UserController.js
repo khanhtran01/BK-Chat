@@ -6,14 +6,14 @@ const saltRounds = 10;
 class UserController {
     async index(req, res, next) {
         try {
-            var userInfo = await Account.findOne({ _id: req.userId })
+            var userInfo = await Account.findOne({ _id: req.userId }, {password: -1})
             var conversations = await Conversation
                 .find({ 'member': req.userId})
                 .populate('member')
                 .sort({ 'updatedAt': -1 });
             res.status(200).json({"userInfor": userInfo, "conversations": conversations})
         } catch (error) {
-            next(error);
+            res.status(500).json(error)
         }
     }
     async checkLogin(req, res, next) {
@@ -23,20 +23,16 @@ class UserController {
                 bcrypt.compare(req.body.password, account.password, function (err, result) {
                     if (result) {
                         var token = jwt.sign({ _id: account._id }, process.env.JWT_SECRECT);
-                        res.cookie('token', token, {
-                            signed: true,
-                            expires: new Date(Date.now() + 8 * 3600000)
-                        });
-                        res.status(200).json(account);
+                        res.status(200).json({token: token, accessToken: "Successful"});
                     } else {
-                        res.status(400).json({ "message": "Invalid username or password" });
+                        res.status(404).json({ message: "Invalid username or password" });
                     }
                 });
             } else {
-                res.status(400).json({ "message": "Invalid username or password" });
+                res.status(404).json({ message: "Invalid username or password" });
             }
         } catch (error) {
-            next(error);
+            res.status(500).json(error)
         }
     }
     async storeAccount(req, res, next) {
@@ -45,7 +41,7 @@ class UserController {
                 email: req.body.email
             });
             if (account.length > 0) {
-                res.status(401).json({ message: "Username or Email is exit" })
+                res.status(404).json({ message: "Email is exit" })
             } else {
                 req.body.address = '';
                 req.body.desc = '';
@@ -58,12 +54,11 @@ class UserController {
                 res.status(200).json({ message: "Register Successfull" })
             }
         } catch (error) {
-            next(error);
+            res.status(500).json(error)
         }
     }
     logout(req, res, next) {
-        res.clearCookie('token');
-        res.status(200).json({ "message": "Logout" });
+        res.status(200).json({ message: "Logout" });
     }
 }
 
