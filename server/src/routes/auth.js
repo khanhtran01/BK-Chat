@@ -2,12 +2,15 @@ const express = require('express');
 const route = express.Router();
 
 const UserController = require('../app/controllers/UserController');
-// email, password
+// [POST] /api/auth/login 
 route.post('/login', UserController.checkLogin);
 
+// [GET] /api/auth/logout
 route.get('/logout', UserController.logout);
 
-// email, username, password
+// [POST] /api/auth/register
 route.post('/register', UserController.storeAccount);
+
+route.get('/verify-token', UserController.verifyToken);
 
 module.exports = route;

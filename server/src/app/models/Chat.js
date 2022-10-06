@@ -12,7 +12,7 @@ const Chat = new Schema({
     like: { type: Array, default: [] },
     totalLike: { type: Number, default: 0 },
     user_read: { type: Array, default: [] },
-    reply_from: { type: String, ref: 'Conversation', default: null }
+    reply_from: { type: String, default: null }
 }, {
     timestamps: true,
 });

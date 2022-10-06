@@ -1,8 +1,6 @@
-const Message = require('../models/Conversation');
+const Conversation = require('../models/Conversation');
 const Account = require('../models/Account');
 const Chat = require('../models/Chat');
-const { mutipleMongooseToObject } = require('../../util/mongoose');
-const { MongooseToObject } = require('../../util/mongoose');
 const ChatController = require('./ChatController');
 class ConversationController {
     async getAllMessage(req, res, next) {
@@ -25,28 +23,28 @@ class ConversationController {
     async newMessage(req, res, next) {
         try {
             const user = await Account
-                .findOne({ phone: req.body.phone });
+                .findOne({ email: req.body.email });
             if (user) {
-                const message = await Message
+                const conversation = await Conversation
                     .create({
-                        name: user.fullname,
+                        name: user.username,
                         type: 'single',
-                        member: [req.user_id, user._id]
+                        member: [req.userId, user._id]
                     });
                 await Chat
                     .create({
-                        messageId: message._id,
-                        user_id: req.user_id,
-                        content: req.body.message,
+                        conversationId: conversation._id,
+                        user_id: req.userId,
+                        content: req.body.chat,
                         type: 'text',
-                        user_read: [req.user_id]
+                        user_read: [req.userId]
                     })
-                const newMess = await Message
-                    .find({}).populate('member').sort({ 'updatedAt': -1 }).limit(1)
-                res.send(newMess[0])
+                res.status(200).json({ message: "New contact successful" })
+            } else {
+                res.status(404).json({ message: "Email not found" })
             }
         } catch (error) {
-            next(error);
+            res.status(500).json(error)
         }
     }
     async newGroupMessage(req, res, next) {
@@ -73,38 +71,25 @@ class ConversationController {
     }
     async getMessage(req, res, next) {
         try {
-            const mess_id = req.query.id;
-            const message = await Message
-                .findOne({ _id: mess_id, 'member': req.user_id })
-                .populate('member');
-            var chats;
-            if (message) {
+            const conversationId = req.query.id;
+            // make sure user is in this conversation 
+            const conversation = await Conversation
+                .findOne({ _id: conversationId, 'member': req.user_id })
+            // .populate('member');
+            if (conversation) {
                 await Chat
-                    .updateMany({ messageId: mess_id }, {
+                    .updateMany({ conversationId: conversationId }, {
                         $addToSet: {
                             user_read: req.user_id
                         },
                     })
-                chats = await ChatController.pagingChat(mess_id, 8, 1);
+                var chats = await ChatController.pagingChat(conversationId, 8, 1);
+                res.status(200).json({ chats: chats })
+            } else {
+                res.status(404).json({ message: "User is not in that conversation" })
             }
-            var infoMessage = await Message
-                .find({ 'member': req.user_id })
-                .populate('member')
-                .sort({ 'updatedAt': -1 });
-            infoMessage = mutipleMongooseToObject(infoMessage)
-            for (var mess of infoMessage) {
-                mess.numUnRead = await Chat
-                    .find({ messageId: mess._id, user_read: { $nin: req.user_id } })
-                    .count()
-            }
-            res.render('user/home', {
-                layout: 'user/message',
-                message: MongooseToObject(message),
-                chats: mutipleMongooseToObject(chats),
-                infoMessage: infoMessage
-            })
         } catch (error) {
-            next(error);
+            res.status(500).json(error)
         }
     }
     async pagingChat(req, res, next) {
@@ -112,7 +97,7 @@ class ConversationController {
             const chats = await ChatController.pagingChat(req.query.messId, 8, req.query.page);
             res.send(chats);
         } catch (error) {
-            next(error);
+            res.status(500).json(error)
         }
     }
     async getAllContact(req, res, next) {
