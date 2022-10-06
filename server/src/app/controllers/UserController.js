@@ -6,18 +6,18 @@ const saltRounds = 10;
 class UserController {
     async index(req, res, next) {
         try {
-            var userInfo = await Account.findOne({ _id: req.userId }, { password: -1 })
+            var userInfo = await Account.findOne({ _id: req.userId })
             var conversations = await Conversation
                 .find({ 'member': req.userId })
                 .populate('member')
                 .sort({ 'updatedAt': -1 });
             // count number of chats un read in conversation
-            conversations = mutipleMongooseToObject(conversations)
-            for (var conversation of conversations) {
-                conversation.numUnRead = await Chat
-                    .find({ conversationId: conversation._id, user_read: { $nin: req.userId } })
-                    .count()
-            }
+            // conversations = mutipleMongooseToObject(conversations)
+            // for (var conversation of conversations) {
+            //     conversation.numUnRead = await Chat
+            //         .find({ conversationId: conversation._id, user_read: { $nin: req.userId } })
+            //         .count()
+            // }
             res.status(200).json({ "userInfor": userInfo, "conversations": conversations })
         } catch (error) {
             res.status(500).json(error)
