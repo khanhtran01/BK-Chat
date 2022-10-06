@@ -10,7 +10,7 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useNavigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import { bcolors, textcolor } from "../../colors";
 
@@ -19,7 +19,7 @@ import axios from "axios";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 function SignIn() {
-  const { loginUser, authState } = useContext(AuthContext);
+  const { loginUser, authState, getUserInfo } = useContext(AuthContext);
 
   const [loginForm, setLoginForm] = useState({
     username: "",
@@ -36,8 +36,8 @@ function SignIn() {
   const onSubmit = async (event) => {
     event.preventDefault();
     setIsSubmiting(true);
-    await loginUser(loginForm);
-    navigate("/dashboard");
+    let success = await loginUser(loginForm);
+    if (success) navigate("/dashboard");
   };
 
   const navigate = useNavigate();
@@ -54,8 +54,10 @@ function SignIn() {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
+        overflow: "scroll",
       }}
     >
+      {authState.isAuthenticated && <Navigate to="/dashboard" replace />}
       <img
         style={{
           height: "100px",

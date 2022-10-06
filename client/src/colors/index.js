@@ -9,6 +9,7 @@ const bcolors = {
   online: "#44b700",
   busy: "#ffd166",
   offline: "#adb5bd",
+  menu: "#313A43",
 };
 const textcolor = {
   sidedark: "#8f9198",

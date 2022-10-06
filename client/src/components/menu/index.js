@@ -2,7 +2,7 @@ import { useState } from "react";
 import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { bcolors, textcolor } from "../../colors";
 
 // const options = ["None", "Atria", "Callisto", "Dione"];
 
@@ -25,7 +25,14 @@ export default function LongMenu(props) {
         {icon}
       </IconButton>
       <Menu
-        id="long-menu"
+        sx={{
+          "& .MuiList-root": {
+            backgroundColor: bcolors.menu,
+          },
+          "& .MuiMenuItem-root": {
+            color: textcolor.white,
+          },
+        }}
         MenuListProps={{
           "aria-labelledby": "long-button",
         }}
@@ -37,6 +44,14 @@ export default function LongMenu(props) {
             maxHeight: ITEM_HEIGHT * 4.5,
             width: "20ch",
           },
+        }}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
         }}
       >
         {options.map((option) => (

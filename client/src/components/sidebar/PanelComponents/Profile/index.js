@@ -1,0 +1,156 @@
+import React, { useState } from "react";
+import Box from "@mui/material/Box";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import Avatar from "@mui/material/Avatar";
+import Typography from "@mui/material/Typography";
+import CustomizedAccordions from "../../../accordion";
+import PersonIcon from "@mui/icons-material/Person";
+import AttachFileIcon from "@mui/icons-material/AttachFile";
+import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import LongMenu from "../../../menu";
+import { textcolor, bcolors } from "../../../../colors";
+
+const menuOptions = ["Edit", "Action", "Another Action"];
+
+const AboutElement = ({ title, content, marginBottom }) => {
+  return (
+    <Box boxSizing={"content-box"} marginBottom={marginBottom}>
+      <Typography sx={{ color: textcolor.white, fontSize: ".9375rem" }}>
+        {title}
+      </Typography>
+      <Typography sx={{ color: textcolor.primaryGray, fontSize: "0.875rem" }}>
+        {content}
+      </Typography>
+    </Box>
+  );
+};
+
+function ProfileTab() {
+  // fake user data
+
+  const user = {
+    name: "Tran Le Viet Khanh",
+    age: "21",
+    email: "khanh.tran01@hcmut.edu.vn",
+    location: "Viet Nam",
+  };
+
+  const AboutBox = ({ user }) => {
+    return (
+      <Box>
+        <AboutElement marginBottom="1.5rem" title="Name" content={user.name} />
+        <AboutElement marginBottom="1.5rem" title="Age" content={user.age} />
+        <AboutElement
+          marginBottom="1.5rem"
+          title="Email"
+          content={user.email}
+        />
+        <AboutElement title="Location" content={user.location} />
+      </Box>
+    );
+  };
+
+  return (
+    <Box
+      sx={{
+        height: "100%",
+        padding: "24px",
+        // backgroundColor: "white",
+        overflow: "scroll",
+      }}
+    >
+      {/* Header Part */}
+      <Box
+        sx={{
+          fontSize: "1.3125rem",
+          fontWeight: 600,
+          color: textcolor.primaryGray,
+        }}
+        display="flex"
+        justifyContent="space-between"
+      >
+        My Profile
+        <LongMenu
+          icon={<MoreVertIcon sx={{ color: textcolor.primaryGray }} />}
+          options={menuOptions}
+        />
+      </Box>
+      {/* Avatar and name part */}
+      <Box display="flex" flexDirection="column" alignItems={"center"}>
+        <Box
+          height="6.5rem"
+          width="6.5rem"
+          borderRadius="50%"
+          border={"solid 1px #36404a"}
+          display="flex"
+          justifyContent="center"
+          alignItems={"center"}
+        >
+          <Avatar
+            alt="Remy Sharp"
+            src="/static/images/avatar/1.jpg"
+            sx={{ height: "5.375rem", width: "5.375rem" }}
+          />
+        </Box>
+        <Typography
+          fontWeight={600}
+          marginBottom={0.5}
+          marginTop={3}
+          color={textcolor.primaryGray}
+        >
+          Khanh Tran
+        </Typography>
+        <Box
+          display="flex"
+          alignItems={"center"}
+          marginBottom={"1.5rem"}
+          width="4.188rem"
+          justifyContent="space-around"
+        >
+          <FiberManualRecordIcon
+            sx={{ color: bcolors.online, fontSize: "12px" }}
+          />
+          <Typography color={textcolor.white} fontSize={"1rem"}>
+            Active
+          </Typography>
+        </Box>
+      </Box>
+
+      {/* quote and About infomation */}
+      <Box>
+        <Box borderTop={`solid 1px ${bcolors.sidebar}`} padding="1.5rem 0rem">
+          <Typography color={textcolor.white}>
+            If several languages coalesce, the grammar of the resulting language
+            is more simple and regular than that of the individual.
+          </Typography>
+        </Box>
+        <Box>
+          <CustomizedAccordions
+            title={
+              <Box
+                display={"flex"}
+                justifyContent="center"
+                alignItems={"flex-start"}
+              >
+                <PersonIcon />
+                <Typography marginLeft={"5px"}>About</Typography>
+              </Box>
+            }
+            description={<AboutBox user={user} />}
+          />
+
+          <CustomizedAccordions
+            title={
+              <Box>
+                <AttachFileIcon /> Attact File
+              </Box>
+            }
+            description={""}
+          />
+        </Box>
+      </Box>
+    </Box>
+  );
+}
+
+export default ProfileTab;

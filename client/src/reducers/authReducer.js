@@ -7,7 +7,16 @@ export const authReducer = (state, action) => {
         ...state,
       };
     case "LOGIN":
-      return { ...state, isAuthenticated: true, user: payload };
+      return { ...state, isAuthenticated: true };
+    case "GET_USER":
+      return { ...state, user: payload };
+    case "VERIFY":
+      return {
+        ...state,
+        isAuthenticated: payload.isAuthenticated,
+        user: payload.user,
+        authLoading: payload.authLoading,
+      };
     default:
       return "unknown action";
   }

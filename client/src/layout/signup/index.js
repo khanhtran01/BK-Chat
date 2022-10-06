@@ -32,6 +32,7 @@ function SignUp() {
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
+        overflow: "scroll",
       }}
     >
       <img

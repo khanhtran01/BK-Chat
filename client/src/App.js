@@ -1,17 +1,10 @@
 // import SideBar from "./layout/sidebar";
 import Box from "@mui/material/Box";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
-// import ProtectedRoute from "./components/protectedRoute";
-// import { AuthContext } from "../../context/authContext";
-// import { useContext } from "react";
 import { AuthContext } from "./context/authContext";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
+import { useCookies } from "react-cookie";
 import routes from "./routes";
-import Dashboard from "./layout/dashboard";
-import SignUp from "./layout/signup";
-import SignIn from "./layout/signin";
-import SideBar from "./components/sidebar";
-import Landing from "./layout/landing";
 import "./App.css";
 function App() {
   const getRoutes = (allRoutes) =>
@@ -33,10 +26,8 @@ function App() {
 
       return null;
     });
-
   const { authState } = useContext(AuthContext);
   const { isAuthenticated } = authState;
-
   return (
     <Box
       sx={{
@@ -45,7 +36,6 @@ function App() {
         display: "flex",
       }}
     >
-      {isAuthenticated && <SideBar />}
       <BrowserRouter>
         <Routes>
           {getRoutes(routes(isAuthenticated))}
