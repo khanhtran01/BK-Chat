@@ -7,9 +7,9 @@ module.exports = function verifyToken(token) {
         if (checkToken) {
             return checkToken._id;
         } else {
-            return false;
+            res.status(401).json({ message: "Token is not valid" });
         }
     } catch (error) {
-        return false;
+        res.status(500).json(error)
     }
 }

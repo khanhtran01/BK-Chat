@@ -17,7 +17,7 @@
     * Notification message of the conversation.
     * Out group.
     * Suggest create new group same topic. (New)
-### .env
-* COOKIE_SECRECT=123456
+#### /src/.env
+* COOKIE_SECRECT=xx
 * MONGODB_ATLAS=mongodb+srv://xx:xx@cluster0.k6yhm.mongodb.net/smart-message?retryWrites=true w=majority
-* JWT_SECRECT=123456
+* JWT_SECRECT=xx

@@ -1,8 +1,6 @@
 const Message = require('../models/Conversation');
 const Chat = require('../models/Chat');
 const Account = require('../models/Account');
-const { mutipleMongooseToObject } = require('../../util/mongoose');
-const { MongooseToObject } = require('../../util/mongoose');
 class ChatController {
     async storeChatAndGetId(data) {
         try {
@@ -70,9 +68,9 @@ class ChatController {
             next(error)
         }
     }
-    async pagingChat(messId, size, page) {
+    async pagingChat(conversationId, size, page) {
         try {
-            const count = await Chat.find({ messageId: messId }).count();
+            const count = await Chat.find({ conversationId: conversationId }).count();
             var numSkip, numChat;
             if (count - size * page < 0) {
                 numSkip = 0;
@@ -85,12 +83,12 @@ class ChatController {
                 numChat = size;
             }
             return await Chat
-                .find({ messageId: messId })
+                .find({ conversationId: conversationId })
                 .populate('user_id')
                 .limit(numChat)
                 .skip(numSkip);
         } catch (error) {
-            return false;
+            res.status(500).json(error);
         }
 
     }
