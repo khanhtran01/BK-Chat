@@ -1,5 +1,6 @@
 const Account = require('../models/Account');
 const Conversation = require('../models/Conversation');
+const verifyToken = require('../../util/verifyToken');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
@@ -68,17 +69,13 @@ class UserController {
         res.status(200).json({ message: "Logout" });
     }
 
-    verifyToken(res, req, next) {
+    async checkToken(req, res, next) {
         try {
             var token = req.header("Authorization").split(" ")[1]
-            var checkToken = verifyToken(token);
-            if (checkToken) {
-                res.status(200).json({message: "Successfull"})
-            } else {
-                res.status(401).json({ message: "Token is not valid" })
-            }
+            verifyToken(token);
+            res.status(200).json({ message: "Successful"})
         } catch (error) {
-            res.status(500).json(error)
+            res.status(401).json({ message: "Token is not valid" })
         }
     }
 }
