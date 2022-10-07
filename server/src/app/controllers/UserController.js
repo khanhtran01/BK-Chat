@@ -1,25 +1,30 @@
 const Account = require('../models/Account');
 const Conversation = require('../models/Conversation');
+const verifyToken = require('../../util/verifyToken');
+const Chat = require('../models/Chat');
+const { mutipleMongooseToObject } = require('../../util/mongoose');
+const { MongooseToObject } = require('../../util/mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 class UserController {
     async index(req, res, next) {
         try {
-            var userInfo = await Account.findOne({ _id: req.userId })
+            var userInfo = await Account.findOne({ _id: req.userId }, { password: 0 })
             var conversations = await Conversation
                 .find({ 'member': req.userId })
-                .populate('member')
+                .populate('member', { password: 0, address: 0, desc: 0 }) // note
                 .sort({ 'updatedAt': -1 });
             // count number of chats un read in conversation
-            // conversations = mutipleMongooseToObject(conversations)
-            // for (var conversation of conversations) {
-            //     conversation.numUnRead = await Chat
-            //         .find({ conversationId: conversation._id, user_read: { $nin: req.userId } })
-            //         .count()
-            // }
+            conversations = mutipleMongooseToObject(conversations)
+            for (var conversation of conversations) {
+                conversation.numUnRead = await Chat
+                    .find({ conversationId: conversation._id, user_read: { $nin: req.userId } })
+                    .count()
+            }
             res.status(200).json({ "userInfor": userInfo, "conversations": conversations })
         } catch (error) {
+            console.log(error)
             res.status(500).json(error)
         }
     }
@@ -68,17 +73,13 @@ class UserController {
         res.status(200).json({ message: "Logout" });
     }
 
-    verifyToken(res, req, next) {
+    async checkToken(req, res, next) {
         try {
             var token = req.header("Authorization").split(" ")[1]
-            var checkToken = verifyToken(token);
-            if (checkToken) {
-                res.status(200).json({message: "Successfull"})
-            } else {
-                res.status(401).json({ message: "Token is not valid" })
-            }
+            verifyToken(token);
+            res.status(200).json({ message: "Successful" })
         } catch (error) {
-            res.status(500).json(error)
+            res.status(401).json({ message: "Token is not valid" })
         }
     }
 }

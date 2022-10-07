@@ -6,13 +6,13 @@ class ConversationController {
     async getAllMessage(req, res, next) {
         try {
             var messages = await Message
-                .find({ 'member': req.user_id })
+                .find({ 'member': req.userId })
                 .populate('member')
                 .sort({ 'updatedAt': -1 });
             messages = mutipleMongooseToObject(messages)
             for (var mess of messages) {
                 mess.numUnRead = await Chat
-                    .find({ messageId: mess._id, user_read: { $nin: req.user_id } })
+                    .find({ messageId: mess._id, user_read: { $nin: req.userId } })
                     .count()
             }
             return messages;
@@ -27,7 +27,7 @@ class ConversationController {
             if (user) {
                 const conversation = await Conversation
                     .create({
-                        name: user.username,
+                        name: 'Name conversation',
                         type: 'single',
                         member: [req.userId, user._id]
                     });
@@ -51,7 +51,7 @@ class ConversationController {
         try {
             var member = req.body.list_ids_group;
             var newMember = [];
-            newMember.push(req.user_id);
+            newMember.push(req.userId);
             member.forEach(e => {
                 newMember.push(e);
             })
@@ -74,13 +74,13 @@ class ConversationController {
             const conversationId = req.query.id;
             // make sure user is in this conversation 
             const conversation = await Conversation
-                .findOne({ _id: conversationId, 'member': req.user_id })
+                .findOne({ _id: conversationId, 'member': req.userId })
             // .populate('member');
             if (conversation) {
                 await Chat
                     .updateMany({ conversationId: conversationId }, {
                         $addToSet: {
-                            user_read: req.user_id
+                            user_read: req.userId
                         },
                     })
                 var chats = await ChatController.pagingChat(conversationId, 8, 1);
@@ -103,17 +103,17 @@ class ConversationController {
     async getAllContact(req, res, next) {
         try {
             var listMessage = await Message
-                .find({ 'member': req.user_id })
+                .find({ 'member': req.userId })
             var allContact = [];
             listMessage.forEach(message => {
                 if (message.type == 'single') {
                     message.member.forEach(memId => {
-                        if (memId != req.user_id) {
+                        if (memId != req.userId) {
                             allContact.push({ type: message.type, userId: memId });
                         }
                     })
                 } else {
-                    var userIdsGroup = message.member.filter(memId => memId != req.user_id)
+                    var userIdsGroup = message.member.filter(memId => memId != req.userId)
                     allContact.push({ type: message.type, userIds: userIdsGroup, messageId: message._id })
                 }
             })
@@ -125,7 +125,7 @@ class ConversationController {
     async getAllContactSort(req, res, next) {
         try {
             var listMessage = await Message
-                .find({ 'member': req.user_id })
+                .find({ 'member': req.userId })
                 .populate('member')
             var allContactName = [];
             var allContact = [];
@@ -133,7 +133,7 @@ class ConversationController {
             listMessage.forEach(message => {
                 if (message.type == 'single') {
                     message.member.forEach(mem => {
-                        if (mem._id != req.user_id) {
+                        if (mem._id != req.userId) {
                             allContactName.push(mem.fullname);
                             allContact.push({ fullname: mem.fullname, id: mem._id });
                         }
@@ -172,7 +172,7 @@ class ConversationController {
             await Message
                 .updateOne({ _id: req.query.messId }, {
                     $pull: {
-                        member: req.user_id
+                        member: req.userId
                     }
                 })
             res.redirect('/');

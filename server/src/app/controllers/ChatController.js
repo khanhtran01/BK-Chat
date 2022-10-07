@@ -84,7 +84,7 @@ class ChatController {
             }
             return await Chat
                 .find({ conversationId: conversationId })
-                .populate('user_id')
+                .populate('user_id', { password: 0, address: 0, desc: 0})
                 .limit(numChat)
                 .skip(numSkip);
         } catch (error) {

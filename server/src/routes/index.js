@@ -7,7 +7,7 @@ function route(app) {
     app.use('/api/user', AuthenMiddleware, userRoute);
     app.use('/api/conversation', AuthenMiddleware, conversationRoute);
     app.use('/api/auth', authRoute);
-    app.use('/api', AuthenMiddleware, UserController.index);
+    app.use('/api/home', AuthenMiddleware, UserController.index);
 }
 
 module.exports = route;
