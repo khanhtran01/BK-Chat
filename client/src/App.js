@@ -2,8 +2,7 @@
 import Box from "@mui/material/Box";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { AuthContext } from "./context/authContext";
-import { useContext, useEffect } from "react";
-import { useCookies } from "react-cookie";
+import { useContext } from "react";
 import routes from "./routes";
 import "./App.css";
 function App() {

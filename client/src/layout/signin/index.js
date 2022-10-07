@@ -14,7 +14,7 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import { bcolors, textcolor } from "../../colors";
 
-import axios from "axios";
+// import axios from "axios";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
@@ -37,6 +37,7 @@ function SignIn() {
     event.preventDefault();
     setIsSubmiting(true);
     let success = await loginUser(loginForm);
+    setIsSubmiting(false);
     if (success) navigate("/dashboard");
   };
 
@@ -111,13 +112,15 @@ function SignIn() {
               title={"username"}
               text={username}
               setText={onChangeLoginForm}
+              name="username"
             />
             <InputText
+              name="password"
               color={textcolor.white}
               title={"password"}
               text={password}
               setText={onChangeLoginForm}
-              hide
+              type="password"
             />
           </Box>
           <Box

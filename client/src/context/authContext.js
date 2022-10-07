@@ -68,7 +68,6 @@ const AuthContextProvider = ({ children }) => {
   // login
   const loginUser = async (userForm) => {
     const { username, password } = userForm;
-    console.log();
 
     await axios
       .post(`http://localhost:4000/api/auth/login`, {
@@ -90,7 +89,33 @@ const AuthContextProvider = ({ children }) => {
       });
   };
 
-  const authContextData = { loginUser, authState, getUserInfo, verify };
+  // register
+  const registerUser = async (userForm) => {
+    const { email, username, password } = userForm;
+
+    await axios
+      .post(`http://localhost:4000/api/auth/register`, {
+        email: email,
+        password: password,
+        username: username,
+      })
+      .then((response) => {
+        console.log("register successful");
+        return true;
+      })
+      .catch((err) => {
+        console.log("error : " + err);
+        return false;
+      });
+  };
+
+  const authContextData = {
+    loginUser,
+    authState,
+    getUserInfo,
+    verify,
+    registerUser,
+  };
 
   return (
     <AuthContext.Provider value={authContextData}>
