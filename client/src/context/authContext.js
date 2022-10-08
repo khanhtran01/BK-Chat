@@ -21,7 +21,7 @@ const AuthContextProvider = ({ children }) => {
     }
     console.log("verify token");
     await axios
-      .get(`http://localhost:4000/api/`)
+      .get(`http://localhost:4000/api/home`)
       .then(function (response) {
         dispatch({
           type: "VERIFY",
