@@ -8,21 +8,21 @@ const UpdateInfoController = require('../app/controllers/UpdateInfoController');
 // [POST] /api/conversation/new-contact
 route.post('/new-contact', ConversationController.newMessage);
 
-route.post('/new-group', ConversationController.newGroupMessage);
+// route.post('/new-group', ConversationController.newGroupMessage);
 
-route.post('/read-chat', ChatController.addUserReadChat);
+// route.post('/read-chat', ChatController.addUserReadChat);
 
-route.post('/group-update-info', uploads.single('groupAva') , UpdateInfoController.groupMessInfo);
+// route.post('/group-update-info', uploads.single('groupAva') , UpdateInfoController.groupMessInfo);
 
-route.post('/add-member-group', ConversationController.addMemberGroup);
+// route.post('/add-member-group', ConversationController.addMemberGroup);
 
-route.post('/out-group', ConversationController.outGroup);
+// route.post('/out-group', ConversationController.outGroup);
 
-route.get('/get-all-contact', ConversationController.getAllContact);
+// route.get('/get-all-contact', ConversationController.getAllContact);
 
-route.get('/get-all-contact-sort', ConversationController.getAllContactSort);
+// route.get('/get-all-contact-sort', ConversationController.getAllContactSort);
 
-route.get('/paging-chat', ConversationController.pagingChat);
+// route.get('/paging-chat', ConversationController.pagingChat);
 
 // [GET] /api/conversation?id=
 route.get('/', ConversationController.getMessage);

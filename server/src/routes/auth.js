@@ -11,6 +11,7 @@ route.get('/logout', UserController.logout);
 // [POST] /api/auth/register
 route.post('/register', UserController.storeAccount);
 
+// [GET] /api/auth/verify-token
 route.get('/verify-token', UserController.checkToken);
 
 module.exports = route;

@@ -12,17 +12,17 @@ class UpdateInfoController {
                     desc: req.body.desc,
                     address: req.body.address
                 })
-                res.status(200).json({message: "Update successful"})
+                res.status(200).json({ message: "Update successful", successful: true })
             } else {
                 await Account.updateOne({ _id: id }, {
                     username: req.body.username,
                     desc: req.body.desc,
                     address: req.body.address
                 })
-                res.status(200).json({message: "Update successful"})
+                res.status(200).json({ message: "Update successful", successful: true })
             }
         } catch (error) {
-            res.status(500).json(error)
+            res.status(500).json({ successful: false})
         }
     }
     async groupMessInfo(req, res, next) {

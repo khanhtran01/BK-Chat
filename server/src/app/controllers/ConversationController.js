@@ -39,12 +39,12 @@ class ConversationController {
                         type: 'text',
                         user_read: [req.userId]
                     })
-                res.status(200).json({ message: "New contact successful" })
+                res.status(200).json({ message: "New contact successful", successful: true })
             } else {
-                res.status(404).json({ message: "Email not found" })
+                res.status(404).json({ message: "Email not found", successful: false })
             }
         } catch (error) {
-            res.status(500).json(error)
+            res.status(500).json({ successful: false })
         }
     }
     async newGroupMessage(req, res, next) {
@@ -84,12 +84,12 @@ class ConversationController {
                         },
                     })
                 var chats = await ChatController.pagingChat(conversationId, 8, 1);
-                res.status(200).json({ chats: chats })
+                res.status(200).json({ chats: chats, successful: true });
             } else {
-                res.status(404).json({ message: "User is not in that conversation" })
+                res.status(404).json({ message: "User is not in that conversation", successful: false });
             }
         } catch (error) {
-            res.status(500).json(error)
+            res.status(500).json({ successful: false })
         }
     }
     async pagingChat(req, res, next) {
