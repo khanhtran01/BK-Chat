@@ -6,14 +6,15 @@ const { mutipleMongooseToObject } = require('../../util/mongoose');
 const { MongooseToObject } = require('../../util/mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const ConversationController = require('./ConversationController');
 const saltRounds = 10;
 class UserController {
     async home(req, res, next) {
         try {
-            var userInfo = await Account.findOne({ _id: req.userId }, { password: 0 })
+            var userInfor = await Account.findOne({ _id: req.userId }, { password: 0 })
             var conversations = await Conversation
                 .find({ 'member': req.userId })
-                .populate('member', { password: 0, address: 0, desc: 0 }) // note
+                .populate('member', { password: 0 }) // note
                 .sort({ 'updatedAt': -1 });
             // count number of chats un read in conversation
             conversations = mutipleMongooseToObject(conversations)
@@ -22,7 +23,13 @@ class UserController {
                     .find({ conversationId: conversation._id, user_read: { $nin: req.userId } })
                     .count()
             }
-            res.status(200).json({ "userInfor": userInfo, "conversations": conversations, successful: true })
+            const allContact = await ConversationController.getAllContactSort(req.userId)
+            res.status(200).json({
+                "userInfor": userInfor,
+                "conversations": conversations,
+                "allContact": allContact,
+                successful: true
+            })
         } catch (error) {
             res.status(500).json({ successful: false })
         }
@@ -85,7 +92,8 @@ class UserController {
     async seachUser(req, res, next) {
         try {
             const user = await Account.findOne({ email: req.query.email }, { password: 0, address: 0, desc: 0 });
-            if (user && user._id !== req.userId) {
+            if (user && user._id != req.userId) {
+                console.log(user._id, req.userId);
                 const result = await Conversation.findOne({
                     type: 'single',
                     member: {

@@ -20,7 +20,8 @@ route.post('/new-contact', ConversationController.newMessage);
 
 // route.get('/get-all-contact', ConversationController.getAllContact);
 
-// route.get('/get-all-contact-sort', ConversationController.getAllContactSort);
+// [GET] /api/conversation/get-all-contact-sort
+route.get('/get-all-contact-sort', ConversationController.getAllContactSort);
 
 // route.get('/paging-chat', ConversationController.pagingChat);
 

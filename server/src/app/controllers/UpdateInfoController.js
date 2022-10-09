@@ -25,26 +25,26 @@ class UpdateInfoController {
             res.status(500).json({ successful: false})
         }
     }
-    async groupMessInfo(req, res, next) {
-        const messId = req.query.messId;
-        try {
-            if (req.file) {
-                await Conversation.updateOne({ _id: messId }, {
-                    name: req.body.groupName,
-                    desc: req.body.groupDesc,
-                    avatar: req.file.path
-                })
-            } else {
-                await Conversation.updateOne({ _id: messId }, {
-                    name: req.body.groupName,
-                    desc: req.body.groupDesc,
-                })
-            }
-            res.redirect('back');
-        } catch (error) {
-            next(error)
-        }
-    }
+    // async groupMessInfo(req, res, next) {
+    //     const messId = req.query.messId;
+    //     try {
+    //         if (req.file) {
+    //             await Conversation.updateOne({ _id: messId }, {
+    //                 name: req.body.groupName,
+    //                 desc: req.body.groupDesc,
+    //                 avatar: req.file.path
+    //             })
+    //         } else {
+    //             await Conversation.updateOne({ _id: messId }, {
+    //                 name: req.body.groupName,
+    //                 desc: req.body.groupDesc,
+    //             })
+    //         }
+    //         res.redirect('back');
+    //     } catch (error) {
+    //         next(error)
+    //     }
+    // }
 }
 
 module.exports = new UpdateInfoController();
