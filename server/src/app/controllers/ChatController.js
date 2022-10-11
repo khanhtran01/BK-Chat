@@ -1,29 +1,28 @@
-const Message = require('../models/Conversation');
+const Conversation = require('../models/Conversation');
 const Chat = require('../models/Chat');
-const Account = require('../models/Account');
 class ChatController {
-    // async storeChatAndGetId(data) {
-    //     try {
-    //         await Chat
-    //             .create({
-    //                 messageId: data.messId,
-    //                 user_id: data.senderId,
-    //                 content: data.message,
-    //                 type: data.type,
-    //                 user_read: [data.senderId]
-    //             });
-    //         await Message
-    //             .updateOne({ _id: data.messId }, {
-    //                 updatedAt: Date.now()
-    //             })
-    //         const chats = await Chat
-    //             .find({ messageId: data.messId })
-    //             .sort({ 'createdAt': -1 }).limit(1);
-    //         return chats[0]._id;
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+    async storeChatAndGetId(data) {
+        try {
+            await Chat
+                .create({
+                    conversationId: data.conversationId,
+                    userId: data.senderId,
+                    content: data.content,
+                    type: data.type,
+                    userRead: [data.senderId]
+                });
+            await Conversation
+                .updateOne({ _id: data.conversationId }, {
+                    updatedAt: Date.now()
+                })
+            const chats = await Chat
+                .findOne({ conversationId: data.conversationId })
+                .sort({ 'createdAt': -1 });
+            return chats._id;
+        } catch (error) {
+            console.log(error);
+        }
+    }
     // async addReactionChat(data) {
     //     try {
     //         const chat = await Chat
@@ -56,18 +55,19 @@ class ChatController {
     //         console.log(error);
     //     }
     // }
-    // async addUserReadChat(req, res, next) {
-    //     try {
-    //         await Chat
-    //             .updateOne({ _id: req.body.chatId }, {
-    //                 $addToSet: {
-    //                     user_read: req.body.userId
-    //                 },
-    //             })
-    //     } catch (error) {
-    //         next(error)
-    //     }
-    // }
+    async addUserReadChat(req, res, next) {
+        try {
+            await Chat
+                .updateOne({ _id: req.query.chatId }, {
+                    $addToSet: {
+                        userRead: req.userId
+                    },
+                })
+            res.status(200).json({ successful: true })
+        } catch (error) {
+            res.status(500).json({ successful: false })
+        }
+    }
     async pagingChat(conversationId, size, page) {
         try {
             const count = await Chat.find({ conversationId: conversationId }).count();
@@ -84,7 +84,7 @@ class ChatController {
             }
             return await Chat
                 .find({ conversationId: conversationId })
-                .populate('user_id', { password: 0, address: 0, desc: 0})
+                .populate('userId', { password: 0, address: 0, desc: 0 })
                 .limit(numChat)
                 .skip(numSkip);
         } catch (error) {

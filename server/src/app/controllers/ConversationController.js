@@ -3,28 +3,11 @@ const Account = require('../models/Account');
 const Chat = require('../models/Chat');
 const ChatController = require('./ChatController');
 class ConversationController {
-    // async getAllMessage(req, res, next) {
-    //     try {
-    //         var messages = await Message
-    //             .find({ 'member': req.userId })
-    //             .populate('member')
-    //             .sort({ 'updatedAt': -1 });
-    //         messages = mutipleMongooseToObject(messages)
-    //         for (var mess of messages) {
-    //             mess.numUnRead = await Chat
-    //                 .find({ messageId: mess._id, user_read: { $nin: req.userId } })
-    //                 .count()
-    //         }
-    //         return messages;
-    //     } catch (error) {
-    //         next(error)
-    //     }
-    // }
     async newMessage(req, res, next) {
         try {
             const user = await Account
                 .findOne({ email: req.body.email });
-            if (user) {
+            if (user._id != req.userId) {
                 const conversation = await Conversation
                     .create({
                         name: 'Name conversation',
@@ -34,10 +17,10 @@ class ConversationController {
                 await Chat
                     .create({
                         conversationId: conversation._id,
-                        user_id: req.userId,
+                        userId: req.userId,
                         content: req.body.chat,
                         type: 'text',
-                        user_read: [req.userId]
+                        userRead: [req.userId]
                     })
                 res.status(200).json({ message: "New contact successful", successful: true })
             } else {
@@ -80,7 +63,7 @@ class ConversationController {
                 await Chat
                     .updateMany({ conversationId: conversationId }, {
                         $addToSet: {
-                            user_read: req.userId
+                            userRead: req.userId
                         },
                     })
                 var chats = await ChatController.pagingChat(conversationId, 8, 1);
@@ -92,56 +75,52 @@ class ConversationController {
             res.status(500).json({ successful: false })
         }
     }
-    // async pagingChat(req, res, next) {
-    //     try {
-    //         const chats = await ChatController.pagingChat(req.query.messId, 8, req.query.page);
-    //         res.send(chats);
-    //     } catch (error) {
-    //         res.status(500).json(error)
-    //     }
-    // }
-    // async getAllContact(req, res, next) {
-    //     try {
-    //         var listMessage = await Message
-    //             .find({ 'member': req.userId })
-    //         var allContact = [];
-    //         listMessage.forEach(message => {
-    //             if (message.type == 'single') {
-    //                 message.member.forEach(memId => {
-    //                     if (memId != req.userId) {
-    //                         allContact.push({ type: message.type, userId: memId });
-    //                     }
-    //                 })
-    //             } else {
-    //                 var userIdsGroup = message.member.filter(memId => memId != req.userId)
-    //                 allContact.push({ type: message.type, userIds: userIdsGroup, messageId: message._id })
-    //             }
-    //         })
-    //         res.send(allContact);
-    //     } catch (error) {
-    //         next(error)
-    //     }
-    // }
-    async getAllContactSort(userId) {
+    async pagingChat(req, res, next) {
+        try {
+            const chats = await ChatController.pagingChat(req.query.conversationId, 8, req.query.page);
+            res.status(200).json({ chats: chats, successful: true });
+        } catch (error) {
+            res.status(500).json({ successful: false })
+        }
+    }
+    async getAllContact(req, res, next) {
         try {
             var listConversation = await Conversation
-                .find({ 'member': userId, type: 'single' })
+                .find({ 'member': req.userId, type: 'single' })
+            var allContact = [];
+            listConversation.forEach(conversation => {
+                if (conversation.member[0] != req.userId) {
+                    allContact.push(conversation.member[0]);
+                } else {
+                    allContact.push(conversation.member[1]);
+                }
+            })
+            res.status(200).json({ allContact: allContact, successful: true });
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ successful: false })
+        }
+    }
+    async getAllContactSort(req, res, next) {
+        try {
+            var listConversation = await Conversation
+                .find({ 'member': req.userId, type: 'single' })
                 .populate('member', { password: 0, address: 0, desc: 0 })
             var allContactName = [];
             var allContact = [];
             var result = [];
             listConversation.forEach(conversation => {
-                if (conversation.member[0]._id == userId) {
+                if (conversation.member[0]._id == req.userId) {
                     allContactName.push(conversation.member[1].username);
-                    allContact.push({ 
-                        username: conversation.member[1].username, 
+                    allContact.push({
+                        username: conversation.member[1].username,
                         conversationId: conversation._id,
                         avatar: conversation.member[1].avatar
                     });
                 } else {
                     allContactName.push(conversation.member[0].username);
-                    allContact.push({ 
-                        username: conversation.member[0].username, 
+                    allContact.push({
+                        username: conversation.member[0].username,
                         conversationId: conversation._id,
                         avatar: conversation.member[0].avatar
                     });
@@ -151,10 +130,10 @@ class ConversationController {
             allContactName.forEach(e => {
                 result.push(allContact.find(e1 => e1.username === e))
             })
-            return result;
+            res.status(200).json({ allContactSort: result, successful: true });
         } catch (error) {
-            console.log(error);
-            return false;
+            // console.log(error);
+            res.status(500).json({ successful: false })
         }
     }
     // async addMemberGroup(req, res, next) {
