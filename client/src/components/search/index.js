@@ -6,10 +6,12 @@ import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
 import SearchIcon from "@mui/icons-material/Search";
 import DirectionsIcon from "@mui/icons-material/Directions";
+import PropTypes from "prop-types";
 
 import { bcolors, textcolor } from "../../colors";
+import SelectInput from "@mui/material/Select/SelectInput";
 
-export default function SearchInput() {
+function SearchInput({ placeholder }) {
   return (
     <Box
       sx={{
@@ -37,9 +39,19 @@ export default function SearchInput() {
             color: `${textcolor.white}`,
           },
         }}
-        placeholder="Search messages or users"
+        placeholder={placeholder}
         inputProps={{ "aria-label": "search google maps" }}
       />
     </Box>
   );
 }
+
+export default SearchInput;
+
+SearchInput.propTypes = {
+  placeholder: PropTypes.string,
+};
+
+SearchInput.defaultProps = {
+  placeholder: "Search messages or users",
+};

@@ -69,7 +69,9 @@ function ProfileTab() {
         display="flex"
         justifyContent="space-between"
       >
-        My Profile
+        <Typography fontWeight={500} fontSize={"1.3125rem"}>
+          My Profile
+        </Typography>
         <LongMenu
           icon={<MoreVertIcon sx={{ color: textcolor.primaryGray }} />}
           options={menuOptions}

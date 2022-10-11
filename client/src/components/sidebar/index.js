@@ -16,7 +16,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 // import panelTab
 import ChatPanel from "./PanelComponents/Chat";
 import ProfileTab from "./PanelComponents/Profile";
-
+import Contact from "./PanelComponents/Contact";
 // import from soutce code
 import { bcolors, textcolor } from "../../colors";
 import Context from "../../context";
@@ -138,7 +138,9 @@ export default function SideBar() {
       <TabPanel value={value} index={1}>
         <ChatPanel />
       </TabPanel>
-      <TabPanel value={value} index={2}></TabPanel>
+      <TabPanel value={value} index={2}>
+        <Contact />
+      </TabPanel>
       <TabPanel value={value} index={3}>
         Item Four
       </TabPanel>

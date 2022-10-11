@@ -7,4 +7,8 @@ const checkEmail = (email) => {
   return false;
 };
 
-export { checkEmail };
+const deepCopy = (obj) => {
+  return JSON.parse(JSON.stringify(obj));
+};
+
+export { checkEmail, deepCopy };
