@@ -10,7 +10,8 @@ route.post('/new-contact', ConversationController.newMessage);
 
 // route.post('/new-group', ConversationController.newGroupMessage);
 
-// route.post('/read-chat', ChatController.addUserReadChat);
+// [GET] /api/conversation/read-chat?chatId=
+route.get('/read-chat', ChatController.addUserReadChat); // read chat nay luon neu no dang o ngay trang do
 
 // route.post('/group-update-info', uploads.single('groupAva') , UpdateInfoController.groupMessInfo);
 
@@ -18,12 +19,14 @@ route.post('/new-contact', ConversationController.newMessage);
 
 // route.post('/out-group', ConversationController.outGroup);
 
-// route.get('/get-all-contact', ConversationController.getAllContact);
+// [GET] /api/conversation/get-all-contact
+route.get('/get-all-contact', ConversationController.getAllContact); // use for user online, offline
 
 // [GET] /api/conversation/get-all-contact-sort
 route.get('/get-all-contact-sort', ConversationController.getAllContactSort);
 
-// route.get('/paging-chat', ConversationController.pagingChat);
+// [GET] /api/conversation/paging-chat?conversationId=xxx&page=x
+route.get('/paging-chat', ConversationController.pagingChat);
 
 // [GET] /api/conversation?id=
 route.get('/', ConversationController.getMessage);

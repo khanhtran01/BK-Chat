@@ -20,14 +20,12 @@ class UserController {
             conversations = mutipleMongooseToObject(conversations)
             for (var conversation of conversations) {
                 conversation.numUnRead = await Chat
-                    .find({ conversationId: conversation._id, user_read: { $nin: req.userId } })
+                    .find({ conversationId: conversation._id, userRead: { $nin: req.userId } })
                     .count()
             }
-            const allContact = await ConversationController.getAllContactSort(req.userId)
             res.status(200).json({
                 "userInfor": userInfor,
                 "conversations": conversations,
-                "allContact": allContact,
                 successful: true
             })
         } catch (error) {
@@ -61,13 +59,15 @@ class UserController {
             if (account.length > 0) {
                 res.status(404).json({ message: "Email is exit", successful: false })
             } else {
-                req.body.address = '';
-                req.body.desc = '';
-                req.body.avatar = 'https://res.cloudinary.com/be-dev/image/upload/v1664804179/uploads/yc2grbnbd1kx5gy1mef7.jpg';
                 bcrypt.hash(req.body.password, saltRounds, async function (err, hash) {
-                    req.body.password = hash;
-                    const _account = await new Account(req.body);
-                    await _account.save();
+                    await Account.create({
+                        email: req.body.email,
+                        password: hash,
+                        username: req.body.username,
+                        avatar: 'https://res.cloudinary.com/be-dev/image/upload/v1664804179/uploads/yc2grbnbd1kx5gy1mef7.jpg',
+                        address: '',
+                        desc: '',
+                    })
                 });
                 res.status(200).json({ message: "Register Successfull", successful: true })
             }
