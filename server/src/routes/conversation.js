@@ -6,7 +6,7 @@ const ChatController = require('../app/controllers/ChatController');
 const UpdateInfoController = require('../app/controllers/UpdateInfoController');
 
 // [POST] /api/conversation/new-contact
-route.post('/new-contact', ConversationController.newMessage);
+route.post('/new-contact', ConversationController.newContact);
 
 // route.post('/new-group', ConversationController.newGroupMessage);
 

@@ -3,28 +3,39 @@ const Account = require('../models/Account');
 const Chat = require('../models/Chat');
 const ChatController = require('./ChatController');
 class ConversationController {
-    async newMessage(req, res, next) {
+    async newContact(req, res, next) {
         try {
-            const user = await Account
-                .findOne({ email: req.body.email });
-            if (user._id != req.userId) {
-                const conversation = await Conversation
-                    .create({
-                        name: 'Name conversation',
-                        type: 'single',
-                        member: [req.userId, user._id]
-                    });
-                await Chat
-                    .create({
-                        conversationId: conversation._id,
-                        userId: req.userId,
-                        content: req.body.chat,
-                        type: 'text',
-                        userRead: [req.userId]
-                    })
-                res.status(200).json({ message: "New contact successful", successful: true })
+            const user = await Account.findOne({ email: req.body.email }, { password: 0, address: 0, desc: 0 });
+            if (user && user._id != req.userId) {
+                const result = await Conversation.findOne({
+                    type: 'single',
+                    member: {
+                        $all: [req.userId, user._id]
+                    }
+                })
+                if (result) {
+                    res.status(404).json({ isContact: true, successful: false })
+                } else {
+                    const conversation = await Conversation
+                        .create({
+                            name: 'Name conversation',
+                            type: 'single',
+                            member: [req.userId, user._id]
+                        });
+                    await Chat
+                        .create({
+                            conversationId: conversation._id,
+                            userId: req.userId,
+                            content: req.body.chat,
+                            type: 'text',
+                            userRead: [req.userId]
+                        })
+                    res.status(200).json({ isContact: false, successful: true })
+                }
+            } else if (user) {
+                res.status(404).json({ isContact: true, successful: false })
             } else {
-                res.status(404).json({ message: "Email not found", successful: false })
+                res.status(404).json({ message: "User not found", isContact: false, successful: false })
             }
         } catch (error) {
             res.status(500).json({ successful: false })
