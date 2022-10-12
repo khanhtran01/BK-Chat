@@ -15,13 +15,15 @@ function Contact() {
   const { addContact, getAllContact, userData } =
     useContext(conversationContext);
   const [openAddfriend, setOpenAddfriend] = useState(false);
-
   const [friendsBox, setFriendsBox] = useState(sortFriend);
+  const [helper, setHelper] = useState({
+    email: "",
+    message: "",
+  });
   const [formData, setFormData] = useState({
     email: "",
     chat: "",
   });
-
   const { email, chat } = formData;
 
   // init friend list when swap to contact page
@@ -47,23 +49,42 @@ function Contact() {
     setFriendsBox(friendBoxTemp);
   };
 
+  // handle input in add contact form
   const handleDialog = (event) => {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
+  const clearForm = () => {
+    setFormData({
+      email: "",
+      chat: "",
+    });
+    setHelper({
+      email: "",
+      message: "",
+    });
+  };
+
+  //handle submit in add contact form
   const handleAddContact = async () => {
+    const { email, chat } = formData;
+
+    if (!email || !chat) {
+      if (!email)
+        setHelper({ ...helper, email: "Please enter a email address" });
+      if (!chat) setHelper({ ...helper, message: "Please enter a message" });
+      return;
+    }
+
     let respone = await addContact(formData);
     if (respone.data.successful) {
-      console.log("add complete");
       updateContactList();
       setOpenAddfriend(false);
+      clearForm();
+    } else if (respone.data.isContact) {
+      setHelper({ ...helper, email: "You already have a contact" });
     } else {
-      console.log("add false");
-      if (respone.data.isContact) {
-        console.log("friended");
-      } else {
-        console.log("wrong email");
-      }
+      setHelper({ ...helper, email: "Invalid email address" });
     }
   };
 
@@ -76,6 +97,8 @@ function Contact() {
         chat={chat}
         onChange={handleDialog}
         submit={handleAddContact}
+        helperText={helper}
+        clearForm={clearForm}
       />
       <Box sx={{ height: "10rem", p: 3 }}>
         <Box

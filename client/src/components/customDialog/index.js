@@ -21,6 +21,8 @@ export default function CustomerDialog({
   chat,
   onChange,
   submit,
+  helperText,
+  clearForm,
 }) {
   return (
     <div>
@@ -65,6 +67,8 @@ export default function CustomerDialog({
               onChange={onChange}
               hiddenLabel
               placeholder="Enter Email"
+              error={helperText.email ? true : false}
+              helperText={helperText.email}
             />
             <Typography
               sx={{
@@ -87,10 +91,18 @@ export default function CustomerDialog({
               multiline
               hiddenLabel
               placeholder="Enter Message"
+              error={helperText.message ? true : false}
+              helperText={helperText.message}
             />
           </Box>
           <DialogActions>
-            <Button onClick={() => setOpen(false)} variant="outlined">
+            <Button
+              onClick={() => {
+                setOpen(false);
+                clearForm();
+              }}
+              variant="outlined"
+            >
               Close
             </Button>
             <Button onClick={submit} variant="contained">

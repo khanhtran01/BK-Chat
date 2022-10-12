@@ -1,22 +1,28 @@
 import { Box, Typography } from "@mui/material";
 import { bcolors, textcolor } from "../../../colors";
-import React, { useState } from "react";
+import React, { useState, useContext, memo } from "react";
 import InputText from "../../typemessage";
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendIcon from "@mui/icons-material/Send";
+import { chatboardContext } from "../context";
 import Picker from "emoji-picker-react";
 import Button from "@mui/material/Button";
 import BtnIcon from "../../btnIcon";
-function Footer(props) {
-  const [chosenEmoji, setChosenEmoji] = useState({});
-  const [messageText, setMessageText] = useState("");
-  const [displayPopup, setDisplayPopup] = useState(false);
-  const onEmojiClick = async (event, emojiObject) => {
-    setChosenEmoji(emojiObject);
-    setDisplayPopup(!displayPopup);
-    setMessageText(`${messageText}${emojiObject.emoji}`);
-  };
+import MessageInput from "./components/MessageInput";
+import IconPicker from "./components/IconPicker";
+
+function Footer() {
+  // const { userData, typeMessage } = useContext(chatboardContext);
+  // const [chosenEmoji, setChosenEmoji] = useState({});
+  // // const [messageText, setMessageText] = useState("");
+  // const [displayPopup, setDisplayPopup] = useState(false);
+  console.log("re render footer");
+  // const onEmojiClick = async (event, emojiObject) => {
+  //   setChosenEmoji(emojiObject);
+  //   setDisplayPopup(!displayPopup);
+  //   typeMessage(`${userData.message}${emojiObject.emoji}`);
+  // };
   return (
     <Box
       sx={{
@@ -28,27 +34,8 @@ function Footer(props) {
         padding: "1.5rem 1rem",
       }}
     >
-      <InputText text={messageText} setText={setMessageText} />
-      <Box
-        sx={{
-          position: "relative",
-        }}
-      >
-        <BtnIcon
-          icon={<InsertEmoticonIcon sx={{ color: bcolors.main }} />}
-          onClick={() => setDisplayPopup(!displayPopup)}
-        />
-        <Box
-          sx={{
-            display: displayPopup ? "block" : "none",
-            position: "absolute",
-            left: "-263px",
-            bottom: "63px",
-          }}
-        >
-          <Picker onEmojiClick={onEmojiClick} />
-        </Box>
-      </Box>
+      <MessageInput />
+      <IconPicker />
 
       <BtnIcon icon={<AttachFileIcon sx={{ color: bcolors.main }} />} />
 
@@ -68,4 +55,4 @@ function Footer(props) {
   );
 }
 
-export default Footer;
+export default memo(Footer);
