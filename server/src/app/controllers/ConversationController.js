@@ -98,12 +98,13 @@ class ConversationController {
         try {
             var listConversation = await Conversation
                 .find({ 'member': req.userId, type: 'single' })
+                .populate('member', { password: 0, address: 0, desc: 0 })
             var allContact = [];
             listConversation.forEach(conversation => {
                 if (conversation.member[0] != req.userId) {
-                    allContact.push(conversation.member[0]);
+                    allContact.push({ userId: conversation.member[0]._id, username: conversation.member[0].username });
                 } else {
-                    allContact.push(conversation.member[1]);
+                    allContact.push({ userId: conversation.member[1]._id, username: conversation.member[1].username });
                 }
             })
             res.status(200).json({ allContact: allContact, successful: true });
