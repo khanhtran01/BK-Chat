@@ -14,7 +14,7 @@ class ConversationController {
                     }
                 })
                 if (result) {
-                    res.status(404).json({ isContact: true, successful: false })
+                    res.status(200).json({ isContact: true, successful: false })
                 } else {
                     const conversation = await Conversation
                         .create({
@@ -33,9 +33,9 @@ class ConversationController {
                     res.status(200).json({ isContact: false, successful: true })
                 }
             } else if (user) {
-                res.status(404).json({ isContact: true, successful: false })
+                res.status(200).json({ isContact: true, successful: false })
             } else {
-                res.status(404).json({ message: "User not found", isContact: false, successful: false })
+                res.status(200).json({ message: "User not found", isContact: false, successful: false })
             }
         } catch (error) {
             res.status(500).json({ successful: false })
@@ -80,7 +80,7 @@ class ConversationController {
                 var chats = await ChatController.pagingChat(conversationId, 8, 1);
                 res.status(200).json({ chats: chats, successful: true });
             } else {
-                res.status(404).json({ message: "User is not in that conversation", successful: false });
+                res.status(200).json({ message: "User is not in that conversation", successful: false });
             }
         } catch (error) {
             res.status(500).json({ successful: false })

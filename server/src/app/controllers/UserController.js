@@ -41,11 +41,11 @@ class UserController {
                         var token = jwt.sign({ _id: account._id }, process.env.JWT_SECRECT, { expiresIn: "8h" });
                         res.status(200).json({ token: token, successful: true });
                     } else {
-                        res.status(404).json({ message: "Invalid email or password", successful: false });
+                        res.status(200).json({ message: "Invalid email or password", successful: false });
                     }
                 });
             } else {
-                res.status(404).json({ message: "Invalid email or password", successful: false });
+                res.status(200).json({ message: "Invalid email or password", successful: false });
             }
         } catch (error) {
             res.status(500).json({ successful: false })
@@ -57,7 +57,7 @@ class UserController {
                 email: req.body.email
             });
             if (account.length > 0) {
-                res.status(404).json({ message: "Email is exit", successful: false })
+                res.status(200).json({ message: "Email is exit", successful: false })
             } else {
                 bcrypt.hash(req.body.password, saltRounds, async function (err, hash) {
                     await Account.create({
@@ -106,9 +106,9 @@ class UserController {
                     res.status(200).json({ isContacted: 0, user: user, successful: true })
                 }
             } else if (user) {
-                res.status(404).json({ message: "Can't not add yourself", successful: false })
+                res.status(200).json({ message: "Can't not add yourself", successful: false })
             } else {
-                res.status(404).json({ message: "User not found", successful: false })
+                res.status(200).json({ message: "User not found", successful: false })
             }
         } catch (error) {
             res.status(500).json({ successful: false })
