@@ -43,7 +43,6 @@ function SignUp() {
 
   const handleSignUp = async (event) => {
     event.preventDefault();
-    console.log(registerForm);
     if (checkEmail(registerForm.email)) {
       console.log("correct email");
     } else {

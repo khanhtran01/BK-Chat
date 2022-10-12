@@ -3,15 +3,18 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import AuthContextProvider from "./context/authContext";
+import ContextProvider from "./context";
 import { CookiesProvider } from "react-cookie";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <CookiesProvider>
-      <AuthContextProvider>
-        <App />
-      </AuthContextProvider>
+      <ContextProvider>
+        <AuthContextProvider>
+          <App />
+        </AuthContextProvider>
+      </ContextProvider>
     </CookiesProvider>
   </React.StrictMode>
 );

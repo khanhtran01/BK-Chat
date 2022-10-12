@@ -14,7 +14,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function CustomerDialog({ open, setOpen }) {
+export default function CustomerDialog({
+  open,
+  setOpen,
+  email,
+  chat,
+  onChange,
+  submit,
+}) {
   return (
     <div>
       <Dialog
@@ -53,6 +60,9 @@ export default function CustomerDialog({ open, setOpen }) {
                   color: "white",
                 },
               }}
+              name="email"
+              value={email}
+              onChange={onChange}
               hiddenLabel
               placeholder="Enter Email"
             />
@@ -71,6 +81,9 @@ export default function CustomerDialog({ open, setOpen }) {
                   color: "white",
                 },
               }}
+              name="chat"
+              value={chat}
+              onChange={onChange}
               multiline
               hiddenLabel
               placeholder="Enter Message"
@@ -80,7 +93,9 @@ export default function CustomerDialog({ open, setOpen }) {
             <Button onClick={() => setOpen(false)} variant="outlined">
               Close
             </Button>
-            <Button variant="contained">Invite Contact</Button>
+            <Button onClick={submit} variant="contained">
+              Invite Contact
+            </Button>
           </DialogActions>
         </DialogContent>
       </Dialog>

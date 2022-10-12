@@ -19,7 +19,6 @@ const AuthContextProvider = ({ children }) => {
     if (cookies.token) {
       setAuthToken(cookies.token);
     }
-    console.log("verify token");
     await axios
       .get(`http://localhost:4000/api/home`)
       .then(function (response) {
@@ -53,7 +52,6 @@ const AuthContextProvider = ({ children }) => {
   const getUserInfo = async () => {
     try {
       await axios.get(`http://localhost:4000/api/`).then(function (response) {
-        console.log(response.data);
         if (response.data) {
           dispatch({ type: "GET_USER", payload: response.data.userInfor });
         }
@@ -76,7 +74,6 @@ const AuthContextProvider = ({ children }) => {
       })
       // get token and processing
       .then((response) => {
-        console.log(response.data);
         dispatch({ type: "LOGIN", payload: response.data });
         // localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data._id);
         setCookie("token", response.data.token, { path: "/" });
@@ -100,7 +97,6 @@ const AuthContextProvider = ({ children }) => {
         username: username,
       })
       .then((response) => {
-        console.log("register successful");
         return true;
       })
       .catch((err) => {

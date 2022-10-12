@@ -7,24 +7,21 @@ import { AuthContext } from "../../context/authContext";
 import { clientList } from "./data";
 function Dashboard() {
   const { authState, getUserInfo } = useContext(AuthContext);
-  console.log("dashboard:" + authState);
   const currClient = clientList[0];
 
   const [client, setClient] = useState(currClient.id);
   return (
-    <Context.Provider value={[client, setClient]}>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "stretch",
-          alignContent: "stretch",
-          height: "100%",
-        }}
-      >
-        <SideBar data={clientList} />
-        <ChatBoard partner={currClient} />
-      </div>
-    </Context.Provider>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "stretch",
+        alignContent: "stretch",
+        height: "100%",
+      }}
+    >
+      <SideBar data={clientList} />
+      <ChatBoard partner={currClient} />
+    </div>
   );
 }
 

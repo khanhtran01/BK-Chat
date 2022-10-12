@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import Box from "@mui/material/Box";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Avatar from "@mui/material/Avatar";
@@ -7,6 +7,7 @@ import CustomizedAccordions from "../../../accordion";
 import PersonIcon from "@mui/icons-material/Person";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
+import { AuthContext } from "../../../../context/authContext";
 import LongMenu from "../../../menu";
 import { textcolor, bcolors } from "../../../../colors";
 
@@ -27,7 +28,7 @@ const AboutElement = ({ title, content, marginBottom }) => {
 
 function ProfileTab() {
   // fake user data
-
+  const { authState } = useContext(AuthContext);
   const user = {
     name: "Tran Le Viet Khanh",
     age: "21",
@@ -38,12 +39,16 @@ function ProfileTab() {
   const AboutBox = ({ user }) => {
     return (
       <Box>
-        <AboutElement marginBottom="1.5rem" title="Name" content={user.name} />
+        <AboutElement
+          marginBottom="1.5rem"
+          title="Name"
+          content={authState.user.username}
+        />
         <AboutElement marginBottom="1.5rem" title="Age" content={user.age} />
         <AboutElement
           marginBottom="1.5rem"
           title="Email"
-          content={user.email}
+          content={authState.user.email}
         />
         <AboutElement title="Location" content={user.location} />
       </Box>
@@ -90,7 +95,7 @@ function ProfileTab() {
         >
           <Avatar
             alt="Remy Sharp"
-            src="/static/images/avatar/1.jpg"
+            src={`${authState.user.avatar}`}
             sx={{ height: "5.375rem", width: "5.375rem" }}
           />
         </Box>
@@ -100,7 +105,7 @@ function ProfileTab() {
           marginTop={3}
           color={textcolor.primaryGray}
         >
-          Khanh Tran
+          {authState.user.username}
         </Typography>
         <Box
           display="flex"
@@ -122,8 +127,7 @@ function ProfileTab() {
       <Box>
         <Box borderTop={`solid 1px ${bcolors.sidebar}`} padding="1.5rem 0rem">
           <Typography color={textcolor.white}>
-            If several languages coalesce, the grammar of the resulting language
-            is more simple and regular than that of the individual.
+            {authState.user.desc ? authState.user.desc : "No description"}
           </Typography>
         </Box>
         <Box>
@@ -143,8 +147,13 @@ function ProfileTab() {
 
           <CustomizedAccordions
             title={
-              <Box>
-                <AttachFileIcon /> Attact File
+              <Box
+                display={"flex"}
+                justifyContent="center"
+                alignItems={"flex-start"}
+              >
+                <AttachFileIcon />
+                <Typography marginLeft={"5px"}>Attact File</Typography>
               </Box>
             }
             description={""}

@@ -3,34 +3,80 @@ import Typography from "@mui/material/Typography";
 import SearchInput from "../../../search";
 import { textcolor, bcolors } from "../../../../colors";
 import ContactList from "../../../contactList";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import Button from "@mui/material/Button";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import CustomerDialog from "../../../customDialog";
 import { v4 as uuidv4 } from "uuid";
 import { deepCopy } from "../../../../functions";
-import { friendList, sortFriend } from "./data";
+import { conversationContext } from "../../../../context";
+import { sortFriend } from "./data";
 function Contact() {
+  const { addContact, getAllContact, userData } =
+    useContext(conversationContext);
+  const [openAddfriend, setOpenAddfriend] = useState(false);
+
   const [friendsBox, setFriendsBox] = useState(sortFriend);
+  const [formData, setFormData] = useState({
+    email: "",
+    chat: "",
+  });
+
+  const { email, chat } = formData;
+
+  // init friend list when swap to contact page
+  // run 1 time
   useEffect(() => {
     let friendBoxTemp = deepCopy(sortFriend);
-    console.log(sortFriend);
-
     // eslint-disable-next-line array-callback-return
-    friendList.map((friend) => {
+    userData.contactList.map((friend) => {
       friendBoxTemp[friend.username[0].toLowerCase()].push(friend);
     });
-    console.log(friendBoxTemp);
-
     setFriendsBox(friendBoxTemp);
-    // friendBoxTemp = { ...sortFriend };
   }, []);
-  //   console.log(friendsBox);
-  const [openAddfriend, setOpenAddfriend] = useState(false);
-  // const [client, setClient] = useContext(Context);
+
+  // update contact list when add contact
+  const updateContactList = async () => {
+    let friendBoxTemp = deepCopy(sortFriend);
+    console.log("render update");
+    let data = await getAllContact();
+    // eslint-disable-next-line array-callback-return
+    data.map((friend) => {
+      friendBoxTemp[friend.username[0].toLowerCase()].push(friend);
+    });
+    setFriendsBox(friendBoxTemp);
+  };
+
+  const handleDialog = (event) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
+
+  const handleAddContact = async () => {
+    let respone = await addContact(formData);
+    if (respone.data.successful) {
+      console.log("add complete");
+      updateContactList();
+      setOpenAddfriend(false);
+    } else {
+      console.log("add false");
+      if (respone.data.isContact) {
+        console.log("friended");
+      } else {
+        console.log("wrong email");
+      }
+    }
+  };
+
   return (
     <Box sx={{ height: "100%" }}>
-      <CustomerDialog open={openAddfriend} setOpen={setOpenAddfriend} />
+      <CustomerDialog
+        open={openAddfriend}
+        setOpen={setOpenAddfriend}
+        email={email}
+        chat={chat}
+        onChange={handleDialog}
+        submit={handleAddContact}
+      />
       <Box sx={{ height: "10rem", p: 3 }}>
         <Box
           display="flex"
