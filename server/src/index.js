@@ -43,45 +43,31 @@ const io = socketio(server, {
 
 io.on("connection", (socket) => {
     console.log("User connected");
-    socket.on("addUser", (userId) => {
-        addUser(userId, socket.id);
-        io.emit("getUsers", users);
-    });
-    // socket.on("join", data => {
-    //     addUser(data.userId, socket.id);
-    //     const senderUser = getUser(data.userId);
-    //     const userOnline = getStatusUsers(data.allContact);
-    //     io.to(senderUser?.socketId).emit("sendUserOnline", userOnline);
-    //     data.allContact.forEach(element => {
-    //         if (element.type == 'single') {
-    //             const friendUser = getUser(element.userId);
-    //             io.to(friendUser?.socketId).emit("sendMeOnline", {
-    //                 type: element.type,
-    //                 userId: data.userId
-    //             });
-    //         } else {
-    //             socket.join(element.messageId);
-    //             io.to(element.messageId).emit("sendMeOnline", {
-    //                 type: element.type,
-    //                 senderId: data.userId,
-    //                 messId: element.messageId
-    //             });
-    //         }
-    //     });
-    // });
-
-    socket.on("sendNewContact", async (data) => {
-        const receiverUser = getUser(data.receiverId);
-        io.to(receiverUser?.socketId).emit("getNewContact", {
-            senderId: data.senderId,
-            username: data.username,
-            avatar: data.avatar,
-            receiverId: data.receiverId,
-            content: data.content,
-            conversationId: data.conversationId,
-            time: data.time,
+    socket.on("sendJoin", data => {
+        addUser(data.userId, socket.id);
+        const senderUser = getUser(data.userId);
+        const userOnline = getStatusUsers(data.allContact);
+        io.to(senderUser?.socketId).emit("getUserOnline", userOnline);
+        userOnline.forEach(element => {
+            const friendUser = getUser(element.userId);
+            io.to(friendUser?.socketId).emit("getFriendOnline", {
+                userId: data.userId
+            });
         });
     });
+
+    // socket.on("sendNewContact", async (data) => {
+    //     const receiverUser = getUser(data.receiverId);
+    //     io.to(receiverUser?.socketId).emit("getNewContact", {
+    //         senderId: data.senderId,
+    //         username: data.username,
+    //         avatar: data.avatar,
+    //         receiverId: data.receiverId,
+    //         content: data.content,
+    //         conversationId: data.conversationId,
+    //         time: data.time,
+    //     });
+    // });
 
     // socket.on('sendNewGroup', async (data) => {
     //     data.memberIdAndAva.forEach(e => {
@@ -97,19 +83,20 @@ io.on("connection", (socket) => {
     //     })
     // })
 
-    socket.on("sendMessageSingle", async (data) => {
+    socket.on("sendChatSingle", async (data) => {
         data.type = "text";
         const chatId = await ChatController.storeChatAndGetId(data);
         const receiverUser = getUser(data.receiverId);
         const senderUser = getUser(data.senderId);
         io.to(receiverUser?.socketId)
             .to(senderUser?.socketId)
-            .emit("getMessageSingle", {
+            .emit("getChatSingle", {
                 senderId: data.senderId,
                 receiverId: data.receiverId,
                 conversationId: data.conversationId,
                 chatId: chatId,
                 time: data.time,
+                replyFromChatId: data.replyFromChatId,
             });
     });
 
@@ -177,7 +164,7 @@ io.on("connection", (socket) => {
         console.log("user disconnected");
         const user = getUserBySocketId(socket.id);
         removeUser(socket.id);
-        // io.emit("userOff", user);
+        io.emit("getUserOff", user);
     });
 });
 

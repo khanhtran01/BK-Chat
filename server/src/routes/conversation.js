@@ -29,6 +29,6 @@ route.get('/get-all-contact-sort', ConversationController.getAllContactSort);
 route.get('/paging-chat', ConversationController.pagingChat);
 
 // [GET] /api/conversation?id=
-route.get('/', ConversationController.getMessage);
+route.get('/', ConversationController.getConversation);
 
 module.exports = route;

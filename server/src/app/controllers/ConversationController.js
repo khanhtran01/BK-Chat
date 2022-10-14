@@ -5,8 +5,7 @@ const ChatController = require("./ChatController");
 class ConversationController {
     async newContact(req, res, next) {
         try {
-            const user = await Account.findOne(
-                { email: req.body.email },
+            const user = await Account.findOne({ email: req.body.email },
                 { password: 0, address: 0, desc: 0 }
             );
             if (user && user._id != req.userId) {
@@ -68,7 +67,7 @@ class ConversationController {
     //         next(error)
     //     }
     // }
-    async getMessage(req, res, next) {
+    async getConversation(req, res, next) {
         try {
             const conversationId = req.query.id;
             // make sure user is in this conversation
@@ -78,8 +77,7 @@ class ConversationController {
             });
             // .populate('member');
             if (conversation) {
-                await Chat.updateMany(
-                    { conversationId: conversationId },
+                await Chat.updateMany({ conversationId: conversationId },
                     {
                         $addToSet: {
                             userRead: req.userId,
@@ -89,12 +87,10 @@ class ConversationController {
                 var chats = await ChatController.pagingChat(conversationId, 8, 1);
                 res.status(200).json({ chats: chats, successful: true });
             } else {
-                res
-                    .status(200)
-                    .json({
-                        message: "User is not in that conversation",
-                        successful: false,
-                    });
+                res.status(200).json({
+                    message: "User is not in that conversation",
+                    successful: false,
+                });
             }
         } catch (error) {
             res.status(500).json({ successful: false });

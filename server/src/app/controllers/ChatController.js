@@ -9,7 +9,8 @@ class ChatController {
                     userId: data.senderId,
                     content: data.content,
                     type: data.type,
-                    userRead: [data.senderId]
+                    userRead: [data.senderId],
+                    replyFrom: data.replyFrom,
                 });
             await Conversation
                 .updateOne({ _id: data.conversationId }, {
@@ -85,6 +86,7 @@ class ChatController {
             return await Chat
                 .find({ conversationId: conversationId })
                 .populate('userId', { password: 0, address: 0, desc: 0 })
+                .populate('replyFrom')
                 .limit(numChat)
                 .skip(numSkip);
         } catch (error) {

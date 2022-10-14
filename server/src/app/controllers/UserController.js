@@ -67,7 +67,7 @@ class UserController {
                         email: req.body.email,
                         password: hash,
                         username: req.body.username,
-                        avatar: 'https://res.cloudinary.com/be-dev/image/upload/v1664804179/uploads/yc2grbnbd1kx5gy1mef7.jpg',
+                        avatar: 'https://res.cloudinary.com/be-dev/image/upload/v1646538111/uploads/edmtkrzhgjyypakze2bp.jpg',
                         address: '',
                         desc: '',
                     })
