@@ -22,6 +22,9 @@ class UserController {
                 conversation.numUnRead = await Chat
                     .find({ conversationId: conversation._id, userRead: { $nin: req.userId } })
                     .count()
+                conversation.lastChat = await Chat
+                    .findOne({ conversationId: conversation._id }, { content: 1 })
+                    .sort({ 'createdAt': -1 });
             }
             res.status(200).json({
                 "userInfor": userInfor,
