@@ -1,6 +1,5 @@
 export const authReducer = (state, action) => {
   const { type, payload } = action;
-  console.log("authReducer: " + type);
   switch (type) {
     case "SET_AUTH":
       return {
@@ -16,6 +15,7 @@ export const authReducer = (state, action) => {
         isAuthenticated: payload.isAuthenticated,
         user: payload.user,
         authLoading: payload.authLoading,
+        conversations: payload.conversations,
       };
     default:
       return "unknown action";

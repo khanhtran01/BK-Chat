@@ -1,18 +1,19 @@
 import { createContext, useReducer, useEffect } from "react";
 import { apiUrl } from "./constant";
 import conversationReducer from "../reducers/conversationReducer";
+import { useCookies } from "react-cookie";
 import axios from "axios";
 const conversationContext = createContext();
 
 function ContextProvider({ children }) {
   const [userData, dispatch] = useReducer(conversationReducer, {
-    username: "",
-    age: "",
-    email: "",
     contactList: [],
     conversation: [],
+    chatInfo: {},
+    currConversationId: "",
+    currConversation: [],
   });
-
+  const [cookies] = useCookies(["token"]);
   const addContact = async (formData) => {
     let result;
     await axios
@@ -41,14 +42,41 @@ function ContextProvider({ children }) {
   };
 
   useEffect(() => {
-    console.log("init Contact");
     const initContactList = async () => {
       await getAllContact();
     };
-    initContactList();
+    if (cookies.token) {
+      initContactList();
+    }
   }, []);
 
-  const contextData = { addContact, getAllContact, userData };
+  const selectConversation = async ({ id, name, url }) => {
+    if (userData.currConversationId !== id) {
+      console.log("select conversation " + id);
+      await axios
+        .get(`${apiUrl}/conversation?id=${id}`)
+        .then(function (response) {
+          dispatch({
+            type: "SELECT_CONVERSATION",
+            payload: {
+              id: id,
+              currConversation: response.data.chats,
+              chatInfo: {
+                name: name,
+                avatar: url,
+              },
+            },
+          });
+        });
+    }
+  };
+
+  const contextData = {
+    addContact,
+    getAllContact,
+    userData,
+    selectConversation,
+  };
   return (
     <conversationContext.Provider value={contextData}>
       {children}

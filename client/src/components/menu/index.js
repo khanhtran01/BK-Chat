@@ -3,7 +3,7 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { bcolors, textcolor } from "../../colors";
-
+import { v4 as uuidv4 } from "uuid";
 // const options = ["None", "Atria", "Callisto", "Dione"];
 
 const ITEM_HEIGHT = 48;
@@ -21,7 +21,7 @@ export default function LongMenu(props) {
 
   return (
     <div>
-      <IconButton aria-label="more" id="long-button" onClick={handleClick}>
+      <IconButton aria-label="more" onClick={handleClick}>
         {icon}
       </IconButton>
       <Menu
@@ -56,7 +56,7 @@ export default function LongMenu(props) {
       >
         {options.map((option) => (
           <MenuItem
-            key={option}
+            key={uuidv4()}
             selected={option === "Pyxis"}
             onClick={handleClose}
           >

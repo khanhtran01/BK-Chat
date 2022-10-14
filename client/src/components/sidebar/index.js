@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
 
@@ -19,7 +19,6 @@ import ProfileTab from "./PanelComponents/Profile";
 import Contact from "./PanelComponents/Contact";
 // import from soutce code
 import { bcolors, textcolor } from "../../colors";
-import Context from "../../context";
 // import panelTab
 
 function TabPanel(props) {
@@ -89,7 +88,6 @@ TabPanel.propTypes = {
 
 export default function SideBar() {
   const [value, setValue] = useState(1);
-  const client = useContext(Context);
   const listElements = [
     <AccountCircleIcon
       sx={{

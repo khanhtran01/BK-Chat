@@ -10,6 +10,7 @@ const AuthContextProvider = ({ children }) => {
     authLoading: true,
     isAuthenticated: false,
     user: null,
+    conversations: [],
   });
 
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
@@ -22,12 +23,14 @@ const AuthContextProvider = ({ children }) => {
     await axios
       .get(`http://localhost:4000/api/home`)
       .then(function (response) {
+        // console.log(response.data);
         dispatch({
           type: "VERIFY",
           payload: {
             isAuthenticated: true,
             authLoading: false,
             user: response.data.userInfor,
+            conversations: response.data.conversations,
           },
         });
       })
@@ -45,7 +48,9 @@ const AuthContextProvider = ({ children }) => {
     async function checkToken() {
       await verify();
     }
-    checkToken();
+    if (cookies.token) {
+      checkToken();
+    }
   }, []);
 
   // get user information
@@ -81,7 +86,7 @@ const AuthContextProvider = ({ children }) => {
         return true;
       })
       .catch((err) => {
-        console.log("error : " + err);
+        console.log("error : " + err)
         return false;
       });
   };

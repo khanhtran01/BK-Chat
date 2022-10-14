@@ -3,7 +3,10 @@ import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
 import { textcolor } from "../../colors";
 import { styled } from "@mui/material/styles";
+import { conversationContext } from "../../context";
+import { useContext } from "react";
 import BadgeAvatars from "../avatar";
+import moment from "moment";
 
 const CustomButton = styled(Button)({
   "&:focus": {
@@ -12,7 +15,18 @@ const CustomButton = styled(Button)({
 });
 
 function FriendBox(props) {
-  const { url, status, id, name, message, time, selected, setSelected } = props;
+  const { url, status, id, name, message, time, selected } = props;
+
+  const { selectConversation } = useContext(conversationContext)
+
+  const convertTime = (time) => {
+    let today = new Date();
+    if (moment(today).date() === moment(time).date()){
+      return moment(time).hours() + ':' + moment(time).minutes()
+    } else {
+      return moment(time).format("DD/MM")
+    }
+  }
   return (
     <CustomButton
       sx={{
@@ -28,7 +42,7 @@ function FriendBox(props) {
           backgroundColor: "white",
         },
       }}
-      onClick={() => setSelected(id)}
+      onClick={() => selectConversation({id: id, name: name, url: url})}
     >
       <Box
         sx={{
@@ -52,7 +66,7 @@ function FriendBox(props) {
             fontSize: "15px",
           }}
         >
-          Alex Telles
+          {name}
         </Typography>
         <Typography
           sx={{
@@ -62,7 +76,7 @@ function FriendBox(props) {
             fontSize: "14px",
           }}
         >
-          alo 123 qwdqw dqw dqw dqwd qwd qwd qwd qwd{" "}
+          {message}
         </Typography>
       </Box>
       <Box
@@ -75,7 +89,7 @@ function FriendBox(props) {
           fontSize: "11px",
         }}
       >
-        12:12
+        {convertTime(time)}
       </Box>
     </CustomButton>
   );

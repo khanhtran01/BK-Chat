@@ -3,6 +3,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { bcolors, textcolor } from "../../colors";
 import { styled } from "@mui/material/styles";
+import LongMenu from "../menu";
 
 const BoxChat = styled(Box)({
   "&.MuiBox-root": {
@@ -14,7 +15,6 @@ const BoxChat = styled(Box)({
       height: 0,
       borderBottom: "25px solid transparent",
       borderLeft: `25px solid ${bcolors.sidebar}`,
-      //   backgroundColor: ,
       bottom: "-10px",
       left: "0px",
     },
@@ -22,7 +22,8 @@ const BoxChat = styled(Box)({
 });
 
 export default function FriendMessage(props) {
-  const { message, time } = props;
+  const options = [<Box>copy</Box>, <Box>delete</Box>];
+  const { message, time, username, avatar } = props;
   return (
     <Box
       sx={{
@@ -39,7 +40,7 @@ export default function FriendMessage(props) {
           marginRight: "10px",
         }}
       >
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        <Avatar alt={`${username}`} src={`${avatar}`} />
       </Box>
 
       <Box>
@@ -91,15 +92,20 @@ export default function FriendMessage(props) {
         </Typography>
       </Box>
       <Box>
-        <MoreVertIcon
-          sx={{
-            color: bcolors.main,
-            fontSize: "20px",
-            "&:hover": {
-              color: bcolors.white,
-            },
-            cursor: "pointer",
-          }}
+      <LongMenu
+          icon={
+            <MoreVertIcon
+              sx={{
+                color: bcolors.main,
+                fontSize: "20px",
+                "&:hover": {
+                  color: bcolors.white,
+                },
+                cursor: "pointer",
+              }}
+            />
+          }
+          options={options}
         />
       </Box>
     </Box>

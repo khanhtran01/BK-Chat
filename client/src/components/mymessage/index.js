@@ -1,6 +1,8 @@
 import { Box, Typography, Avatar } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import { AuthContext } from "../../context/authContext";
+import { useContext } from "react";
 import LongMenu from "../menu";
 import { bcolors, textcolor } from "../../colors";
 import { styled } from "@mui/material/styles";
@@ -24,6 +26,8 @@ const BoxChat = styled(Box)({
 
 export default function MyMessage(props) {
   const options = [<Box>copy</Box>, <Box>delete</Box>];
+  const { authState } = useContext(AuthContext)
+  const { message, time } = props;
   return (
     <Box
       sx={{
@@ -64,10 +68,7 @@ export default function MyMessage(props) {
               fontSize: ".9375rem",
             }}
           >
-            qqqqqqqqqqqqqqqdqwd qw dqw dqw dqw dqwdqfqwfqw fqwf qwf qwf qwf qwf
-            qwqwf qwfqfqw qqqqqqqqqqqqqqqdqwd qw dqw dqw dqw dqwdqfqwfqw fqwf
-            qwf qwf qwf qwf qwqwf qwfqfqw qqqqqqqqqqqqqqqdqwd qw dqw dqw dqw
-            dqwdqfqwfqw fqwf qwf qwf qwf qwf qwqwf qwfqfqw
+            {message}
           </Typography>
           <Box
             sx={{
@@ -84,7 +85,7 @@ export default function MyMessage(props) {
                 marginLeft: "5px",
               }}
             >
-              10:10
+              {time}
             </Typography>
           </Box>
         </BoxChat>
@@ -96,7 +97,7 @@ export default function MyMessage(props) {
             fontSize: "14px",
           }}
         >
-          Name
+          {authState.user.username}
         </Typography>
       </Box>
       <Box
@@ -107,7 +108,7 @@ export default function MyMessage(props) {
           marginLeft: "10px",
         }}
       >
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        <Avatar alt={`${authState.user.username}`} src={`${authState.user.avatar}`} />
       </Box>
     </Box>
   );

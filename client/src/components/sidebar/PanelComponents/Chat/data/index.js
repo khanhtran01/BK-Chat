@@ -7,7 +7,6 @@ const clientList = [
   },
   {
     id: 12,
-
     username: "Lionel Messi",
     img: "https://khoinguonsangtao.vn/wp-content/uploads/2022/02/anh-dai-dien-fb-dep.jpg",
     status: "online",

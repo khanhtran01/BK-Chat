@@ -12,6 +12,7 @@ import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
+import { conversationContext } from "../../context";
 import { bcolors, textcolor } from "../../colors";
 
 // import axios from "axios";
@@ -19,7 +20,8 @@ import { bcolors, textcolor } from "../../colors";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 function SignIn() {
-  const { loginUser, authState, getUserInfo } = useContext(AuthContext);
+  const { loginUser, authState, verify } = useContext(AuthContext);
+  const { getAllContact } = useContext(conversationContext);
 
   const [loginForm, setLoginForm] = useState({
     username: "",
@@ -37,6 +39,8 @@ function SignIn() {
     event.preventDefault();
     setIsSubmiting(true);
     let success = await loginUser(loginForm);
+    await verify();
+    await getAllContact();
     setIsSubmiting(false);
     if (success) navigate("/dashboard");
   };

@@ -7,8 +7,12 @@ const checkEmail = (email) => {
   return false;
 };
 
+const sleep = (milliseconds) => {
+  return new Promise(resolve => setTimeout(resolve, milliseconds))
+}
+
 const deepCopy = (obj) => {
   return JSON.parse(JSON.stringify(obj));
 };
 
-export { checkEmail, deepCopy };
+export { checkEmail, deepCopy, sleep };

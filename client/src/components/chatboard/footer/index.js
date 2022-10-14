@@ -17,7 +17,6 @@ function Footer() {
   // const [chosenEmoji, setChosenEmoji] = useState({});
   // // const [messageText, setMessageText] = useState("");
   // const [displayPopup, setDisplayPopup] = useState(false);
-  console.log("re render footer");
   // const onEmojiClick = async (event, emojiObject) => {
   //   setChosenEmoji(emojiObject);
   //   setDisplayPopup(!displayPopup);

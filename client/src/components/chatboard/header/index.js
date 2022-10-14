@@ -1,12 +1,15 @@
 import { Box, Typography } from "@mui/material";
 import { bcolors, textcolor } from "../../../colors";
 import Avatar from "@mui/material/Avatar";
+import { useContext } from "react";
+import { conversationContext } from "../../../context";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 
-function Header(props) {
+function Header() {
+  const { userData } = useContext(conversationContext);
   return (
     <Box
       sx={{
@@ -15,7 +18,6 @@ function Header(props) {
         padding: "24px",
         display: "flex",
         justifyContent: "space-between",
-        // justifyContent: "space-between",
       }}
     >
       <Box
@@ -24,7 +26,7 @@ function Header(props) {
           alignItems: "center",
         }}
       >
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        <Avatar alt={`${userData.chatInfo.name}`} src={`${userData.chatInfo.avatar}`} />
         <Typography
           sx={{
             color: textcolor.primaryGray,
@@ -33,7 +35,7 @@ function Header(props) {
             alignItems: "center",
           }}
         >
-          Remy Sharp
+          {`${userData.chatInfo.name}`}
           <FiberManualRecordIcon
             sx={{
               fontSize: "15px",

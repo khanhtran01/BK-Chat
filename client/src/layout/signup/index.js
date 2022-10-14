@@ -60,7 +60,6 @@ function SignUp() {
       password: registerForm.password,
       username: registerForm.username,
     });
-    console.log(success);
     setIsSubmiting(false);
   };
 

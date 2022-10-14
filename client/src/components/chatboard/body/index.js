@@ -1,8 +1,16 @@
-import { Box, Typography } from "@mui/material";
-import { bcolors, textcolor } from "../../../colors";
+import { Box } from "@mui/material";
+import { bcolors } from "../../../colors";
+import { AuthContext } from "../../../context/authContext";
+import { conversationContext } from "../../../context";
+import { useContext } from "react";
+import { v4 as uuidv4 } from "uuid";
 import MyMessage from "../../mymessage";
 import FriendMessage from "../../friendmessage";
-function Body(props) {
+function Body() {
+  const { userData } = useContext(conversationContext);
+  const { authState } = useContext(AuthContext);
+  console.log(userData);
+  console.log(authState);
   return (
     <Box
       sx={{
@@ -15,8 +23,27 @@ function Body(props) {
         overflowY: "scroll",
       }}
     >
-      <MyMessage message="Hello World!!" />
-      <FriendMessage message="Hello World!!" time="10:12" />
+      {userData &&
+        userData.currConversation.map((message) => {
+          if (message.userId._id === authState.user._id) {
+            return (
+              <MyMessage
+                key={uuidv4()}
+                message={message.content}
+                time={message.createdAt}
+              />
+            );
+          }
+          return (
+            <FriendMessage
+              key={uuidv4()}
+              message={message.content}
+              time={message.createdAt}
+              username={message.userId.username}
+              avatar={message.userId.avatar}
+            />
+          );
+        })}
     </Box>
   );
 }

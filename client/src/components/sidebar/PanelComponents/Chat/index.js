@@ -4,12 +4,16 @@ import SearchInput from "../../../search";
 import { textcolor } from "../../../../colors";
 import ActivateList from "../../../activateList";
 import FriendBox from "../../../friendbox";
-// import { useContext } from "react";
-// import Context from "../../../../context";
+import { AuthContext } from "../../../../context/authContext";
+import { useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { clientList } from "./data";
 function ChatPanel() {
-  // const [client, setClient] = useContext(Context);
+  const {
+    authState,
+  } = useContext(AuthContext);
+  const { conversations} = authState;
+  console.log(conversations);
   return (
     <Box sx={{ height: "100%" }}>
       <Box sx={{ height: "13.75rem", p: 3 }}>
@@ -45,16 +49,30 @@ function ChatPanel() {
             p: 1,
           }}
         >
-          {clientList.map((friend) => (
-            <FriendBox
-              key={uuidv4()}
-              id={friend.id}
-              url={friend.img}
-              // selected={friend.id === client}
-              // setSelected={setClient}
-              status={friend.status}
-            />
-          ))}
+          {
+          conversations &&
+          conversations.map((conversation) => {
+            let url, username;
+            if (conversation.type === "single") {
+
+              url = conversation.member[0]._id === authState.user._id ? conversation.member[1].avatar : conversation.member[0].avatar;
+              username = conversation.member[0]._id === authState.user._id ? conversation.member[1].username : conversation.member[0].username;
+            } else {
+              url = conversation.member[0].avatar;
+              username = conversation.name;
+            }
+            return (
+              <FriendBox
+                key={uuidv4()}
+                id={conversation._id}
+                url={url}
+                name={username}
+                status={"online"}
+                time={conversation.updatedAt}
+                message={conversation.lastChat.content}
+              />
+            );
+          })}
         </Box>
       </Box>
     </Box>
