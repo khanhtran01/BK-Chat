@@ -7,12 +7,22 @@ import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendIcon from "@mui/icons-material/Send";
 import { chatboardContext } from "../context";
 import Picker from "emoji-picker-react";
+
+import { AuthContext } from "../../../context/authContext";
+import { SocketContext } from "../../../context/socket";
+import { conversationContext } from "../../../context";
 import Button from "@mui/material/Button";
 import BtnIcon from "../../btnIcon";
 import MessageInput from "./components/MessageInput";
 import IconPicker from "./components/IconPicker";
 
 function Footer() {
+  const { authState } = useContext(AuthContext);
+  const { userData } = useContext(conversationContext);
+  const { sendPing } = useContext(SocketContext);
+
+  console.log(authState);
+  console.log(userData.contactList);
   // const { userData, typeMessage } = useContext(chatboardContext);
   // const [chosenEmoji, setChosenEmoji] = useState({});
   // // const [messageText, setMessageText] = useState("");
@@ -47,6 +57,12 @@ function Footer() {
           },
         }}
         variant="contained"
+        onClick={() => {
+          sendPing({
+            userId : authState.user._id,
+            allContact : userData.contactList,
+          });
+        }}
       >
         <SendIcon />
       </Button>

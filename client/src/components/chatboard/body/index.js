@@ -9,8 +9,6 @@ import FriendMessage from "../../friendmessage";
 function Body() {
   const { userData } = useContext(conversationContext);
   const { authState } = useContext(AuthContext);
-  console.log(userData);
-  console.log(authState);
   return (
     <Box
       sx={{

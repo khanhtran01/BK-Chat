@@ -13,7 +13,6 @@ function ChatPanel() {
     authState,
   } = useContext(AuthContext);
   const { conversations} = authState;
-  console.log(conversations);
   return (
     <Box sx={{ height: "100%" }}>
       <Box sx={{ height: "13.75rem", p: 3 }}>

@@ -4,6 +4,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import AuthContextProvider from "./context/authContext";
 import ContextProvider from "./context";
+import SocketProvider from "./context/socket";
 import { CookiesProvider } from "react-cookie";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -11,9 +12,11 @@ root.render(
   <React.StrictMode>
     <CookiesProvider>
       <ContextProvider>
-        <AuthContextProvider>
-          <App />
-        </AuthContextProvider>
+        <SocketProvider>
+          <AuthContextProvider>
+            <App />
+          </AuthContextProvider>
+        </SocketProvider>
       </ContextProvider>
     </CookiesProvider>
   </React.StrictMode>
