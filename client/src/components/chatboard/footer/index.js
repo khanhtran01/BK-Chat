@@ -19,10 +19,7 @@ import IconPicker from "./components/IconPicker";
 function Footer() {
   const { authState } = useContext(AuthContext);
   const { userData } = useContext(conversationContext);
-  const { sendPing } = useContext(SocketContext);
-
-  console.log(authState);
-  console.log(userData.contactList);
+  // const { sendPing } = useContext(SocketContext);
   // const { userData, typeMessage } = useContext(chatboardContext);
   // const [chosenEmoji, setChosenEmoji] = useState({});
   // // const [messageText, setMessageText] = useState("");
@@ -57,12 +54,12 @@ function Footer() {
           },
         }}
         variant="contained"
-        onClick={() => {
-          sendPing({
-            userId : authState.user._id,
-            allContact : userData.contactList,
-          });
-        }}
+        // onClick={() => {
+        //   sendPing({
+        //     userId : authState.user._id,
+        //     allContact : userData.contactList,
+        //   });
+        // }}
       >
         <SendIcon />
       </Button>

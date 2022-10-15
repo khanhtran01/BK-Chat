@@ -17,6 +17,11 @@ export const authReducer = (state, action) => {
         authLoading: payload.authLoading,
         conversations: payload.conversations,
       };
+    case "UPDATE_ONLINE_LIST":
+      return {
+        ...state,
+        onlineList: payload,
+      }
     default:
       return "unknown action";
   }

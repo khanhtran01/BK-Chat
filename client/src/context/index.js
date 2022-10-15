@@ -14,6 +14,13 @@ function ContextProvider({ children }) {
     currConversation: [],
   });
   const [cookies] = useCookies(["token"]);
+
+  /**
+   * 
+   * @param {Object} formData content : email and message
+   * TODO add new contact
+   * @returns 
+   */
   const addContact = async (formData) => {
     let result;
     await axios
@@ -27,6 +34,10 @@ function ContextProvider({ children }) {
     return result;
   };
 
+  /**
+   * 
+   * @returns all contact
+   */
   const getAllContact = async () => {
     let data;
     await axios
@@ -41,6 +52,9 @@ function ContextProvider({ children }) {
     return data;
   };
 
+  /**
+   * Init all contact to load to UI
+   */
   useEffect(() => {
     const initContactList = async () => {
       await getAllContact();
@@ -52,7 +66,6 @@ function ContextProvider({ children }) {
 
   const selectConversation = async ({ id, name, url }) => {
     if (userData.currConversationId !== id) {
-      console.log("select conversation " + id);
       await axios
         .get(`${apiUrl}/conversation?id=${id}`)
         .then(function (response) {

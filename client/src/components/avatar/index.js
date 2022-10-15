@@ -29,7 +29,7 @@ const StyledBadge = styled(Badge)(({ theme, status }) => ({
       opacity: 1,
     },
     "100%": {
-      transform: "scale(2.4)",
+      transform: "scale(1.4)",
       opacity: 0,
     },
   },
@@ -52,13 +52,13 @@ export default function BadgeAvatars(props) {
         sx={{
           "& .MuiBadge-badge": {
             "&::after": {
+              display: status === "offline" ? "none" : "block",
               backgroundColor:
                 status === "online"
                   ? bcolors.online
                   : status === "offline"
                   ? bcolors.offline
                   : bcolors.busy,
-              animation: "none",
             },
           },
         }}

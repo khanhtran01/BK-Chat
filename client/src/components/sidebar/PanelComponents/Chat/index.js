@@ -9,10 +9,8 @@ import { useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { clientList } from "./data";
 function ChatPanel() {
-  const {
-    authState,
-  } = useContext(AuthContext);
-  const { conversations} = authState;
+  const { authState } = useContext(AuthContext);
+  const { conversations, onlineList } = authState;
   return (
     <Box sx={{ height: "100%" }}>
       <Box sx={{ height: "13.75rem", p: 3 }}>
@@ -48,30 +46,35 @@ function ChatPanel() {
             p: 1,
           }}
         >
-          {
-          conversations &&
-          conversations.map((conversation) => {
-            let url, username;
-            if (conversation.type === "single") {
-
-              url = conversation.member[0]._id === authState.user._id ? conversation.member[1].avatar : conversation.member[0].avatar;
-              username = conversation.member[0]._id === authState.user._id ? conversation.member[1].username : conversation.member[0].username;
-            } else {
-              url = conversation.member[0].avatar;
-              username = conversation.name;
-            }
-            return (
-              <FriendBox
-                key={uuidv4()}
-                id={conversation._id}
-                url={url}
-                name={username}
-                status={"online"}
-                time={conversation.updatedAt}
-                message={conversation.lastChat.content}
-              />
-            );
-          })}
+          {conversations &&
+            conversations.map((conversation) => {
+              let url, username, status;
+              if (conversation.type === "single") {
+                if (conversation.member[0]._id === authState.user._id) {
+                  url = conversation.member[1].avatar;
+                  username = conversation.member[1].username;
+                  status = onlineList[conversation.member[1]._id]
+                } else {
+                  url = conversation.member[0].avatar;
+                  username = conversation.member[0].username;
+                  status = onlineList[conversation.member[0]._id]
+                }
+              } else {
+                url = conversation.member[0].avatar;
+                username = conversation.name;
+              }
+              return (
+                <FriendBox
+                  key={uuidv4()}
+                  id={conversation._id}
+                  url={url}
+                  name={username}
+                  status={status ? 'online' : 'offline'}
+                  time={conversation.updatedAt}
+                  message={conversation.lastChat.content}
+                />
+              );
+            })}
         </Box>
       </Box>
     </Box>

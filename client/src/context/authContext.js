@@ -11,10 +11,10 @@ const AuthContextProvider = ({ children }) => {
     isAuthenticated: false,
     user: null,
     conversations: [],
+    onlineList: {},
   });
 
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-
   // verify token when reload dashboard page
   const verify = async () => {
     if (cookies.token) {
@@ -23,7 +23,6 @@ const AuthContextProvider = ({ children }) => {
     await axios
       .get(`http://localhost:4000/api/home`)
       .then(function (response) {
-        // console.log(response.data);
         dispatch({
           type: "VERIFY",
           payload: {
@@ -110,12 +109,25 @@ const AuthContextProvider = ({ children }) => {
       });
   };
 
+  const updateFriendStatus = (onlineList) => {
+    let tempList = {};
+
+    // eslint-disable-next-line array-callback-return
+    onlineList.map(user => {
+      tempList[user.userId] = true
+    })
+    console.log(tempList);
+    
+    dispatch({ type: "UPDATE_ONLINE_LIST", payload: {...tempList} });
+  }
+
   const authContextData = {
     loginUser,
     authState,
     getUserInfo,
     verify,
     registerUser,
+    updateFriendStatus,
   };
 
   return (

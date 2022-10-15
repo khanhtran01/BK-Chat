@@ -41,6 +41,7 @@ function Contact() {
   const updateContactList = async () => {
     let friendBoxTemp = deepCopy(sortFriend);
     let data = await getAllContact();
+    
     // eslint-disable-next-line array-callback-return
     data.map((friend) => {
       friendBoxTemp[friend.username[0].toLowerCase()].push(friend);

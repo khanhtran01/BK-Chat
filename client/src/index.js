@@ -12,11 +12,11 @@ root.render(
   <React.StrictMode>
     <CookiesProvider>
       <ContextProvider>
-        <SocketProvider>
-          <AuthContextProvider>
+        <AuthContextProvider>
+          <SocketProvider>
             <App />
-          </AuthContextProvider>
-        </SocketProvider>
+          </SocketProvider>
+        </AuthContextProvider>
       </ContextProvider>
     </CookiesProvider>
   </React.StrictMode>
