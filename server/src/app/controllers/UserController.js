@@ -98,8 +98,9 @@ class UserController {
     async checkToken(req, res, next) {
         try {
             var token = req.header("Authorization").split(" ")[1]
-            verifyToken(token);
-            res.status(200).json({ message: "Successful", successful: true })
+            var checkToken = verifyToken(token);
+            const userInfor = await Account.findOne({ _id: checkToken }, { password: 0 })
+            res.status(200).json({ userInfor: userInfor, successful: true });
         } catch (error) {
             res.status(401).json({ message: "Token is not valid", successful: false })
         }
