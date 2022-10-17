@@ -30,6 +30,7 @@ function Contact() {
   // run 1 time
   useEffect(() => {
     let friendBoxTemp = deepCopy(sortFriend);
+    console.log(userData);
     // eslint-disable-next-line array-callback-return
     userData.contactList.map((friend) => {
       friendBoxTemp[friend.username[0].toLowerCase()].push(friend);

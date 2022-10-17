@@ -54,12 +54,6 @@ function Footer() {
           },
         }}
         variant="contained"
-        // onClick={() => {
-        //   sendPing({
-        //     userId : authState.user._id,
-        //     allContact : userData.contactList,
-        //   });
-        // }}
       >
         <SendIcon />
       </Button>

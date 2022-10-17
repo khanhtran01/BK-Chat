@@ -10,8 +10,6 @@ const AuthContextProvider = ({ children }) => {
     authLoading: true,
     isAuthenticated: false,
     user: null,
-    conversations: [],
-    onlineList: {},
   });
 
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
@@ -21,15 +19,15 @@ const AuthContextProvider = ({ children }) => {
       setAuthToken(cookies.token);
     }
     await axios
-      .get(`http://localhost:4000/api/home`)
+      .get(`http://localhost:4000/api/auth/verify-token`)
       .then(function (response) {
+        if (response.data.successful)
         dispatch({
           type: "VERIFY",
           payload: {
             isAuthenticated: true,
             authLoading: false,
             user: response.data.userInfor,
-            conversations: response.data.conversations,
           },
         });
       })
@@ -52,20 +50,6 @@ const AuthContextProvider = ({ children }) => {
     }
   }, []);
 
-  // get user information
-  const getUserInfo = async () => {
-    try {
-      await axios.get(`http://localhost:4000/api/`).then(function (response) {
-        if (response.data) {
-          dispatch({ type: "GET_USER", payload: response.data.userInfor });
-        }
-        return true;
-      });
-    } catch (err) {
-      console.error("get User Infor: Catch Error" + err);
-      return false;
-    }
-  };
 
   // login
   const loginUser = async (userForm) => {
@@ -109,25 +93,11 @@ const AuthContextProvider = ({ children }) => {
       });
   };
 
-  const updateFriendStatus = (onlineList) => {
-    let tempList = {};
-
-    // eslint-disable-next-line array-callback-return
-    onlineList.map(user => {
-      tempList[user.userId] = true
-    })
-    console.log(tempList);
-    
-    dispatch({ type: "UPDATE_ONLINE_LIST", payload: {...tempList} });
-  }
-
   const authContextData = {
     loginUser,
     authState,
-    getUserInfo,
     verify,
     registerUser,
-    updateFriendStatus,
   };
 
   return (

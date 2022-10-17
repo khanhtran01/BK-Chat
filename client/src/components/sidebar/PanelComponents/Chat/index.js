@@ -4,13 +4,17 @@ import SearchInput from "../../../search";
 import { textcolor } from "../../../../colors";
 import ActivateList from "../../../activateList";
 import FriendBox from "../../../friendbox";
+import { conversationContext } from "../../../../context";
 import { AuthContext } from "../../../../context/authContext";
 import { useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { clientList } from "./data";
 function ChatPanel() {
+  const { userData } = useContext(conversationContext);
   const { authState } = useContext(AuthContext);
-  const { conversations, onlineList } = authState;
+  const { conversations, onlineList } = userData;
+  console.log(`ChatPanel`);
+  console.log(conversations);
   return (
     <Box sx={{ height: "100%" }}>
       <Box sx={{ height: "13.75rem", p: 3 }}>

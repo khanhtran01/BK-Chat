@@ -11,13 +11,13 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <CookiesProvider>
-      <ContextProvider>
-        <AuthContextProvider>
+      <AuthContextProvider>
+        <ContextProvider>
           <SocketProvider>
             <App />
           </SocketProvider>
-        </AuthContextProvider>
-      </ContextProvider>
+        </ContextProvider>
+      </AuthContextProvider>
     </CookiesProvider>
   </React.StrictMode>
 );

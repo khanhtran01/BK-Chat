@@ -10,6 +10,17 @@ const conversationReducer = (state, action) => {
         currConversation: payload.currConversation,
         chatInfo: payload.chatInfo,
       };
+    case "INIT_DATA":
+      return {
+        ...state,
+        contactList: payload.allContact,
+        conversations: payload.conversations,
+      }
+    case "UPDATE_ONLINE_LIST":
+      return {
+        ...state,
+        onlineList: payload,
+      }
     default:
       return state;
   }

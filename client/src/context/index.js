@@ -1,17 +1,24 @@
-import { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer, useEffect, useContext } from "react";
 import { apiUrl } from "./constant";
 import conversationReducer from "../reducers/conversationReducer";
+import {AuthContext} from "./authContext"
 import { useCookies } from "react-cookie";
 import axios from "axios";
 const conversationContext = createContext();
 
 function ContextProvider({ children }) {
+
+  const { authState } = useContext(AuthContext);
+
   const [userData, dispatch] = useReducer(conversationReducer, {
     contactList: [],
-    conversation: [],
-    chatInfo: {},
+
+    conversations: [],
     currConversationId: "",
     currConversation: [],
+    
+    chatInfo: {},
+    onlineList: {},
   });
   const [cookies] = useCookies(["token"]);
 
@@ -52,17 +59,31 @@ function ContextProvider({ children }) {
     return data;
   };
 
+  const initData = async () => {
+    let data;
+    console.log("init");
+    await axios
+      .get(`${apiUrl}/home`)
+      .then((response) => {
+        dispatch({ type: "INIT_DATA", payload: response.data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    return data;
+  };
+
   /**
    * Init all contact to load to UI
    */
   useEffect(() => {
     const initContactList = async () => {
-      await getAllContact();
+      await initData();
     };
     if (cookies.token) {
       initContactList();
     }
-  }, []);
+  }, [authState.user]);
 
   const selectConversation = async ({ id, name, url }) => {
     if (userData.currConversationId !== id) {
@@ -84,11 +105,24 @@ function ContextProvider({ children }) {
     }
   };
 
+  const updateFriendStatus = (onlineList) => {
+    let tempList = {};
+
+    // eslint-disable-next-line array-callback-return
+    onlineList.map(user => {
+      tempList[user.userId] = true
+    })
+    
+    dispatch({ type: "UPDATE_ONLINE_LIST", payload: {...tempList} });
+  }
+
+
   const contextData = {
     addContact,
     getAllContact,
     userData,
     selectConversation,
+    updateFriendStatus,
   };
   return (
     <conversationContext.Provider value={contextData}>
