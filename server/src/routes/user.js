@@ -11,6 +11,7 @@ route.put('/update-personal-info', uploads.single('avatar'), UpdateInfoControlle
 // [GET] /api/user/search-contact?email= (email)
 route.get('/search-contact', UserController.seachUser);
 
-// route.get('/get-infor', UserController.personalInfo);
+// [GET] /api/user/get-infor
+route.get('/get-infor', UserController.personalInfo);
 
 module.exports = route;

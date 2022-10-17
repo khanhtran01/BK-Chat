@@ -11,11 +11,24 @@ const saltRounds = 10;
 class UserController {
     async home(req, res, next) {
         try {
-            var userInfor = await Account.findOne({ _id: req.userId }, { password: 0 })
             var conversations = await Conversation
                 .find({ 'member': req.userId })
                 .populate('member', { password: 0 }) // note
                 .sort({ 'updatedAt': -1 });
+            var allContact = [];
+            conversations.forEach((conversation) => {
+                if (conversation.member[0]._id != req.userId) {
+                    allContact.push({
+                        userId: conversation.member[0]._id,
+                        username: conversation.member[0].username,
+                    });
+                } else {
+                    allContact.push({
+                        userId: conversation.member[1]._id,
+                        username: conversation.member[1].username,
+                    });
+                }
+            });
             // count number of chats un read in conversation
             conversations = mutipleMongooseToObject(conversations)
             for (var conversation of conversations) {
@@ -27,8 +40,8 @@ class UserController {
                     .sort({ 'createdAt': -1 });
             }
             res.status(200).json({
-                "userInfor": userInfor,
                 "conversations": conversations,
+                allContact: allContact,
                 successful: true
             })
         } catch (error) {
@@ -117,15 +130,14 @@ class UserController {
             res.status(500).json({ successful: false })
         }
     }
-    // async personalInfo(req, res, next) {
-    //     try {
-    //         const user_id = req.query.id;
-    //         const user = await Account.findOne({ _id: user_id })
-    //         res.send(user);
-    //     } catch (error) {
-    //         next(error)
-    //     }
-    // }
+    async personalInfo(req, res, next) {
+        try {
+            const userInfor = await Account.findOne({ _id: req.userId }, { password: 0 })
+            res.status(200).json({ userInfor: userInfor, successful: true });
+        } catch (error) {
+            res.status(500).json({ successful: false })
+        }
+    }
 }
 
 module.exports = new UserController();
