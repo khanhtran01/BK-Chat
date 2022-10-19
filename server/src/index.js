@@ -82,7 +82,7 @@ io.on("connection", (socket) => {
     //         }
     //     })
     // })
-
+    // senderId, receiverId, conversationId, content, replyFromChatId, time, 
     socket.on("sendChatSingle", async (data) => {
         data.type = "text";
         const chatId = await ChatController.storeChatAndGetId(data);
@@ -94,6 +94,7 @@ io.on("connection", (socket) => {
                 senderId: data.senderId,
                 receiverId: data.receiverId,
                 conversationId: data.conversationId,
+                content: data.content,
                 chatId: chatId,
                 time: data.time,
                 replyFromChatId: data.replyFromChatId,
