@@ -87,16 +87,19 @@ io.on("connection", (socket) => {
         data.type = "text";
         const chatId = await ChatController.storeChatAndGetId(data);
         const receiverUser = getUser(data.receiverId);
-        const senderUser = getUser(data.senderId);
+        const senderUser = getUser(data.sender._id);
         io.to(receiverUser?.socketId)
             .to(senderUser?.socketId)
             .emit("getChatSingle", {
-                senderId: data.senderId,
-                receiverId: data.receiverId,
+                userId: { 
+                    _id: data.sender._id, 
+                    email: data.sender.email, 
+                    username: data.sender.username 
+                },
                 conversationId: data.conversationId,
                 content: data.content,
-                chatId: chatId,
-                time: data.time,
+                _id: chatId,
+                createAt: data.createAt,
                 replyFromChatId: data.replyFromChatId,
             });
     });

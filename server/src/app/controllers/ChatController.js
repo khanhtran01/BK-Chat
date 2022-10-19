@@ -6,10 +6,10 @@ class ChatController {
             await Chat
                 .create({
                     conversationId: data.conversationId,
-                    userId: data.senderId,
+                    userId: data.sender._id,
                     content: data.content,
                     type: data.type,
-                    userRead: [data.senderId],
+                    userRead: [data.sender._id],
                     replyFrom: data.replyFromChatId,
                 });
             await Conversation
