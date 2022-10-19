@@ -35,17 +35,14 @@ function SocketProvider({ children }) {
      * TODO open gateways to receive online list
      */
     socket.on("getUserOnline", (data) => {
-      console.log("getUserOnline");
       dispatch({ type: "GET_ONLINE_LIST", payload: data });
     });
 
     socket.on("getFriendOnline", (data) => {
-      console.log("getFriendOnline");
       dispatch({ type: "UPDATE_ONLINE_LIST", payload: data });
     });
 
     socket.on("getUserOff", (data) => {
-      console.log("getUserOff");
       dispatch({ type: "REMOVE_USER_OFFLINE", payload: data });
       
     });
@@ -65,12 +62,7 @@ function SocketProvider({ children }) {
    */
   useEffect(() => {
     const sendPing = async () => {
-      console.log('send Join');
-      console.log({
-        userId: authState.user && authState.user._id,
-        allContact: userData.contactList,
-      });
-      await socket.emit("sendJoin", {
+      socket.emit("sendJoin", {
         userId: authState.user && authState.user._id,
         allContact: userData.contactList,
       });

@@ -15,18 +15,19 @@ const CustomButton = styled(Button)({
 });
 
 function FriendBox(props) {
-  const { url, status, id, name, message, time, selected } = props;
+  const { url, status, id, name, message, time, selected, receiverId, type } =
+    props;
 
-  const { selectConversation } = useContext(conversationContext)
+  const { selectConversation } = useContext(conversationContext);
 
   const convertTime = (time) => {
     let today = new Date();
-    if (moment(today).date() === moment(time).date()){
-      return moment(time).hours() + ':' + moment(time).minutes()
+    if (moment(today).date() === moment(time).date()) {
+      return moment(time).hours() + ":" + moment(time).minutes();
     } else {
-      return moment(time).format("DD/MM")
+      return moment(time).format("DD/MM");
     }
-  }
+  };
   return (
     <CustomButton
       sx={{
@@ -42,7 +43,7 @@ function FriendBox(props) {
           backgroundColor: "white",
         },
       }}
-      onClick={() => selectConversation({id: id, name: name, url: url})}
+      onClick={() => selectConversation({ id, name, url, receiverId, type })}
     >
       <Box
         sx={{

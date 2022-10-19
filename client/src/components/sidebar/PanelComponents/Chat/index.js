@@ -13,8 +13,6 @@ function ChatPanel() {
   const { userData } = useContext(conversationContext);
   const { authState } = useContext(AuthContext);
   const { conversations, onlineList } = userData;
-  console.log(`ChatPanel`);
-  console.log(conversations);
   return (
     <Box sx={{ height: "100%" }}>
       <Box sx={{ height: "13.75rem", p: 3 }}>
@@ -52,16 +50,18 @@ function ChatPanel() {
         >
           {conversations &&
             conversations.map((conversation) => {
-              let url, username, status;
+              let url, username, status, receiverId;
               if (conversation.type === "single") {
                 if (conversation.member[0]._id === authState.user._id) {
                   url = conversation.member[1].avatar;
                   username = conversation.member[1].username;
-                  status = onlineList[conversation.member[1]._id]
+                  status = onlineList[conversation.member[1]._id];
+                  receiverId = conversation.member[1]._id;
                 } else {
                   url = conversation.member[0].avatar;
                   username = conversation.member[0].username;
-                  status = onlineList[conversation.member[0]._id]
+                  status = onlineList[conversation.member[0]._id];
+                  receiverId = conversation.member[0]._id;
                 }
               } else {
                 url = conversation.member[0].avatar;
@@ -73,9 +73,11 @@ function ChatPanel() {
                   id={conversation._id}
                   url={url}
                   name={username}
-                  status={status ? 'online' : 'offline'}
+                  status={status ? "online" : "offline"}
                   time={conversation.updatedAt}
                   message={conversation.lastChat.content}
+                  type={conversation.type}
+                  receiverId={receiverId}
                 />
               );
             })}

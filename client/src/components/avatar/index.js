@@ -8,19 +8,8 @@ import { bcolors } from "../../colors";
 
 const StyledBadge = styled(Badge)(({ theme, status }) => ({
   "& .MuiBadge-badge": {
-    backgroundColor: status === "online" ? bcolors.online : bcolors.offline,
-    color: bcolors.online,
+    backgroundColor: bcolors.offline,
     boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-    "&::after": {
-      position: "absolute",
-      top: 0,
-      left: 0,
-      width: "100%",
-      height: "100%",
-      borderRadius: "50%",
-      border: "1px solid currentColor",
-      content: '""',
-    },
   },
 }));
 
@@ -40,15 +29,12 @@ export default function BadgeAvatars(props) {
         variant="dot"
         sx={{
           "& .MuiBadge-badge": {
-            "&::after": {
-              display: status === "offline" ? "none" : "block",
-              backgroundColor:
+            backgroundColor:
                 status === "online"
                   ? bcolors.online
                   : status === "offline"
                   ? bcolors.offline
                   : bcolors.busy,
-            },
           },
         }}
       >

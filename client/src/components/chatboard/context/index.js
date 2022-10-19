@@ -1,10 +1,14 @@
-import { createContext, useReducer, useEffect } from "react";
+import { createContext, useReducer, useContext } from "react";
 import { chatboardReducer } from "../reducer";
-
+import { AuthContext } from "../../../context/authContext"
+import { conversationContext } from "../../../context";
 const chatboardContext = createContext();
 
 function ChatBoardContextProvider({ children }) {
-  const [userData, dispatch] = useReducer(chatboardReducer, {
+  const { authState  } = useContext(AuthContext);
+  // const { userData } = useContext(conversationContext);
+  const [messageData, dispatch] = useReducer(chatboardReducer, {
+    senderId: authState.user._id,
     message: "",
   });
 
@@ -12,7 +16,7 @@ function ChatBoardContextProvider({ children }) {
     dispatch({ type: "TYPE_MESSAGE", payload: message });
   };
 
-  const contextData = { userData, typeMessage };
+  const contextData = { messageData, typeMessage };
   return (
     <chatboardContext.Provider value={contextData}>
       {children}

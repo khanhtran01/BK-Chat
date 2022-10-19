@@ -1,47 +1,12 @@
 import Box from "@mui/material/Box";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { AuthContext } from "./context/authContext";
-import { useContext, useState } from "react";
-import { useEffect, useRef } from "react";
+import { useContext } from "react";
 
-import io from "socket.io-client";
 import routes from "./routes";
 import "./App.css";
 
-// const host = "http://localhost:4000";
-// const socket = io(host);
-
 function App() {
-  const [isConnected, setIsconnected] = useState(false);
-  const [lastPong, setLastPong] = useState(null);
-  // const socketRef = useRef();
-  // useEffect(() => {
-  //   socket.on("connect", () => {
-  //     setIsconnected(true);
-  //   });
-
-  //   socket.on("disconnect", () => {
-  //     setIsconnected(false);
-  //   });
-
-  //   socket.on('pong', () => {
-  //     setLastPong(new Date().toISOString());
-  //   });
-
-  //   return () => {
-  //     socket.off('connect');
-  //     socket.off('disconnect');
-  //     socket.off('pong');
-  //   };
-  // });
-
-
-  // const sendPing = () => {
-  //   socket.emit('ping');
-  // }
-
-
-
   const getRoutes = (allRoutes) =>
     allRoutes.map((route) => {
       if (route.collapse) {
