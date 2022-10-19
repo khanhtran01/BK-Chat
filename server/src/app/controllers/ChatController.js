@@ -10,7 +10,7 @@ class ChatController {
                     content: data.content,
                     type: data.type,
                     userRead: [data.senderId],
-                    replyFrom: data.replyFrom,
+                    replyFrom: data.replyFromChatId,
                 });
             await Conversation
                 .updateOne({ _id: data.conversationId }, {
