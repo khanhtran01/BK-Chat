@@ -15,13 +15,15 @@ const SocketContext = createContext();
 const socket = io("http://localhost:4000");
 function SocketProvider({ children }) {
   const [isConnected, setIsconnected] = useState(false);
+  const { authState } = useContext(AuthContext);
+  const { userData, updateFriendStatus, receiveMessage, addToWaitingStack } =
+    useContext(conversationContext);
+
   const [socketData, dispatch] = useReducer(socketReducer, {
     onlineList: [],
     newMessageList: [],
   });
 
-  const { userData, updateFriendStatus } = useContext(conversationContext);
-  const { authState } = useContext(AuthContext);
   useEffect(() => {
     socket.on("connect", () => {
       setIsconnected(true);
@@ -44,7 +46,6 @@ function SocketProvider({ children }) {
 
     socket.on("getUserOff", (data) => {
       dispatch({ type: "REMOVE_USER_OFFLINE", payload: data });
-      
     });
 
     return () => {
@@ -69,6 +70,20 @@ function SocketProvider({ children }) {
     };
     sendPing();
   }, [authState.user, JSON.stringify(userData.contactList)]);
+
+  useEffect(() => {
+    socket.on("getChatSingle", (data) => {
+      console.log(data);
+      if (data.conversationId === userData.currConversationId) {
+        receiveMessage(data);
+      } else {
+        addToWaitingStack(data);
+      }
+    });
+    return () => {
+      socket.off("getChatSingle");
+    };
+  }, [userData.currConversationId]);
 
   useEffect(() => {
     updateFriendStatus(socketData.onlineList);

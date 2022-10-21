@@ -99,8 +99,8 @@ io.on("connection", (socket) => {
                 conversationId: data.conversationId,
                 content: data.content,
                 _id: chatId,
-                createAt: data.createAt,
-                replyFromChatId: data.replyFromChatId,
+                createdAt: data.time,
+                replyFrom: data.replyFromChatId,
             });
     });
 

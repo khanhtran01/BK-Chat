@@ -6,14 +6,17 @@ import { useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import MyMessage from "../../mymessage";
 import FriendMessage from "../../friendmessage";
+
 function Body() {
   const { userData } = useContext(conversationContext);
   const { authState } = useContext(AuthContext);
+  console.log(userData.currConversation);
   return (
     <Box
       sx={{
-        flex: 1,
+        display: "flex",
         width: "100%",
+        flexDirection: "column-reverse",
         height: "calc(100vh - 180px)",
         backgroundColor: bcolors.chatboard,
         borderTop: `1px solid ${bcolors.bluedark}`,
@@ -21,8 +24,10 @@ function Body() {
         overflowY: "scroll",
       }}
     >
-      {userData &&
-        userData.currConversation.map((message) => {
+      {[]
+        .concat(userData && userData.currConversation)
+        .reverse()
+        .map((message) => {
           if (message.userId._id === authState.user._id) {
             return (
               <MyMessage

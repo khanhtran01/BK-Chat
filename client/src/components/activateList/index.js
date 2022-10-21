@@ -6,11 +6,6 @@ import { v4 as uuidv4 } from "uuid";
 import BadgeAvatars from "../avatar";
 export default function ActivateList(props) {
   const { data } = props;
-  const [value, setValue] = React.useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
 
   return (
     <Box

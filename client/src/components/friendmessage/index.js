@@ -88,7 +88,7 @@ export default function FriendMessage(props) {
             fontSize: "14px",
           }}
         >
-          Name
+          {username}
         </Typography>
       </Box>
       <Box>

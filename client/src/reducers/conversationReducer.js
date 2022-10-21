@@ -15,12 +15,61 @@ const conversationReducer = (state, action) => {
         ...state,
         contactList: payload.allContact,
         conversations: payload.conversations,
-      }
+      };
     case "UPDATE_ONLINE_LIST":
       return {
         ...state,
         onlineList: payload,
+      };
+
+    case "RECEIVE_MESSAGE":
+      let head1 = {};
+      for (let i = 0; i < state.conversations.length; i++) {
+        if (state.conversations[i]._id === payload.conversationId) {
+          head1 = state.conversations[i];
+        }
       }
+      let remain1 = state.conversations.filter(
+        (conversation) => conversation._id !== payload.conversationId
+      );
+      head1.lastChat._id = payload._id;
+      head1.lastChat.content = payload.content;
+      head1.updatedAt = payload.createAt;
+      if (payload.conversationId !== state.currConversationId) {
+        head1.numUnRead += 1;
+      }
+      console.log("receive anh up to " + head1.numUnRead);
+      let newConversations1 = [head1, ...remain1];
+      return {
+        ...state,
+        currConversation: [...state.currConversation, payload],
+        conversations: newConversations1,
+      };
+    case "ADD_WAIT_LIST":
+      let head = {};
+      for (let i = 0; i < state.conversations.length; i++) {
+        if (state.conversations[i]._id === payload.conversationId) {
+          head = state.conversations[i];
+        }
+      }
+      let remain = state.conversations.filter(
+        (conversation) => conversation._id !== payload.conversationId
+      );
+      if (
+        head.lastChat._id !== payload._id &&
+        payload.conversationId !== state.currConversationId
+      ) {
+        head.numUnRead += 1;
+      }
+      head.lastChat._id = payload._id;
+      head.lastChat.content = payload.content;
+      head.updatedAt = payload.createAt;
+      console.log("receive anh up to " + head.numUnRead);
+      let newConversations = [head, ...remain];
+      return {
+        ...state,
+        conversations: newConversations,
+      };
     default:
       return state;
   }

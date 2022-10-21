@@ -69,6 +69,7 @@ class ConversationController {
     // }
     async getConversation(req, res, next) {
         try {
+            console.log(req.query);
             const conversationId = req.query.id;
             // make sure user is in this conversation
             const conversation = await Conversation.findOne({

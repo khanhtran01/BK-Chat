@@ -18,29 +18,25 @@ import MessageInput from "./components/MessageInput";
 import IconPicker from "./components/IconPicker";
 
 function Footer() {
-
   const { socket } = useContext(SocketContext);
-  const { messageData } = useContext(chatboardContext);
+  const { messageData, typeMessage } = useContext(chatboardContext);
   const { userData } = useContext(conversationContext);
-  const [chatInfo, setChatInfo] = useState(userData.chatInfo);
+  const { authState } = useContext(AuthContext);
 
-  // useEffect(() => {
-  //   setChatInfo(userData.chatInfo);
-  // }, [JSON.stringify(userData.chatInfo)])
   const sendMessage = () => {
-    const today = new Date();
-    console.log(messageData);
-    console.log(userData.chatInfo);
-    console.log({
-      senderId: messageData.senderId,
-      receiverId: userData.receiverId,
+    console.log("sendding");
+    socket.emit("sendChatSingle", {
+      receiverId: userData.chatInfo.receiverId,
       content: messageData.message,
-      time: moment(today).format('DD/MM/YYYY HH:mm:ss'),
-      replyFromChatId: "111e1e11e1",
-    })
-    // socket.emit("sendChatSingle", data);
-  }
-  return <Box
+      time: moment(),
+      replyFromChatId: null,
+      sender: authState.user,
+      conversationId: userData.currConversationId,
+    });
+    typeMessage("");
+  };
+  return (
+    <Box
       sx={{
         display: "flex",
         width: "100%",
@@ -68,6 +64,7 @@ function Footer() {
         <SendIcon />
       </Button>
     </Box>
+  );
 }
 
-export default memo(Footer);
+export default Footer;

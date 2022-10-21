@@ -15,7 +15,7 @@ const CustomButton = styled(Button)({
 });
 
 function FriendBox(props) {
-  const { url, status, id, name, message, time, selected, receiverId, type } =
+  const { url, status, id, name, message, time, receiverId, type, numUnRead } =
     props;
 
   const { selectConversation } = useContext(conversationContext);
@@ -37,7 +37,6 @@ function FriendBox(props) {
         height: "73px",
         padding: "15px 20px",
         color: textcolor.white,
-        backgroundColor: selected && "#36404a",
         textTransform: "capitalize",
         ".MuiButton-root": {
           backgroundColor: "white",
@@ -75,6 +74,8 @@ function FriendBox(props) {
             textOverflow: "ellipsis",
             overflow: "hidden",
             fontSize: "14px",
+            fontWeight: numUnRead > 0 ? 550: 400,
+            color: numUnRead > 0 && textcolor.primaryGray,
           }}
         >
           {message}
@@ -85,12 +86,31 @@ function FriendBox(props) {
           width: "29.55px",
           height: "100%",
           display: "flex",
-          alignItems: "flex-start",
-          justifyContent: "flex-start",
-          fontSize: "11px",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexDirection: "column",
         }}
       >
-        {convertTime(time)}
+        <Typography
+          sx={{
+            fontSize: "11px",
+          }}
+        >
+          {convertTime(time)}
+        </Typography>
+        {numUnRead > 0 && (
+          <Typography
+            sx={{
+              fontSize: "11px",
+              color: "#ef476f",
+              backgroundColor: "rgba(239,71,111,.18)",
+              padding: "2px 3px",
+              borderRadius: "20px",
+            }}
+          >
+            {numUnRead}
+          </Typography>
+        )}
       </Box>
     </CustomButton>
   );

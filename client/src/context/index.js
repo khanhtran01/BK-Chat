@@ -8,6 +8,7 @@ const conversationContext = createContext();
 
 function ContextProvider({ children }) {
   const { authState } = useContext(AuthContext);
+  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
 
   const [userData, dispatch] = useReducer(conversationReducer, {
     contactList: [],
@@ -15,30 +16,11 @@ function ContextProvider({ children }) {
     conversations: [],
     currConversationId: "",
     currConversation: [],
+    waitingList: {},
 
     chatInfo: {},
     onlineList: {},
   });
-  const [cookies] = useCookies(["token"]);
-
-  /**
-   *
-   * @param {Object} formData content : email and message
-   * TODO add new contact
-   * @returns
-   */
-  const addContact = async (formData) => {
-    let result;
-    await axios
-      .post(`${apiUrl}/conversation/new-contact`, formData)
-      .then((response) => {
-        result = response;
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-    return result;
-  };
 
   /**
    *
@@ -72,6 +54,35 @@ function ContextProvider({ children }) {
   };
 
   /**
+   *
+   * @param {Object} formData content : email and message
+   * TODO add new contact
+   * @returns
+   */
+  const addContact = async (formData) => {
+    let result;
+    await axios
+      .post(`${apiUrl}/conversation/new-contact`, formData)
+      .then((response) => {
+        result = response;
+        initData();
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+    return result;
+  };
+
+  const receiveMessage = (data) => {
+    console.log("receiveMessage");
+    dispatch({ type: "RECEIVE_MESSAGE", payload: data });
+  };
+
+  const addToWaitingStack = (data) => {
+    console.log("run here");
+    dispatch({ type: "ADD_WAIT_LIST", payload: data });
+  };
+  /**
    * Init all contact to load to UI
    */
   useEffect(() => {
@@ -88,6 +99,7 @@ function ContextProvider({ children }) {
       await axios
         .get(`${apiUrl}/conversation?id=${id}`)
         .then(function (response) {
+          setCookie("cid", id, { path: "/" });
           dispatch({
             type: "SELECT_CONVERSATION",
             payload: {
@@ -101,6 +113,9 @@ function ContextProvider({ children }) {
               },
             },
           });
+        })
+        .catch(function (err) {
+          console.log("looix ow day nay`");
         });
     }
   };
@@ -122,6 +137,8 @@ function ContextProvider({ children }) {
     userData,
     selectConversation,
     updateFriendStatus,
+    receiveMessage,
+    addToWaitingStack,
   };
   return (
     <conversationContext.Provider value={contextData}>

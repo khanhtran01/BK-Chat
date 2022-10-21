@@ -63,6 +63,12 @@ function CustomTabs(props) {
         ".MuiTabs-indicator": {
           backgroundColor: bcolors.main,
         },
+        "& .MuiTabs-flexContainer": {
+          width: "60px",
+        },
+        "& .MuiButtonBase-root":{
+          minWidth: "0px",
+        }
       }}
     >
       {listElements.map((element) => (
