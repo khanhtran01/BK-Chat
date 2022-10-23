@@ -39,7 +39,7 @@ function Header() {
           <FiberManualRecordIcon
             sx={{
               fontSize: "15px",
-              color: "#44b700",
+              color: userData.onlineList[userData.chatInfo.receiverId] ?  "#44b700" : bcolors.offline,
               marginLeft: "0.6rem",
             }}
           />

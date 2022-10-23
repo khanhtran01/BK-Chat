@@ -4,7 +4,7 @@ import Box from "@mui/material/Box";
 
 import { bcolors, textcolor } from "../../colors";
 
-export default function InputText({ text, setText }) {
+export default function InputText({ text, setText, onKeyDown }) {
   return (
     <Box
       sx={{
@@ -28,6 +28,7 @@ export default function InputText({ text, setText }) {
         onChange={(e) => setText(e.target.value)}
         placeholder="Enter Message..."
         inputProps={{ "aria-label": "search google maps" }}
+        onKeyDown={onKeyDown}
       />
     </Box>
   );

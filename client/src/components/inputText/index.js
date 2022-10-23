@@ -7,16 +7,6 @@ import { v4 as uuidv4 } from "uuid";
 
 function InputText(props) {
   const { color, title, text, setText, name, type, onKeyDown } = props;
-  const handleKeyDown = event => {
-    console.log('User pressed: ', event.key);
-
-    // console.log(message);
-
-    if (event.key === 'Enter') {
-      // 👇️ your logic here
-      console.log('Enter key pressed ✅');
-    }
-  };
   return (
     <TextField
       id={uuidv4()}
@@ -25,7 +15,7 @@ function InputText(props) {
       type={type}
       value={text}
       onChange={setText}
-      onKeyDown={handleKeyDown}
+      onKeyDown={onKeyDown}
       sx={{
         ".MuiFormLabel-root": {
           color: color,

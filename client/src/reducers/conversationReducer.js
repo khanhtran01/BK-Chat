@@ -4,6 +4,13 @@ const conversationReducer = (state, action) => {
     case "UPDATE_CONTACT":
       return { ...state, contactList: payload };
     case "SELECT_CONVERSATION":
+      let temp = [...state.conversations];
+      for (let i = 0; i < temp.length; i++) {
+        if (temp[i]._id === payload.id) {
+          temp[i].numUnRead = 0;
+          break;
+        }
+      }
       return {
         ...state,
         currConversationId: payload.id,
@@ -27,6 +34,7 @@ const conversationReducer = (state, action) => {
       for (let i = 0; i < state.conversations.length; i++) {
         if (state.conversations[i]._id === payload.conversationId) {
           head1 = state.conversations[i];
+          break;
         }
       }
       let remain1 = state.conversations.filter(
@@ -38,7 +46,6 @@ const conversationReducer = (state, action) => {
       if (payload.conversationId !== state.currConversationId) {
         head1.numUnRead += 1;
       }
-      console.log("receive anh up to " + head1.numUnRead);
       let newConversations1 = [head1, ...remain1];
       return {
         ...state,
@@ -64,7 +71,6 @@ const conversationReducer = (state, action) => {
       head.lastChat._id = payload._id;
       head.lastChat.content = payload.content;
       head.updatedAt = payload.createAt;
-      console.log("receive anh up to " + head.numUnRead);
       let newConversations = [head, ...remain];
       return {
         ...state,

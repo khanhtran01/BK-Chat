@@ -13,6 +13,7 @@ function MessageInput() {
     <InputText
       text={messageData.message}
       setText={typeMessage}
+      onKeyDown={handleKeyDown}
     />
   );
 }

@@ -1,20 +1,17 @@
-import { Box, Typography } from "@mui/material";
-import { bcolors, textcolor } from "../../../colors";
-import React, { useState, useContext, memo, useMemo, useEffect } from "react";
-import InputText from "../../typemessage";
-import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
+import { Box } from "@mui/material";
+import { bcolors } from "../../../colors";
+import React, { useContext } from "react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendIcon from "@mui/icons-material/Send";
 import { chatboardContext } from "../context";
-import Picker from "emoji-picker-react";
 import moment from "moment";
-
+import InputText from "../../typemessage";
 import { AuthContext } from "../../../context/authContext";
 import { SocketContext } from "../../../context/socket";
 import { conversationContext } from "../../../context";
 import Button from "@mui/material/Button";
 import BtnIcon from "../../btnIcon";
-import MessageInput from "./components/MessageInput";
+// import MessageInput from "./components/MessageInput";
 import IconPicker from "./components/IconPicker";
 
 function Footer() {
@@ -24,7 +21,6 @@ function Footer() {
   const { authState } = useContext(AuthContext);
 
   const sendMessage = () => {
-    console.log("sendding");
     socket.emit("sendChatSingle", {
       receiverId: userData.chatInfo.receiverId,
       content: messageData.message,
@@ -35,6 +31,13 @@ function Footer() {
     });
     typeMessage("");
   };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      sendMessage();
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -46,7 +49,11 @@ function Footer() {
         padding: "1.5rem 1rem",
       }}
     >
-      <MessageInput />
+      <InputText
+        text={messageData.message}
+        setText={typeMessage}
+        onKeyDown={handleKeyDown}
+      />
       <IconPicker />
 
       <BtnIcon icon={<AttachFileIcon sx={{ color: bcolors.main }} />} />

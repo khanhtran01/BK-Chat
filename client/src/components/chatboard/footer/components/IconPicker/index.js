@@ -15,28 +15,30 @@ function IconPicker() {
     setDisplayPopup(!displayPopup);
     typeMessage(`${messageData.message}${emojiObject.emoji}`);
   };
-  return useMemo( () => (
-    <Box
-      sx={{
-        position: "relative",
-      }}
-    >
-      <BtnIcon
-        icon={<InsertEmoticonIcon sx={{ color: bcolors.main }} />}
-        onClick={() => setDisplayPopup(!displayPopup)}
-      />
+  return useMemo(
+    () => (
       <Box
         sx={{
-          display: displayPopup ? "block" : "none",
-          position: "absolute",
-          left: "-263px",
-          bottom: "63px",
+          position: "relative",
         }}
       >
-        <Picker onEmojiClick={onEmojiClick} />
+        <BtnIcon
+          icon={<InsertEmoticonIcon sx={{ color: bcolors.main }} />}
+          onClick={() => setDisplayPopup(!displayPopup)}
+        />
+        <Box
+          sx={{
+            display: displayPopup ? "block" : "none",
+            position: "absolute",
+            left: "-263px",
+            bottom: "63px",
+          }}
+        >
+          <Picker onEmojiClick={onEmojiClick} />
+        </Box>
       </Box>
-    </Box>
-  ), [chosenEmoji]
+    ),
+    [chosenEmoji, displayPopup]
   );
 }
 

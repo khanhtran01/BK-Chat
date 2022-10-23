@@ -99,7 +99,6 @@ function ContextProvider({ children }) {
       await axios
         .get(`${apiUrl}/conversation?id=${id}`)
         .then(function (response) {
-          setCookie("cid", id, { path: "/" });
           dispatch({
             type: "SELECT_CONVERSATION",
             payload: {

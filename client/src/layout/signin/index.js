@@ -45,6 +45,14 @@ function SignIn() {
     if (success) navigate("/dashboard");
   };
 
+  const handleKeyDown = (event) => {
+    console.log("User pressed: ", event.key);
+    if (event.key === "Enter") {
+      // 👇️ your logic here
+      onSubmit(event);
+    }
+  };
+
   const navigate = useNavigate();
   const handleNavigate = (link) => {
     navigate(link);
@@ -125,6 +133,7 @@ function SignIn() {
               text={password}
               setText={onChangeLoginForm}
               type="password"
+              onKeyDown={handleKeyDown}
             />
           </Box>
           <Box
