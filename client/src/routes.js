@@ -3,12 +3,19 @@ import Dashboard from "./layout/dashboard";
 import SignUp from "./layout/signup";
 import SignIn from "./layout/signin";
 import Landing from "./layout/landing";
+import AuthLoading from "./layout/loading";
 
-const routes = (isLoggedIn) => [
+const routes = (authState) => [
   {
     key: "chat-dashboard",
     route: "/dashboard",
-    component: isLoggedIn ? <Dashboard /> : <Navigate to="/auth/login" />,
+    component: authState.isAuthenticated ? (
+      <Dashboard />
+    ) : (authState.authLoading && authState.token) ? (
+      <AuthLoading />
+    ) : (
+      <Navigate to="/auth/login" />
+    ),
   },
   {
     key: "landing",

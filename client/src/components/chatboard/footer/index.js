@@ -65,6 +65,7 @@ function Footer() {
             backgroundColor: bcolors.secondary,
           },
         }}
+        disabled={userData.currConversationId === ""}
         variant="contained"
         onClick={sendMessage}
       >

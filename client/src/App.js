@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { AuthContext } from "./context/authContext";
 import { useContext } from "react";
-
+import { useCookies } from "react-cookie";
 import routes from "./routes";
 import "./App.css";
 
@@ -27,7 +27,9 @@ function App() {
       return null;
     });
   const { authState } = useContext(AuthContext);
-  const { isAuthenticated } = authState;
+  const { isAuthenticated, authLoading } = authState;
+  const [cookies] = useCookies(["token"]);
+
   return (
     <Box
       sx={{
@@ -38,7 +40,7 @@ function App() {
     >
       <BrowserRouter>
         <Routes>
-          {getRoutes(routes(isAuthenticated))}
+          {getRoutes(routes({ isAuthenticated, authLoading, token: cookies.token }))}
           <Route path="*" element={<Navigate to="/auth/login" />} />
         </Routes>
       </BrowserRouter>

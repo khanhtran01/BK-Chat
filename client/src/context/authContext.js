@@ -5,7 +5,16 @@ import { useCookies } from "react-cookie";
 import setAuthToken from "../utils/setAuthToken";
 const AuthContext = createContext();
 
+/**
+ * @param { Node } children 
+ * @TODO share all state in authentication processing
+ */
 const AuthContextProvider = ({ children }) => {
+  
+  // init value of authContext
+  // authLoading : it mean we are in authentication process
+  // isAuthenticated : it means we are authenticated
+  // user : content user information
   const [authState, dispatch] = useReducer(authReducer, {
     authLoading: true,
     isAuthenticated: false,
@@ -13,7 +22,12 @@ const AuthContextProvider = ({ children }) => {
   });
 
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-  // verify token when reload dashboard page
+
+  /**
+   * @public
+   * @todo verify token in cookie
+   * @returns { Object } user information
+   */
   const verify = async () => {
     if (cookies.token) {
       setAuthToken(cookies.token);
@@ -22,14 +36,14 @@ const AuthContextProvider = ({ children }) => {
       .get(`http://localhost:4000/api/auth/verify-token`)
       .then(function (response) {
         if (response.data.successful)
-        dispatch({
-          type: "VERIFY",
-          payload: {
-            isAuthenticated: true,
-            authLoading: false,
-            user: response.data.userInfor,
-          },
-        });
+          dispatch({
+            type: "VERIFY",
+            payload: {
+              isAuthenticated: true,
+              authLoading: false,
+              user: response.data.userInfor,
+            },
+          });
       })
       .catch(function (error) {
         removeCookie("token", { path: "/" });
@@ -41,20 +55,13 @@ const AuthContextProvider = ({ children }) => {
       });
   };
 
-  useEffect(() => {
-    async function checkToken() {
-      await verify();
-    }
-    if (cookies.token) {
-      checkToken();
-    }
-  }, []);
-
-
-  // login
+  /**
+   * @public
+   * @todo login with username and password
+   * @returns { String } token string
+   */
   const loginUser = async (userForm) => {
     const { username, password } = userForm;
-
     await axios
       .post(`http://localhost:4000/api/auth/login`, {
         email: username,
@@ -69,12 +76,15 @@ const AuthContextProvider = ({ children }) => {
         return true;
       })
       .catch((err) => {
-        console.log("error : " + err)
+        console.log("error : " + err);
         return false;
       });
   };
 
-  // register
+  /**
+   * @public
+   * @todo register new account
+   */
   const registerUser = async (userForm) => {
     const { email, username, password } = userForm;
 
@@ -93,6 +103,19 @@ const AuthContextProvider = ({ children }) => {
       });
   };
 
+  /**
+   * @TODO check token whenever have token in cookie and one time at refresh
+   */
+  useEffect(() => {
+    async function checkToken() {
+      await verify();
+    }
+    if (cookies.token) {
+      checkToken();
+    }
+  }, []);
+
+  // Value to share
   const authContextData = {
     loginUser,
     authState,
@@ -106,5 +129,6 @@ const AuthContextProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
 export { AuthContext };
 export default AuthContextProvider;

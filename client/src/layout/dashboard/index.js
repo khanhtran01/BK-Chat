@@ -1,5 +1,7 @@
 import SideBar from "../../components/sidebar";
 import ChatBoard from "../../components/chatboard";
+import ChatInfo from "../../components/chatInfo";
+import ActionContextProvider from "./context";
 function Dashboard() {
   return (
     <div
@@ -11,8 +13,11 @@ function Dashboard() {
         width: "100%",
       }}
     >
-      <SideBar/>
-      <ChatBoard />
+      <ActionContextProvider>
+        <SideBar />
+        <ChatBoard />
+        <ChatInfo />
+      </ActionContextProvider>
     </div>
   );
 }

@@ -1,8 +1,9 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
 import { bcolors, textcolor } from "../../../colors";
 import Avatar from "@mui/material/Avatar";
 import { useContext } from "react";
 import { conversationContext } from "../../../context";
+import { context } from "../../../layout/dashboard/context";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
@@ -10,6 +11,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 
 function Header() {
   const { userData } = useContext(conversationContext);
+  const { chatInfoPopup, setChatInfoPopup } = useContext(context);
   return (
     <Box
       sx={{
@@ -26,7 +28,10 @@ function Header() {
           alignItems: "center",
         }}
       >
-        <Avatar alt={`${userData.chatInfo.name}`} src={`${userData.chatInfo.avatar}`} />
+        <Avatar
+          alt={`${userData.chatInfo.name}`}
+          src={`${userData.chatInfo.avatar}`}
+        />
         <Typography
           sx={{
             color: textcolor.primaryGray,
@@ -39,16 +44,36 @@ function Header() {
           <FiberManualRecordIcon
             sx={{
               fontSize: "15px",
-              color: userData.onlineList[userData.chatInfo.receiverId] ?  "#44b700" : bcolors.offline,
+              color: userData.onlineList[userData.chatInfo.receiverId]
+                ? "#44b700"
+                : bcolors.offline,
               marginLeft: "0.6rem",
             }}
           />
         </Typography>
       </Box>
       <Box sx={{ color: "white", display: "flex", alignItems: "center" }}>
-        <SearchIcon sx={{ marginLeft: "1rem", cursor: "pointer" }} />
-        <PersonOutlineIcon sx={{ marginLeft: "1rem", cursor: "pointer" }} />
-        <MoreHorizIcon sx={{ marginLeft: "1rem", cursor: "pointer" }} />
+        <IconButton>
+          <SearchIcon
+            sx={{
+              cursor: "pointer",
+              color: textcolor.white,
+            }}
+          />
+        </IconButton>
+        <IconButton onClick={() => setChatInfoPopup(!chatInfoPopup)}>
+          <PersonOutlineIcon
+            sx={{ cursor: "pointer", color: textcolor.white }}
+          />
+        </IconButton>
+        <IconButton>
+          <MoreHorizIcon
+            sx={{
+              cursor: "pointer",
+              color: textcolor.white,
+            }}
+          />
+        </IconButton>
       </Box>
     </Box>
   );

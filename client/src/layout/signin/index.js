@@ -46,9 +46,7 @@ function SignIn() {
   };
 
   const handleKeyDown = (event) => {
-    console.log("User pressed: ", event.key);
     if (event.key === "Enter") {
-      // 👇️ your logic here
       onSubmit(event);
     }
   };

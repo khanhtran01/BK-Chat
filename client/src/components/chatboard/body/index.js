@@ -6,10 +6,21 @@ import { useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
 import MyMessage from "../../mymessage";
 import FriendMessage from "../../friendmessage";
+import moment from "moment";
 
 function Body() {
   const { userData } = useContext(conversationContext);
   const { authState } = useContext(AuthContext);
+
+  const handleTime = (time) => {
+    const today = moment();
+    if (today.date() === moment(time).date()){
+      return moment(time).format("HH:mm");
+    } else {
+      return moment(time).format("HH:mm DD/MM/YYYY");
+    }
+  }
+
   return (
     <Box
       sx={{
@@ -32,7 +43,7 @@ function Body() {
               <MyMessage
                 key={uuidv4()}
                 message={message.content}
-                time={message.createdAt}
+                time={handleTime(message.createdAt)}
               />
             );
           }
@@ -40,7 +51,7 @@ function Body() {
             <FriendMessage
               key={uuidv4()}
               message={message.content}
-              time={message.createdAt}
+              time={handleTime(message.createdAt)}
               username={message.userId.username}
               avatar={message.userId.avatar}
             />

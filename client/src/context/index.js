@@ -1,29 +1,33 @@
-import { createContext, useReducer, useEffect, useContext } from "react";
+import axios from "axios";
 import { apiUrl } from "./constant";
+import { createContext, useReducer, useEffect, useContext } from "react";
 import conversationReducer from "../reducers/conversationReducer";
 import { AuthContext } from "./authContext";
-import { useCookies } from "react-cookie";
-import axios from "axios";
+
 const conversationContext = createContext();
 
+/**
+ * @TODO share all state of the conversation and contracts
+ * @param { Node } children
+ */
 function ContextProvider({ children }) {
   const { authState } = useContext(AuthContext);
-  const [cookies, setCookie, removeCookie] = useCookies(["token"]);
 
+  // * init value of authContext
   const [userData, dispatch] = useReducer(conversationReducer, {
-    contactList: [],
-
-    conversations: [],
-    currConversationId: "",
-    currConversation: [],
-    waitingList: {},
-
-    chatInfo: {},
-    onlineList: {},
+    contactList: [], // contant list of contacts
+    conversations: [], // contant list of conversations
+    currConversationId: "", // contant id of current conversation
+    currConversation: [], // contant all chats of current conversation
+    waitingList: {}, // contant an object with key is a conversation
+    chatInfo: {}, // all chat info of current conversation
+    onlineList: {}, // contant an object with key is a friend online and value is true
   });
 
   /**
-   *
+   * getAllContact
+   * @TODO get all contacts
+   * @param {}
    * @returns all contact
    */
   const getAllContact = async () => {
@@ -40,6 +44,12 @@ function ContextProvider({ children }) {
     return data;
   };
 
+  /**
+   * initData
+   * @param {}
+   * @TODO get all contacts and all conversations
+   * @returns
+   */
   const initData = async () => {
     let data;
     await axios
@@ -54,7 +64,7 @@ function ContextProvider({ children }) {
   };
 
   /**
-   *
+   * addContact
    * @param {Object} formData content : email and message
    * TODO add new contact
    * @returns
@@ -73,26 +83,17 @@ function ContextProvider({ children }) {
     return result;
   };
 
+  /**
+   * TODO: add message receive to current conversation
+   * @param { Object } data data of message from friend
+   */
   const receiveMessage = (data) => {
-    console.log("receiveMessage");
     dispatch({ type: "RECEIVE_MESSAGE", payload: data });
   };
 
   const addToWaitingStack = (data) => {
-    console.log("run here");
     dispatch({ type: "ADD_WAIT_LIST", payload: data });
   };
-  /**
-   * Init all contact to load to UI
-   */
-  useEffect(() => {
-    const initContactList = async () => {
-      await initData();
-    };
-    if (authState.isAuthenticated) {
-      initContactList();
-    }
-  }, [authState.user]);
 
   const selectConversation = async ({ id, name, url, receiverId, type }) => {
     if (userData.currConversationId !== id) {
@@ -114,7 +115,7 @@ function ContextProvider({ children }) {
           });
         })
         .catch(function (err) {
-          console.log("looix ow day nay`");
+          console.log("lỗi API get conversation?id");
         });
     }
   };
@@ -129,6 +130,18 @@ function ContextProvider({ children }) {
 
     dispatch({ type: "UPDATE_ONLINE_LIST", payload: { ...tempList } });
   };
+
+  /**
+   * Init all contact to load to UI
+   */
+  useEffect(() => {
+    const initContactList = async () => {
+      await initData();
+    };
+    if (authState.isAuthenticated) {
+      initContactList();
+    }
+  }, [authState.user]);
 
   const contextData = {
     addContact,

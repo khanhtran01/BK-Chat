@@ -23,7 +23,7 @@ function FriendBox(props) {
   const convertTime = (time) => {
     let today = new Date();
     if (moment(today).date() === moment(time).date()) {
-      return moment(time).hours() + ":" + moment(time).minutes();
+      return moment(time).format("HH:mm");
     } else {
       return moment(time).format("DD/MM");
     }

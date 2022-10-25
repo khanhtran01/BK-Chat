@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
 
 // import component MUI
+import useMediaQuery from '@mui/material/useMediaQuery';
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -22,11 +23,13 @@ import { bcolors, textcolor } from "../../colors";
 // import panelTab
 
 function TabPanel(props) {
+  const matches = useMediaQuery('(min-width:1000px)');
   const { children, value, index, ...other } = props;
   return (
     <div
       style={{
-        width: "26.5rem",
+        width: "24.5rem",
+        display: !matches && "none",
       }}
       role="tabpanel"
       hidden={value !== index}
@@ -66,9 +69,9 @@ function CustomTabs(props) {
         "& .MuiTabs-flexContainer": {
           width: "60px",
         },
-        "& .MuiButtonBase-root":{
+        "& .MuiButtonBase-root": {
           minWidth: "0px",
-        }
+        },
       }}
     >
       {listElements.map((element) => (
@@ -147,15 +150,6 @@ export default function SideBar() {
       </TabPanel>
       <TabPanel value={value} index={3}>
         Item Four
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        Item Five
-      </TabPanel>
-      <TabPanel value={value} index={5}>
-        Item Six
-      </TabPanel>
-      <TabPanel value={value} index={6}>
-        Item Seven
       </TabPanel>
     </Box>
   );
