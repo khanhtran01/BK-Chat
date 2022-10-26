@@ -94,7 +94,8 @@ io.on("connection", (socket) => {
                 userId: { 
                     _id: data.sender._id, 
                     email: data.sender.email, 
-                    username: data.sender.username 
+                    username: data.sender.username,
+                    avatar: data.sender.avatar
                 },
                 conversationId: data.conversationId,
                 content: data.content,
@@ -104,17 +105,23 @@ io.on("connection", (socket) => {
             });
     });
 
-    // socket.on('sendMessageGroup', async (data) => {
-    //     data.type = 'text'
-    //     const chatId = await ChatController.storeChatAndGetId(data);
-    //     io.to(data.messId).emit('getMessageGroup', {
-    //         senderId: data.senderId,
-    //         message: data.message,
-    //         messId: data.messId,
-    //         chatId: chatId,
-    //         time: data.time
-    //     })
-    // })
+    socket.on('sendChatGroup', async (data) => {
+        data.type = 'text'
+        const chatId = await ChatController.storeChatAndGetId(data);
+        io.to(data.conversationId).emit('getChatGroup', {
+            userId: { 
+                _id: data.sender._id, 
+                email: data.sender.email, 
+                username: data.sender.username,
+                avatar: data.sender.avatar
+            },
+            conversationId: data.conversationId,
+            content: data.content,
+            _id: chatId,
+            createdAt: data.time,
+            replyFrom: data.replyFromChatId,
+        })
+    })
 
     // socket.on('sendReactionChatSingle', async (data) => {
     //     const receiverUser = getUser(data.receiverId);

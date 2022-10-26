@@ -45,31 +45,35 @@ class ConversationController {
             res.status(500).json({ successful: false });
         }
     }
-    // async newGroupMessage(req, res, next) {
-    //     try {
-    //         var member = req.body.list_ids_group;
-    //         var newMember = [];
-    //         newMember.push(req.userId);
-    //         member.forEach(e => {
-    //             newMember.push(e);
-    //         })
-    //         await Message.create({
-    //             name: req.body.group_name,
-    //             type: 'group',
-    //             member: newMember,
-    //             desc: req.body.group_desc,
-    //             avatar: 'None',
-    //         })
-    //         const newMess = await Message
-    //             .find({}).populate('member').sort({ 'updatedAt': -1 }).limit(1)
-    //         res.send(newMess[0])
-    //     } catch (error) {
-    //         next(error)
-    //     }
-    // }
+    async newGroup(req, res, next) {
+        try {
+            var member = req.body.idsUser;
+            if (member.length < 2) {
+                res.status(200).json({ message: "Need more member", successful: false });
+            } else {
+                member.push(req.userId)
+                const conversation = await Conversation.create({
+                    name: req.body.groupName,
+                    type: 'group',
+                    member: member,
+                    desc: req.body.groupDesc,
+                    avatar: 'https://res.cloudinary.com/be-dev/image/upload/v1646538837/uploads/ze3nl35h97nztosede6z.jpg',
+                })
+                await Chat.create({
+                    conversationId: conversation._id,
+                    userId: req.userId,
+                    content: req.body.chat,
+                    type: "text",
+                    userRead: [req.userId],
+                });
+                res.status(200).json({ successful: true })
+            }
+        } catch (error) {
+            res.status(500).json({ successful: false })
+        }
+    }
     async getConversation(req, res, next) {
         try {
-            console.log(req.query);
             const conversationId = req.query.id;
             // make sure user is in this conversation
             const conversation = await Conversation.findOne({

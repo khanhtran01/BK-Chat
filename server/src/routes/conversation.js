@@ -8,7 +8,8 @@ const UpdateInfoController = require('../app/controllers/UpdateInfoController');
 // [POST] /api/conversation/new-contact
 route.post('/new-contact', ConversationController.newContact);
 
-// route.post('/new-group', ConversationController.newGroupMessage);
+// [POST] /api/conversation/new-group
+route.post('/new-group', ConversationController.newGroup);
 
 // [GET] /api/conversation/read-chat?chatId=
 route.get('/read-chat', ChatController.addUserReadChat); // read chat nay luon neu no dang o ngay trang do

@@ -90,7 +90,7 @@ class ChatController {
                 .limit(numChat)
                 .skip(numSkip);
         } catch (error) {
-            res.status(500).json({ successful: false });
+            return false;
         }
 
     }
