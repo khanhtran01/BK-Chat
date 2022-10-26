@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
 
 // import component MUI
-import useMediaQuery from '@mui/material/useMediaQuery';
+import useMediaQuery from "@mui/material/useMediaQuery";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -13,17 +13,19 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import SettingsIcon from "@mui/icons-material/Settings";
-
+import GroupIcon from "@mui/icons-material/Group";
 // import panelTab
 import ChatPanel from "./PanelComponents/Chat";
 import ProfileTab from "./PanelComponents/Profile";
 import Contact from "./PanelComponents/Contact";
+import Group from "./PanelComponents/Group";
 // import from soutce code
+import GroupProvider from "./PanelComponents/Group/context";
 import { bcolors, textcolor } from "../../colors";
 // import panelTab
 
 function TabPanel(props) {
-  const matches = useMediaQuery('(min-width:1000px)');
+  const matches = useMediaQuery("(min-width:1000px)");
   const { children, value, index, ...other } = props;
   return (
     <div
@@ -116,6 +118,12 @@ export default function SideBar() {
         height: "1.5rem",
       }}
     />,
+    <GroupIcon
+      sx={{
+        width: "1.5rem",
+        height: "1.5rem",
+      }}
+    />,
     <SettingsIcon
       sx={{
         width: "1.5rem",
@@ -149,7 +157,12 @@ export default function SideBar() {
         <Contact />
       </TabPanel>
       <TabPanel value={value} index={3}>
-        Item Four
+        <GroupProvider>
+          <Group />
+        </GroupProvider>
+      </TabPanel>
+      <TabPanel value={value} index={4}>
+        setting
       </TabPanel>
     </Box>
   );

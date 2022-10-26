@@ -53,6 +53,7 @@ function Footer() {
         text={messageData.message}
         setText={typeMessage}
         onKeyDown={handleKeyDown}
+        disabled={userData.currConversationId === ""}
       />
       <IconPicker />
 
