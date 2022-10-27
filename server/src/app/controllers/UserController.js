@@ -17,16 +17,18 @@ class UserController {
                 .sort({ 'updatedAt': -1 });
             var allContact = [];
             conversations.forEach((conversation) => {
-                if (conversation.member[0]._id != req.userId) {
-                    allContact.push({
-                        userId: conversation.member[0]._id,
-                        username: conversation.member[0].username,
-                    });
-                } else {
-                    allContact.push({
-                        userId: conversation.member[1]._id,
-                        username: conversation.member[1].username,
-                    });
+                if (conversation.type == 'single'){
+                    if (conversation.member[0]._id != req.userId) {
+                        allContact.push({
+                            userId: conversation.member[0]._id,
+                            username: conversation.member[0].username,
+                        });
+                    } else {
+                        allContact.push({
+                            userId: conversation.member[1]._id,
+                            username: conversation.member[1].username,
+                        });
+                    }
                 }
             });
             // count number of chats un read in conversation

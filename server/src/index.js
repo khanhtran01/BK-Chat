@@ -85,7 +85,7 @@ io.on("connection", (socket) => {
     // senderId, receiverId, conversationId, content, replyFromChatId, time, 
     socket.on("sendChatSingle", async (data) => {
         data.type = "text";
-        const chatId = await ChatController.storeChatAndGetId(data);
+        const result = await ChatController.storeChatAndGetId(data);
         const receiverUser = getUser(data.receiverId);
         const senderUser = getUser(data.sender._id);
         io.to(receiverUser?.socketId)
@@ -99,9 +99,9 @@ io.on("connection", (socket) => {
                 },
                 conversationId: data.conversationId,
                 content: data.content,
-                _id: chatId,
+                _id: result.id,
                 createdAt: data.time,
-                replyFrom: data.replyFromChatId,
+                replyFrom: result.replyChat,
             });
     });
 
