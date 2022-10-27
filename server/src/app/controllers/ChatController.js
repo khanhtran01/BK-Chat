@@ -72,6 +72,7 @@ class ChatController {
     // }
     async addUserReadChat(req, res, next) {
         try {
+            console.log(req.query, req.userId);
             await Chat
                 .updateOne({ _id: req.query.chatId }, {
                     $addToSet: {

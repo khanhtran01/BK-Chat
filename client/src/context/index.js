@@ -104,9 +104,7 @@ function ContextProvider({ children }) {
   const receiveMessage = async (data) => {
     console.log(data);
     dispatch({ type: "RECEIVE_MESSAGE", payload: data });
-    await axios.get(`${apiUrl}/conversation/read-chat`, {
-      chatId: data._id,
-    }).then(res => {
+    await axios.get(`${apiUrl}/conversation/read-chat?chatId=${data._id}`).then(res => {
       console.log(res.data);
     })
   };
