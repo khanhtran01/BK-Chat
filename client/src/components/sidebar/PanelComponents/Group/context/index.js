@@ -1,6 +1,6 @@
 import { createContext, useReducer } from "react";
 import { groupReducer } from "./reducer";
-
+import axios from "axios";
 const groupsContext = createContext();
 
 const GroupProvider = ({ children }) => {
@@ -8,6 +8,9 @@ const GroupProvider = ({ children }) => {
     selectMemberPopup: false,
     groupDialog: false,
     listMembers: {},
+    groupName: "",
+    description: "",
+    firstMessage: "",
   });
 
   const handleCreateGroup = (data) => {
@@ -22,6 +25,15 @@ const GroupProvider = ({ children }) => {
   const selectMember = (user) => {
     dispatch({ type: "SELECT_MEMBER", payload: user });
   }
+  const handleGroupName = (event) => {
+    dispatch({ type: "GROUP_NAME", payload: event.target.value});
+  }
+  const handleDescription = (event) => {
+    dispatch({ type: "DESCRIPTION", payload: event.target.value});
+  }
+  const handleFirstMessage = (event) => {
+    dispatch({ type: "FIRST_MESSAGE", payload: event.target.value});
+  }
   const removeMember = (id) => {
     console.log(id);
     dispatch({ type: "REMOVE_MEMBER", payload: id });
@@ -32,7 +44,10 @@ const GroupProvider = ({ children }) => {
     openSelectPopup,
     closeSelectPopup,
     selectMember,
-    removeMember
+    removeMember,
+    handleGroupName,
+    handleDescription,
+    handleFirstMessage,
   };
 
   return (

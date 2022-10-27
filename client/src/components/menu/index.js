@@ -58,9 +58,12 @@ export default function LongMenu(props) {
           <MenuItem
             key={uuidv4()}
             selected={option === "Pyxis"}
-            onClick={handleClose}
+            onClick={() => {
+              handleClose()
+              option.handle()
+            }}
           >
-            {option}
+            {option.component}
           </MenuItem>
         ))}
       </Menu>

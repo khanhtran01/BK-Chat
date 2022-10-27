@@ -3,7 +3,20 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import LongMenu from "../menu";
 import { textcolor } from "../../colors";
 import { v4 as uuidv4 } from "uuid";
-const menuOptions = ["Share", "Block", "Remove"];
+const menuOptions = [
+  {
+    component: "Share",
+    handle: () => {},
+  },
+  {
+    component: "Block",
+    handle: () => {},
+  },
+  {
+    component: "Remove",
+    handle: () => {},
+  },
+];
 
 function ContactList({ listFriends }) {
   return (

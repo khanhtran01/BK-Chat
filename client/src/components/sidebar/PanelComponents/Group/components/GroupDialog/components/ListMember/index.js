@@ -17,7 +17,6 @@ import { groupsContext } from "../../../../context";
 
 export default function ListMember() {
   const { groupData, removeMember } = useContext(groupsContext);
-  console.log(Object.values(groupData.listMembers));
   return (
     <Box
       display="flex"

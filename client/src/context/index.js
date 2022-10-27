@@ -83,6 +83,20 @@ function ContextProvider({ children }) {
     return result;
   };
 
+  const createGroup = async (formData) => {
+    console.log(formData);
+    await axios
+      .post(`${apiUrl}/conversation/new-group`, formData)
+      .then((res) => {
+        if (res.data.successful) {
+          initData();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   /**
    * TODO: add message receive to current conversation
    * @param { Object } data data of message from friend
@@ -151,6 +165,7 @@ function ContextProvider({ children }) {
     updateFriendStatus,
     receiveMessage,
     addToWaitingStack,
+    createGroup,
   };
   return (
     <conversationContext.Provider value={contextData}>

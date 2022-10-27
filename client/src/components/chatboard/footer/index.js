@@ -1,5 +1,5 @@
-import { Box } from "@mui/material";
-import { bcolors } from "../../../colors";
+import { Box, Typography } from "@mui/material";
+import { bcolors, textcolor } from "../../../colors";
 import React, { useContext } from "react";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import SendIcon from "@mui/icons-material/Send";
@@ -12,15 +12,17 @@ import { conversationContext } from "../../../context";
 import Button from "@mui/material/Button";
 import BtnIcon from "../../btnIcon";
 // import MessageInput from "./components/MessageInput";
+import ClearIcon from "@mui/icons-material/Clear";
 import IconPicker from "./components/IconPicker";
 
 function Footer() {
   const { socket } = useContext(SocketContext);
-  const { messageData, typeMessage } = useContext(chatboardContext);
+  const { messageData, typeMessage, clearReply } = useContext(chatboardContext);
   const { userData } = useContext(conversationContext);
   const { authState } = useContext(AuthContext);
 
   const sendMessage = () => {
+    console.log(messageData);
     socket.emit("sendChatSingle", {
       receiverId: userData.chatInfo.receiverId,
       content: messageData.message,
@@ -42,6 +44,7 @@ function Footer() {
     <Box
       sx={{
         display: "flex",
+        position: "relative",
         width: "100%",
         height: "92px",
         backgroundColor: bcolors.chatboard,
@@ -49,6 +52,46 @@ function Footer() {
         padding: "1.5rem 1rem",
       }}
     >
+      {messageData.replyFor && (
+        <Box
+          sx={{
+            position: "absolute",
+            // display: "flex",
+            backgroundColor: bcolors.secondary,
+            // justifyContent: "space-between",
+            width: "100%",
+            top: "-50px",
+            height: "50px",
+            left: 0,
+            paddingLeft: "1rem",
+            paddingY: "0.2rem",
+          }}
+        >
+          <Box width="100%" display="flex">
+            <Box
+              width="96%"
+              sx={{ color: textcolor.primaryGray, fontSize: "5px" }}
+            >
+              <Typography fontSize={"14px"}>Reply to Admin 123 :</Typography>
+              <Typography
+                fontSize={"13px"}
+                textOverflow="ellipsis"
+                whiteSpace="nowrap"
+                overflow="hidden"
+              >
+                THis is the message created by Mr. ALex Fergurson to ManCity to
+                require THis is the message created by Mr. ALex Fergurson to
+                ManCity to require THis is the message created by Mr. ALex
+                Fergurson to ManCity to require
+              </Typography>
+            </Box>
+            <div onClick={clearReply}>
+              <ClearIcon sx={{ color: textcolor.primaryGray }} />
+            </div>
+          </Box>
+        </Box>
+      )}
+
       <InputText
         text={messageData.message}
         setText={typeMessage}

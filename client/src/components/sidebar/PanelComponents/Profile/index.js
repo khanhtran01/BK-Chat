@@ -11,7 +11,20 @@ import { AuthContext } from "../../../../context/authContext";
 import LongMenu from "../../../menu";
 import { textcolor, bcolors } from "../../../../colors";
 
-const menuOptions = ["Edit", "Action", "Another Action"];
+const menuOptions = [
+  {
+    component: "Edit",
+    handle: () => {},
+  },
+  {
+    component: "Action",
+    handle: () => {},
+  },
+  {
+    component: "Another Action",
+    handle: () => {},
+  },
+];
 
 const AboutElement = ({ title, content, marginBottom }) => {
   return (

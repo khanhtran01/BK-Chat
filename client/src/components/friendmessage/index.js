@@ -1,8 +1,11 @@
+import { useContext } from "react";
 import { Box, Typography, Avatar } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { bcolors, textcolor } from "../../colors";
 import { styled } from "@mui/material/styles";
+
+import { chatboardContext } from "../chatboard/context";
 import LongMenu from "../menu";
 
 const BoxChat = styled(Box)({
@@ -22,8 +25,13 @@ const BoxChat = styled(Box)({
 });
 
 export default function FriendMessage(props) {
-  const options = [<Box>copy</Box>, <Box>delete</Box>];
-  const { message, time, username, avatar } = props;
+  const { reply } = useContext(chatboardContext);
+  const { message, time, username, avatar, messageInfo } = props;
+  const options = [
+    { component: <Box>Reply</Box>, handle: () => reply(messageInfo) },
+    { component: <Box>Copy</Box>, handle: () => {} },
+  ];
+  // const handles = [reply(message), () => {}]
   return (
     <Box
       sx={{
@@ -92,7 +100,7 @@ export default function FriendMessage(props) {
         </Typography>
       </Box>
       <Box>
-      <LongMenu
+        <LongMenu
           icon={
             <MoreVertIcon
               sx={{

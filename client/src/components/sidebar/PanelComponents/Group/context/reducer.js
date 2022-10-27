@@ -38,6 +38,21 @@ const groupReducer = (state, action) => {
         ...state,
         listMembers: temp1,
       };
+    case "GROUP_NAME":
+      return {
+        ...state,
+        groupName: payload,
+      }
+    case "DESCRIPTION":
+      return {
+        ...state,
+        description: payload,
+      }
+    case "FIRST_MESSAGE":
+      return {
+        ...state,
+        firstMessage: payload,
+      }
     default:
       return { ...state };
   }

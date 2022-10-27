@@ -54,6 +54,7 @@ function Body() {
               time={handleTime(message.createdAt)}
               username={message.userId.username}
               avatar={message.userId.avatar}
+              messageInfo={message}
             />
           );
         })}

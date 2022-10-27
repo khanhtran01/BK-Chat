@@ -11,8 +11,12 @@ import DialogContentText from "@mui/material/DialogContentText";
 import { Box, Typography } from "@mui/material";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
+
 import { bcolors, textcolor } from "../../../../../../colors";
+
+import { conversationContext } from "../../../../../../context";
 import { groupsContext } from "../../context";
+
 import SelectButton from "./components/SelectButton";
 import ListMember from "./components/ListMember";
 
@@ -21,8 +25,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function GroupDialog() {
-  const { groupData, handleCreateGroup, openSelectPopup } =
-    useContext(groupsContext);
+  const {
+    groupData,
+    handleCreateGroup,
+    openSelectPopup,
+    handleGroupName,
+    handleDescription,
+    handleFirstMessage,
+    // createGroup,
+  } = useContext(groupsContext);
+  const { createGroup } = useContext(conversationContext);
   return (
     <div>
       <Dialog
@@ -61,6 +73,8 @@ export default function GroupDialog() {
                   color: "white",
                 },
               }}
+              value={groupData.groupName}
+              onChange={handleGroupName}
               name="name"
               hiddenLabel
               placeholder="Enter Group Name"
@@ -103,6 +117,30 @@ export default function GroupDialog() {
                   color: "white",
                 },
               }}
+              value={groupData.description}
+              onChange={handleDescription}
+              name="description"
+              multiline
+              hiddenLabel
+              placeholder="Enter Description"
+            />
+            <Typography
+              sx={{
+                paddingTop: "12px",
+                paddingBottom: "5px",
+                color: textcolor.white,
+              }}
+            >
+              First Message
+            </Typography>
+            <TextField
+              sx={{
+                ".MuiInputBase-root": {
+                  color: "white",
+                },
+              }}
+              value={groupData.firstMessage}
+              onChange={handleFirstMessage}
               name="description"
               multiline
               hiddenLabel
@@ -118,7 +156,20 @@ export default function GroupDialog() {
             >
               Close
             </Button>
-            <Button variant="contained">Create Group</Button>
+            <Button
+              onClick={() => {
+                handleCreateGroup(false);
+                createGroup({
+                  idsUser: Object.keys(groupData.listMembers),
+                  groupName: groupData.groupName,
+                  groupDesc: groupData.description,
+                  chat: groupData.firstMessage,
+                });
+              }}
+              variant="contained"
+            >
+              Create Group
+            </Button>
           </DialogActions>
         </DialogContent>
       </Dialog>

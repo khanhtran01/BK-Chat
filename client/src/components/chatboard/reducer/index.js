@@ -6,6 +6,16 @@ export const chatboardReducer = (state, action) => {
         ...state,
         message: payload,
       };
+    case "SET_REPLY":
+      return {
+        ...state,
+        replyFor: payload,
+      };
+    case "CLEAR_REPLY":
+      return {
+        ...state,
+        replyFor: "",
+      };
     default:
       return "unknown action";
   }

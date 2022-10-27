@@ -32,6 +32,7 @@ export default function SelectMemberDialog() {
   const [contactList, setContactList] = useState([]);
   useEffect(() => {
     const temp = [...userData.contactList];
+    console.log(userData.contactList);
 
     temp.sort((a, b) => a.username.localeCompare(b.username));
 

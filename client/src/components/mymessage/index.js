@@ -25,8 +25,11 @@ const BoxChat = styled(Box)({
 });
 
 export default function MyMessage(props) {
-  const options = [<Box>copy</Box>, <Box>delete</Box>];
-  const { authState } = useContext(AuthContext)
+  const options = [
+    { component: <Box>Copy</Box>, handle: () => {} },
+    { component: <Box>Delete</Box>, handle: () => {} },
+  ];
+  const { authState } = useContext(AuthContext);
   const { message, time } = props;
   return (
     <Box
@@ -108,7 +111,10 @@ export default function MyMessage(props) {
           marginLeft: "10px",
         }}
       >
-        <Avatar alt={`${authState.user.username}`} src={`${authState.user.avatar}`} />
+        <Avatar
+          alt={`${authState.user.username}`}
+          src={`${authState.user.avatar}`}
+        />
       </Box>
     </Box>
   );

@@ -26,6 +26,7 @@ import CheckBox from "../CheckBox";
 
 export default function SelectList({ data }) {
   const { groupData, selectMember } = useContext(groupsContext);
+  console.log(data);
   return (
     <Box>
       <FormGroup>
