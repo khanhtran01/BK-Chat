@@ -20,9 +20,9 @@ class ChatController {
                 .findOne({ conversationId: data.conversationId })
                 .sort({ 'createdAt': -1 });
             if (data.replyFromChatId) {
+                console.log(data.replyFromChatId)
                 const replyChat = await Chat.findOne(
-                    { _id: data.replyFromChatId }, 
-                    { userRead: -1, like: -1, totalLike: -1 })
+                    { _id: data.replyFromChatId })
                     .populate('userId', { password: 0, address: 0, desc: 0 })
                 return {
                     id: chats._id,
