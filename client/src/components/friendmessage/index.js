@@ -46,7 +46,7 @@ export default function FriendMessage(props) {
             }}
           >
             <ReplyIcon sx={{ fontSize: ".8375rem", marginRight: "5px" }} />
-            {username} replied to {username}'s message
+            {username} replied to {replyFrom.userId.username}'s message
           </Typography>
           <Box
             paddingX={"1rem"}

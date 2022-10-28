@@ -1,7 +1,8 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import io from "socket.io-client";
 import {
   createContext,
-  useState,
+  // useState,
   useEffect,
   useContext,
   useReducer,
@@ -14,7 +15,7 @@ const SocketContext = createContext();
 
 const socket = io("http://localhost:4000");
 function SocketProvider({ children }) {
-  const [isConnected, setIsconnected] = useState(false);
+  // const [isConnected, setIsconnected] = useState(false);
   const { authState } = useContext(AuthContext);
   const { userData, updateFriendStatus, receiveMessage, addToWaitingStack } =
     useContext(conversationContext);
@@ -25,13 +26,9 @@ function SocketProvider({ children }) {
   });
 
   useEffect(() => {
-    socket.on("connect", () => {
-      setIsconnected(true);
-    });
+    socket.on("connect", () => {});
 
-    socket.on("disconnect", () => {
-      setIsconnected(false);
-    });
+    socket.on("disconnect", () => {});
 
     /**
      * TODO open gateways to receive online list
@@ -69,6 +66,7 @@ function SocketProvider({ children }) {
       });
     };
     sendPing();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authState.user, JSON.stringify(userData.contactList)]);
 
   useEffect(() => {

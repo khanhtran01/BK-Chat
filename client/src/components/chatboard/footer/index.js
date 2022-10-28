@@ -22,7 +22,6 @@ function Footer() {
   const { authState } = useContext(AuthContext);
 
   const sendMessage = () => {
-    console.log(messageData.replyFor ? messageData.replyFor._id : null);
     socket.emit("sendChatSingle", {
       receiverId: userData.chatInfo.receiverId,
       content: messageData.message,

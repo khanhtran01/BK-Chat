@@ -34,7 +34,6 @@ export default function MyMessage(props) {
     { component: <Box>Reply</Box>, handle: () => reply(messageInfo) },
     { component: <Box>Delete</Box>, handle: () => {} },
   ];
-  console.log(replyFrom && replyFrom);
   const { authState } = useContext(AuthContext);
   return (
     <>
@@ -51,7 +50,7 @@ export default function MyMessage(props) {
               }}
             >
               <ReplyIcon sx={{ fontSize: ".8375rem", marginRight: "5px" }} />
-              You replied to 's message
+              You replied to {replyFrom.userId.username}'s message
             </Typography>
             <Box
               paddingX={"1rem"}
