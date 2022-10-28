@@ -21,8 +21,7 @@ class ChatController {
                 .sort({ 'createdAt': -1 });
             if (data.replyFromChatId) {
                 const replyChat = await Chat.findOne(
-                    { _id: data.replyFromChatId }, 
-                    { userRead: -1, like: -1, totalLike: -1 })
+                    { _id: data.replyFromChatId })
                     .populate('userId', { password: 0, address: 0, desc: 0 })
                 return {
                     id: chats._id,
@@ -35,7 +34,7 @@ class ChatController {
             };
         } catch (error) {
             console.log(error);
-            return null; 
+            return null;
         }
     }
     // async addReactionChat(data) {
@@ -72,7 +71,6 @@ class ChatController {
     // }
     async addUserReadChat(req, res, next) {
         try {
-            console.log(req.query, req.userId);
             await Chat
                 .updateOne({ _id: req.query.chatId }, {
                     $addToSet: {
@@ -101,7 +99,11 @@ class ChatController {
             return await Chat
                 .find({ conversationId: conversationId })
                 .populate('userId', { password: 0, address: 0, desc: 0 })
-                .populate('replyFrom')
+                .populate({
+                    path: 'replyFrom',
+                    select: 'userId content ',
+                    populate: { path: 'userId', select: '_id email username' }
+                })
                 .limit(numChat)
                 .skip(numSkip);
         } catch (error) {
