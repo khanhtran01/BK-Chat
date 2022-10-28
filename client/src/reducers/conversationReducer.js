@@ -47,6 +47,7 @@ const conversationReducer = (state, action) => {
         head1.numUnRead += 1;
       }
       let newConversations1 = [head1, ...remain1];
+      console.log(payload);
       return {
         ...state,
         currConversation: [...state.currConversation, payload],

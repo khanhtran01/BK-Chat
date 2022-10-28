@@ -44,6 +44,8 @@ function Body() {
                 key={uuidv4()}
                 message={message.content}
                 time={handleTime(message.createdAt)}
+                messageInfo={message}
+                replyFrom={message.replyFrom}
               />
             );
           }
@@ -54,6 +56,7 @@ function Body() {
               time={handleTime(message.createdAt)}
               username={message.userId.username}
               avatar={message.userId.avatar}
+              replyFrom={message.replyFrom}
               messageInfo={message}
             />
           );

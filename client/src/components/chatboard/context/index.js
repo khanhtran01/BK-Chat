@@ -1,5 +1,6 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useContext, useEffect } from "react";
 import { chatboardReducer } from "../reducer";
+import { conversationContext } from "../../../context";
 const chatboardContext = createContext();
 
 function ChatBoardContextProvider({ children }) {
@@ -8,7 +9,7 @@ function ChatBoardContextProvider({ children }) {
     message: "",
     replyFor: "",
   });
-
+  const { userData } = useContext(conversationContext);
   const typeMessage = (message) => {
     dispatch({ type: "TYPE_MESSAGE", payload: message });
   };
@@ -17,8 +18,12 @@ function ChatBoardContextProvider({ children }) {
     dispatch({ type: "SET_REPLY", payload: chat });
   };
   const clearReply = () => {
-    dispatch({ type: "CLEAR_REPLY"});
-  }
+    dispatch({ type: "CLEAR_REPLY" });
+  };
+
+  useEffect(() => {
+    dispatch({ type: "RESET" });
+  }, [userData.currConversationId]);
 
   const contextData = { messageData, typeMessage, reply, clearReply };
   return (

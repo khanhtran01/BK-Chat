@@ -84,7 +84,6 @@ function ContextProvider({ children }) {
   };
 
   const createGroup = async (formData) => {
-    console.log(formData);
     await axios
       .post(`${apiUrl}/conversation/new-group`, formData)
       .then((res) => {
@@ -102,11 +101,12 @@ function ContextProvider({ children }) {
    * @param { Object } data data of message from friend
    */
   const receiveMessage = async (data) => {
-    console.log(data);
     dispatch({ type: "RECEIVE_MESSAGE", payload: data });
-    await axios.get(`${apiUrl}/conversation/read-chat?chatId=${data._id}`).then(res => {
-      console.log(res.data);
-    })
+    await axios
+      .get(`${apiUrl}/conversation/read-chat?chatId=${data._id}`)
+      .then((res) => {
+        console.log(res.data);
+      });
   };
 
   const addToWaitingStack = (data) => {

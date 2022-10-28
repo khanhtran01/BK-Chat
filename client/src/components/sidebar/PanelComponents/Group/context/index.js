@@ -35,7 +35,6 @@ const GroupProvider = ({ children }) => {
     dispatch({ type: "FIRST_MESSAGE", payload: event.target.value});
   }
   const removeMember = (id) => {
-    console.log(id);
     dispatch({ type: "REMOVE_MEMBER", payload: id });
   }
   const value = {

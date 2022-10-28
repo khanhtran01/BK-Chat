@@ -4,7 +4,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { bcolors, textcolor } from "../../colors";
 import { styled } from "@mui/material/styles";
-
+import ReplyIcon from "@mui/icons-material/Reply";
 import { chatboardContext } from "../chatboard/context";
 import LongMenu from "../menu";
 
@@ -26,95 +26,139 @@ const BoxChat = styled(Box)({
 
 export default function FriendMessage(props) {
   const { reply } = useContext(chatboardContext);
-  const { message, time, username, avatar, messageInfo } = props;
+  const { message, time, username, avatar, messageInfo, replyFrom } = props;
   const options = [
     { component: <Box>Reply</Box>, handle: () => reply(messageInfo) },
     { component: <Box>Copy</Box>, handle: () => {} },
   ];
   // const handles = [reply(message), () => {}]
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "flex-start",
-        marginBottom: "24px",
-      }}
-    >
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-end",
-          marginRight: "10px",
-        }}
-      >
-        <Avatar alt={`${username}`} src={`${avatar}`} />
-      </Box>
-
-      <Box>
-        <BoxChat
-          sx={{
-            backgroundColor: bcolors.sidebar,
-            padding: "12px 20px",
-            borderRadius: "8px 8px 8px 0px",
-          }}
-        >
+    <Box display={"flex"} flexDirection="column" alignItems={"flex-start"}>
+      {replyFrom && (
+        <>
           <Typography
             sx={{
               color: textcolor.primaryGray,
-              textAlign: "left",
-              fontSize: ".9375rem",
+              textAlign: "right",
+              fontSize: ".8375rem",
+              opacity: 0.7,
+              marginLeft: "50px",
             }}
           >
-            {message}
+            <ReplyIcon sx={{ fontSize: ".8375rem", marginRight: "5px" }} />
+            {username} replied to {username}'s message
           </Typography>
           <Box
+            paddingX={"1rem"}
+            paddingBottom={"1.4rem"}
+            paddingTop={"0.5rem"}
+            marginBottom={"-1.2rem"}
+            marginLeft={"50px"}
+            width={"fit-content"}
+            textAlign={"left"}
+            backgroundColor={bcolors.menu}
+            borderRadius="8px"
             sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              alignItems: "center",
+              opacity: 0.7,
             }}
           >
             <Typography
               sx={{
-                color: textcolor.white,
-                fontSize: "12px",
+                color: textcolor.primaryGray,
                 textAlign: "right",
-                marginRight: "5px",
+                fontSize: ".8375rem",
               }}
             >
-              {time}
+              {replyFrom.content}
             </Typography>
-            <AccessTimeIcon sx={{ fontSize: "12px", color: textcolor.white }} />
           </Box>
-        </BoxChat>
-        <Typography
+        </>
+      )}
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+          marginBottom: "24px",
+        }}
+      >
+        <Box
           sx={{
-            color: textcolor.white,
-            textAlign: "left",
-            marginTop: "10px",
-            fontSize: "14px",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-end",
+            marginRight: "10px",
           }}
         >
-          {username}
-        </Typography>
-      </Box>
-      <Box>
-        <LongMenu
-          icon={
-            <MoreVertIcon
+          <Avatar alt={`${username}`} src={`${avatar}`} />
+        </Box>
+
+        <Box>
+          <BoxChat
+            sx={{
+              backgroundColor: bcolors.sidebar,
+              padding: "12px 20px",
+              borderRadius: "8px 8px 8px 0px",
+            }}
+          >
+            <Typography
               sx={{
-                color: bcolors.main,
-                fontSize: "20px",
-                "&:hover": {
-                  color: bcolors.white,
-                },
-                cursor: "pointer",
+                color: textcolor.primaryGray,
+                textAlign: "left",
+                fontSize: ".9375rem",
               }}
-            />
-          }
-          options={options}
-        />
+            >
+              {message}
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+                alignItems: "center",
+              }}
+            >
+              <Typography
+                sx={{
+                  color: textcolor.white,
+                  fontSize: "12px",
+                  textAlign: "right",
+                  marginRight: "5px",
+                }}
+              >
+                {time}
+              </Typography>
+              <AccessTimeIcon
+                sx={{ fontSize: "12px", color: textcolor.white }}
+              />
+            </Box>
+          </BoxChat>
+          <Typography
+            sx={{
+              color: textcolor.white,
+              textAlign: "left",
+              marginTop: "10px",
+              fontSize: "14px",
+            }}
+          >
+            {username}
+          </Typography>
+        </Box>
+        <Box>
+          <LongMenu
+            icon={
+              <MoreVertIcon
+                sx={{
+                  color: bcolors.main,
+                  fontSize: "20px",
+                  "&:hover": {
+                    color: bcolors.white,
+                  },
+                  cursor: "pointer",
+                }}
+              />
+            }
+            options={options}
+          />
+        </Box>
       </Box>
     </Box>
   );

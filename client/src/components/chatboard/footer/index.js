@@ -22,16 +22,17 @@ function Footer() {
   const { authState } = useContext(AuthContext);
 
   const sendMessage = () => {
-    console.log(messageData);
+    console.log(messageData.replyFor ? messageData.replyFor._id : null);
     socket.emit("sendChatSingle", {
       receiverId: userData.chatInfo.receiverId,
       content: messageData.message,
       time: moment(),
-      replyFromChatId: null,
+      replyFromChatId: messageData.replyFor ? messageData.replyFor._id : null,
       sender: authState.user,
       conversationId: userData.currConversationId,
     });
     typeMessage("");
+    clearReply();
   };
 
   const handleKeyDown = (event) => {
@@ -57,32 +58,41 @@ function Footer() {
           sx={{
             position: "absolute",
             // display: "flex",
-            backgroundColor: bcolors.secondary,
+            backgroundColor: bcolors.reply,
             // justifyContent: "space-between",
             width: "100%",
             top: "-50px",
-            height: "50px",
+            height: "60px",
             left: 0,
             paddingLeft: "1rem",
             paddingY: "0.2rem",
+            // borderRadius: "1rem",
           }}
         >
-          <Box width="100%" display="flex">
+          <Box
+            width="99%"
+            display="flex"
+            height={"100%"}
+            justifyContent="space-between"
+          >
             <Box
+              display="flex"
+              flexDirection="column"
+              justifyContent="center"
               width="96%"
               sx={{ color: textcolor.primaryGray, fontSize: "5px" }}
             >
-              <Typography fontSize={"14px"}>Reply to Admin 123 :</Typography>
+              <Typography fontSize={"14px"}>
+                Reply to <strong>{messageData.replyFor.userId.username}</strong>
+                :
+              </Typography>
               <Typography
                 fontSize={"13px"}
                 textOverflow="ellipsis"
                 whiteSpace="nowrap"
                 overflow="hidden"
               >
-                THis is the message created by Mr. ALex Fergurson to ManCity to
-                require THis is the message created by Mr. ALex Fergurson to
-                ManCity to require THis is the message created by Mr. ALex
-                Fergurson to ManCity to require
+                {messageData.replyFor.content}
               </Typography>
             </Box>
             <div onClick={clearReply}>

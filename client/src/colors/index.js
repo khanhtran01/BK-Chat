@@ -11,6 +11,7 @@ const bcolors = {
   offline: "#adb5bd",
   menu: "#313A43",
   dialog: "#272c3b",
+  reply: "#479e64",
 };
 const textcolor = {
   sidedark: "#8f9198",
