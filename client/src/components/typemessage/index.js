@@ -35,7 +35,7 @@ export default function InputText({ text, setText, onKeyDown, disabled }) {
         />
       </Box>
     ),
-    [text]
+    [text, disabled]
   );
   return component;
 }
