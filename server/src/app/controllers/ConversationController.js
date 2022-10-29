@@ -57,7 +57,7 @@ class ConversationController {
                     type: 'group',
                     member: member,
                     desc: req.body.groupDesc,
-                    avatar: 'https://res.cloudinary.com/be-dev/image/upload/v1646538837/uploads/ze3nl35h97nztosede6z.jpg',
+                    avatar: '',
                 })
                 await Chat.create({
                     conversationId: conversation._id,

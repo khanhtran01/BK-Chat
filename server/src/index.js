@@ -54,6 +54,11 @@ io.on("connection", (socket) => {
                 userId: data.userId
             });
         });
+        data.forEach(element => {
+            if (element.type == 'group') {
+                socket.join(element.conversationId);
+            }
+        })
     });
 
     // socket.on("sendNewContact", async (data) => {

@@ -19,8 +19,10 @@ module.exports = {
     getStatusUsers: (listUser) => {
         var result = [];
         listUser.forEach(element => {
-            if (users.find((user) => user.userId === element.userId)) {
-                result.push(element)
+            if (element.type == 'single') {
+                if (users.find((user) => user.userId === element.userId)) {
+                    result.push(element)
+                }
             }
         })
         return result;
