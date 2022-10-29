@@ -32,7 +32,9 @@ function Contact() {
     let friendBoxTemp = deepCopy(sortFriend);
     // eslint-disable-next-line array-callback-return
     userData.contactList.map((friend) => {
-      friendBoxTemp[friend.username[0].toLowerCase()].push(friend);
+      if (friend.type === "single") {
+        friendBoxTemp[friend.username[0].toLowerCase()].push(friend);
+      }
     });
     setFriendsBox(friendBoxTemp);
   }, []);
@@ -41,10 +43,12 @@ function Contact() {
   const updateContactList = async () => {
     let friendBoxTemp = deepCopy(sortFriend);
     let data = await getAllContact();
-    
+
     // eslint-disable-next-line array-callback-return
     data.map((friend) => {
-      friendBoxTemp[friend.username[0].toLowerCase()].push(friend);
+      if (friend.type === "single") {
+        friendBoxTemp[friend.username[0].toLowerCase()].push(friend);
+      }
     });
     setFriendsBox(friendBoxTemp);
   };

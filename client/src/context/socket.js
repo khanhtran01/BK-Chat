@@ -45,6 +45,7 @@ function SocketProvider({ children }) {
       dispatch({ type: "REMOVE_USER_OFFLINE", payload: data });
     });
 
+    
     return () => {
       socket.off("connect");
       socket.off("disconnect");
@@ -66,19 +67,29 @@ function SocketProvider({ children }) {
       });
     };
     sendPing();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [authState.user, JSON.stringify(userData.contactList)]);
 
   useEffect(() => {
     socket.on("getChatSingle", (data) => {
+      if (data.conversationId === userData.currConversationId) {
+        console.log(data);
+        receiveMessage(data);
+      } else {
+        addToWaitingStack(data);
+      }
+    });
+    socket.on("getChatGroup", (data) => {
       if (data.conversationId === userData.currConversationId) {
         receiveMessage(data);
       } else {
         addToWaitingStack(data);
       }
     });
+
     return () => {
       socket.off("getChatSingle");
+      socket.off("getChatGroup");
     };
   }, [userData.currConversationId]);
 

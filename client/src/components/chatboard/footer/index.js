@@ -22,14 +22,25 @@ function Footer() {
   const { authState } = useContext(AuthContext);
 
   const sendMessage = () => {
-    socket.emit("sendChatSingle", {
-      receiverId: userData.chatInfo.receiverId,
-      content: messageData.message,
-      time: moment(),
-      replyFromChatId: messageData.replyFor ? messageData.replyFor._id : null,
-      sender: authState.user,
-      conversationId: userData.currConversationId,
-    });
+    console.log(userData.chatInfo);
+    if (userData.chatInfo.type === "single") {
+      socket.emit("sendChatSingle", {
+        receiverId: userData.chatInfo.receiverId,
+        content: messageData.message,
+        time: moment(),
+        replyFromChatId: messageData.replyFor ? messageData.replyFor._id : null,
+        sender: authState.user,
+        conversationId: userData.currConversationId,
+      });
+    } else {
+      socket.emit("sendChatGroup", {
+        content: messageData.message,
+        time: moment(),
+        replyFromChatId: messageData.replyFor ? messageData.replyFor._id : null,
+        sender: authState.user,
+        conversationId: userData.currConversationId,
+      });
+    }
     typeMessage("");
     clearReply();
   };

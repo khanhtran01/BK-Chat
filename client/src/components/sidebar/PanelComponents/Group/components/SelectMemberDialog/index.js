@@ -31,8 +31,8 @@ export default function SelectMemberDialog() {
   const { userData } = useContext(conversationContext);
   const [contactList, setContactList] = useState([]);
   useEffect(() => {
-    const temp = [...userData.contactList];
-
+    let temp = [...userData.contactList];
+    temp = temp.filter(contact => contact.type === 'single');
     temp.sort((a, b) => a.username.localeCompare(b.username));
 
     const mountLabel = {};

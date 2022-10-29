@@ -54,7 +54,7 @@ io.on("connection", (socket) => {
                 userId: data.userId
             });
         });
-        data.forEach(element => {
+        data.allContact.forEach(element => {
             if (element.type == 'group') {
                 socket.join(element.conversationId);
             }
@@ -112,7 +112,7 @@ io.on("connection", (socket) => {
 
     socket.on('sendChatGroup', async (data) => {
         data.type = 'text'
-        const chatId = await ChatController.storeChatAndGetId(data);
+        const result = await ChatController.storeChatAndGetId(data);
         io.to(data.conversationId).emit('getChatGroup', {
             userId: { 
                 _id: data.sender._id, 
@@ -122,9 +122,9 @@ io.on("connection", (socket) => {
             },
             conversationId: data.conversationId,
             content: data.content,
-            _id: chatId,
+            _id: result.id,
             createdAt: data.time,
-            replyFrom: data.replyFromChatId,
+            replyFrom: result.replyChat,
         })
     })
 
