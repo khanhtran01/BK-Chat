@@ -1,36 +1,41 @@
-import { Box, Typography } from "@mui/material";
-import { bcolors, textcolor } from "../../../colors";
 import React, { useContext } from "react";
+
+// Mui import
 import AttachFileIcon from "@mui/icons-material/AttachFile";
+import { Box, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
+import Button from "@mui/material/Button";
+import ClearIcon from "@mui/icons-material/Clear";
+// import Context
 import { chatboardContext } from "../context";
-import moment from "moment";
-import InputText from "../../typemessage";
 import { AuthContext } from "../../../context/authContext";
 import { SocketContext } from "../../../context/socket";
 import { conversationContext } from "../../../context";
-import Button from "@mui/material/Button";
-import ClearIcon from "@mui/icons-material/Clear";
+// import component
+import InputText from "../../typemessage";
 import BtnIcon from "../../btnIcon";
-// import MessageInput from "./components/MessageInput";
 import TagList from "./components/TagList";
 import IconPicker from "./components/IconPicker";
+// import material and function
+import { bcolors, textcolor } from "../../../colors";
+import moment from "moment";
 
 function Footer() {
   const { socket } = useContext(SocketContext);
   const { messageData, typeMessage, clearReply } = useContext(chatboardContext);
   const { userData } = useContext(conversationContext);
   const { authState } = useContext(AuthContext);
+
+  console.log("re-render");
+
   const sendMessage = () => {
     const tagList = [];
     // eslint-disable-next-line array-callback-return
-    userData.chatInfo.member.map(mem => {
-      if (messageData.message.includes('@'+ mem.username)){
+    userData.chatInfo.member.map((mem) => {
+      if (messageData.message.includes("@" + mem.username)) {
         tagList.push(mem._id);
       }
-    })
-    console.log(tagList);
-
+    });
     if (userData.chatInfo.type === "single") {
       socket.emit("sendChatSingle", {
         receiverId: userData.chatInfo.receiverId,
@@ -121,7 +126,7 @@ function Footer() {
           </Box>
         </Box>
       )}
-      
+
       <TagList />
       <InputText
         text={messageData.message}

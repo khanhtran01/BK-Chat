@@ -11,7 +11,6 @@ import moment from "moment";
 function Body() {
   const { userData } = useContext(conversationContext);
   const { authState } = useContext(AuthContext);
-
   const handleTime = (time) => {
     const today = moment();
     if (today.date() === moment(time).date()) {
@@ -22,11 +21,13 @@ function Body() {
   };
   const memList = useMemo(() => {
     let temp = [];
-    userData.chatInfo.member.map((mem) => {
-      temp.push("@" + mem.username);
-    });
-    console.log(temp);
+    if (userData.chatInfo.member) {
+      userData.chatInfo.member.map((mem) => {
+        temp.push("@" + mem.username);
+      });
+    }
     return temp;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(userData.chatInfo.member)]);
 
   return (

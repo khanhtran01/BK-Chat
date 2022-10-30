@@ -1,8 +1,14 @@
 import { createContext, useReducer, useContext, useEffect } from "react";
-import { Typography } from "@mui/material";
 import { chatboardReducer } from "../reducer";
 import { conversationContext } from "../../../context";
 const chatboardContext = createContext();
+
+if (!Array.prototype.last) {
+  // eslint-disable-next-line no-extend-native
+  Array.prototype.last = function () {
+    return this[this.length - 1];
+  };
+}
 
 function ChatBoardContextProvider({ children }) {
   // const { userData } = useContext(conversationContext);
@@ -13,24 +19,20 @@ function ChatBoardContextProvider({ children }) {
     tagList: [],
   });
   const checkTags = (message) => {
-    let memlist = [];
-    if (!Array.prototype.last) {
-      // eslint-disable-next-line no-extend-native
-      Array.prototype.last = function () {
-        return this[this.length - 1];
-      };
-    }
-    for (let i = 0; i < userData.chatInfo.member.length; i++) {
-      memlist = [
-        ...memlist,
-        {
-          name: userData.chatInfo.member[i].username,
-          avatar: userData.chatInfo.member[i].avatar,
-        },
-      ];
-    }
     const tagList = message.split("@");
     if (tagList.length > 1) {
+      let memlist = [];
+      console.log("calc");
+      for (let i = 0; i < userData.chatInfo.member.length; i++) {
+        memlist = [
+          ...memlist,
+          {
+            name: userData.chatInfo.member[i].username,
+            avatar: userData.chatInfo.member[i].avatar,
+          },
+        ];
+      }
+
       const containList = [];
       // eslint-disable-next-line array-callback-return
       memlist.map((mem) => {
@@ -67,7 +69,13 @@ function ChatBoardContextProvider({ children }) {
     dispatch({ type: "RESET" });
   }, [userData.currConversationId]);
 
-  const contextData = { messageData, typeMessage, reply, clearReply, handleTag };
+  const contextData = {
+    messageData,
+    typeMessage,
+    reply,
+    clearReply,
+    handleTag,
+  };
   return (
     <chatboardContext.Provider value={contextData}>
       {children}
