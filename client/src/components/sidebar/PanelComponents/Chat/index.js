@@ -79,6 +79,7 @@ function ChatPanel() {
                   type={conversation.type}
                   receiverId={receiverId}
                   numUnRead={conversation.numUnRead}
+                  member={conversation.member}
                 />
               );
             })}

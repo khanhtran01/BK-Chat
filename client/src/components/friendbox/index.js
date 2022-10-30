@@ -15,7 +15,7 @@ const CustomButton = styled(Button)({
 });
 
 function FriendBox(props) {
-  const { url, status, id, name, message, time, receiverId, type, numUnRead } =
+  const { url, status, id, name, message, time, receiverId, type, numUnRead, member } =
     props;
 
   const { selectConversation } = useContext(conversationContext);
@@ -42,7 +42,7 @@ function FriendBox(props) {
           backgroundColor: "white",
         },
       }}
-      onClick={() => selectConversation({ id, name, url, receiverId, type })}
+      onClick={() => selectConversation({ id, name, url, receiverId, type, member })}
     >
       <Box
         sx={{

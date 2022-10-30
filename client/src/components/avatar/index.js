@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import PropTypes from "prop-types";
 import { bcolors } from "../../colors";
 
-const StyledBadge = styled(Badge)(({ theme, status }) => ({
+const StyledBadge = styled(Badge)(({ theme }) => ({
   "& .MuiBadge-badge": {
     backgroundColor: bcolors.offline,
     boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,

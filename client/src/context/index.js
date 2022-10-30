@@ -113,7 +113,7 @@ function ContextProvider({ children }) {
     dispatch({ type: "ADD_WAIT_LIST", payload: data });
   };
 
-  const selectConversation = async ({ id, name, url, receiverId, type }) => {
+  const selectConversation = async ({ id, name, url, receiverId, type, member }) => {
     if (userData.currConversationId !== id) {
       await axios
         .get(`${apiUrl}/conversation?id=${id}`)
@@ -128,6 +128,7 @@ function ContextProvider({ children }) {
                 avatar: url,
                 receiverId: receiverId,
                 type: type,
+                member: member,
               },
             },
           });

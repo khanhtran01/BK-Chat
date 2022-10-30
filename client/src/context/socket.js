@@ -73,7 +73,6 @@ function SocketProvider({ children }) {
   useEffect(() => {
     socket.on("getChatSingle", (data) => {
       if (data.conversationId === userData.currConversationId) {
-        console.log(data);
         receiveMessage(data);
       } else {
         addToWaitingStack(data);

@@ -21,6 +21,17 @@ export const chatboardReducer = (state, action) => {
         message: "",
         replyFor: "",
       }
+    case "SET_TAG_LIST":
+      return {
+        ...state,
+        tagList: payload,
+      }
+    case "HANDLE_TAG":
+      return {
+        ...state,
+        message: payload,
+        tagList: [],
+      };
     default:
       return "unknown action";
   }

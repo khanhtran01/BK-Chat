@@ -10,9 +10,10 @@ import { AuthContext } from "../../../context/authContext";
 import { SocketContext } from "../../../context/socket";
 import { conversationContext } from "../../../context";
 import Button from "@mui/material/Button";
+import ClearIcon from "@mui/icons-material/Clear";
 import BtnIcon from "../../btnIcon";
 // import MessageInput from "./components/MessageInput";
-import ClearIcon from "@mui/icons-material/Clear";
+import TagList from "./components/TagList";
 import IconPicker from "./components/IconPicker";
 
 function Footer() {
@@ -20,9 +21,16 @@ function Footer() {
   const { messageData, typeMessage, clearReply } = useContext(chatboardContext);
   const { userData } = useContext(conversationContext);
   const { authState } = useContext(AuthContext);
-
   const sendMessage = () => {
-    console.log(userData.chatInfo);
+    const tagList = [];
+    // eslint-disable-next-line array-callback-return
+    userData.chatInfo.member.map(mem => {
+      if (messageData.message.includes('@'+ mem.username)){
+        tagList.push(mem._id);
+      }
+    })
+    console.log(tagList);
+
     if (userData.chatInfo.type === "single") {
       socket.emit("sendChatSingle", {
         receiverId: userData.chatInfo.receiverId,
@@ -31,6 +39,7 @@ function Footer() {
         replyFromChatId: messageData.replyFor ? messageData.replyFor._id : null,
         sender: authState.user,
         conversationId: userData.currConversationId,
+        tagList: tagList,
       });
     } else {
       socket.emit("sendChatGroup", {
@@ -39,6 +48,7 @@ function Footer() {
         replyFromChatId: messageData.replyFor ? messageData.replyFor._id : null,
         sender: authState.user,
         conversationId: userData.currConversationId,
+        tagList: tagList,
       });
     }
     typeMessage("");
@@ -111,7 +121,8 @@ function Footer() {
           </Box>
         </Box>
       )}
-
+      
+      <TagList />
       <InputText
         text={messageData.message}
         setText={typeMessage}
