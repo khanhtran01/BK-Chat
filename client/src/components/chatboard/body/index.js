@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { bcolors } from "../../../colors";
 import { AuthContext } from "../../../context/authContext";
 import { conversationContext } from "../../../context";
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
 import MyMessage from "../../mymessage";
 import FriendMessage from "../../friendmessage";
@@ -14,12 +14,20 @@ function Body() {
 
   const handleTime = (time) => {
     const today = moment();
-    if (today.date() === moment(time).date()){
+    if (today.date() === moment(time).date()) {
       return moment(time).format("HH:mm");
     } else {
       return moment(time).format("HH:mm DD/MM/YYYY");
     }
-  }
+  };
+  const memList = useMemo(() => {
+    let temp = [];
+    userData.chatInfo.member.map((mem) => {
+      temp.push("@" + mem.username);
+    });
+    console.log(temp);
+    return temp;
+  }, [JSON.stringify(userData.chatInfo.member)]);
 
   return (
     <Box
@@ -46,6 +54,7 @@ function Body() {
                 time={handleTime(message.createdAt)}
                 messageInfo={message}
                 replyFrom={message.replyFrom}
+                memList={memList}
               />
             );
           }
@@ -58,6 +67,7 @@ function Body() {
               avatar={message.userId.avatar}
               replyFrom={message.replyFrom}
               messageInfo={message}
+              memList={memList}
             />
           );
         })}

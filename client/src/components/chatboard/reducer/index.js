@@ -20,12 +20,12 @@ export const chatboardReducer = (state, action) => {
       return {
         message: "",
         replyFor: "",
-      }
+      };
     case "SET_TAG_LIST":
       return {
         ...state,
         tagList: payload,
-      }
+      };
     case "HANDLE_TAG":
       return {
         ...state,

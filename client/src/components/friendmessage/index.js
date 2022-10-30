@@ -6,6 +6,8 @@ import { bcolors, textcolor } from "../../colors";
 import { styled } from "@mui/material/styles";
 import ReplyIcon from "@mui/icons-material/Reply";
 import { chatboardContext } from "../chatboard/context";
+import Highlighter from "react-highlight-words";
+
 import LongMenu from "../menu";
 
 const BoxChat = styled(Box)({
@@ -26,7 +28,8 @@ const BoxChat = styled(Box)({
 
 export default function FriendMessage(props) {
   const { reply } = useContext(chatboardContext);
-  const { message, time, username, avatar, messageInfo, replyFrom } = props;
+  const { message, time, username, avatar, messageInfo, replyFrom, memList } =
+    props;
   const options = [
     { component: <Box>Reply</Box>, handle: () => reply(messageInfo) },
     { component: <Box>Copy</Box>, handle: () => {} },
@@ -100,7 +103,7 @@ export default function FriendMessage(props) {
               borderRadius: "8px 8px 8px 0px",
             }}
           >
-            <Typography
+            {/* <Typography
               sx={{
                 color: textcolor.primaryGray,
                 textAlign: "left",
@@ -108,7 +111,27 @@ export default function FriendMessage(props) {
               }}
             >
               {message}
-            </Typography>
+            </Typography> */}
+            <Highlighter
+              highlightStyle={{
+                fontWeight: 500,
+                backgroundColor: "rgba(0,0,0,0)",
+                fontFamily: "Roboto,Helvetica,Arial,sans-serif",
+                letterSpacing: "0.00938em",
+                color: textcolor.primaryGray,
+                textDecoration: "underline",
+              }}
+              unhighlightStyle={{
+                color: textcolor.primaryGray,
+                textAlign: "left",
+                fontSize: ".9375rem",
+                fontFamily: "Roboto,Helvetica,Arial,sans-serif",
+                letterSpacing: "0.00938em",
+                fontWeight: 400,
+              }}
+              searchWords={memList}
+              textToHighlight={message}
+            />
             <Box
               sx={{
                 display: "flex",

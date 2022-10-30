@@ -9,6 +9,8 @@ import { bcolors, textcolor } from "../../colors";
 import { styled } from "@mui/material/styles";
 import ReplyIcon from "@mui/icons-material/Reply";
 
+import Highlighter from "react-highlight-words";
+
 const BoxChat = styled(Box)({
   "&.MuiBox-root": {
     position: "relative",
@@ -19,7 +21,6 @@ const BoxChat = styled(Box)({
       height: 0,
       borderBottom: "25px solid transparent",
       borderRight: `25px solid ${bcolors.sidebar}`,
-      //   backgroundColor: ,
       bottom: "-10px",
       right: "0px",
     },
@@ -28,7 +29,7 @@ const BoxChat = styled(Box)({
 
 export default function MyMessage(props) {
   const { reply } = useContext(chatboardContext);
-  const { message, time, messageInfo, replyFrom } = props;
+  const { message, time, messageInfo, replyFrom, memList } = props;
 
   const options = [
     { component: <Box>Reply</Box>, handle: () => reply(messageInfo) },
@@ -111,15 +112,26 @@ export default function MyMessage(props) {
                 borderRadius: "8px 8px 0px 8px",
               }}
             >
-              <Typography
-                sx={{
+              <Highlighter
+                highlightStyle={{
+                  fontWeight: 500,
+                  backgroundColor: "rgba(0,0,0,0)",
+                  fontFamily: "Roboto,Helvetica,Arial,sans-serif",
+                  letterSpacing: "0.00938em",
+                  color: textcolor.primaryGray,
+                  textDecoration: "underline",
+                }}
+                unhighlightStyle={{
                   color: textcolor.primaryGray,
                   textAlign: "right",
                   fontSize: ".9375rem",
+                  fontFamily: "Roboto,Helvetica,Arial,sans-serif",
+                  letterSpacing: "0.00938em",
+                  fontWeight: 400,
                 }}
-              >
-                {message}
-              </Typography>
+                searchWords={memList}
+                textToHighlight={message}
+              />
               <Box
                 sx={{
                   display: "flex",
