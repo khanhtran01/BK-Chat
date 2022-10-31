@@ -13,10 +13,13 @@ import SearchInput from "../../../search";
 import GroupDialog from "./components/GroupDialog";
 import SelectMemberDialog from "./components/SelectMemberDialog";
 // import context
+import { conversationContext } from "../../../../context";
 import { groupsContext } from "./context";
+import { Avatar } from "@mui/material";
 
 function Group() {
   const { handleCreateGroup } = useContext(groupsContext);
+  const { userData } = useContext(conversationContext);
   return (
     <Box sx={{ height: "100%" }}>
       <GroupDialog />
@@ -53,7 +56,33 @@ function Group() {
           height: "calc(100vh - 180px)",
           padding: "24px",
         }}
-      ></Box>
+      >
+        {userData.contactList.map((contact) => {
+          if (contact.type === "group") {
+            return (
+              <Box key={uuidv4()} display={"flex"} alignItems="center" padding={"10px"}>
+                <Avatar
+                  src={contact.avatar ? contact.avatar : "default"}
+                  alt={contact.groupName}
+                  sx={{
+                    marginRight: "10px",
+                    height: "32px",
+                    width: "32px",
+                    backgroundColor: "#7269ef40",
+                    color: "rgb(114,105,239)",
+                    fontSize: ".9375rem",
+                    fontWeight: 500,
+                    textTransform: "uppercase",
+                  }}
+                />
+                <Typography sx={{ fontSize: "14px" }} color={"#e1e9f1"}>
+                  {"#" + contact.groupName}
+                </Typography>
+              </Box>
+            );
+          }
+        })}
+      </Box>
     </Box>
   );
 }

@@ -26,7 +26,6 @@ function Footer() {
   const { userData } = useContext(conversationContext);
   const { authState } = useContext(AuthContext);
 
-  console.log("re-render");
 
   const sendMessage = () => {
     const tagList = [];
@@ -65,7 +64,6 @@ function Footer() {
       sendMessage();
     }
   };
-
   return (
     <Box
       sx={{
@@ -126,8 +124,8 @@ function Footer() {
           </Box>
         </Box>
       )}
+      {messageData.tagList && messageData.tagList.length !== 0 && <TagList />}
 
-      <TagList />
       <InputText
         text={messageData.message}
         setText={typeMessage}

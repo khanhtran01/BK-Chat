@@ -22,7 +22,6 @@ function ChatBoardContextProvider({ children }) {
     const tagList = message.split("@");
     if (tagList.length > 1) {
       let memlist = [];
-      console.log("calc");
       for (let i = 0; i < userData.chatInfo.member.length; i++) {
         memlist = [
           ...memlist,

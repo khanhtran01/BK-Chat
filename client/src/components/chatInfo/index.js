@@ -1,6 +1,8 @@
 import React from "react";
+import { v4 as uuidv4 } from "uuid";
 import { useContext } from "react";
 import { Box, Typography, Avatar } from "@mui/material";
+import GroupsIcon from "@mui/icons-material/Groups";
 import PersonIcon from "@mui/icons-material/Person";
 import AttachFileIcon from "@mui/icons-material/AttachFile";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
@@ -23,7 +25,7 @@ const AboutElement = ({ title, content, marginBottom }) => {
 };
 
 export default function ChatInfo() {
-  const user = {
+  let user = {
     name: "Tran Le Viet Khanh",
     age: "21",
     email: "khanh.tran01@hcmut.edu.vn",
@@ -31,21 +33,37 @@ export default function ChatInfo() {
   };
   const { userData } = useContext(conversationContext);
   const { chatInfoPopup } = useContext(context);
-  const AboutBox = ({ user }) => {
+
+  if (userData.chatInfo.type === "single"){
+    if (userData.chatInfo.name === userData.chatInfo.member[0].username){
+      user = userData.chatInfo.member[0];
+    } else {
+      user = userData.chatInfo.member[1];
+    }
+  }
+  const AboutBox = () => {
     return (
+      userData.chatInfo.type === "single" ?
       <Box>
         <AboutElement
           marginBottom="1.5rem"
           title="Name"
           content={user.username}
         />
-        <AboutElement marginBottom="1.5rem" title="Age" content={user.age} />
         <AboutElement
           marginBottom="1.5rem"
           title="Email"
           content={user.email}
         />
-        <AboutElement title="Location" content={user.location} />
+        <AboutElement title="Location" content={user.address ? user.address : "none"} />
+      </Box>
+      : 
+      <Box>
+        <AboutElement
+          marginBottom="1.5rem"
+          title="Name"
+          content={userData.chatInfo.name}
+        />
       </Box>
     );
   };
@@ -60,7 +78,6 @@ export default function ChatInfo() {
         backgroundColor: bcolors.bluedark,
       }}
     >
-      
       {/* Avatar and name part */}
       <Box display="flex" flexDirection="column" alignItems={"center"}>
         <Box
@@ -123,6 +140,44 @@ export default function ChatInfo() {
             }
             description={<AboutBox user={user} />}
           />
+          {userData.chatInfo.type === "group" && (
+            <CustomizedAccordions
+              title={
+                <Box
+                  display={"flex"}
+                  justifyContent="center"
+                  alignItems={"flex-start"}
+                >
+                  <GroupsIcon />
+                  <Typography marginLeft={"5px"}>Member</Typography>
+                </Box>
+              }
+              description={
+                <Box>
+                  {userData.chatInfo.member.map((mem) => (
+                    <Box
+                      key={uuidv4()}
+                      display={"flex"}
+                      alignItems={"center"}
+                      padding={"6px"}
+                    >
+                      <Avatar
+                        sx={{ width: "28px", height: "28px" }}
+                        src={mem.avatar}
+                        alt={mem.username}
+                      />
+                      <Typography
+                        color={textcolor.primaryGray}
+                        marginLeft={"10px"}
+                      >
+                        {mem.username}
+                      </Typography>
+                    </Box>
+                  ))}
+                </Box>
+              }
+            />
+          )}
 
           <CustomizedAccordions
             title={
