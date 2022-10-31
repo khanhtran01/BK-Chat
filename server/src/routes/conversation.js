@@ -14,11 +14,14 @@ route.post('/new-group', ConversationController.newGroup);
 // [GET] /api/conversation/read-chat?chatId=
 route.get('/read-chat', ChatController.addUserReadChat); // read chat nay luon neu no dang o ngay trang do
 
-// route.post('/group-update-info', uploads.single('groupAva') , UpdateInfoController.groupMessInfo);
+// [PUT] /api/user/update-group-info (conversation, groupAvatar, groupName, groupDesc)
+route.post('/update-group-info', uploads.single('groupAvatar') , UpdateInfoController.groupInfo);
 
-// route.post('/add-member-group', ConversationController.addMemberGroup);
+// [PUT] (conversationId, idsUser) /api/conversation/add-member 
+route.put('/add-member', ConversationController.addMemberGroup);
 
-// route.post('/out-group', ConversationController.outGroup);
+// [PUT] (conversationId) /api/conversation/out-group
+route.put('/out-group', ConversationController.outGroup);
 
 // [GET] /api/conversation/get-all-contact
 route.get('/get-all-contact', ConversationController.getAllContact); // use for user online, offline

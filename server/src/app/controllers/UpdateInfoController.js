@@ -1,7 +1,7 @@
 const Conversation = require('../models/Conversation');
 const Account = require('../models/Account');
 class UpdateInfoController {
-    async personalInfor(req, res, next) {
+    async personalInfo(req, res, next) {
         try {
             const id = req.userId;
             if (req.file) {
@@ -22,29 +22,29 @@ class UpdateInfoController {
                 res.status(200).json({ message: "Update successful", successful: true })
             }
         } catch (error) {
-            res.status(500).json({ successful: false})
+            res.status(500).json({ successful: false })
         }
     }
-    // async groupMessInfo(req, res, next) {
-    //     const messId = req.query.messId;
-    //     try {
-    //         if (req.file) {
-    //             await Conversation.updateOne({ _id: messId }, {
-    //                 name: req.body.groupName,
-    //                 desc: req.body.groupDesc,
-    //                 avatar: req.file.path
-    //             })
-    //         } else {
-    //             await Conversation.updateOne({ _id: messId }, {
-    //                 name: req.body.groupName,
-    //                 desc: req.body.groupDesc,
-    //             })
-    //         }
-    //         res.redirect('back');
-    //     } catch (error) {
-    //         next(error)
-    //     }
-    // }
+    async groupInfo(req, res, next) {
+        try {
+            const conversationId = req.body.conversationId
+            if (req.file) {
+                await Conversation.updateOne({ _id: conversationId }, {
+                    name: req.body.groupName,
+                    desc: req.body.groupDesc,
+                    avatar: req.file.path
+                })
+            } else {
+                await Conversation.updateOne({ _id: conversationId }, {
+                    name: req.body.groupName,
+                    desc: req.body.groupDesc,
+                })
+            }
+            res.status(200).json({ successful: true })
+        } catch (error) {
+            res.status(500).json({ successful: false })
+        }
+    }
 }
 
 module.exports = new UpdateInfoController();

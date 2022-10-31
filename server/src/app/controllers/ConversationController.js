@@ -175,37 +175,34 @@ class ConversationController {
             res.status(500).json({ successful: false });
         }
     }
-    // async addMemberGroup(req, res, next) {
-    //     try {
-    //         if (typeof (req.body.list_member_add) == 'string') {
-    //             req.body.list_member_add = [req.body.list_member_add]
-    //         }
-    //         await Message
-    //             .updateOne({ _id: req.query.messId }, {
-    //                 $addToSet: {
-    //                     member: {
-    //                         $each: req.body.list_member_add
-    //                     }
-    //                 }
-    //             })
-    //         res.redirect('back');
-    //     } catch (error) {
-    //         next(error)
-    //     }
-    // }
-    // async outGroup(req, res, next) {
-    //     try {
-    //         await Message
-    //             .updateOne({ _id: req.query.messId }, {
-    //                 $pull: {
-    //                     member: req.userId
-    //                 }
-    //             })
-    //         res.redirect('/');
-    //     } catch (error) {
-    //         next(error)
-    //     }
-    // }
+    async addMemberGroup(req, res, next) {
+        try {
+            await Conversation
+                .updateOne({ _id: req.body.conversationId }, {
+                    $addToSet: {
+                        member: {
+                            $each: req.body.idsUser
+                        }
+                    }
+                })
+            res.status(200).json({ successful: true })
+        } catch (error) {
+            res.status(500).json({ successful: false })
+        }
+    }
+    async outGroup(req, res, next) {
+        try {
+            await Conversation
+                .updateOne({ _id: req.body.messId }, {
+                    $pull: {
+                        member: req.userId
+                    }
+                })
+            res.status(200).json({ successful: true })
+        } catch (error) {
+            res.status(500).json({ successful: false })
+        }
+    }
 }
 
 module.exports = new ConversationController();
