@@ -29,7 +29,10 @@ function Header() {
         }}
       >
         <Avatar
-          alt={`${userData.chatInfo.name}`}
+          sx={{
+            textTransform: "uppercase",
+          }}
+          alt={userData.chatInfo.name ? `${userData.chatInfo.name}` : "None"}
           src={`${userData.chatInfo.avatar}`}
         />
         <Typography
@@ -40,7 +43,7 @@ function Header() {
             alignItems: "center",
           }}
         >
-          {`${userData.chatInfo.name}`}
+          {userData.chatInfo.name ? `${userData.chatInfo.name}` : ""}
           {userData.chatInfo.type === "single" && (
             <FiberManualRecordIcon
               sx={{
