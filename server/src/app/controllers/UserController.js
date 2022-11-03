@@ -3,10 +3,8 @@ const Conversation = require('../models/Conversation');
 const verifyToken = require('../../util/verifyToken');
 const Chat = require('../models/Chat');
 const { mutipleMongooseToObject } = require('../../util/mongoose');
-const { MongooseToObject } = require('../../util/mongoose');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
-const ConversationController = require('./ConversationController');
 const saltRounds = 10;
 class UserController {
     async home(req, res, next) {
