@@ -62,7 +62,7 @@ function Group() {
             return (
               <Box key={uuidv4()} display={"flex"} alignItems="center" padding={"10px"}>
                 <Avatar
-                  src={contact.avatar ? contact.avatar : "default"}
+                  src={contact.avatar}
                   alt={contact.groupName}
                   sx={{
                     marginRight: "10px",

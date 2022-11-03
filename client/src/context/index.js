@@ -22,6 +22,8 @@ function ContextProvider({ children }) {
     waitingList: {}, // contant an object with key is a conversation
     chatInfo: {}, // all chat info of current conversation
     onlineList: {}, // contant an object with key is a friend online and value is true
+    isLoadingConversation: false,
+    isLoadingContact: true,
   });
 
   /**
@@ -115,6 +117,7 @@ function ContextProvider({ children }) {
 
   const selectConversation = async ({ id, name, url, receiverId, type, member }) => {
     if (userData.currConversationId !== id) {
+      dispatch({type: "LOADING_CONVERSATION", payload: true});
       await axios
         .get(`${apiUrl}/conversation?id=${id}`)
         .then(function (response) {
@@ -130,6 +133,7 @@ function ContextProvider({ children }) {
                 type: type,
                 member: member,
               },
+              isLoadingConversation: false,
             },
           });
         })

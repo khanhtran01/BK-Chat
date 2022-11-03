@@ -4,6 +4,7 @@ import { AuthContext } from "../../../context/authContext";
 import { conversationContext } from "../../../context";
 import { useContext, useMemo } from "react";
 import { v4 as uuidv4 } from "uuid";
+import CircularProgress from "@mui/material/CircularProgress";
 import MyMessage from "../../mymessage";
 import FriendMessage from "../../friendmessage";
 import moment from "moment";
@@ -27,7 +28,7 @@ function Body() {
       });
     }
     return temp;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(userData.chatInfo.member)]);
 
   return (
@@ -43,35 +44,47 @@ function Body() {
         overflowY: "scroll",
       }}
     >
-      {[]
-        .concat(userData && userData.currConversation)
-        .reverse()
-        .map((message) => {
-          if (message.userId._id === authState.user._id) {
+      {!userData.isLoadingConversation ? (
+        []
+          .concat(userData && userData.currConversation)
+          .reverse()
+          .map((message) => {
+            if (message.userId._id === authState.user._id) {
+              return (
+                <MyMessage
+                  key={uuidv4()}
+                  message={message.content}
+                  time={handleTime(message.createdAt)}
+                  messageInfo={message}
+                  replyFrom={message.replyFrom}
+                  memList={memList}
+                />
+              );
+            }
             return (
-              <MyMessage
+              <FriendMessage
                 key={uuidv4()}
                 message={message.content}
                 time={handleTime(message.createdAt)}
-                messageInfo={message}
+                username={message.userId.username}
+                avatar={message.userId.avatar}
                 replyFrom={message.replyFrom}
+                messageInfo={message}
                 memList={memList}
               />
             );
-          }
-          return (
-            <FriendMessage
-              key={uuidv4()}
-              message={message.content}
-              time={handleTime(message.createdAt)}
-              username={message.userId.username}
-              avatar={message.userId.avatar}
-              replyFrom={message.replyFrom}
-              messageInfo={message}
-              memList={memList}
-            />
-          );
-        })}
+          })
+      ) : (
+        <Box
+          display="flex"
+          width={"100%"}
+          height={"100%"}
+          justifyContent="center"
+          alignItems="center"
+        >
+          <CircularProgress sx={{ color: bcolors.main }} />
+        </Box>
+      )}
     </Box>
   );
 }
