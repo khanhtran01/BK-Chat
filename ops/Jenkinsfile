@@ -1,0 +1,21 @@
+pipeline {
+    agent any
+    // triggers {
+    //   cron '*/5 * * * *'
+    // }
+    environment {
+        PROJECT = "Add-chat-to-db"
+    }
+    tools { nodejs "NodeJS" }
+    stages {
+        stage('Hello') {
+            steps {
+                sh '''
+                    cd ..
+                    cd ${PROJECT}
+                    node index.js
+                '''
+            }
+        }
+    }
+}

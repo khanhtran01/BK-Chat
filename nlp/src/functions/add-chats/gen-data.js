@@ -2,11 +2,11 @@ const fs = require('fs')
 const mongoose = require('mongoose');
 const { uniqueNamesGenerator, names } = require('unique-names-generator');
 const sleep = require('./sleep');
-const Account = require("../models/Account");
-const Chat = require('../models/Chat')
-const Conversation = require("../models/Conversation")
+const Account = require("../../models/Account");
+const Chat = require('../../models/Chat')
+const Conversation = require("../../models/Conversation")
 const GeneratorData = async () => {
-    const conversationId = mongoose.Types.ObjectId('6344e91b89558fb2b5ec2b4a');
+    const conversationId = mongoose.Types.ObjectId('6344e91b89558fb2b5ec1234');
     const nameConversation = "Group Bitrex"
     fs.readFile("./utils/data.json", "utf8", async (err, jsonString) => {
         if (err) {
