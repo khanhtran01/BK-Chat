@@ -5,9 +5,9 @@ const port = process.env.PORT || 3500;
 const mongoose = require('mongoose');
 const http = require("http");
 const server = http.createServer(app);
-const Account = require('./models/Account')
-const Conversation = require('./models/Conversation')
-const Chat = require('./models/Chat')
+const Account = require('../../models/Account')
+const Conversation = require('../../models/Conversation')
+const Chat = require('../../models/Chat')
 
 async function connect() {
     try {
@@ -21,42 +21,42 @@ async function connect() {
     }
 }
 
-// connect();
+connect();
 
-function concatChat(chat1, chat2) {
-    return chat1.concat(" ", chat2);
-}
+// function concatChat(chat1, chat2) {
+//     return chat1.concat(" ", chat2);
+// }
 
-async function suggestionEachConversation(conversation) {
-    let classifies = []
-    conversation.member.forEach((memberId) => {
-        var chats = await Chat.find({
-            conversationId: conversation._id,
-            userId: memberId
-        }, { userRead: 0 })
-            .sort({ 'createdAt': -1 })
-            .limit(10)
-        let totalData = "";
-        chats.forEach((chat) => {
-            totalData = concatChat(totalData, chat.content);
-        })
-        // console.log(getClassifies(totalData));  // array of suggestions
-    })
-}
+// async function suggestionEachConversation(conversation) {
+//     let classifies = []
+//     conversation.member.forEach((memberId) => {
+//         var chats = await Chat.find({
+//             conversationId: conversation._id,
+//             userId: memberId
+//         }, { userRead: 0 })
+//             .sort({ 'createdAt': -1 })
+//             .limit(10)
+//         let totalData = "";
+//         chats.forEach((chat) => {
+//             totalData = concatChat(totalData, chat.content);
+//         })
+//         // console.log(getClassifies(totalData));  // array of suggestions
+//     })
+// }
 
-async function suggestionAllConversation() {
-    try {
-        const conversations = await Conversation.find({
-            'type': 'group',
-            '$expr': { $gte: [{ $size: '$member' }, 5] }
-        }, { desc: 0, avatar: 0 })
-        for (const conversation of conversations) {
-            suggestionEachConversation(conversation)
-        }
-    } catch (error) {
-        console.log(error);
-    }
-}
+// async function suggestionAllConversation() {
+//     try {
+//         const conversations = await Conversation.find({
+//             'type': 'group',
+//             '$expr': { $gte: [{ $size: '$member' }, 5] }
+//         }, { desc: 0, avatar: 0 })
+//         for (const conversation of conversations) {
+//             suggestionEachConversation(conversation)
+//         }
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
 
 // suggestionAllConversation()
 

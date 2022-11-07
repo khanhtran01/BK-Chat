@@ -1,10 +1,11 @@
 require("dotenv").config();
 const mongoose = require('mongoose');
-const GeneratorData = require('./utils/gen-data')
+const moment = require('moment');
+const GeneratorData = require('./gen-data')
 
 async function connect() {
     try {
-        await mongoose.connect(process.env.MONGODB_TEST_SERVER, {
+        await mongoose.connect(process.env.MONGODB_SERVER, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
@@ -16,7 +17,8 @@ async function connect() {
 
 connect();
 
-GeneratorData()
+
+GeneratorData(process.env.STEP, process.env.NUMBER)
 
 
 

@@ -1,0 +1,14 @@
+const generatorTime = (index) => {
+    const now = new Date();
+    var hours = 9;
+    const time = new Date(
+        now.getFullYear(), 
+        now.getMonth() - 1, 
+        now.getDate(), 
+        hours,
+        index
+    );
+    return time;
+}
+
+module.exports = generatorTime;

@@ -4,8 +4,15 @@ pipeline {
     stages {
         stage('Pull successful') { 
             steps {
-                sh 'ls -la' 
-                sh 'node -v'
+                echo 'Pull successful'
+            }
+        }
+        stage('Build nlp'){
+            steps {
+                sh '''
+                    cd nlp/
+                    npm install --omit=dev
+                '''
             }
         }
     }
