@@ -44,13 +44,19 @@ const GeneratorData = async (step, number) => {
             sleep(100)
         }
         const conversation = await Conversation.findOne({ _id: conversationId })
+        const members = await Account.find({}, { _id: 1 })
+        const result = members.map((member) => member._id)
         if (!conversation) {
-            const members = await Account.find({}, { _id: 1 })
-            const result = members.map((member) => member._id)
             await Conversation.create({
                 _id: conversationId,
                 name: nameConversation,
-                member: result
+                member: result,
+                createdAt: generatorTime(end)
+            })
+        } else {
+            await Conversation.updateOne({ _id: conversationId }, {
+                member: result,
+                updatedAt: generatorTime(end)
             })
         }
         console.log("Done!!");
