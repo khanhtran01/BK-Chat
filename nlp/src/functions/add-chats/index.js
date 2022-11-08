@@ -1,6 +1,8 @@
 require("dotenv").config();
 const mongoose = require('mongoose');
-const GeneratorData = require('./gen-data')
+const Conversation = require("../../models/Conversation");
+const GeneratorData = require('./gen-data');
+const sleep = require("./sleep");
 
 async function connect() {
     try {
@@ -17,7 +19,5 @@ async function connect() {
 
 connect();
 
-
-GeneratorData(process.env.STEP, process.env.NUMBER)
-
+GeneratorData(process.env.STEP, process.env.NUMBER, process.env.MAX_HOURS)
 
