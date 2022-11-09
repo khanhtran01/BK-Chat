@@ -86,6 +86,7 @@ function ChatPanel() {
               })
             : [0, 0, 0, 0, 0].map(() => (
                 <Box
+                  key={uuidv4()}
                   sx={{
                     display: "flex",
                     flexDirection: "row",

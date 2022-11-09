@@ -29,7 +29,7 @@ function concatChat(chat1, chat2) {
 
 async function suggestionEachConversation(conversation) {
     let classifies = []
-    conversation.member.forEach((memberId) => {
+    conversation.member.forEach(async (memberId) => {
         var chats = await Chat.find({
             conversationId: conversation._id,
             userId: memberId
