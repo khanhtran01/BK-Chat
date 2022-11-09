@@ -1,18 +1,23 @@
+// Cron job for add chats
 pipeline {
     agent any
     // triggers {
     //   cron '*/5 * * * *'
     // }
-    environment {
-        PROJECT = "Add-chat-to-db"
-    }
     tools { nodejs "NodeJS" }
+    environment {
+        PROJECT = "BK-Chat"
+        MONGODB_SERVER = "mongodb://admin:admin12345@mongodb:27017/BK-Chat?authSource=admin"
+        NUMBER = "10"
+        HOURS = "10"
+    }
     stages {
-        stage('Hello') {
+        stage('Generate data') {
             steps {
                 sh '''
                     cd ..
-                    cd ${PROJECT}
+                    cd ${PROJECT}/nlp/src/functions/add-chats/
+                    echo "MONGODB_SERVER=${MONGODB_SERVER}\nSTEP=${BUILD_NUMBER}\nNUMBER=${NUMBER}\nHOURS=${HOURS}" > .env
                     node index.js
                 '''
             }
