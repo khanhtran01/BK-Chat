@@ -76,6 +76,7 @@ function Body() {
           })
       ) : (
         <Box
+          key={uuidv4()}
           display="flex"
           width={"100%"}
           height={"100%"}
