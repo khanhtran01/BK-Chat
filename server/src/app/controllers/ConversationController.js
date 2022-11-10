@@ -89,7 +89,7 @@ class ConversationController {
                         },
                     }
                 );
-                var chats = await ChatController.pagingChat(conversationId, 8, 1);
+                var chats = await ChatController.pagingChat(conversationId, 25, 1);
                 res.status(200).json({ chats: chats, successful: true });
             } else {
                 res.status(200).json({

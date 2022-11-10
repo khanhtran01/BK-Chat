@@ -4,12 +4,15 @@ pipeline {
     // triggers {
     //   cron '*/5 * * * *'
     // }
+    // BUILD_NUMBER
     tools { nodejs "NodeJS" }
     environment {
         PROJECT = "BK-Chat"
         MONGODB_SERVER = "mongodb://admin:admin12345@mongodb:27017/BK-Chat?authSource=admin"
-        NUMBER = "10"
-        HOURS = "10"
+        STEP = "1"
+        NUMBER = "20"
+        HOURS = "8"
+        MAX_HOURS = "3"
     }
     stages {
         stage('Generate data') {
@@ -17,7 +20,7 @@ pipeline {
                 sh '''
                     cd ..
                     cd ${PROJECT}/nlp/src/functions/add-chats/
-                    echo "MONGODB_SERVER=${MONGODB_SERVER}\nSTEP=${BUILD_NUMBER}\nNUMBER=${NUMBER}\nHOURS=${HOURS}" > .env
+                    echo "MONGODB_SERVER=${MONGODB_SERVER}\nSTEP=${STEP}\nNUMBER=${NUMBER}\nHOURS=${HOURS}\nMAX_HOURS=${MAX_HOURS}" > .env
                     node index.js
                 '''
             }

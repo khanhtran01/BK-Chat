@@ -9,7 +9,6 @@ const GeneratorData = async (step, number, maxHours) => {
     const conversationId = mongoose.Types.ObjectId('6344e91b89558fb2b5ec1234');
     const nameConversation = 'Group Bitrex';
     const password = '$2b$10$FzU29JF7cNwHL9gmj/xp6uE3KThoJET3dVGPP689CA8k6DADj3CHC';
-    const avatar = 'https://res.cloudinary.com/be-dev/image/upload/v1667490386/uploads/avatar-default_ampzcl.png';
     // Order of chats to add to database
     const start = step * number - number;
     const end = step * number - 1;
@@ -49,11 +48,15 @@ const GeneratorData = async (step, number, maxHours) => {
                     email: `${data[i].from_id}@gmail.com`,
                     password: password,
                     username: randomName,
-                    avatar: avatar,
+                    avatar: '',
                     address: '',
                     desc: 'Account from dataset'
                 })
                 oldMembers.push(mongoose.Types.ObjectId(data[i].from_id))
+            } else {
+                if(!oldMembers.includes(user._id)){
+                    oldMembers.push(user._id)
+                }
             }
         }
         if (!conversation) {
@@ -61,6 +64,7 @@ const GeneratorData = async (step, number, maxHours) => {
                 _id: conversationId,
                 name: nameConversation,
                 member: oldMembers,
+                type: 'group',
                 createdAt: generatorTime(indexs[end - start]),
                 updatedAt: generatorTime(indexs[end - start])
             })
