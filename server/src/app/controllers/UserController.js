@@ -44,7 +44,7 @@ class UserController {
                     .find({ conversationId: conversation._id, userRead: { $nin: req.userId } })
                     .count()
                 conversation.lastChat = await Chat
-                    .findOne({ conversationId: conversation._id }, { content: 1 })
+                    .findOne({ conversationId: conversation._id }, { content: 1, createdAt: 1 })
                     .sort({ 'createdAt': -1 });
             }
             res.status(200).json({

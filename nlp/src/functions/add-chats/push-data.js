@@ -4,8 +4,7 @@ const { uniqueNamesGenerator, names } = require('unique-names-generator');
 const Account = require("../../models/Account");
 const Chat = require('../../models/Chat')
 const Conversation = require("../../models/Conversation");
-const PushData = async (timeToActivated) => {
-    const conversationId = mongoose.Types.ObjectId('6344e91b89558fb2b5ec1234');
+const PushData = async (timeToActivated, conversationId) => {
     const nameConversation = 'Group Bitrex';
     const password = '$2b$10$FzU29JF7cNwHL9gmj/xp6uE3KThoJET3dVGPP689CA8k6DADj3CHC';
     const now = new Date();
@@ -51,7 +50,8 @@ const PushData = async (timeToActivated) => {
                             month,
                             now.getDate() - timeToActivated + (current.getDate() - firstDay.getDate()),
                             current.getHours(),
-                            current.getMinutes()
+                            current.getMinutes(),
+                            current.getSeconds()
                         )
                     })
                     const user = await Account.findOne({ _id: mongoose.Types.ObjectId(data[i].from_id) })
@@ -97,7 +97,6 @@ const PushData = async (timeToActivated) => {
                     continue;
                 }
                 if (flag) {
-                    // do something
                     const current = new Date(data[i].created_At);
                     const distanceMonth = current.getMonth() - previousTime.getMonth();
                     var distanceDate = current.getDate() - previousTime.getDate();
@@ -105,11 +104,12 @@ const PushData = async (timeToActivated) => {
                         distanceDate = distanceDate + 30 * distanceMonth;
                     }
                     const newTime = new Date(
-                        now.getFullYear(),
-                        now.getMonth(),
+                        lastChat.createdAt.getFullYear(),
+                        lastChat.createdAt.getMonth(),
                         lastChat.createdAt.getDate() + distanceDate,
                         current.getHours(),
-                        current.getMinutes()
+                        current.getMinutes(),
+                        current.getSeconds()
                     )
                     if (newTime > now) {
                         await Conversation.updateOne({ _id: conversationId }, {
@@ -152,7 +152,6 @@ const PushData = async (timeToActivated) => {
         console.log("Done!!");
         process.exit(0);
     });
-
 }
 
 module.exports = PushData
