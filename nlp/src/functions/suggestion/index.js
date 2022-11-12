@@ -71,6 +71,52 @@ connect();
 //         console.log(error);
 //     }
 // })
+function countReply(uidA, uidB){
+    let count = 0;
+}
+
+function getSumFromArray(data){
+    return data.reduce((partialSum ,a) => partialSum + a, 0)
+}
+
+function getDentaTimeList(data, idA = "", idB = "") {
+    let currTime, oldTime, currId, oldId = null;
+    let dentaTime = [];
+    data.map(chat => {
+        if (chat.uid === idA || chat.uid === idB || (idA === "" && idB === "")) {
+            currTime = chat.time;
+            currId = chat.uid;
+            if (oldId != null && currId !== oldId && (currTime.getTime() - oldTime.getTime()) <= 6 * 60 * 60 * 1000){
+                dentaTime.push((currTime.getTime() - oldTime.getTime())/1000);
+            }
+            oldTime = currTime;
+            oldId = currId;
+        }
+    })
+    return dentaTime;
+}
+
+async function getALlMessage(){
+    let listMessages = await Chat.find({})
+    let newList = [];
+    listMessages.map(message => {
+        newList.push({
+            time: message.createdAt,
+            uid: message.userId,
+            replyFrom: message.replyFrom,
+        })
+    })
+    const A_B = getDentaTimeList(newList, '383935313139303832616161', '393734363638393835616161' )
+    console.log('=============AVG TIME OF A AND B=======================');
+    console.log(getSumFromArray(A_B)/A_B.length);
+    console.log('====================================');
+    const all = getDentaTimeList(newList)
+    console.log('=============AVG TIME OF ALL USER================');
+    console.log(getSumFromArray(all)/all.length);
+    console.log('====================================');
+}
+
+getALlMessage();
 
 server.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
