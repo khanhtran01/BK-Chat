@@ -11,7 +11,7 @@ class UserController {
         try {
             var conversations = await Conversation
                 .find({ 'member': req.userId })
-                .populate('member', { password: 0 }) // note
+                .populate('member', { password: 0, address: 0, desc: 0 }) // note
                 .sort({ 'updatedAt': -1 });
             var allContact = [];
             conversations.forEach((conversation) => {

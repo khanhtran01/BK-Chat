@@ -7,7 +7,7 @@ const Chat = new Schema({
         type: String,
         ref: 'Account',
     },
-    type: { type: String },
+    type: { type: String, enum: ['text'] },
     content: { type: String },
     like: { type: Array, default: [] },
     totalLike: { type: Number, default: 0 },
