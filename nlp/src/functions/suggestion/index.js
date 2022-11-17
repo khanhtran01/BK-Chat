@@ -10,7 +10,7 @@ const Account = require('../../models/Account')
 const Conversation = require('../../models/Conversation')
 const Chat = require('../../models/Chat')
 const fs = require('fs');
-
+const CHECKDAY = 15;
 async function connect() {
     try {
         await mongoose.connect(process.env.MONGODB_SERVER, {
@@ -150,8 +150,10 @@ function calcReplyRate(data ,uidA, uidB, avg){
     let advantageCount = 0; // count of little dentaTime 
     let connectCount = 0;
     let currTime, oldTime, currId, oldId = null;
+    let countMessage = 0;
     data.map(chat => {
         if (chat.uid === uidA || chat.uid === uidB ) {
+            countMessage += 1;
             currTime = chat.time;
             currId = chat.uid;
             if ((chat.uid === uidA && chat.replyFrom === uidB) || (chat.uid === uidB && chat.replyFrom === uidA)) {
@@ -167,6 +169,9 @@ function calcReplyRate(data ,uidA, uidB, avg){
             oldId = currId;
         }
     })
+    if (countMessage < 10){
+        return 0;
+    }
     // return dentaTime;
     // console.log("reply rate :" + (basisCount + advantageCount) / connectCount );
     return (basisCount + advantageCount) / connectCount;
@@ -227,7 +232,7 @@ async function getAllMessage(conversationId, backToDays){
 }
 async function todo(){
     // get data of 7 days of conversation id 6344e91b89558fb2b5ec1234
-    const data = await getAllMessage("6344e91b89558fb2b5ec1234", 15);
+    const data = await getAllMessage("6344e91b89558fb2b5ec1234", CHECKDAY);
     // get dentaTime list of this data
     const dentaTime = getDentaTimeList(data);
     // caculate average time from denta time list
@@ -236,10 +241,10 @@ async function todo(){
     const paringList = userPairing(getUserIDList(data));
     // all paring with > 20% reply Rate
     const filterParingList = [];
-
     for (let i = 0; i < paringList.length; i++) {
         let replyRate = calcReplyRate(data, paringList[i][0], paringList[i][1], avgTime);
-        if (replyRate > 0.2) {
+        if (replyRate >= 0.4) {
+            console.log(replyRate);
             paringList[i].push(replyRate);
             filterParingList.push(paringList[i]);
         }
