@@ -25,18 +25,24 @@ async function connect() {
 
 connect();
 
-// https://gist.github.com/axelpale/3118596?permalink_comment_id=3888711#gistcomment-3888711
-function combinations(arr, k){
-    let set = [...arr];
-    if (k > set.length || k <= 0) return [];
-    if (k === set.length) return [set];
-  
-    return set.reduce((p, c, i) => {
-      combinations(set.slice(i + 1), k - 1)
-        .forEach(tailArray => p.push([c].concat(tailArray)));
-      return p;
-    }, []);
+// https://stackoverflow.com/a/64414875/19518308
+function combinations(arr, k, prefix=[]) {
+    if (k == 0) return [prefix];
+    return arr.flatMap((v, i) =>
+    combinations(arr.slice(i+1), k-1, [...prefix, v])
+    );
 }
+// function combinations(arr, k){
+//     let set = [...arr];
+//     if (k > set.length || k <= 0) return [];
+//     if (k === set.length) return [set];
+  
+//     return set.reduce((p, c, i) => {
+//       combinations(set.slice(i + 1), k - 1)
+//         .forEach(tailArray => p.push([c].concat(tailArray)));
+//       return p;
+//     }, []);
+// }
 
 function checkConnection(data, acceptList) {
 
@@ -286,6 +292,10 @@ async function todo(){
     console.log(res);
     console.log("done~!");
 }
+
+
+// console.log(combinations([0,1,2,3,4], 3));
+
 todo();
     
 server.listen(port, () => {
