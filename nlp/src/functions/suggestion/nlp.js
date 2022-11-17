@@ -1,4 +1,5 @@
 // Init Google Cloud Natural Language Api 
+require("dotenv").config();
 const language = require('@google-cloud/language');
 const client = new language.LanguageServiceClient();
 const classificationModelOptions = {
@@ -20,10 +21,11 @@ async function getClassifies(text) {
     });
     const categories = []
     classification.categories.forEach(category => {
-        // if (category.confidence >= 0.5) {
-        // }
-        categories.push({name: category.name, rate: category.confidence})
+        if (category.confidence >= 0.5) {
+            categories.push(category.name)
+        }
     });
-    console.log(categories)
     return categories;
 }
+
+module.exports = getClassifies;

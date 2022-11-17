@@ -17,10 +17,10 @@ route.get('/read-chat', ChatController.addUserReadChat); // read chat nay luon n
 // [PUT] /api/user/update-group-info (conversation, groupAvatar, groupName, groupDesc)
 route.post('/update-group-info', uploads.single('groupAvatar') , UpdateInfoController.groupInfo);
 
-// [PUT] (conversationId, idsUser) /api/conversation/add-member 
+// [PUT] /api/conversation/add-member  (conversationId, idsUser) 
 route.put('/add-member', ConversationController.addMemberGroup);
 
-// [PUT] (conversationId) /api/conversation/out-group
+// [PUT] /api/conversation/out-group (conversationId) 
 route.put('/out-group', ConversationController.outGroup);
 
 // [GET] /api/conversation/get-all-contact

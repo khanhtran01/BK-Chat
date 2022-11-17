@@ -15,9 +15,9 @@ function Body() {
   const handleTime = (time) => {
     const today = moment();
     if (today.date() === moment(time).date()) {
-      return moment(time).format("HH:mm");
+      return moment.utc(time).format("HH:mm");
     } else {
-      return moment(time).format("HH:mm DD/MM/YYYY");
+      return moment.utc(time).format("HH:mm DD/MM/YYYY");
     }
   };
   const memList = useMemo(() => {
