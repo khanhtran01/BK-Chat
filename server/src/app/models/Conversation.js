@@ -6,7 +6,7 @@ const Conversation = new Schema({
     type: { type: String, enum: ['single', 'group'] },
     member: [{ type: String, ref: 'Account' }],
     desc: { type: String, default: '' },
-    avatar: { type: String, default: '' }
+    avatar: { type: String, default: null }
 }, {
     timestamps: true
 });

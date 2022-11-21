@@ -11,6 +11,7 @@ const Conversation = require('../../models/Conversation')
 const Chat = require('../../models/Chat')
 const fs = require('fs');
 const axios = require('axios');
+
 async function connect() {
     try {
         await mongoose.connect(process.env.MONGODB_SERVER, {
@@ -23,7 +24,7 @@ async function connect() {
     }
 }
 
-connect();
+// connect();
 
 // https://stackoverflow.com/a/64414875/19518308
 function combinations(arr, k, prefix=[]) {
@@ -150,10 +151,8 @@ function calcReplyRate(data ,uidA, uidB, avg){
     let advantageCount = 0; // count of little dentaTime 
     let connectCount = 0;
     let currTime, oldTime, currId, oldId = null;
-    let countMessage = 0;
     data.map(chat => {
         if (chat.uid === uidA || chat.uid === uidB ) {
-            countMessage += 1;
             currTime = new Date(chat.time);
             currId = chat.uid;
             if ((chat.uid === uidA && chat.replyFrom === uidB) || (chat.uid === uidB && chat.replyFrom === uidA)) {
@@ -169,10 +168,6 @@ function calcReplyRate(data ,uidA, uidB, avg){
             oldId = currId;
         }
     })
-    // check time
-    if (countMessage < 15){
-        return 0;
-    }
     // return dentaTime;
     // console.log("reply rate :" + (basisCount + advantageCount) / connectCount );
     return (basisCount + advantageCount) / connectCount;
@@ -214,7 +209,7 @@ function getDentaTimeList(data, idA = "", idB = "") {
  * @param {Object} id
  * @returns {Object} list of chat
  */
- async function getAllMessage(conversationId, backToDays){
+async function getAllMessage(conversationId, backToDays){
     const result = await axios.get(`http://localhost:4000/api/chat/get?conversationId=${conversationId}&backToDays=${backToDays}`);
     return result.data.chats;
 }
@@ -226,10 +221,10 @@ async function getChatGroup() {
     }
 }
 
-
 async function todo(conversationId, backToDays){
     // get data of 7 days of conversation id 6344e91b89558fb2b5ec1234
     const data = await getAllMessage(conversationId, backToDays);
+
     // get dentaTime list of this data
     const dentaTime = getDentaTimeList(data);
     // caculate average time from denta time list
@@ -238,10 +233,10 @@ async function todo(conversationId, backToDays){
     const paringList = userPairing(getUserIDList(data));
     // all paring with > 20% reply Rate
     const filterParingList = [];
+
     for (let i = 0; i < paringList.length; i++) {
         let replyRate = calcReplyRate(data, paringList[i][0], paringList[i][1], avgTime);
-        if (replyRate >= 0.4) {
-            console.log(replyRate);
+        if (replyRate >= 0.4 && replyRate != 1) {
             paringList[i].push(replyRate);
             filterParingList.push(paringList[i]);
         }
@@ -291,14 +286,13 @@ async function todo(conversationId, backToDays){
             return Object.keys(path)[idx];
         })
     }
-
+    //
     for (let i = 0; i < res.length; i++) {
         await axios.post('http://localhost:4000/api/notification/new', {
             members: res[i],
             conversationId: conversationId
         })
     }
-
     console.log(res);
     console.log("done~!");
     process.exit(0);
@@ -307,8 +301,10 @@ async function todo(conversationId, backToDays){
 
 // console.log(combinations([0,1,2,3,4], 3));
 
+// todo();
+
 getChatGroup()
-    
+
 server.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
 });

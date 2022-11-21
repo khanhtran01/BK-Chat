@@ -203,6 +203,27 @@ class ConversationController {
             res.status(500).json({ successful: false })
         }
     }
+
+    async getConversationForSugestion(req, res, next) {
+        try {
+            const now = new Date();
+            const timeActive = new Date(
+                now.getFullYear(),
+                now.getMonth(),
+                now.getDate() - +req.query.timeActive,
+            );
+            console.log("🚀 ~ timeActive", timeActive)
+            const conversations = await Conversation.find({
+                type: "group",
+                $expr: { $gte: [{ $size: '$member' }, 5] },
+                createdAt: { $gte: timeActive }
+            }, { _id: 1 })
+            res.status(200).json({ conversations: conversations, successful: true })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ successful: false })
+        }
+    }
 }
 
 module.exports = new ConversationController();

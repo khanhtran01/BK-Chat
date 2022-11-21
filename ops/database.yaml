@@ -47,3 +47,28 @@ volumes:
 #       - 8080:8080
 # volumes: 
 #   db-mysql:
+# version: '3'
+# services:
+#   postgres:
+#     image: postgres:15
+#     container_name: postgres
+#     environment:
+#       - POSTGRES_USER=postgres
+#       - POSTGRES_PASSWORD=admin12345
+#     ports:
+#       - 5432:5432
+#     volumes:
+#       - db-postgres:/var/lib/postgresql/data
+#   pgadmin:
+#     depends_on:
+#       - postgres
+#     image: dpage/pgadmin4:6
+#     container_name: pgadmin
+#     restart: always
+#     environment:
+#       - PGADMIN_DEFAULT_EMAIL=admin@baonk.site
+#       - PGADMIN_DEFAULT_PASSWORD=admin12345
+#     ports:
+#       - 8004:80
+# volumes:
+#   db-postgres:

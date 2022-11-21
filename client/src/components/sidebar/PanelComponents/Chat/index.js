@@ -75,7 +75,7 @@ function ChatPanel() {
                     url={url}
                     name={username}
                     status={status ? "online" : "offline"}
-                    time={conversation.updatedAt}
+                    time={conversation.lastChat.createdAt}
                     message={conversation.lastChat.content}
                     type={conversation.type}
                     receiverId={receiverId}

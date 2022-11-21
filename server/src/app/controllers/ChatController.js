@@ -111,6 +111,37 @@ class ChatController {
         }
 
     }
+
+    async getChatForSuggestion(req, res, next) {
+        try {
+            const now = new Date();
+            const backToDays = new Date(
+                now.getFullYear(),
+                now.getMonth(),
+                now.getDate() - req.query.backToDays,
+            );
+            console.log(req.query.backToDays);
+            let chats = await Chat.find({
+                conversationId: req.query.conversationId,
+                createdAt: {
+                    $gte: backToDays,
+                }
+            })
+            chats = chats.map(chat => {
+                return {
+                    time: chat.createdAt,
+                    uid: chat.userId,
+                    replyFrom: chat.replyFrom,
+                    content: chat.content
+                }
+            })
+            res.status(200).json({ chats, successful: true })
+        } catch (error) {
+            console.log(error);
+            res.status(500).json({ successful: false })
+        }
+
+    }
 }
 
 module.exports = new ChatController();

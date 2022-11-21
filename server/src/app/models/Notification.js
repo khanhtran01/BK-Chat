@@ -5,7 +5,7 @@ const Member = new Schema({
     userId: { type: String, ref: 'Account' },
     accept: {
         type: String,
-        enum: ['accept', 'refuse', 'none'],
+        enum: ['accept', 'reject', 'none'],
         default: 'none'
     }
 })
@@ -15,7 +15,7 @@ const Notification = new Schema({
     members: [Member],
     status: {
         type: String,
-        enum: ['done', 'pending', 'refuse'],
+        enum: ['done', 'pending', 'reject'],
         default: 'pending'
     },
 }, {
