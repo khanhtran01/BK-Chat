@@ -33,7 +33,8 @@ class UserController {
                     allContact.push({
                         type: conversation.type,
                         conversationId: conversation._id,
-                        groupName: conversation.name
+                        groupName: conversation.name,
+                        avatar: conversation.avatar,
                     })
                 }
             });

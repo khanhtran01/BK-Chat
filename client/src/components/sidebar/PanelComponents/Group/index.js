@@ -58,6 +58,7 @@ function Group() {
         }}
       >
         {userData.contactList.map((contact) => {
+          console.log(contact);
           if (contact.type === "group") {
             return (
               <Box key={uuidv4()} display={"flex"} alignItems="center" padding={"10px"}>

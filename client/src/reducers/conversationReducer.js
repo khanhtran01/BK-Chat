@@ -30,6 +30,11 @@ const conversationReducer = (state, action) => {
         ...state,
         onlineList: payload,
       };
+    case "UPDATE_NOTIFY":
+      return {
+        ...state,
+        notifyList: payload,
+      };
 
     case "RECEIVE_MESSAGE":
       let head1 = {};

@@ -65,7 +65,7 @@ function ChatPanel() {
                     receiverId = conversation.member[0]._id;
                   }
                 } else {
-                  url = conversation.member[0].avatar;
+                  url = conversation.avatar;
                   username = conversation.name;
                 }
                 return (

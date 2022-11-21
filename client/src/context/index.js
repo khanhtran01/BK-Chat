@@ -22,6 +22,7 @@ function ContextProvider({ children }) {
     waitingList: {}, // contant an object with key is a conversation
     chatInfo: {}, // all chat info of current conversation
     onlineList: {}, // contant an object with key is a friend online and value is true
+    notifyList: [],
     isLoadingConversation: false,
     isLoadingContact: true,
   });
@@ -44,6 +45,24 @@ function ContextProvider({ children }) {
         console.log(err);
       });
     return data;
+  };
+
+
+  /**
+   * getAllContact
+   * @TODO get all contacts
+   * @param {}
+   * @returns all contact
+   */
+   const getAllNotify = async () => {
+    await axios
+      .get(`${apiUrl}/notification/get`)
+      .then((response) => {
+        dispatch({ type: "UPDATE_NOTIFY", payload:  response.data.notifications });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   /**
@@ -160,6 +179,7 @@ function ContextProvider({ children }) {
   useEffect(() => {
     const initContactList = async () => {
       await initData();
+      await getAllNotify();
     };
     if (authState.isAuthenticated) {
       initContactList();

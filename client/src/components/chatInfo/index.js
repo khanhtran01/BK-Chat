@@ -153,7 +153,9 @@ export default function ChatInfo() {
                 </Box>
               }
               description={
-                <Box>
+                <Box 
+                sx={{maxHeight: "500px", overflow: "scroll"}}
+                >
                   {userData.chatInfo.member.map((mem) => (
                     <Box
                       key={uuidv4()}

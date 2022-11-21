@@ -23,7 +23,7 @@ class NotificationController {
         try {
             const notifications = await Notification.find({
                 'members.userId': req.userId
-            }).populate('members.userId',{ password: 0, address: 0, desc: 0})
+            }).populate('members.userId',{ password: 0, address: 0, desc: 0}).populate('conversationId',{ member: 0, desc: 0, createdAt: 0, updatedAt: 0})
             res.status(200).json({ notifications, successful: true });
         } catch (error) {
             res.status(500).json({ successful: false })
@@ -32,10 +32,13 @@ class NotificationController {
 
     async accept(req, res, next) {
         try {
-            const notificationId = req.body.notificationId;
+            console.log(req.body);
+            console.log(req.userId);
+            const notificationId = req.body.notifyId;
             if (!req.body.isNewGroup) {
+                console.log('vao already');
                 await Notification.updateOne({ _id: notificationId, 'members.userId': req.userId }, {
-                    $set: { 'members.$.accept': 'accept' }
+                    $set: { 'members.$.accept': req.body.status }
                 })
             } else {
                 console.log('herr');

@@ -13,12 +13,15 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import SettingsIcon from "@mui/icons-material/Settings";
+import NotificationsIcon from '@mui/icons-material/Notifications';
 import GroupIcon from "@mui/icons-material/Group";
+import NotificationsActiveIcon from '@mui/icons-material/NotificationsActive';
 // import panelTab
 import ChatPanel from "./PanelComponents/Chat";
 import ProfileTab from "./PanelComponents/Profile";
 import Contact from "./PanelComponents/Contact";
 import Group from "./PanelComponents/Group";
+import Notification from "./PanelComponents/Notification";
 // import from soutce code
 import GroupProvider from "./PanelComponents/Group/context";
 import { bcolors, textcolor } from "../../colors";
@@ -124,7 +127,7 @@ export default function SideBar() {
         height: "1.5rem",
       }}
     />,
-    <SettingsIcon
+    <NotificationsIcon
       sx={{
         width: "1.5rem",
         height: "1.5rem",
@@ -162,7 +165,7 @@ export default function SideBar() {
         </GroupProvider>
       </TabPanel>
       <TabPanel value={value} index={4}>
-        setting
+        <Notification />
       </TabPanel>
     </Box>
   );
