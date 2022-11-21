@@ -18,27 +18,47 @@ const CustomButton = styled(Button)({
   },
 });
 
-function NotificationElement({conversationId, members, setDialogData, setOpenDialog, notifyId}) {
+function NotificationElement({
+  conversationId,
+  members,
+  setDialogData,
+  setOpenDialog,
+  notifyId,
+}) {
   return (
     <CustomButton
-      onClick={
-        () => {
-          setDialogData({
-            conversationId: conversationId,
-            members: members,
-            notifyId: notifyId,
-          });
-          setOpenDialog(true);
-        }
-      }
+      onClick={() => {
+        setDialogData({
+          conversationId: conversationId,
+          members: members,
+          notifyId: notifyId,
+        });
+        setOpenDialog(true);
+      }}
     >
       <Box display="flex">
-        <Avatar
-          src={`${conversationId.avatar}`}
-          alt="System"
-        ></Avatar>
+        {conversationId.avatar ? (
+          <Avatar
+            src={`${conversationId.avatar}`}
+            alt={`${conversationId.name}`}
+          />
+        ) : (
+          <Avatar
+            sx={{
+              backgroundColor: "#7269ef40",
+              color: "rgb(114,105,239)",
+              fontSize: ".9375rem",
+              fontWeight: 500,
+              textTransform: "uppercase",
+            }}
+          >{`${conversationId.name[0]}`}</Avatar>
+        )}
+
         <Box ml={2}>
-          <Typography fontSize={"14px"} textAlign="left">The system proposes to create a subgroup from group {`${conversationId.name}`}</Typography>
+          <Typography fontSize={"14px"} textAlign="left">
+            The system proposes to create a subgroup from group{" "}
+            {`${conversationId.name}`}
+          </Typography>
         </Box>
       </Box>
     </CustomButton>

@@ -61,8 +61,29 @@ function Group() {
           console.log(contact);
           if (contact.type === "group") {
             return (
-              <Box key={uuidv4()} display={"flex"} alignItems="center" padding={"10px"}>
-                <Avatar
+              <Box
+                key={uuidv4()}
+                display={"flex"}
+                alignItems="center"
+                padding={"10px"}
+              >
+                {contact.avatar ? (
+                  <Avatar src={`${contact.avatar}`} alt={`${contact.groupName}`} />
+                ) : (
+                  <Avatar
+                    sx={{
+                      marginRight: "10px",
+                      height: "32px",
+                      width: "32px",
+                      backgroundColor: "#7269ef40",
+                      color: "rgb(114,105,239)",
+                      fontSize: ".9375rem",
+                      fontWeight: 500,
+                      textTransform: "uppercase",
+                    }}
+                  >{`${contact.groupName[0]}`}</Avatar>
+                )}
+                {/* <Avatar
                   src={contact.avatar}
                   alt={contact.groupName}
                   sx={{
@@ -75,7 +96,7 @@ function Group() {
                     fontWeight: 500,
                     textTransform: "uppercase",
                   }}
-                />
+                /> */}
                 <Typography sx={{ fontSize: "14px" }} color={"#e1e9f1"}>
                   {"#" + contact.groupName}
                 </Typography>

@@ -19,10 +19,9 @@ import { apiUrl } from "../../../../../../context/constant";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
-import CircularProgress from '@mui/material/CircularProgress';
+import CircularProgress from "@mui/material/CircularProgress";
 
-
-import PendingIcon from '@mui/icons-material/Pending';
+import PendingIcon from "@mui/icons-material/Pending";
 import { bcolors, textcolor } from "../../../../../../colors";
 
 // import { conversationContext } from "../../../../../../context";
@@ -81,7 +80,10 @@ export default function NotifyDialog({
             >{`The list of members includes : `}</Typography>
             <Box>
               {members.map((member) => (
-                <Box key={uuidv4()} sx={{ display: "flex", alignItems: "center" }}>
+                <Box
+                  key={uuidv4()}
+                  sx={{ display: "flex", alignItems: "center" }}
+                >
                   {member.accept === "accept" ? (
                     <CheckIcon
                       sx={{ color: bcolors.online, marginRight: "5px" }}
@@ -90,7 +92,13 @@ export default function NotifyDialog({
                     <CloseIcon sx={{ color: "red", marginRight: "5px" }} />
                   ) : (
                     <CircularProgress
-                      sx={{ color: textcolor.white, marginRight: "14px", width: "15px !important", height: "15px !important" }}
+                      sx={{
+                        color: textcolor.white,
+                        marginRight: "9px",
+                        marginLeft: "5px",
+                        width: "15px !important",
+                        height: "15px !important",
+                      }}
                     />
                   )}
 

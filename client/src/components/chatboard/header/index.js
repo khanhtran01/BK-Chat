@@ -28,13 +28,26 @@ function Header() {
           alignItems: "center",
         }}
       >
-        <Avatar
+        {userData.chatInfo.avatar ? (
+          <Avatar src={`${userData.chatInfo.avatar}`} alt={`${userData.chatInfo.name}}`} />
+        ) : (
+          <Avatar
+            sx={{
+              backgroundColor: "#7269ef40",
+              color: "rgb(114,105,239)",
+              fontSize: ".9375rem",
+              fontWeight: 500,
+              textTransform: "uppercase",
+            }}
+          >{`${userData.chatInfo.name[0]}`}</Avatar>
+        )}
+        {/* <Avatar
           sx={{
             textTransform: "uppercase",
           }}
           alt={userData.chatInfo.name ? `${userData.chatInfo.name}` : "None"}
           src={`${userData.chatInfo.avatar}`}
-        />
+        /> */}
         <Typography
           sx={{
             color: textcolor.primaryGray,

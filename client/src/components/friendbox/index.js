@@ -50,7 +50,7 @@ function FriendBox(props) {
           width: "40px",
         }}
       >
-        <BadgeAvatars url={url} status={status} />
+        <BadgeAvatars url={url} status={status} name={name} />
       </Box>
       <Box
         sx={{
