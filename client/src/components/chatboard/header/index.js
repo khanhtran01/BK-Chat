@@ -39,7 +39,7 @@ function Header() {
               fontWeight: 500,
               textTransform: "uppercase",
             }}
-          >{`${userData.chatInfo.name[0]}`}</Avatar>
+          >{userData.chatInfo.name ? `${userData.chatInfo.name[0]}` : "N"}</Avatar>
         )}
         {/* <Avatar
           sx={{
