@@ -276,7 +276,7 @@ async function todo(conversationId, backToDays){
     }
 
     for (let i = 0; i < res.length; i++) {
-        await axios.post('http://localhost:4000/api/notification/new', {
+        await axios.post(`${mainService}/api/notification/new`, {
             members: res[i],
             conversationId: conversationId
         })

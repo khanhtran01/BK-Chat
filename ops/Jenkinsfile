@@ -9,10 +9,11 @@ pipeline {
     environment {
         PROJECT = "BK-Chat"
         MONGODB_SERVER = "mongodb://admin:admin12345@mongodb:27017/BK-Chat?authSource=admin"
-        STEP = "1"
-        NUMBER = "20"
-        HOURS = "8"
-        MAX_HOURS = "3"
+        CONVERSATIONID = '6344e91b89558fb2b5ec0001'
+        TIMEACTIVATED = 15
+        CONVERSATIONNAME = 'Group Bittrex'
+        FILE = 'group-messages-bittrex.json'
+        
     }
     stages {
         stage('Generate data') {
@@ -20,7 +21,7 @@ pipeline {
                 sh '''
                     cd ..
                     cd ${PROJECT}/nlp/src/functions/add-chats/
-                    echo "MONGODB_SERVER=${MONGODB_SERVER}\nSTEP=${STEP}\nNUMBER=${NUMBER}\nHOURS=${HOURS}\nMAX_HOURS=${MAX_HOURS}" > .env
+                    echo "MONGODB_SERVER=${MONGODB_SERVER}\nCONVERSATIONID=${CONVERSATIONID}\nTIMEACTIVATED=${TIMEACTIVATED}\nCONVERSATIONNAME=${CONVERSATIONNAME}\nFILE=${FILE}" > .env
                     node index.js
                 '''
             }
@@ -28,8 +29,8 @@ pipeline {
     }
 }
 
-
-// Cron job for add chats with raw time
+// --------------------------------
+// Cron job for add chats with random time
 pipeline {
     agent any
     // triggers {
@@ -39,17 +40,15 @@ pipeline {
     tools { nodejs "NodeJS" }
     environment {
         PROJECT = "BK-Chat"
-        MONGODB_SERVER = "mongodb://admin:admin12345@mongodb:27017/BK-Chat?authSource=admin"
-        CONVERSATIONID='6344e91b89558fb2b5ec1234'
-        TIMEACTIVATED=15
+        API = "http://bkchat-backend:4000"
     }
     stages {
         stage('Generate data') {
             steps {
                 sh '''
                     cd ..
-                    cd ${PROJECT}/nlp/src/functions/add-chats/
-                    echo "MONGODB_SERVER=${MONGODB_SERVER}\nCONVERSATIONID=${CONVERSATIONID}\nTIMEACTIVATED=${TIMEACTIVATED}" > .env
+                    cd ${PROJECT}/nlp/src/functions/suggestion/
+                    echo "API=${API}" > .env
                     node index.js
                 '''
             }
