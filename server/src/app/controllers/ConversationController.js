@@ -57,7 +57,6 @@ class ConversationController {
                     type: 'group',
                     member: member,
                     desc: req.body.groupDesc,
-                    avatar: '',
                 })
                 await Chat.create({
                     conversationId: conversation._id,

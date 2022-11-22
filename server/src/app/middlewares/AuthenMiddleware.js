@@ -1,4 +1,3 @@
-const Account = require('../models/Account');
 const verifyToken = require('../../util/verifyToken');
 
 module.exports = function AuthenMiddleware(req, res, next) {

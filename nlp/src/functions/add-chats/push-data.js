@@ -4,8 +4,7 @@ const { uniqueNamesGenerator, names } = require('unique-names-generator');
 const Account = require("../../models/Account");
 const Chat = require('../../models/Chat')
 const Conversation = require("../../models/Conversation");
-const PushData = async (timeToActivated, conversationId) => {
-    const nameConversation = 'Group Bitrex';
+const PushData = async (timeToActivated, conversationId, conversationName, file) => {
     const password = '$2b$10$FzU29JF7cNwHL9gmj/xp6uE3KThoJET3dVGPP689CA8k6DADj3CHC';
     const now = new Date();
     const conversation = await Conversation.findOne({ _id: conversationId })
@@ -14,7 +13,7 @@ const PushData = async (timeToActivated, conversationId) => {
         var obj = await Conversation.findOne({ _id: conversationId }, { member: 1 })
         oldMembers = obj.member;
     }
-    fs.readFile("./data-old.json", "utf8", async (err, jsonString) => {
+    fs.readFile(`./dataset/${file}`, "utf8", async (err, jsonString) => {
         if (err) {
             console.log("File read failed:", err);
             process.exit(1)
@@ -64,7 +63,7 @@ const PushData = async (timeToActivated, conversationId) => {
                             email: `${data[i].from_id}@gmail.com`,
                             password: password,
                             username: randomName,
-                            avatar: 'default',
+                            avatar: null,
                             address: '',
                             desc: 'Account from dataset'
                         })
@@ -78,7 +77,7 @@ const PushData = async (timeToActivated, conversationId) => {
                     const firstChat = await Chat.findOne({ conversationId: conversationId })
                     await Conversation.create({
                         _id: conversationId,
-                        name: nameConversation,
+                        name: conversationName,
                         member: oldMembers,
                         type: 'group',
                         createdAt: firstChat.createdAt
@@ -136,8 +135,6 @@ const PushData = async (timeToActivated, conversationId) => {
                             email: `${data[i].from_id}@gmail.com`,
                             password: password,
                             username: randomName,
-                            avatar: 'default',
-                            address: '',
                             desc: 'Account from dataset'
                         })
                         oldMembers.push(mongoose.Types.ObjectId(data[i].from_id))

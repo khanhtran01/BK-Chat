@@ -1,0 +1,1201 @@
+[{
+    "id": "80aaaaaaaaaa",
+    "message": "hello",
+    "created_At": "2022-10-25T08:25:31+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "81aaaaaaaaaa",
+    "message": "hi, everyone",
+    "created_At": "2022-10-25T08:26:42+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "82aaaaaaaaaa",
+    "message": "So main questions, will the tokens transfer automatically to Bittrex Global? Will all the pairs from Bittrex Internal be available in Bittrex Global?",
+    "created_At": "2022-10-25T09:21:54+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "83aaaaaaaaaa",
+    "message": "yes",
+    "created_At": "2022-10-25T09:24:33+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": "82aaaaaaaaaa"
+},{
+    "id": "84aaaaaaaaaa",
+    "message": "There has been an official announcement from Bittrex",
+    "created_At": "2022-10-25T09:25:28+00:00",
+    "from_id": "424195585aaa",
+    "reply_to": "82aaaaaaaaaa"
+},{
+    "id": "85aaaaaaaaaa",
+    "message": "I want to ask the admin is\nWill the orders I have ordered from Bittrex be canceled when I switch to Bittrex International?",
+    "created_At": "2022-10-25T09:26:43+00:00",
+    "from_id": "522141286aaa",
+    "reply_to": null
+},{
+    "id": "86aaaaaaaaaa",
+    "message": "I didn't see that into in the Medium article",
+    "created_At": "2022-10-25T09:26:56+00:00",
+    "from_id": "420874698aaa",
+    "reply_to": "84aaaaaaaaaa"
+},{
+    "id": "87aaaaaaaaaa",
+    "message": "Can you pass the link where it is confirmed or not?",
+    "created_At": "2022-10-25T09:27:09+00:00",
+    "from_id": "473164878aaa",
+    "reply_to": null
+},{
+    "id": "88aaaaaaaaaa",
+    "message": "I do not keep that link, but I have read that information these days, you can go to twitter to search",
+    "created_At": "2022-10-25T09:30:20+00:00",
+    "from_id": "1048758164aa",
+    "reply_to": null
+},{
+    "id": "90aaaaaaaaaa",
+    "message": "I want to ask the admin is\nWill the orders I have ordered from Bittrex be canceled when I switch to Bittrex International?",
+    "created_At": "2022-10-25T09:34:23+00:00",
+    "from_id": "75267530aaaa",
+    "reply_to": null
+},{
+    "id": "91aaaaaaaaaa",
+    "message": "hey admin",
+    "created_At": "2022-10-25T09:35:00+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "92aaaaaaaaaa",
+    "message": "Hi - please find all needed information at https://bittrex.zendesk.com/hc/en-us/articles/360035007212-Bittrex-International-Update-Bittrex-Global-Launch",
+    "created_At": "2022-10-25T10:17:19+00:00",
+    "from_id": "75267530aaaa",
+    "reply_to": null
+},{
+    "id": "94aaaaaaaaaa",
+    "message": "Thanks",
+    "created_At": "2022-10-25T10:52:07+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": "92aaaaaaaaaa"
+},{
+    "id": "95aaaaaaaaaa",
+    "message": "Something is not clear",
+    "created_At": "2022-10-25T10:52:38+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "96aaaaaaaaaa",
+    "message": "Tokens in current bittrex need to apply for the new one?",
+    "created_At": "2022-10-25T10:52:50+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "97aaaaaaaaaa",
+    "message": "@DanPWE",
+    "created_At": "2022-10-25T14:01:36+00:00",
+    "from_id": "1048758164aa",
+    "reply_to": null
+},{
+    "id": "98aaaaaaaaaa",
+    "message": "What's the new website link?",
+    "created_At": "2022-10-25T14:18:37+00:00",
+    "from_id": "473164878aaa",
+    "reply_to": null
+},{
+    "id": "99aaaaaaaaaa",
+    "message": "As Bittrex Global continues to kick things off - we wanted to answer some immeditate questions you may have. Check out here: https://medium.com/bittrexglobal/frequently-asked-questions-bittrex-global-fd31dc30606b",
+    "created_At": "2022-10-25T15:17:28+00:00",
+    "from_id": "473164878aaa",
+    "reply_to": null
+},{
+    "id": "102aaaaaaaaa",
+    "message": "And if a token does not agree to be listed, will we be able to withdraw it?",
+    "created_At": "2022-10-25T17:51:57+00:00",
+    "from_id": "1048758164aa",
+    "reply_to": "99aaaaaaaaaa"
+},{
+    "id": "104aaaaaaaaa",
+    "message": "Where can we see the list of coins/tokens that will be able to be traded on the new Bittrex Global site?",
+    "created_At": "2022-10-25T18:31:43+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "105aaaaaaaaa",
+    "message": "Check the last link",
+    "created_At": "2022-10-25T18:32:01+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "106aaaaaaaaa",
+    "message": "Okay. Thankyou",
+    "created_At": "2022-10-25T18:32:25+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": "105aaaaaaaaa"
+},{
+    "id": "111aaaaaaaaa",
+    "message": "Hi",
+    "created_At": "2022-10-25T18:44:10+00:00",
+    "from_id": "522141286aaa",
+    "reply_to": null
+},{
+    "id": "117aaaaaaaaa",
+    "message": "I'm curious, does this move open up the opportunity for new investors who couldn't use international? Bittrex international has such low volume of a lot of coins so curious is this should help increase volume",
+    "created_At": "2022-10-25T18:52:28+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "121aaaaaaaaa",
+    "message": "Hola Bittrex buenas tardes\nMira lo qu\u00e9 pasa con mi cuenta es que el c\u00f3digo de segundo factor ( google Authenticator) se me perdi\u00f3 al formatear el celular, me pueden ayudar con eso, gracias \ud83d\udc4d\ud83d\ude22",
+    "created_At": "2022-10-25T18:54:54+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "129aaaaaaaaa",
+    "message": "Ok so I am supposed to agree to the new site terms and conditions but cant find any information on where to go to agree to these terms?",
+    "created_At": "2022-10-25T19:06:27+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "130aaaaaaaaa",
+    "message": "When u login on 29th",
+    "created_At": "2022-10-25T19:07:18+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "133aaaaaaaaa",
+    "message": "Ok l have to accept the terms first",
+    "created_At": "2022-10-25T19:08:46+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "134aaaaaaaaa",
+    "message": "Starting on Monday, October 21, eligible Bittrex International (non-US) customers will be offered the chance to accept Bittrex Global\u2022s Terms of Service. These new Bittrex Global Terms of Service will relate to Bittrex Global access and will go into effect on October 29 once Bittrex Global launches.",
+    "created_At": "2022-10-25T19:11:20+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "135aaaaaaaaa",
+    "message": "How Do I accept them if there is no way to find it?",
+    "created_At": "2022-10-25T19:11:53+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "136aaaaaaaaa",
+    "message": "Ok thank you",
+    "created_At": "2022-10-25T19:14:23+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "137aaaaaaaaa",
+    "message": "Sign in to your Bittrex account now and you will see a prompt to accept the Terms and Conditions",
+    "created_At": "2022-10-25T19:14:58+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": "135aaaaaaaaa"
+},{
+    "id": "139aaaaaaaaa",
+    "message": "I just did mine now",
+    "created_At": "2022-10-25T19:15:29+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": "137aaaaaaaaa"
+},{
+    "id": "140aaaaaaaaa",
+    "message": "Ok thank you IFEBUNACHI",
+    "created_At": "2022-10-25T19:17:26+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "141aaaaaaaaa",
+    "message": "You are welcomed",
+    "created_At": "2022-10-25T19:17:52+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": "140aaaaaaaaa"
+},{
+    "id": "142aaaaaaaaa",
+    "message": "\ud83d\udc4d",
+    "created_At": "2022-10-25T19:18:32+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "146aaaaaaaaa",
+    "message": "I signed out and signed back in and then it popped up",
+    "created_At": "2022-10-25T19:23:08+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": null
+},{
+    "id": "148aaaaaaaaa",
+    "message": "Hi",
+    "created_At": "2022-10-25T19:26:59+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "149aaaaaaaaa",
+    "message": "Why do you leave Malta?",
+    "created_At": "2022-10-25T19:27:16+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "154aaaaaaaaa",
+    "message": "",
+    "created_At": "2022-10-25T19:28:37+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "155aaaaaaaaa",
+    "message": "Hi everyone\ud83d\udc4b",
+    "created_At": "2022-10-25T19:29:49+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "156aaaaaaaaa",
+    "message": "Hi",
+    "created_At": "2022-10-25T19:30:01+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "157aaaaaaaaa",
+    "message": "Do you know why Bittrex leaves Malta?",
+    "created_At": "2022-10-25T19:30:20+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "185aaaaaaaaa",
+    "message": "\ud83d\ude80",
+    "created_At": "2022-10-26T02:41:22+00:00",
+    "from_id": "522141286aaa",
+    "reply_to": null
+},{
+    "id": "189aaaaaaaaa",
+    "message": "hello",
+    "created_At": "2022-10-26T04:07:15+00:00",
+    "from_id": "420874698aaa",
+    "reply_to": null
+},{
+    "id": "196aaaaaaaaa",
+    "message": "Sir",
+    "created_At": "2022-10-26T05:51:41+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "197aaaaaaaaa",
+    "message": "Can I know the exact launching time?",
+    "created_At": "2022-10-26T05:52:25+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "199aaaaaaaaa",
+    "message": "Hi",
+    "created_At": "2022-10-26T06:07:12+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "201aaaaaaaaa",
+    "message": "I assumed this is the take over company and we can be migrated without",
+    "created_At": "2022-10-26T06:08:07+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "202aaaaaaaaa",
+    "message": "Hello There. \nFor now we Log in to Bittrex International as usual, will it auto convert to Bittrex Global automatically? I have logged in but never notice any changes.",
+    "created_At": "2022-10-26T06:17:13+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "204aaaaaaaaa",
+    "message": "Yep",
+    "created_At": "2022-10-26T06:17:38+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "205aaaaaaaaa",
+    "message": "Im wondering..",
+    "created_At": "2022-10-26T06:17:45+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "222aaaaaaaaa",
+    "message": "hi",
+    "created_At": "2022-10-26T12:40:17+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "223aaaaaaaaa",
+    "message": "may i know which country will be ban to trade  on 29?",
+    "created_At": "2022-10-26T12:40:59+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "228aaaaaaaaa",
+    "message": "I also wanna know this information. I can't get it from bittrex tweet.",
+    "created_At": "2022-10-26T12:42:59+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": "223aaaaaaaaa"
+},{
+    "id": "230aaaaaaaaa",
+    "message": "nobody?",
+    "created_At": "2022-10-26T13:44:29+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "232aaaaaaaaa",
+    "message": "Hi Tariq",
+    "created_At": "2022-10-26T13:46:33+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "233aaaaaaaaa",
+    "message": "If anyone from these 29 countries but living in different country, would they ban him also ?",
+    "created_At": "2022-10-26T13:46:46+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "234aaaaaaaaa",
+    "message": "I think vpn will solve all problems!)",
+    "created_At": "2022-10-26T13:48:00+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "235aaaaaaaaa",
+    "message": "I found some country",
+    "created_At": "2022-10-26T14:03:40+00:00",
+    "from_id": "473164878aaa",
+    "reply_to": null
+},{
+    "id": "236aaaaaaaaa",
+    "message": "which countries?",
+    "created_At": "2022-10-26T14:44:15+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": "235aaaaaaaaa"
+},{
+    "id": "247aaaaaaaaa",
+    "message": "hello :) So should i login on bittrex global page or that transfer of accounts will happen automatically?:)",
+    "created_At": "2022-10-26T20:37:15+00:00",
+    "from_id": "1048758164aa",
+    "reply_to": null
+},{
+    "id": "261aaaaaaaaa",
+    "message": "I think you must login",
+    "created_At": "2022-10-27T05:43:11+00:00",
+    "from_id": "522141286aaa",
+    "reply_to": "247aaaaaaaaa"
+},{
+    "id": "263aaaaaaaaa",
+    "message": "Why is the move happening from Malta?",
+    "created_At": "2022-10-27T07:20:38+00:00",
+    "from_id": "522141286aaa",
+    "reply_to": null
+},{
+    "id": "277aaaaaaaaa",
+    "message": "29th",
+    "created_At": "2022-10-27T12:22:58+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "278aaaaaaaaa",
+    "message": "What time?",
+    "created_At": "2022-10-27T12:23:02+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "279aaaaaaaaa",
+    "message": "Bittrex International (operated out of Malta) will be closing and replaced by Bittrex Global which is a new European exchange utilizing the trusted Bittrex technology platform and is Headquartered in Liechtenstein, Europe. \n\nAll Bittrex International customers, including corporate accounts, will be seamlessly redirected to Bittrex Global. Once there, you will simply use your current Bittrex International username and password to access the new site.",
+    "created_At": "2022-10-27T12:38:44+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "280aaaaaaaaa",
+    "message": "But why is it being replaced? How secure will it remain for the users?",
+    "created_At": "2022-10-27T12:40:55+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "281aaaaaaaaa",
+    "message": "Tuesday, October 29 date at 19:00 UTC/21:00 CEST.",
+    "created_At": "2022-10-27T12:46:51+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": "277aaaaaaaaa"
+},{
+    "id": "282aaaaaaaaa",
+    "message": "I just login, and tick Accepting with the New Bittrex's policy and terms, or anything else i have to do, Sir ?\nThank you ! ^^",
+    "created_At": "2022-10-27T12:48:14+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "283aaaaaaaaa",
+    "message": "The main reason behind the move is regulatory uncertainty around crypto exchanges.",
+    "created_At": "2022-10-27T12:50:20+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": "280aaaaaaaaa"
+},{
+    "id": "284aaaaaaaaa",
+    "message": "Nothing, that's it.",
+    "created_At": "2022-10-27T12:50:51+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": "282aaaaaaaaa"
+},{
+    "id": "285aaaaaaaaa",
+    "message": "Yes force accept",
+    "created_At": "2022-10-27T12:50:59+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "286aaaaaaaaa",
+    "message": "Thank you !",
+    "created_At": "2022-10-27T12:51:14+00:00",
+    "from_id": "75267530aaaa",
+    "reply_to": "284aaaaaaaaa"
+},{
+    "id": "287aaaaaaaaa",
+    "message": "Me from Malaysia, nothing to do and change right?",
+    "created_At": "2022-10-27T12:51:28+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "288aaaaaaaaa",
+    "message": "right",
+    "created_At": "2022-10-27T12:53:45+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": "287aaaaaaaaa"
+},{
+    "id": "289aaaaaaaaa",
+    "message": "The list of affected countries include Afghanistan, Egypt, Bosnia-Herzegowina, Botswana, Cambodia, Central African Republic, Democratic Republic of Congo, C\u00f4te d\u2022Ivoire, Ethiopia, Eritrea, Ghana, Guinea, Guinea-Bissau, Guyana, Iraq, Laos, Lebanon, Libya, Maldives, Pakistan, Sri Lanka, Somalia, Sudan, South Sudan, Trinidad and Tobago, Tunisia, Uganda, Vanuatu, Venezuela, Yemen, Zimbabwe.",
+    "created_At": "2022-10-27T12:54:21+00:00",
+    "from_id": "424195585aaa",
+    "reply_to": "236aaaaaaaaa"
+},{
+    "id": "290aaaaaaaaa",
+    "message": "Ok thanks",
+    "created_At": "2022-10-27T12:57:07+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "291aaaaaaaaa",
+    "message": "All eligible Bittrex International Customers and the corporate accounts will be redirected to Bittrex Global. The users can use their previous usernames and passwords to access the new platform.",
+    "created_At": "2022-10-27T12:57:24+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "293aaaaaaaaa",
+    "message": "If I am from one of these countries but I live out of it, any problems ?",
+    "created_At": "2022-10-27T12:59:56+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": "289aaaaaaaaa"
+},{
+    "id": "294aaaaaaaaa",
+    "message": "Customers residing in the excluded countries would no longer be able to use the services of Bittrex International.",
+    "created_At": "2022-10-27T13:04:29+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": "293aaaaaaaaa"
+},{
+    "id": "295aaaaaaaaa",
+    "message": "So its about the nationality ?",
+    "created_At": "2022-10-27T13:05:40+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "296aaaaaaaaa",
+    "message": "Anyone from those countries he can't use BITTREX anymore even if he live in safe country which is not include these you mentioned!",
+    "created_At": "2022-10-27T13:06:35+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "297aaaaaaaaa",
+    "message": "https://bittrex.zendesk.com/hc/en-us/articles/360034965072-Important-Information-for-Bittrex-International-Customers",
+    "created_At": "2022-10-27T13:09:18+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": "295aaaaaaaaa"
+},{
+    "id": "299aaaaaaaaa",
+    "message": "Thank you sir",
+    "created_At": "2022-10-27T13:24:18+00:00",
+    "from_id": "420874698aaa",
+    "reply_to": "281aaaaaaaaa"
+},{
+    "id": "301aaaaaaaaa",
+    "message": "hello there",
+    "created_At": "2022-10-27T13:31:36+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "302aaaaaaaaa",
+    "message": "just managed to join this group",
+    "created_At": "2022-10-27T13:31:49+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "303aaaaaaaaa",
+    "message": "is there any Admin for this group please ?",
+    "created_At": "2022-10-27T13:32:05+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "309aaaaaaaaa",
+    "message": "Hi guys, I've just read about Bittrex Intl change.",
+    "created_At": "2022-10-27T14:53:15+00:00",
+    "from_id": "424195585aaa",
+    "reply_to": null
+},{
+    "id": "310aaaaaaaaa",
+    "message": "I've tried to log in to my Bittrex account just now, but Google Authenticator didn't match.",
+    "created_At": "2022-10-27T14:53:44+00:00",
+    "from_id": "424195585aaa",
+    "reply_to": null
+},{
+    "id": "311aaaaaaaaa",
+    "message": "It has been quite a while before I logged in, but there should be no reason for my authenticator not working in log in verification.",
+    "created_At": "2022-10-27T14:54:40+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "312aaaaaaaaa",
+    "message": "So who can I contact about this, anybody care to help share me information about this?",
+    "created_At": "2022-10-27T14:55:07+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "315aaaaaaaaa",
+    "message": "hello",
+    "created_At": "2022-10-27T15:26:07+00:00",
+    "from_id": "473164878aaa",
+    "reply_to": null
+},{
+    "id": "316aaaaaaaaa",
+    "message": "please wh ca help me answer my question?",
+    "created_At": "2022-10-27T15:26:34+00:00",
+    "from_id": "473164878aaa",
+    "reply_to": null
+},{
+    "id": "317aaaaaaaaa",
+    "message": "if bittrex international close. so how about my bitcoin there? i need to send to another place or just automatic change to bittrex global-",
+    "created_At": "2022-10-27T15:27:58+00:00",
+    "from_id": "522141286aaa",
+    "reply_to": null
+},{
+    "id": "318aaaaaaaaa",
+    "message": "You need to log in to your current account and click agree on Term of Service pop up. That's it.",
+    "created_At": "2022-10-27T15:28:50+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "319aaaaaaaaa",
+    "message": "oh... thank you. how about if i forgot login to click agree?",
+    "created_At": "2022-10-27T15:29:37+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "320aaaaaaaaa",
+    "message": "Everything will automatically transferred.",
+    "created_At": "2022-10-27T15:29:45+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "321aaaaaaaaa",
+    "message": "Apparently you need to contact support if you didn't click before their deadline.",
+    "created_At": "2022-10-27T15:30:24+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": null
+},{
+    "id": "322aaaaaaaaa",
+    "message": "I assume probably they will ask for further verification.",
+    "created_At": "2022-10-27T15:30:49+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": null
+},{
+    "id": "323aaaaaaaaa",
+    "message": "29 oct is deadline? right?",
+    "created_At": "2022-10-27T15:32:06+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "324aaaaaaaaa",
+    "message": "Yes, as far as I know that is the deadline.",
+    "created_At": "2022-10-27T15:35:23+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "329aaaaaaaaa",
+    "message": "Steven Diep:\nI just login, and tick Accepting with the New Bittrex's policy and terms, or anything else i have to do, Sir ?\nThank you ! ^^.....which website we need to login to accept it",
+    "created_At": "2022-10-27T20:20:44+00:00",
+    "from_id": "522141286aaa",
+    "reply_to": null
+},{
+    "id": "334aaaaaaaaa",
+    "message": "Welcome...",
+    "created_At": "2022-10-27T23:04:40+00:00",
+    "from_id": "522141286aaa",
+    "reply_to": null
+},{
+    "id": "338aaaaaaaaa",
+    "message": "I also click interested for margin Trading. When and how to start margin trading",
+    "created_At": "2022-10-28T01:29:22+00:00",
+    "from_id": "522141286aaa",
+    "reply_to": null
+},{
+    "id": "339aaaaaaaaa",
+    "message": "Can someone share the link?",
+    "created_At": "2022-10-28T01:30:02+00:00",
+    "from_id": "522141286aaa",
+    "reply_to": null
+},{
+    "id": "345aaaaaaaaa",
+    "message": "hello",
+    "created_At": "2022-10-28T07:10:40+00:00",
+    "from_id": "473164878aaa",
+    "reply_to": null
+},{
+    "id": "352aaaaaaaaa",
+    "message": "yo",
+    "created_At": "2022-10-28T11:56:13+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "353aaaaaaaaa",
+    "message": "Hi",
+    "created_At": "2022-10-28T12:06:49+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "354aaaaaaaaa",
+    "message": "silly question: If I hold BTC on my Bittrex Intl account, I would still be able to use it on Global for buying alts or withdrawing, right? :D",
+    "created_At": "2022-10-28T12:08:23+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "356aaaaaaaaa",
+    "message": "the current Bitrex International you are using",
+    "created_At": "2022-10-28T12:19:11+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": "329aaaaaaaaa"
+},{
+    "id": "358aaaaaaaaa",
+    "message": "Does anybody know, what user have to do with 2FA at old platform when  trade platform will be removed?",
+    "created_At": "2022-10-28T12:22:48+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "359aaaaaaaaa",
+    "message": "Keep it. You will use it in Bittrex Global I guess",
+    "created_At": "2022-10-28T12:25:54+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "360aaaaaaaaa",
+    "message": "Thanks, Mikhail",
+    "created_At": "2022-10-28T12:26:52+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "361aaaaaaaaa",
+    "message": "Welcome",
+    "created_At": "2022-10-28T12:32:32+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "362aaaaaaaaa",
+    "message": "is in india the bittrex is winding up servicses??",
+    "created_At": "2022-10-28T13:01:25+00:00",
+    "from_id": "473164878aaa",
+    "reply_to": null
+},{
+    "id": "364aaaaaaaaa",
+    "message": "Thank You Steven Diep.",
+    "created_At": "2022-10-28T13:44:22+00:00",
+    "from_id": "473164878aaa",
+    "reply_to": null
+},{
+    "id": "366aaaaaaaaa",
+    "message": "",
+    "created_At": "2022-10-28T14:37:32+00:00",
+    "from_id": "473164878aaa",
+    "reply_to": null
+},{
+    "id": "367aaaaaaaaa",
+    "message": "\u0412\u0441\u0435? \u0412\u0441\u0435 \u0432 \u0437\u0430\u0434?",
+    "created_At": "2022-10-28T14:37:44+00:00",
+    "from_id": "473164878aaa",
+    "reply_to": null
+},{
+    "id": "368aaaaaaaaa",
+    "message": "What do you mean?",
+    "created_At": "2022-10-28T14:47:53+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": "367aaaaaaaaa"
+},{
+    "id": "369aaaaaaaaa",
+    "message": "\u0411\u0443\u0434\u0435\u0442 \u0434\u0435\u043b\u0438\u0441\u0442\u0438\u043d\u0433 \u0442\u043e\u0440\u0433\u043e\u0432\u044b\u0445 \u043f\u0430\u0440? \u0418\u043b\u0438 \u0432\u0441\u0435 \u043e\u0441\u0442\u0430\u0451\u0442\u0441\u044f \u043a\u0430\u043a \u0438 \u0431\u044b\u043b\u043e?",
+    "created_At": "2022-10-28T14:50:06+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": "368aaaaaaaaa"
+},{
+    "id": "371aaaaaaaaa",
+    "message": "https://t.me/bittrexglobalannouncements/8",
+    "created_At": "2022-10-28T15:10:32+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": "369aaaaaaaaa"
+},{
+    "id": "372aaaaaaaaa",
+    "message": "You may find all the information here.",
+    "created_At": "2022-10-28T15:11:01+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "375aaaaaaaaa",
+    "message": "Hy",
+    "created_At": "2022-10-28T16:09:13+00:00",
+    "from_id": "522141286aaa",
+    "reply_to": null
+},{
+    "id": "376aaaaaaaaa",
+    "message": "",
+    "created_At": "2022-10-28T16:10:37+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "377aaaaaaaaa",
+    "message": "please,.just kick accept terms. that is all for change from bittrex.international.to.bittrex.global. is that right?",
+    "created_At": "2022-10-28T16:11:56+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": "376aaaaaaaaa"
+},{
+    "id": "378aaaaaaaaa",
+    "message": "That\u2022s right!",
+    "created_At": "2022-10-28T16:13:00+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": "377aaaaaaaaa"
+},{
+    "id": "379aaaaaaaaa",
+    "message": "thank u so.much",
+    "created_At": "2022-10-28T16:13:23+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": "378aaaaaaaaa"
+},{
+    "id": "380aaaaaaaaa",
+    "message": "Welcome)",
+    "created_At": "2022-10-28T16:14:00+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "383aaaaaaaaa",
+    "message": "Can I confirm somewhere that I was accepted TOS?",
+    "created_At": "2022-10-28T17:22:25+00:00",
+    "from_id": "473164878aaa",
+    "reply_to": null
+},{
+    "id": "385aaaaaaaaa",
+    "message": "Buenas tardes se\u00f1ores Bittrex \nEstoy introduciendo mis datos y no me los reconoce que hago",
+    "created_At": "2022-10-28T19:29:56+00:00",
+    "from_id": "473164878aaa",
+    "reply_to": null
+},{
+    "id": "386aaaaaaaaa",
+    "message": "\u0414\u0430, \u0441\u043f\u0430\u0441\u0438\u0431\u043e, \u0432\u0441\u0435 \u044d\u0442\u043e \u043f\u0440\u043e\u0447\u0438\u0442\u0430\u043b \ud83d\udc4d",
+    "created_At": "2022-10-28T19:31:27+00:00",
+    "from_id": "473164878aaa",
+    "reply_to": "372aaaaaaaaa"
+},{
+    "id": "387aaaaaaaaa",
+    "message": "CEO help me!!",
+    "created_At": "2022-10-28T19:54:44+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "388aaaaaaaaa",
+    "message": "I need to recover my google Authenticator thanks what do I do?",
+    "created_At": "2022-10-28T19:55:51+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "389aaaaaaaaa",
+    "message": "HELP TEAM",
+    "created_At": "2022-10-28T19:56:14+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "391aaaaaaaaa",
+    "message": "Please contact the support team. They will help you.",
+    "created_At": "2022-10-28T20:14:54+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": "389aaaaaaaaa"
+},{
+    "id": "392aaaaaaaaa",
+    "message": "Where do I contact them, what is the route?",
+    "created_At": "2022-10-28T20:16:10+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "393aaaaaaaaa",
+    "message": "Thanks",
+    "created_At": "2022-10-28T20:16:33+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "394aaaaaaaaa",
+    "message": "https://bittrex.zendesk.com/hc/en-us/requests/new",
+    "created_At": "2022-10-28T20:17:35+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": null
+},{
+    "id": "396aaaaaaaaa",
+    "message": "\ud83d\udc4d",
+    "created_At": "2022-10-28T20:23:23+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": null
+},{
+    "id": "403aaaaaaaaa",
+    "message": "Hi, I didn't get an offer to accept new Bittrex Global Terms, but I am eligible customer. What now??",
+    "created_At": "2022-10-28T21:02:25+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": null
+},{
+    "id": "407aaaaaaaaa",
+    "message": "HI",
+    "created_At": "2022-10-28T21:10:48+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": null
+},{
+    "id": "408aaaaaaaaa",
+    "message": "Hi",
+    "created_At": "2022-10-28T21:11:10+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "409aaaaaaaaa",
+    "message": "\ud83d\udc4dbienvenido",
+    "created_At": "2022-10-28T21:11:17+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "427aaaaaaaaa",
+    "message": "Hey guys\nI have yet to be able to login and agree to the new terms as i am in the process of getting my 2FA reset. What will happen to my account if i dont manage to login before tomorrow?",
+    "created_At": "2022-10-28T22:34:28+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "435aaaaaaaaa",
+    "message": "https://bittrex.zendesk.com/hc/en-us/articles/360035007212-Bittrex-International-Update-Bittrex-Global-Launch",
+    "created_At": "2022-10-28T23:17:44+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": "427aaaaaaaaa"
+},{
+    "id": "436aaaaaaaaa",
+    "message": "October 29. I think you\u2022ll have the possibility to do it later.",
+    "created_At": "2022-10-28T23:18:27+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "437aaaaaaaaa",
+    "message": "Oh ok yes through reading it now i understood it like that as well.",
+    "created_At": "2022-10-28T23:18:54+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "438aaaaaaaaa",
+    "message": "Thanks man!",
+    "created_At": "2022-10-28T23:18:58+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "439aaaaaaaaa",
+    "message": "\ud83d\udc4c",
+    "created_At": "2022-10-28T23:19:12+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": null
+},{
+    "id": "440aaaaaaaaa",
+    "message": "soryy",
+    "created_At": "2022-10-28T23:25:44+00:00",
+    "from_id": "424195585aaa",
+    "reply_to": null
+},{
+    "id": "441aaaaaaaaa",
+    "message": "sorry i have a question.\nI have some tokens in Bittrex international, I have to do something for move this token to bittrex global??",
+    "created_At": "2022-10-28T23:27:36+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "442aaaaaaaaa",
+    "message": "thank you",
+    "created_At": "2022-10-28T23:27:40+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "444aaaaaaaaa",
+    "message": "Eligible Bittrex International accounts\u00a0and holdings will be automatically moved to Bittrex Global on October 29, after accepting the new Bittrex Global Terms of Service.\u00a0All of your account information (balances, transactions, etc.) will transfer over without requiring you to take any additional action.",
+    "created_At": "2022-10-28T23:29:03+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "445aaaaaaaaa",
+    "message": "ok, thank you. And Can i see if i aceptes this terms of service??",
+    "created_At": "2022-10-28T23:30:34+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": "444aaaaaaaaa"
+},{
+    "id": "446aaaaaaaaa",
+    "message": "When you login to trex int, you will need to agree or don't agree.",
+    "created_At": "2022-10-28T23:31:53+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "447aaaaaaaaa",
+    "message": "Just like they went from trex to trex int.",
+    "created_At": "2022-10-28T23:32:38+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": null
+},{
+    "id": "448aaaaaaaaa",
+    "message": "I saw the message of the terms of service but I don't remember if I accept or not",
+    "created_At": "2022-10-28T23:33:54+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "449aaaaaaaaa",
+    "message": "I think that Yes",
+    "created_At": "2022-10-28T23:34:12+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "450aaaaaaaaa",
+    "message": "Only thing what's worries my is will al the coin from int be tradable on global. Because of the tekst from bittrex.....welcoming the coins/tokens listed on Bittrex International Malta to apply for approval to list on Bittrex Global.....\n\nDo which coins didn't apply....",
+    "created_At": "2022-10-28T23:36:19+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": null
+},{
+    "id": "451aaaaaaaaa",
+    "message": "Then, some coin didn't apply in bittrex global??",
+    "created_At": "2022-10-28T23:41:06+00:00",
+    "from_id": "424195585aaa",
+    "reply_to": null
+},{
+    "id": "452aaaaaaaaa",
+    "message": "but do you know which ones?",
+    "created_At": "2022-10-28T23:42:54+00:00",
+    "from_id": "424195585aaa",
+    "reply_to": null
+},{
+    "id": "453aaaaaaaaa",
+    "message": "I cannot access bittrex global yet",
+    "created_At": "2022-10-28T23:44:02+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "454aaaaaaaaa",
+    "message": "i think that tomorrow we can access",
+    "created_At": "2022-10-28T23:47:08+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "455aaaaaaaaa",
+    "message": "No I don't. Trying to find out.\nTube has applied.",
+    "created_At": "2022-10-28T23:47:33+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": "452aaaaaaaaa"
+},{
+    "id": "456aaaaaaaaa",
+    "message": "ok, thanks so much @CryptoMaadt",
+    "created_At": "2022-10-28T23:48:39+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": null
+},{
+    "id": "457aaaaaaaaa",
+    "message": ".... ing hate those trex delistings  this year.",
+    "created_At": "2022-10-28T23:48:42+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": null
+},{
+    "id": "458aaaaaaaaa",
+    "message": "for example??",
+    "created_At": "2022-10-28T23:49:38+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "460aaaaaaaaa",
+    "message": "Well like Music, vrm, grs, cann, counterparty and so on",
+    "created_At": "2022-10-29T00:07:34+00:00",
+    "from_id": "424195585aaa",
+    "reply_to": null
+},{
+    "id": "469aaaaaaaaa",
+    "message": "Hi",
+    "created_At": "2022-10-29T00:58:43+00:00",
+    "from_id": "424195585aaa",
+    "reply_to": null
+},{
+    "id": "473aaaaaaaaa",
+    "message": "hi bittrex, i forgot my password and will be locked out for 24 hours after resetting the password. I haven't accepted the agreements yet. Am I in trouble?",
+    "created_At": "2022-10-29T01:46:48+00:00",
+    "from_id": "424195585aaa",
+    "reply_to": null
+},{
+    "id": "476aaaaaaaaa",
+    "message": "hi",
+    "created_At": "2022-10-29T01:52:23+00:00",
+    "from_id": "424195585aaa",
+    "reply_to": null
+},{
+    "id": "478aaaaaaaaa",
+    "message": "Hey everyone. I have one question. I am on vacation right now and have no chance to accept the new terms of service up to today. Will it cause trouble when I accept the terms of service next week when I have access to my computer again? \nThanks for your support!",
+    "created_At": "2022-10-29T01:57:04+00:00",
+    "from_id": "424195585aaa",
+    "reply_to": null
+},{
+    "id": "482aaaaaaaaa",
+    "message": "\u53c2\u52a0\u3057\u307e\u3057\u305f\u3002",
+    "created_At": "2022-10-29T02:19:50+00:00",
+    "from_id": "522141286aaa",
+    "reply_to": null
+},{
+    "id": "485aaaaaaaaa",
+    "message": "@Stephentele. Hi",
+    "created_At": "2022-10-29T02:36:12+00:00",
+    "from_id": "522141286aaa",
+    "reply_to": null
+},{
+    "id": "495aaaaaaaaa",
+    "message": "\ud83d\ude0a",
+    "created_At": "2022-10-29T05:04:29+00:00",
+    "from_id": "522141286aaa",
+    "reply_to": null
+},{
+    "id": "505aaaaaaaaa",
+    "message": "Hi, Caution. The day 30 of October the accounts will be disabled.\nI don't know if you not accept the terms of service your account will be deleted",
+    "created_At": "2022-10-29T06:33:57+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": "478aaaaaaaaa"
+},{
+    "id": "507aaaaaaaaa",
+    "message": "What time do you open in Korean time?",
+    "created_At": "2022-10-29T06:36:29+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "508aaaaaaaaa",
+    "message": "What time do you open in UTC time",
+    "created_At": "2022-10-29T06:38:26+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "512aaaaaaaaa",
+    "message": "GOODmorning",
+    "created_At": "2022-10-29T07:15:46+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "522aaaaaaaaa",
+    "message": "I need help",
+    "created_At": "2022-10-29T09:18:50+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "523aaaaaaaaa",
+    "message": "I dont login at account",
+    "created_At": "2022-10-29T09:19:16+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "526aaaaaaaaa",
+    "message": "Hello!",
+    "created_At": "2022-10-29T09:49:44+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": null
+},{
+    "id": "528aaaaaaaaa",
+    "message": "\ud83d\ude0a",
+    "created_At": "2022-10-29T10:00:30+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "530aaaaaaaaa",
+    "message": "Just check your mail there is a link you will reset then accept terms. Mine happened so too and am done i followed the link on my email",
+    "created_At": "2022-10-29T10:07:21+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": "473aaaaaaaaa"
+},{
+    "id": "531aaaaaaaaa",
+    "message": "thanks a lot",
+    "created_At": "2022-10-29T10:10:35+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": "530aaaaaaaaa"
+},{
+    "id": "532aaaaaaaaa",
+    "message": "Welcome",
+    "created_At": "2022-10-29T10:11:22+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": "531aaaaaaaaa"
+},{
+    "id": "534aaaaaaaaa",
+    "message": "Hi",
+    "created_At": "2022-10-29T10:27:48+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": null
+},{
+    "id": "535aaaaaaaaa",
+    "message": "9hours left",
+    "created_At": "2022-10-29T10:28:23+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": null
+},{
+    "id": "536aaaaaaaaa",
+    "message": "What time bittrex Malta will be closed?",
+    "created_At": "2022-10-29T10:37:24+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "537aaaaaaaaa",
+    "message": "30th October",
+    "created_At": "2022-10-29T10:41:55+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "538aaaaaaaaa",
+    "message": "Thank you",
+    "created_At": "2022-10-29T10:49:07+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": "537aaaaaaaaa"
+},{
+    "id": "540aaaaaaaaa",
+    "message": "6pm CET",
+    "created_At": "2022-10-29T11:46:27+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": "536aaaaaaaaa"
+},{
+    "id": "541aaaaaaaaa",
+    "message": "Its today 29th (not 30th)    Accounts will not be diabled - you will simply need to accept the new Terms of Service to login.  No accounts will be deactivated or disabled.",
+    "created_At": "2022-10-29T11:55:22+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": "505aaaaaaaaa"
+},{
+    "id": "542aaaaaaaaa",
+    "message": "Below you\u2022ll find some helpful information about this process. Learn more about the Bittrex Global announcement here: https://medium.com/bittrex/bittrex-technology-platform-to-power-new-bittrex-global-digital-asset-trading-exchange-b1931148c601.\n \nWeek of October 21:\n\u2022  Starting on Monday, October 21, eligible Bittrex International customers will be offered the chance to accept Bittrex Global\u2022s Terms of Service. These new Bittrex Global Terms of Service will relate to Bittrex Global access and will go into effect on October 29 once Bittrex Global launches.  \n \nOctober 29:\n\u2022  Eligible Bittrex International customers will automatically be redirected to the new global exchange platform, Bittrex Global. Once there, you will be prompted to accept the Bittrex Global Terms of Service if you haven\u2022t already done so. \n \n\u2022  Bittrex Global will be launching a new customer support website. Stay tuned for additional details. \n \nOctober 30:\n\u2022  Bittrex International social accounts will retire. We recommend that International (non-US) customers follow the new Bittrex Global social accounts for future announcements:",
+    "created_At": "2022-10-29T12:00:45+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": "541aaaaaaaaa"
+},{
+    "id": "543aaaaaaaaa",
+    "message": "It is about the Nationality only if you hold a US passport - then you cannot be a client.  The list of countries that are banned is based on residency in those countries (not the passport held unless US).   If holding a passport from those countries on the list but residing (living) in an approved country then not an issue.",
+    "created_At": "2022-10-29T12:02:51+00:00",
+    "from_id": "974668985aaa",
+    "reply_to": "297aaaaaaaaa"
+},{
+    "id": "545aaaaaaaaa",
+    "message": "The list of affected countries include Afghanistan, Egypt, Bosnia-Herzegowina, Botswana, Cambodia, Central African Republic, Democratic Republic of Congo, C\u00f4te d\u2022Ivoire, Ethiopia, Eritrea, Ghana, Guinea, Guinea-Bissau, Guyana, Iraq, Laos, Lebanon, Libya, Maldives, Pakistan, Sri Lanka, Somalia, Sudan, South Sudan, Trinidad and Tobago, Tunisia, Uganda, Vanuatu, Venezuela, Yemen, Zimbabwe.",
+    "created_At": "2022-10-29T12:04:58+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": null
+},{
+    "id": "550aaaaaaaaa",
+    "message": "Correct India is not on the list.",
+    "created_At": "2022-10-29T12:13:55+00:00",
+    "from_id": "895119082aaa",
+    "reply_to": "546aaaaaaaaa"
+},{
+    "id": "551aaaaaaaaa",
+    "message": "India is a great country\nThey have Worlds No.2 population\nThey are fast growing economy  country also",
+    "created_At": "2022-10-29T12:14:05+00:00",
+    "from_id": "586612722aaa",
+    "reply_to": null
+},{
+    "id": "552aaaaaaaaa",
+    "message": "Hi, mind if I DM you about an issue?",
+    "created_At": "2022-10-29T12:14:12+00:00",
+    "from_id": "383761549aaa",
+    "reply_to": "550aaaaaaaaa"
+}]

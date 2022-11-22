@@ -89,9 +89,6 @@ class UserController {
                         email: req.body.email,
                         password: hash,
                         username: req.body.username,
-                        avatar: 'https://res.cloudinary.com/be-dev/image/upload/v1646538111/uploads/edmtkrzhgjyypakze2bp.jpg',
-                        address: '',
-                        desc: '',
                     })
                 });
                 res.status(200).json({ message: "Register Successfull", successful: true })

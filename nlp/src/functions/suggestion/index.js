@@ -2,28 +2,11 @@ require("dotenv").config();
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3500;
-const mongoose = require('mongoose');
-const moment = require('moment');
 const http = require("http");
 const server = http.createServer(app);
-const Account = require('../../models/Account')
-const Conversation = require('../../models/Conversation')
-const Chat = require('../../models/Chat')
-const fs = require('fs');
 const axios = require('axios');
-async function connect() {
-    try {
-        await mongoose.connect(process.env.MONGODB_SERVER, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        });
-        console.log('Connect Successful !!');
-    } catch (error) {
-        console.log('Connect Failed !!');
-    }
-}
+const mainService = process.env.API
 
-connect();
 
 // https://stackoverflow.com/a/64414875/19518308
 function combinations(arr, k, prefix=[]) {
@@ -215,12 +198,12 @@ function getDentaTimeList(data, idA = "", idB = "") {
  * @returns {Object} list of chat
  */
  async function getAllMessage(conversationId, backToDays){
-    const result = await axios.get(`http://localhost:4000/api/chat/get?conversationId=${conversationId}&backToDays=${backToDays}`);
+    const result = await axios.get(`${mainService}/api/chat/get?conversationId=${conversationId}&backToDays=${backToDays}`);
     return result.data.chats;
 }
 
 async function getChatGroup() {
-    const response = await axios.get(`http://localhost:4000/api/conversation/sugestion?timeActive=${20}`)
+    const response = await axios.get(`${mainService}/api/conversation/sugestion?timeActive=${20}`)
     if (response.data.successful === true) {
         response.data.conversations.forEach(e => todo(e._id, 15))
     }

@@ -5,7 +5,7 @@ const Account = new Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String },
     username: { type: String },
-    avatar: { type: String, default: 'null' },
+    avatar: { type: String, default: null },
     address: { type: String, default: '' },
     desc: { type: String, default: '' },
 });
