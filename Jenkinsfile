@@ -10,9 +10,6 @@ pipeline {
                 '''
             }
         }
-    }
-
-    stages {
         stage('Build server'){
             steps {
                 sh '''
