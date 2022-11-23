@@ -41,6 +41,7 @@ pipeline {
     environment {
         PROJECT = "BK-Chat"
         API = "http://bkchat-backend:4000"
+        BACKTODAY = 15
     }
     stages {
         stage('Generate data') {

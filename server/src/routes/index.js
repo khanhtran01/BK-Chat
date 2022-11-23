@@ -9,7 +9,7 @@ const NotificationController = require('../app/controllers/NotificationControlle
 const ChatController = require('../app/controllers/ChatController');
 function route(app) {
     app.use('/api/user', AuthenMiddleware, userRoute);
-    // [GET] /api/notification/sugestion 
+    // [GET] /api/notification/sugestion?timeActive
     app.get('/api/conversation/sugestion', ConversationController.getConversationForSugestion);
     //  [GET] /api/chat/get?conversationId?backToDays=
     app.get('/api/chat/get', ChatController.getChatForSuggestion);

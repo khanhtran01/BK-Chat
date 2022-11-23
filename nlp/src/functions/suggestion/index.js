@@ -1,9 +1,4 @@
 require("dotenv").config();
-const express = require("express");
-const app = express();
-const port = process.env.PORT || 3500;
-const http = require("http");
-const server = http.createServer(app);
 const axios = require('axios');
 const mainService = process.env.API
 
@@ -153,7 +148,7 @@ function calcReplyRate(data ,uidA, uidB, avg){
         }
     })
     // check time
-    if (countMessage < 15){
+    if (countMessage < process.env.NUMCHATLIMIT){
         return 0;
     }
     // return dentaTime;
@@ -202,10 +197,10 @@ function getDentaTimeList(data, idA = "", idB = "") {
     return result.data.chats;
 }
 
-async function getChatGroup() {
-    const response = await axios.get(`${mainService}/api/conversation/sugestion?timeActive=${20}`)
+async function getChatGroup(backToDays, timeActive) {
+    const response = await axios.get(`${mainService}/api/conversation/sugestion?timeActive=${timeActive}`)
     if (response.data.successful === true) {
-        response.data.conversations.forEach(e => todo(e._id, 15))
+        response.data.conversations.forEach(e => todo(e._id, backToDays))
     }
 }
 
@@ -290,8 +285,4 @@ async function todo(conversationId, backToDays){
 
 // console.log(combinations([0,1,2,3,4], 3));
 
-getChatGroup()
-    
-server.listen(port, () => {
-    console.log(`App listening at http://localhost:${port}`);
-});
+getChatGroup(+process.env.BACKTODAY, +process.env.TIMEACTIVE)

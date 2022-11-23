@@ -11,4 +11,15 @@ pipeline {
             }
         }
     }
+
+    stages {
+        stage('Build server'){
+            steps {
+                sh '''
+                    cd server/
+                    npm install
+                '''
+            }
+        }
+    }
 }

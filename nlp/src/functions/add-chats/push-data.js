@@ -112,7 +112,8 @@ const PushData = async (timeToActivated, conversationId, conversationName, file)
                     )
                     if (newTime > now) {
                         await Conversation.updateOne({ _id: conversationId }, {
-                            member: oldMembers
+                            member: oldMembers 
+                            // updatedAt note cai nay
                         })
                         break;
                     }

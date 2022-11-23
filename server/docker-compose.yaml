@@ -1,0 +1,14 @@
+version: '3'
+services:
+  bkchat:
+    build: .
+    container_name: bkchat-backend
+    environment:
+      - MONGODB_SERVER=mongodb://admin:admin12345@mongodb:27017/BK-Chat?authSource=admin
+      - JWT_SECRECT=123456
+    ports:
+      - 4000:4000
+networks:
+  default:
+    name: main
+    external: true

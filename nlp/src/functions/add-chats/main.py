@@ -1,7 +1,6 @@
 import json
-import datetime
 
-f = open('group_messages_bittrex.json')
+f = open('./dataset/group_messages_binance.json')
 
 def formatTo(number, heso):
     return str(number) +'a'* (heso-len(str(number)))
@@ -9,14 +8,10 @@ def formatTo(number, heso):
 data = json.load(f)
 data.reverse()
 
-with open("final.json", "a") as outfile:
+with open("./dataset/group_messages_binancee.json", "a") as outfile:
     n = len(data)
-    lastTime = datetime.datetime.fromisoformat(data[-1]['date'])
-    now = datetime.datetime.now()
     outfile.write("""[""")
     for i in range(0, n):
-        timeSpace = lastTime - datetime.datetime.fromisoformat(data[i]['date'])
-        # json_object = json.dumps(data[i], indent=4)
         if ("message" not in data[i]):
             continue
         if (data[i]['message'] == None):
@@ -25,14 +20,12 @@ with open("final.json", "a") as outfile:
             continue
         if (type(data[i]['from_id']) == type(None) or ("user_id" not in data[i]['from_id'])):
             continue
-        created_At = (now - timeSpace).__str__()
         res = {
             "id": formatTo(data[i]['id'], 12),
             "message": None if "message" not in data[i] else data[i]['message'],
-            "created_At" : created_At,
+            "created_At" : data[i]['date'],
             "from_id" : formatTo(data[i]['from_id']['user_id'], 12),
             "reply_to" : None if type(data[i]['reply_to']) == type(None) else formatTo(data[i]['reply_to']['reply_to_msg_id'], 12),
-            "update_At": None if "edit_date" not in data[i] else data[i]['edit_date'],
         }
         json_object = json.dumps(res, indent=4)
         outfile.write(json_object)

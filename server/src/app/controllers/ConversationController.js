@@ -211,11 +211,10 @@ class ConversationController {
                 now.getMonth(),
                 now.getDate() - +req.query.timeActive,
             );
-            console.log("🚀 ~ timeActive", timeActive)
             const conversations = await Conversation.find({
                 type: "group",
                 $expr: { $gte: [{ $size: '$member' }, 5] },
-                createdAt: { $gte: timeActive }
+                createdAt: { $lte: timeActive }
             }, { _id: 1 })
             res.status(200).json({ conversations: conversations, successful: true })
         } catch (error) {
