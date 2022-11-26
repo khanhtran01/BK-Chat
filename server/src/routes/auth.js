@@ -14,4 +14,6 @@ route.post('/register', UserController.storeAccount);
 // [GET] /api/auth/verify-token
 route.get('/verify-token', UserController.checkToken);
 
+route.post('/service', UserController.authService);
+
 module.exports = route;

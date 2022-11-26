@@ -10,5 +10,5 @@ services:
       - 4000:4000
 networks:
   default:
-    name: main
+    name: mongodb_default
     external: true

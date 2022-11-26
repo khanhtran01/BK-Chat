@@ -9,12 +9,12 @@ const saltRounds = 10;
 class UserController {
     async home(req, res, next) {
         try {
-            var conversations = await Conversation
+            let conversations = await Conversation
                 .find({ 'member': req.userId })
                 // .populate('member', { password: 0, address: 0, desc: 0 }) // note
                 .sort({ 'updatedAt': -1 });
             conversations = mutipleMongooseToObject(conversations)
-            var allContact = [];
+            let allContact = [];
             for (let i = 0; i < conversations.length; i++) {
                 if (conversations[i].type == 'single') {
                     let user_0 = await Account.findOne({ _id: conversations[i].member[0] }, { password: 0, address: 0, desc: 0 })
@@ -63,7 +63,7 @@ class UserController {
             if (account) {
                 bcrypt.compare(req.body.password, account.password, function (err, result) {
                     if (result) {
-                        var token = jwt.sign({ _id: account._id }, process.env.JWT_SECRECT, { expiresIn: "8h" });
+                        let token = jwt.sign({ _id: account._id }, process.env.JWT_SECRECT, { expiresIn: "8h" });
                         res.status(200).json({ token: token, successful: true });
                     } else {
                         res.status(200).json({ message: "Invalid email or password", successful: false });
@@ -103,8 +103,8 @@ class UserController {
 
     async checkToken(req, res, next) {
         try {
-            var token = req.header("Authorization").split(" ")[1]
-            var checkToken = verifyToken(token);
+            let token = req.header("Authorization").split(" ")[1]
+            let checkToken = verifyToken(token);
             const userInfor = await Account.findOne({ _id: checkToken }, { password: 0 })
             res.status(200).json({ userInfor: userInfor, successful: true });
         } catch (error) {
@@ -143,6 +143,16 @@ class UserController {
             res.status(200).json({ userInfor: userInfor, successful: true });
         } catch (error) {
             res.status(500).json({ successful: false })
+        }
+    }
+    async authService(req, res, next) {
+        try {
+            if (req.body.accessKey === process.env.JWT_SECRECT) {
+                let accessKey = jwt.sign({}, process.env.JWT_SECRECT, { expiresIn: "1h" });
+                res.status(200).json({ accessKey: accessKey, successful: true });
+            }
+        } catch (error) {
+            res.status(200).json({ successful: false });
         }
     }
 }

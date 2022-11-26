@@ -3,7 +3,7 @@ import json
 f = open('./dataset/group_messages_binance.json')
 
 def formatTo(number, heso):
-    return str(number) +'a'* (heso-len(str(number)))
+    return str(number) +'a'* (heso-len(str(number))) # trùng id
 
 data = json.load(f)
 data.reverse()

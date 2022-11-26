@@ -43,17 +43,17 @@ const io = socketio(server, {
 
 io.on("connection", (socket) => {
     console.log("User connected");
-    socket.on("sendJoin", data => {
+    socket.on("sendJoin", async (data) => {
         addUser(data.userId, socket.id);
-        const senderUser = getUser(data.userId);
-        const userOnline = getStatusUsers(data.allContact);
+        const senderUser = await getUser(data.userId);
+        const userOnline = await getStatusUsers(data.allContact);
         io.to(senderUser?.socketId).emit("getUserOnline", userOnline);
-        userOnline.forEach(element => {
-            const friendUser = getUser(element.userId);
+        for (element of userOnline) {
+            const friendUser = await getUser(element.userId);
             io.to(friendUser?.socketId).emit("getFriendOnline", {
                 userId: data.userId
             });
-        });
+        };
         data.allContact.forEach(element => {
             if (element.type == 'group') {
                 socket.join(element.conversationId);
@@ -91,14 +91,14 @@ io.on("connection", (socket) => {
     socket.on("sendChatSingle", async (data) => {
         data.type = "text";
         const result = await ChatController.storeChatAndGetId(data);
-        const receiverUser = getUser(data.receiverId);
-        const senderUser = getUser(data.sender._id);
+        const receiverUser = await getUser(data.receiverId);
+        const senderUser = await getUser(data.sender._id);
         io.to(receiverUser?.socketId)
             .to(senderUser?.socketId)
             .emit("getChatSingle", {
-                userId: { 
-                    _id: data.sender._id, 
-                    email: data.sender.email, 
+                userId: {
+                    _id: data.sender._id,
+                    email: data.sender.email,
                     username: data.sender.username,
                     avatar: data.sender.avatar
                 },
@@ -114,9 +114,9 @@ io.on("connection", (socket) => {
         data.type = 'text'
         const result = await ChatController.storeChatAndGetId(data);
         io.to(data.conversationId).emit('getChatGroup', {
-            userId: { 
-                _id: data.sender._id, 
-                email: data.sender.email, 
+            userId: {
+                _id: data.sender._id,
+                email: data.sender.email,
                 username: data.sender.username,
                 avatar: data.sender.avatar
             },
@@ -176,10 +176,10 @@ io.on("connection", (socket) => {
     //     });
     // })
 
-    socket.on("disconnect", () => {
+    socket.on("disconnect", async () => {
         console.log("user disconnected");
-        const user = getUserBySocketId(socket.id);
-        removeUser(socket.id);
+        const user = await getUserBySocketId(socket.id);
+        await removeUser(socket.id);
         io.emit("getUserOff", user);
     });
 });

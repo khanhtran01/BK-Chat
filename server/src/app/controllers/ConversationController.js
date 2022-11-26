@@ -47,7 +47,7 @@ class ConversationController {
     }
     async newGroup(req, res, next) {
         try {
-            var member = req.body.idsUser;
+            let member = req.body.idsUser;
             if (member.length < 2) {
                 res.status(200).json({ message: "Need more member", successful: false });
             } else {
@@ -88,7 +88,7 @@ class ConversationController {
                         },
                     }
                 );
-                var chats = await ChatController.pagingChat(conversationId, 25, 1);
+                let chats = await ChatController.pagingChat(conversationId, 25, 1);
                 res.status(200).json({ chats: chats, successful: true });
             } else {
                 res.status(200).json({
@@ -114,11 +114,11 @@ class ConversationController {
     }
     async getAllContact(req, res, next) {
         try {
-            var listConversation = await Conversation.find({
+            let listConversation = await Conversation.find({
                 member: req.userId,
                 type: "single",
             }).populate("member", { password: 0, address: 0, desc: 0 });
-            var allContact = [];
+            let allContact = [];
             listConversation.forEach((conversation) => {
                 if (conversation.member[0]._id != req.userId) {
                     allContact.push({
@@ -140,13 +140,13 @@ class ConversationController {
     }
     async getAllContactSort(req, res, next) {
         try {
-            var listConversation = await Conversation.find({
+            let listConversation = await Conversation.find({
                 member: req.userId,
                 type: "single",
             }).populate("member", { password: 0, address: 0, desc: 0 });
-            var allContactName = [];
-            var allContact = [];
-            var result = [];
+            let allContactName = [];
+            let allContact = [];
+            let result = [];
             listConversation.forEach((conversation) => {
                 if (conversation.member[0]._id == req.userId) {
                     allContactName.push(conversation.member[1].username);
