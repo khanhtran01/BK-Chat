@@ -58,7 +58,6 @@ function Group() {
         }}
       >
         {userData.contactList.map((contact) => {
-          console.log(contact);
           if (contact.type === "group") {
             return (
               <Box
@@ -68,7 +67,11 @@ function Group() {
                 padding={"10px"}
               >
                 {contact.avatar ? (
-                  <Avatar src={`${contact.avatar}`} alt={`${contact.groupName}`} />
+                  <Avatar
+                    src={`${contact.avatar}`}
+                    alt={`${contact.groupName}`}
+                    sx={{ marginRight: "10px", height: "32px", width: "32px" }}
+                  />
                 ) : (
                   <Avatar
                     sx={{

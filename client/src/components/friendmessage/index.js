@@ -92,7 +92,27 @@ export default function FriendMessage(props) {
             marginRight: "10px",
           }}
         >
-          <Avatar alt={`${username}`} src={`${avatar}`} />
+          {/* <Avatar alt={`${username}`} src={`${avatar}`} /> */}
+          {avatar ? (
+            <Avatar
+              src={`${avatar}`}
+              alt={`${username}`}
+              sx={{ marginRight: "10px", height: "32px", width: "32px" }}
+            />
+          ) : (
+            <Avatar
+              sx={{
+                marginRight: "10px",
+                height: "32px",
+                width: "32px",
+                backgroundColor: "#7269ef40",
+                color: "rgb(114,105,239)",
+                fontSize: ".9375rem",
+                fontWeight: 500,
+                textTransform: "uppercase",
+              }}
+            >{`${username[0]}`}</Avatar>
+          )}
         </Box>
 
         <Box>

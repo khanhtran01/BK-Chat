@@ -172,10 +172,30 @@ export default function MyMessage(props) {
               marginLeft: "10px",
             }}
           >
-            <Avatar
+            {/* <Avatar
               alt={`${authState.user.username}`}
               src={`${authState.user.avatar}`}
-            />
+            /> */}
+            {authState.user.avatar ? (
+              <Avatar
+                src={`${authState.user.avatar}`}
+                alt={`${authState.user.username}`}
+                sx={{ marginRight: "10px", height: "32px", width: "32px" }}
+              />
+            ) : (
+              <Avatar
+                sx={{
+                  marginRight: "10px",
+                  height: "32px",
+                  width: "32px",
+                  backgroundColor: "#7269ef40",
+                  color: "rgb(114,105,239)",
+                  fontSize: ".9375rem",
+                  fontWeight: 500,
+                  textTransform: "uppercase",
+                }}
+              >{`${authState.user.username[0]}`}</Avatar>
+            )}
           </Box>
         </Box>
       </Box>

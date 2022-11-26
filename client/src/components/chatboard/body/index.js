@@ -30,7 +30,6 @@ function Body() {
     return temp;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(userData.chatInfo.member)]);
-
   return (
     <Box
       sx={{
