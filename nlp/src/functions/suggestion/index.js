@@ -1,25 +1,20 @@
 require("dotenv").config();
-const express = require("express");
-const app = express();
-const port = process.env.PORT || 3500;
-const http = require("http");
-const server = http.createServer(app);
 const axios = require('axios');
 const mainService = process.env.API
 
 
 // https://stackoverflow.com/a/64414875/19518308
-function combinations(arr, k, prefix=[]) {
+function combinations(arr, k, prefix = []) {
     if (k == 0) return [prefix];
     return arr.flatMap((v, i) =>
-    combinations(arr.slice(i+1), k-1, [...prefix, v])
+        combinations(arr.slice(i + 1), k - 1, [...prefix, v])
     );
 }
 // function combinations(arr, k){
 //     let set = [...arr];
 //     if (k > set.length || k <= 0) return [];
 //     if (k === set.length) return [set];
-  
+
 //     return set.reduce((p, c, i) => {
 //       combinations(set.slice(i + 1), k - 1)
 //         .forEach(tailArray => p.push([c].concat(tailArray)));
@@ -73,7 +68,7 @@ function convertToBinaryMap(data) {
     for (let i = 0; i < keysList.length; i++) {
         let temp = [];
         keysList.map(uid => {
-            if (data[`${keysList[i]}`].includes(uid) || keysList[i] == uid){
+            if (data[`${keysList[i]}`].includes(uid) || keysList[i] == uid) {
                 temp.push(1);
             } else {
                 temp.push(0);
@@ -84,16 +79,16 @@ function convertToBinaryMap(data) {
     return result;
 }
 
-function getPath(data){
+function getPath(data) {
     const results = {};
     data.map(relationship => {
-        if (results[`${relationship[0]}`] === undefined){
+        if (results[`${relationship[0]}`] === undefined) {
             results[`${relationship[0]}`] = [relationship[1]];
         } else {
             results[`${relationship[0]}`].push(relationship[1]);
         }
 
-        if (results[`${relationship[1]}`] === undefined){
+        if (results[`${relationship[1]}`] === undefined) {
             results[`${relationship[1]}`] = [relationship[0]];
         } else {
             results[`${relationship[1]}`].push(relationship[0]);
@@ -102,10 +97,10 @@ function getPath(data){
     return results;
 }
 
-function userPairing(userList){
+function userPairing(userList) {
     const result = [];
-    for(let i = 0 ; i < userList.length - 1; i++) {
-        for(let j = i + 1 ; j < userList.length; j++) {
+    for (let i = 0; i < userList.length - 1; i++) {
+        for (let j = i + 1; j < userList.length; j++) {
             result.push([userList[i], userList[j]]);
         }
     }
@@ -128,23 +123,23 @@ function getUserIDList(data) {
  * @param {Number} avg average dentaTime of all users
  * @returns {Object} friendly ratio between 2 users
  */
-function calcReplyRate(data ,uidA, uidB, avg){
+function calcReplyRate(data, uidA, uidB, avg) {
     let basisCount = 0; // count of reply
     let advantageCount = 0; // count of little dentaTime 
     let connectCount = 0;
     let currTime, oldTime, currId, oldId = null;
     let countMessage = 0;
     data.map(chat => {
-        if (chat.uid === uidA || chat.uid === uidB ) {
+        if (chat.uid === uidA || chat.uid === uidB) {
             countMessage += 1;
             currTime = new Date(chat.time);
             currId = chat.uid;
             if ((chat.uid === uidA && chat.replyFrom === uidB) || (chat.uid === uidB && chat.replyFrom === uidA)) {
                 connectCount++;
                 basisCount++;
-            } else if (oldId != null && currId !== oldId ){
+            } else if (oldId != null && currId !== oldId) {
                 connectCount++;
-                if ((currTime.getTime() - oldTime.getTime())/1000 <= avg*0.5 && chat.replyFrom === null){
+                if ((currTime.getTime() - oldTime.getTime()) / 1000 <= avg * 0.5 && chat.replyFrom === null) {
                     advantageCount++;
                 }
             }
@@ -153,7 +148,7 @@ function calcReplyRate(data ,uidA, uidB, avg){
         }
     })
     // check time
-    if (countMessage < 15){
+    if (countMessage < process.env.NUMCHATLIMIT) {
         return 0;
     }
     // return dentaTime;
@@ -165,8 +160,8 @@ function calcReplyRate(data ,uidA, uidB, avg){
  * @param {Object} data array of elements
  * @returns {Number} sum of all elements in array
  */
-function getSumFromArray(data){
-    return data.reduce((partialSum ,a) => partialSum + a, 0)
+function getSumFromArray(data) {
+    return data.reduce((partialSum, a) => partialSum + a, 0)
 }
 /**
  * TODO: get list denta time of all users, this function can use to get dentaTime of 2 users
@@ -183,8 +178,8 @@ function getDentaTimeList(data, idA = "", idB = "") {
             currTime = new Date(chat.time);
             currId = chat.uid;
             //* if dentaTime over 6 hours will be skip
-            if (oldId != null && currId !== oldId && (currTime.getTime() - oldTime.getTime()) <= 6 * 60 * 60 * 1000){
-                dentaTime.push((currTime.getTime() - oldTime.getTime())/1000);
+            if (oldId != null && currId !== oldId && (currTime.getTime() - oldTime.getTime()) <= 6 * 60 * 60 * 1000) {
+                dentaTime.push((currTime.getTime() - oldTime.getTime()) / 1000);
             }
             oldTime = currTime;
             oldId = currId;
@@ -197,26 +192,33 @@ function getDentaTimeList(data, idA = "", idB = "") {
  * @param {Object} id
  * @returns {Object} list of chat
  */
- async function getAllMessage(conversationId, backToDays){
+async function getAllMessage(conversationId, backToDays) {
     const result = await axios.get(`${mainService}/api/chat/get?conversationId=${conversationId}&backToDays=${backToDays}`);
     return result.data.chats;
 }
 
-async function getChatGroup() {
-    const response = await axios.get(`${mainService}/api/conversation/sugestion?timeActive=${20}`)
-    if (response.data.successful === true) {
-        response.data.conversations.forEach(e => todo(e._id, 15))
+async function getChatGroup(backToDays, timeActive) {
+    const resForAccess = await axios.post(`${mainService}/api/auth/service`, {
+        accessKey: process.env.ACCESSKEY
+    })
+    if (resForAccess.data.successful === true) {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${resForAccess.data.accessKey}`;
+        const response = await axios.get(`${mainService}/api/conversation/sugestion?timeActive=${timeActive}`)
+        if (response.data.successful === true) {
+            response.data.conversations.forEach(e => todo(e._id, backToDays))
+        }
     }
+
 }
 
 
-async function todo(conversationId, backToDays){
+async function todo(conversationId, backToDays) {
     // get data of 7 days of conversation id 6344e91b89558fb2b5ec1234
     const data = await getAllMessage(conversationId, backToDays);
     // get dentaTime list of this data
     const dentaTime = getDentaTimeList(data);
     // caculate average time from denta time list
-    const avgTime = getSumFromArray(dentaTime)/dentaTime.length;
+    const avgTime = getSumFromArray(dentaTime) / dentaTime.length;
     // get all paring between 2 users
     const paringList = userPairing(getUserIDList(data));
     // all paring with > 20% reply Rate
@@ -238,19 +240,19 @@ async function todo(conversationId, backToDays){
     // * tìm các tổ hợp dài nhất 
     // console.log(path);
     const res = [];
-    for(let i = lengthArray.length - 1; i > 1 ; i--){
+    for (let i = lengthArray.length - 1; i > 1; i--) {
         // console.log("==========================================");
         // console.log(`i = ${i}`);
         let rest = lengthArray.slice(i - lengthArray.length);
-        let merged = rest.reduce(function(prev, next) {
+        let merged = rest.reduce(function (prev, next) {
             return prev.concat(next);
-          });
+        });
         // console.log(merged);
-        if (merged.length < i + 1){
+        if (merged.length < i + 1) {
             continue;
         } else {
             // console.log(`to hop ${i+1} so lien ket >= ${i}`);
-            let listCombination = combinations(merged, i+1)
+            let listCombination = combinations(merged, i + 1)
             // console.log(listCombination);
             let listBit = listCombination.map(combination => {
                 return combination.map(idx => biMap[idx]);
@@ -290,8 +292,4 @@ async function todo(conversationId, backToDays){
 
 // console.log(combinations([0,1,2,3,4], 3));
 
-getChatGroup()
-    
-server.listen(port, () => {
-    console.log(`App listening at http://localhost:${port}`);
-});
+getChatGroup(+process.env.BACKTODAY, +process.env.TIMEACTIVE)

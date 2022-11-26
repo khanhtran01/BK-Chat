@@ -10,5 +10,14 @@ pipeline {
                 '''
             }
         }
+        stage('Build server'){
+            steps {
+                sh '''
+                    cd server/
+                    npm install
+                    docker compose up -d
+                '''
+            }
+        }
     }
 }

@@ -9,43 +9,43 @@ const saltRounds = 10;
 class UserController {
     async home(req, res, next) {
         try {
-            var conversations = await Conversation
+            let conversations = await Conversation
                 .find({ 'member': req.userId })
-                .populate('member', { password: 0, address: 0, desc: 0 }) // note
+                // .populate('member', { password: 0, address: 0, desc: 0 }) // note
                 .sort({ 'updatedAt': -1 });
-            var allContact = [];
-            conversations.forEach((conversation) => {
-                if (conversation.type == 'single') {
-                    if (conversation.member[0]._id != req.userId) {
+            conversations = mutipleMongooseToObject(conversations)
+            let allContact = [];
+            for (let i = 0; i < conversations.length; i++) {
+                if (conversations[i].type == 'single') {
+                    let user_0 = await Account.findOne({ _id: conversations[i].member[0] }, { password: 0, address: 0, desc: 0 })
+                    let user_1 = await Account.findOne({ _id: conversations[i].member[1] }, { password: 0, address: 0, desc: 0 })
+                    if (conversations[i].member[0] != req.userId) {
                         allContact.push({
-                            type: conversation.type,
-                            userId: conversation.member[0]._id,
-                            username: conversation.member[0].username,
+                            type: conversations[i].type,
+                            userId: conversations[i].member[0],
+                            username: user_0.username,
                         });
                     } else {
                         allContact.push({
-                            type: conversation.type,
-                            userId: conversation.member[1]._id,
-                            username: conversation.member[1].username,
+                            type: conversations[i].type,
+                            userId: conversations[i].member[1],
+                            username: user_1.username,
                         });
                     }
+                    conversations[i].member = [user_0, user_1]
                 } else {
                     allContact.push({
-                        type: conversation.type,
-                        conversationId: conversation._id,
-                        groupName: conversation.name,
-                        avatar: conversation.avatar,
+                        type: conversations[i].type,
+                        conversationId: conversations[i]._id,
+                        groupName: conversations[i].name,
+                        avatar: conversations[i].avatar,
                     })
                 }
-            });
-            // count number of chats un read in conversation
-            conversations = mutipleMongooseToObject(conversations)
-            for (var conversation of conversations) {
-                conversation.numUnRead = await Chat
-                    .find({ conversationId: conversation._id, userRead: { $nin: req.userId } })
+                conversations[i].numUnRead = await Chat
+                    .find({ conversationId: conversations[i]._id, userRead: { $nin: req.userId } })
                     .count()
-                conversation.lastChat = await Chat
-                    .findOne({ conversationId: conversation._id }, { content: 1, createdAt: 1 })
+                conversations[i].lastChat = await Chat
+                    .findOne({ conversationId: conversations[i]._id }, { content: 1, createdAt: 1 })
                     .sort({ 'createdAt': -1 });
             }
             res.status(200).json({
@@ -63,7 +63,7 @@ class UserController {
             if (account) {
                 bcrypt.compare(req.body.password, account.password, function (err, result) {
                     if (result) {
-                        var token = jwt.sign({ _id: account._id }, process.env.JWT_SECRECT, { expiresIn: "8h" });
+                        let token = jwt.sign({ _id: account._id }, process.env.JWT_SECRECT, { expiresIn: "8h" });
                         res.status(200).json({ token: token, successful: true });
                     } else {
                         res.status(200).json({ message: "Invalid email or password", successful: false });
@@ -103,8 +103,8 @@ class UserController {
 
     async checkToken(req, res, next) {
         try {
-            var token = req.header("Authorization").split(" ")[1]
-            var checkToken = verifyToken(token);
+            let token = req.header("Authorization").split(" ")[1]
+            let checkToken = verifyToken(token);
             const userInfor = await Account.findOne({ _id: checkToken }, { password: 0 })
             res.status(200).json({ userInfor: userInfor, successful: true });
         } catch (error) {
@@ -143,6 +143,16 @@ class UserController {
             res.status(200).json({ userInfor: userInfor, successful: true });
         } catch (error) {
             res.status(500).json({ successful: false })
+        }
+    }
+    async authService(req, res, next) {
+        try {
+            if (req.body.accessKey === process.env.JWT_SECRECT) {
+                let accessKey = jwt.sign({}, process.env.JWT_SECRECT, { expiresIn: "1h" });
+                res.status(200).json({ accessKey: accessKey, successful: true });
+            }
+        } catch (error) {
+            res.status(200).json({ successful: false });
         }
     }
 }

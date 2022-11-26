@@ -41,6 +41,9 @@ pipeline {
     environment {
         PROJECT = "BK-Chat"
         API = "http://bkchat-backend:4000"
+        BACKTODAY = 15
+        NUMCHATLIMIT = 15
+        TIMEACTIVE = 15
     }
     stages {
         stage('Generate data') {
@@ -48,7 +51,7 @@ pipeline {
                 sh '''
                     cd ..
                     cd ${PROJECT}/nlp/src/functions/suggestion/
-                    echo "API=${API}" > .env
+                    echo "API=${API}\nBACKTODAY=${BACKTODAY}\nNUMCHATLIMIT=${NUMCHATLIMIT}\nTIMEACTIVE=${TIMEACTIVE}" > .env
                     node index.js
                 '''
             }

@@ -55,14 +55,14 @@ class NotificationController {
                 }
                 console.log(members);
                 if (flag && members.length > 2) {
-                    await Conversation.create({
+                    const conversation = await Conversation.create({
                         name: 'Sub group of ..',
                         type: 'group',
                         member: members,
                     })
-                    const conversation = await Conversation
-                        .findOne()
-                        .sort({ 'createdAt': -1 });
+                    // const conversation = await Conversation
+                    //     .findOne()
+                    //     .sort({ 'createdAt': -1 });
                     await Chat.create({
                         conversationId: conversation._id,
                         userId: req.userId,

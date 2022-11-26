@@ -3,7 +3,7 @@ const Chat = require('../models/Chat');
 class ChatController {
     async storeChatAndGetId(data) {
         try {
-            await Chat
+            const chat = await Chat
                 .create({
                     conversationId: data.conversationId,
                     userId: data.sender._id,
@@ -16,20 +16,20 @@ class ChatController {
                 .updateOne({ _id: data.conversationId }, {
                     updatedAt: Date.now()
                 })
-            const chats = await Chat
-                .findOne({ conversationId: data.conversationId })
-                .sort({ 'createdAt': -1 });
+            // const chats = await Chat
+            //     .findOne({ conversationId: data.conversationId })
+            //     .sort({ 'createdAt': -1 });
             if (data.replyFromChatId) {
                 const replyChat = await Chat.findOne(
                     { _id: data.replyFromChatId })
                     .populate('userId', { password: 0, address: 0, desc: 0 })
                 return {
-                    id: chats._id,
+                    id: chat._id,
                     replyChat: replyChat
                 }
             }
             return {
-                id: chats._id,
+                id: chat._id,
                 replyChat: null
             };
         } catch (error) {
@@ -85,7 +85,7 @@ class ChatController {
     async pagingChat(conversationId, size, page) {
         try {
             const count = await Chat.find({ conversationId: conversationId }).count();
-            var numSkip, numChat;
+            let numSkip, numChat;
             if (count - size * page < 0) {
                 numSkip = 0;
                 numChat = count - size * (page - 1);
@@ -120,7 +120,6 @@ class ChatController {
                 now.getMonth(),
                 now.getDate() - req.query.backToDays,
             );
-            console.log(req.query.backToDays);
             let chats = await Chat.find({
                 conversationId: req.query.conversationId,
                 createdAt: {
