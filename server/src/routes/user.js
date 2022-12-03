@@ -3,7 +3,6 @@ const route = express.Router();
 const uploads = require('../util/multer.cloudinary');
 const UpdateInfoController = require('../app/controllers/UpdateInfoController');
 const UserController = require('../app/controllers/UserController');
-const ConversationController = require('../app/controllers/ConversationController');
 
 // [PUT] /api/user/update-personal-info (avatar, username, desc, address)
 route.put('/update-personal-info', uploads.single('avatar'), UpdateInfoController.personalInfo);

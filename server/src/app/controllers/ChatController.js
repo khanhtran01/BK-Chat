@@ -3,37 +3,36 @@ const Chat = require('../models/Chat');
 class ChatController {
     async storeChatAndGetId(data) {
         try {
-            const chat = await Chat
-                .create({
-                    conversationId: data.conversationId,
-                    userId: data.sender._id,
-                    content: data.content,
-                    type: data.type,
-                    userRead: [data.sender._id],
-                    replyFrom: data.replyFromChatId,
-                });
-            await Conversation
-                .updateOne({ _id: data.conversationId }, {
-                    updatedAt: Date.now()
-                })
-            // const chats = await Chat
-            //     .findOne({ conversationId: data.conversationId })
-            //     .sort({ 'createdAt': -1 });
+            const chat = await Chat.create({
+                conversationId: data.conversationId,
+                userId: data.sender._id,
+                content: data.content,
+                type: data.type,
+                userRead: [data.sender._id],
+                replyFrom: data.replyFromChatId,
+            });
+            await Conversation.updateOne(
+                { _id: data.conversationId },
+                {
+                    updatedAt: Date.now(),
+                },
+            );
             if (data.replyFromChatId) {
-                const replyChat = await Chat.findOne(
-                    { _id: data.replyFromChatId })
-                    .populate('userId', { password: 0, address: 0, desc: 0 })
+                const replyChat = await Chat.findOne({ _id: data.replyFromChatId }).populate('userId', {
+                    password: 0,
+                    address: 0,
+                    desc: 0,
+                });
                 return {
                     id: chat._id,
-                    replyChat: replyChat
-                }
+                    replyChat: replyChat,
+                };
             }
             return {
                 id: chat._id,
-                replyChat: null
+                replyChat: null,
             };
         } catch (error) {
-            console.log(error);
             return null;
         }
     }
@@ -69,17 +68,19 @@ class ChatController {
     //         console.log(error);
     //     }
     // }
-    async addUserReadChat(req, res, next) {
+    async addUserReadChat(req, res) {
         try {
-            await Chat
-                .updateOne({ _id: req.query.chatId }, {
+            await Chat.updateOne(
+                { _id: req.query.chatId },
+                {
                     $addToSet: {
-                        userRead: req.userId
+                        userRead: req.userId,
                     },
-                })
-            res.status(200).json({ successful: true })
+                },
+            );
+            res.status(200).json({ successful: true });
         } catch (error) {
-            res.status(500).json({ successful: false })
+            res.status(500).json({ successful: false });
         }
     }
     async pagingChat(conversationId, size, page) {
@@ -96,50 +97,42 @@ class ChatController {
                 numSkip = count - size * page;
                 numChat = size;
             }
-            return await Chat
-                .find({ conversationId: conversationId })
+            return await Chat.find({ conversationId: conversationId })
                 .populate('userId', { password: 0, address: 0, desc: 0 })
                 .populate({
                     path: 'replyFrom',
-                    select: 'userId content ',
-                    populate: { path: 'userId', select: '_id email username' }
+                    select: 'userId content',
+                    populate: { path: 'userId', select: '_id email username' },
                 })
                 .limit(numChat)
                 .skip(numSkip);
         } catch (error) {
             return false;
         }
-
     }
 
-    async getChatForSuggestion(req, res, next) {
+    async getChatForSuggestion(req, res) {
         try {
             const now = new Date();
-            const backToDays = new Date(
-                now.getFullYear(),
-                now.getMonth(),
-                now.getDate() - req.query.backToDays,
-            );
+            const backToDays = new Date(now.getFullYear(), now.getMonth(), now.getDate() - req.query.backToDays);
             let chats = await Chat.find({
                 conversationId: req.query.conversationId,
                 createdAt: {
                     $gte: backToDays,
-                }
-            })
-            chats = chats.map(chat => {
+                },
+            });
+            chats = chats.map((chat) => {
                 return {
                     time: chat.createdAt,
                     uid: chat.userId,
                     replyFrom: chat.replyFrom,
-                    content: chat.content
-                }
-            })
-            res.status(200).json({ chats, successful: true })
+                    content: chat.content,
+                };
+            });
+            res.status(200).json({ chats, successful: true });
         } catch (error) {
-            console.log(error);
-            res.status(500).json({ successful: false })
+            res.status(500).json({ successful: false });
         }
-
     }
 }
 

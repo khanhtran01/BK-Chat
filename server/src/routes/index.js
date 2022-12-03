@@ -15,7 +15,7 @@ function route(app) {
     app.get('/api/conversation/sugestion', ServiceMiddleware, ConversationController.getConversationForSugestion);
     //  [GET] /api/chat/get?conversationId?backToDays=
     app.get('/api/chat/get', ServiceMiddleware, ChatController.getChatForSuggestion);
-    // [POST] /api/notification/new 
+    // [POST] /api/notification/new
     app.post('/api/notification/new', ServiceMiddleware, NotificationController.new);
 
     app.use('/api/conversation', AuthenMiddleware, conversationRoute);
