@@ -1,26 +1,38 @@
-const fs = require('fs')
+const fs = require('fs');
 const mongoose = require('mongoose');
 const { uniqueNamesGenerator, names } = require('unique-names-generator');
-const Account = require("../../models/Account");
-const Chat = require('../../models/Chat')
-const Conversation = require("../../models/Conversation");
-const PushData = async (timeToActivated, conversationId, conversationName, file) => {
-    const password = '$2b$10$FzU29JF7cNwHL9gmj/xp6uE3KThoJET3dVGPP689CA8k6DADj3CHC';
+const User = require('../../models/User');
+const Chat = require('../../models/Chat');
+const Conversation = require('../../models/Conversation');
+const PushData = async (
+    timeToActivated,
+    conversationId,
+    conversationName,
+    file
+) => {
+    const password =
+        '$2b$10$FzU29JF7cNwHL9gmj/xp6uE3KThoJET3dVGPP689CA8k6DADj3CHC';
     const now = new Date();
-    const conversation = await Conversation.findOne({ _id: conversationId })
-    var oldMembers = []
+    const conversation = await Conversation.findOne({ _id: conversationId });
+    var oldMembers = [];
     if (conversation) {
-        var obj = await Conversation.findOne({ _id: conversationId }, { member: 1 })
+        var obj = await Conversation.findOne(
+            { _id: conversationId },
+            { member: 1 }
+        );
         oldMembers = obj.member;
     }
-    fs.readFile(`./dataset/${file}`, "utf8", async (err, jsonString) => {
+    fs.readFile(`./dataset/${file}`, 'utf8', async (err, jsonString) => {
         if (err) {
-            console.log("File read failed:", err);
-            process.exit(1)
+            console.log('File read failed:', err);
+            process.exit(1);
         }
-        const data = JSON.parse(jsonString)
+        const data = JSON.parse(jsonString);
         // First time add => add last timeToActivated days
         if (!conversation) {
+            let arrChat = [];
+            let arrUser = [];
+            let arrUserID = [];
             const firstDay = new Date(data[0].created_At);
             // Date activated
             const dayActivated = new Date(
@@ -33,60 +45,109 @@ const PushData = async (timeToActivated, conversationId, conversationName, file)
             for (var i = 0; i < data.length; i++) {
                 const current = new Date(data[i].created_At);
                 if (current <= dayActivated) {
-                    var month = now.getMonth()
+                    var month = now.getMonth();
                     if (current.getDate() - firstDay.getDate() < 0) {
                         month++;
                     }
-                    await Chat.create({
+                    arrChat.push({
                         _id: mongoose.Types.ObjectId(data[i].id),
                         conversationId: conversationId,
                         userId: mongoose.Types.ObjectId(data[i].from_id),
                         content: data[i].message,
                         type: 'text',
-                        replyFrom: data[i].reply_to ? mongoose.Types.ObjectId(data[i].reply_to) : data[i].reply_to,
+                        replyFrom: data[i].reply_to
+                            ? mongoose.Types.ObjectId(data[i].reply_to)
+                            : data[i].reply_to,
                         createdAt: new Date(
                             now.getFullYear(),
                             month,
-                            now.getDate() - timeToActivated + (current.getDate() - firstDay.getDate()),
+                            now.getDate() -
+                                timeToActivated +
+                                (current.getDate() - firstDay.getDate()),
                             current.getHours(),
                             current.getMinutes(),
                             current.getSeconds()
-                        )
-                    })
-                    const user = await Account.findOne({ _id: mongoose.Types.ObjectId(data[i].from_id) })
-                    if (!user) {
+                        ),
+                    });
+                    // await Chat.create({
+                    //     _id: mongoose.Types.ObjectId(data[i].id),
+                    //     conversationId: conversationId,
+                    //     userId: mongoose.Types.ObjectId(data[i].from_id),
+                    //     content: data[i].message,
+                    //     type: 'text',
+                    //     replyFrom: data[i].reply_to
+                    //         ? mongoose.Types.ObjectId(data[i].reply_to)
+                    //         : data[i].reply_to,
+                    //     createdAt: new Date(
+                    //         now.getFullYear(),
+                    //         month,
+                    //         now.getDate() -
+                    //             timeToActivated +
+                    //             (current.getDate() - firstDay.getDate()),
+                    //         current.getHours(),
+                    //         current.getMinutes(),
+                    //         current.getSeconds()
+                    //     ),
+                    // });
+                    // const user = await User.findOne({
+                    //     _id: mongoose.Types.ObjectId(data[i].from_id),
+                    // });
+                    // if (!user) {
+                    if (
+                        !arrUserID.find((userId) => userId == data[i].from_id)
+                    ) {
                         const randomName = uniqueNamesGenerator({
-                            dictionaries: [names, names], length: 2, separator: ' '
+                            dictionaries: [names, names],
+                            length: 2,
+                            separator: ' ',
                         });
-                        await Account.create({
+                        arrUserID.push(data[i].from_id);
+                        arrUser.push({
                             _id: mongoose.Types.ObjectId(data[i].from_id),
                             email: `${data[i].from_id}@gmail.com`,
                             password: password,
                             username: randomName,
-                            avatar: null,
-                            address: '',
-                            desc: 'Account from dataset'
-                        })
-                        oldMembers.push(mongoose.Types.ObjectId(data[i].from_id))
-                    } else {
-                        if (!oldMembers.includes(user._id)) {
-                            oldMembers.push(user._id)
-                        }
+                            verify: true,
+                            desc: 'User from dataset',
+                        });
+                        // await User.create({
+                        //     _id: mongoose.Types.ObjectId(data[i].from_id),
+                        //     email: `${data[i].from_id}@gmail.com`,
+                        //     password: password,
+                        //     username: randomName,
+                        //     verify: true,
+                        //     desc: 'User from dataset',
+                        // });
+                        oldMembers.push(
+                            mongoose.Types.ObjectId(data[i].from_id)
+                        );
                     }
+                    // else {
+                    //     if (!oldMembers.includes(user._id)) {
+                    //         oldMembers.push(user._id);
+                    //     }
+                    // }
                 } else {
-                    const firstChat = await Chat.findOne({ conversationId: conversationId })
+                    // const firstChat = await Chat.findOne({
+                    //     conversationId: conversationId,
+                    // });
+                    await Chat.insertMany(arrChat);
+                    await User.insertMany(arrUser);
+                    const firstChat = arrChat[0];
                     await Conversation.create({
                         _id: conversationId,
                         name: conversationName,
                         member: oldMembers,
                         type: 'group',
-                        createdAt: firstChat.createdAt
-                    })
+                        createdAt: firstChat.createdAt,
+                    });
                     break;
                 }
             }
         } else {
-            const lastChat = await Chat.findOne({ conversationId: conversationId }).sort({ 'createdAt': -1 })
+            const lastChat = await Chat.findOne({
+                conversationId: conversationId,
+            }).sort({ createdAt: -1 });
             var flag = false;
             var previousTime;
             for (var i = 0; i < data.length; i++) {
@@ -97,8 +158,10 @@ const PushData = async (timeToActivated, conversationId, conversationName, file)
                 }
                 if (flag) {
                     const current = new Date(data[i].created_At);
-                    const distanceMonth = current.getMonth() - previousTime.getMonth();
-                    var distanceDate = current.getDate() - previousTime.getDate();
+                    const distanceMonth =
+                        current.getMonth() - previousTime.getMonth();
+                    var distanceDate =
+                        current.getDate() - previousTime.getDate();
                     if (distanceMonth != 0) {
                         distanceDate = distanceDate + 30 * distanceMonth;
                     }
@@ -109,12 +172,15 @@ const PushData = async (timeToActivated, conversationId, conversationName, file)
                         current.getHours(),
                         current.getMinutes(),
                         current.getSeconds()
-                    )
+                    );
                     if (newTime > now) {
-                        await Conversation.updateOne({ _id: conversationId }, {
-                            member: oldMembers 
-                            // updatedAt note cai nay
-                        })
+                        await Conversation.updateOne(
+                            { _id: conversationId },
+                            {
+                                member: oldMembers,
+                                // updatedAt note cai nay
+                            }
+                        );
                         break;
                     }
                     await Chat.create({
@@ -123,33 +189,42 @@ const PushData = async (timeToActivated, conversationId, conversationName, file)
                         userId: mongoose.Types.ObjectId(data[i].from_id),
                         content: data[i].message,
                         type: 'text',
-                        replyFrom: data[i].reply_to ? mongoose.Types.ObjectId(data[i].reply_to) : data[i].reply_to,
-                        createdAt: newTime
-                    })
-                    const user = await Account.findOne({ _id: mongoose.Types.ObjectId(data[i].from_id) })
+                        replyFrom: data[i].reply_to
+                            ? mongoose.Types.ObjectId(data[i].reply_to)
+                            : data[i].reply_to,
+                        createdAt: newTime,
+                    });
+                    const user = await User.findOne({
+                        _id: mongoose.Types.ObjectId(data[i].from_id),
+                    });
                     if (!user) {
                         const randomName = uniqueNamesGenerator({
-                            dictionaries: [names, names], length: 2, separator: ' '
+                            dictionaries: [names, names],
+                            length: 2,
+                            separator: ' ',
                         });
-                        await Account.create({
+                        await User.create({
                             _id: mongoose.Types.ObjectId(data[i].from_id),
                             email: `${data[i].from_id}@gmail.com`,
                             password: password,
                             username: randomName,
-                            desc: 'Account from dataset'
-                        })
-                        oldMembers.push(mongoose.Types.ObjectId(data[i].from_id))
+                            verify: true,
+                            desc: 'User from dataset',
+                        });
+                        oldMembers.push(
+                            mongoose.Types.ObjectId(data[i].from_id)
+                        );
                     } else {
                         if (!oldMembers.includes(user._id)) {
-                            oldMembers.push(user._id)
+                            oldMembers.push(user._id);
                         }
                     }
                 }
             }
         }
-        console.log("Done!!");
+        console.log('Done!!');
         process.exit(0);
     });
-}
+};
 
-module.exports = PushData
+module.exports = PushData;
