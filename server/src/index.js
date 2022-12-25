@@ -201,6 +201,11 @@ io.on('connection', (socket) => {
 
 // Routes init
 route(app);
+
+app.use((req, res, next) => {
+    console.log(error);
+    res.status(500).json({ successful: false });
+});
 server.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`);
 });

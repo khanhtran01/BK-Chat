@@ -1,5 +1,11 @@
 const Conversation = require('../models/Conversation');
 const Chat = require('../models/Chat');
+const userDTOMini = {
+    _id: 1,
+    email: 1,
+    username: 1,
+    avatar: 1,
+};
 class ChatController {
     async storeChatAndGetId(data) {
         try {
@@ -18,11 +24,10 @@ class ChatController {
                 },
             );
             if (data.replyFromChatId) {
-                const replyChat = await Chat.findOne({ _id: data.replyFromChatId }).populate('userId', {
-                    password: 0,
-                    address: 0,
-                    desc: 0,
-                });
+                const replyChat = await Chat.findOne({ _id: data.replyFromChatId }).populate(
+                    'userId',
+                    userDTOMini,
+                );
                 return {
                     id: chat._id,
                     replyChat: replyChat,
@@ -68,7 +73,7 @@ class ChatController {
     //         console.log(error);
     //     }
     // }
-    async addUserReadChat(req, res) {
+    async addUserReadChat(req, res, next) {
         try {
             await Chat.updateOne(
                 { _id: req.query.chatId },
@@ -80,7 +85,7 @@ class ChatController {
             );
             res.status(200).json({ successful: true });
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
     async pagingChat(conversationId, size, page) {
@@ -98,7 +103,7 @@ class ChatController {
                 numChat = size;
             }
             return await Chat.find({ conversationId: conversationId })
-                .populate('userId', { password: 0, address: 0, desc: 0 })
+                .populate('userId', userDTOMini)
                 .populate({
                     path: 'replyFrom',
                     select: 'userId content',
@@ -111,10 +116,14 @@ class ChatController {
         }
     }
 
-    async getChatForSuggestion(req, res) {
+    async getChatForSuggestion(req, res, next) {
         try {
             const now = new Date();
-            const backToDays = new Date(now.getFullYear(), now.getMonth(), now.getDate() - req.query.backToDays);
+            const backToDays = new Date(
+                now.getFullYear(),
+                now.getMonth(),
+                now.getDate() - req.query.backToDays,
+            );
             let chats = await Chat.find({
                 conversationId: req.query.conversationId,
                 createdAt: {
@@ -131,7 +140,7 @@ class ChatController {
             });
             res.status(200).json({ chats, successful: true });
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
 }

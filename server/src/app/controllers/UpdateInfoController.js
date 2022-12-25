@@ -1,7 +1,7 @@
 const Conversation = require('../models/Conversation');
 const User = require('../models/User');
 class UpdateInfoController {
-    async personalInfo(req, res) {
+    async personalInfo(req, res, next) {
         try {
             const id = req.userId;
             if (req.file) {
@@ -28,10 +28,10 @@ class UpdateInfoController {
                 res.status(200).json({ message: 'Update successful', successful: true });
             }
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
-    async groupInfo(req, res) {
+    async groupInfo(req, res, next) {
         try {
             const conversationId = req.body.conversationId;
             if (req.file) {
@@ -54,7 +54,7 @@ class UpdateInfoController {
             }
             res.status(200).json({ successful: true });
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
 }

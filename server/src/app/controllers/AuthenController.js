@@ -7,16 +7,21 @@ const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const saltRounds = 10;
 class AuthenController {
-    async checkLogin(req, res) {
+    async checkLogin(req, res, next) {
         try {
             const user = await User.findOne({ email: req.body.email });
             if (user && user.verify) {
                 bcrypt.compare(req.body.password, user.password, function (err, result) {
                     if (result) {
-                        let token = jwt.sign({ _id: user._id }, process.env.JWT_SECRECT, { expiresIn: '8h' });
+                        let token = jwt.sign({ _id: user._id }, process.env.JWT_SECRECT, {
+                            expiresIn: '8h',
+                        });
                         res.status(200).json({ token: token, successful: true });
                     } else {
-                        res.status(200).json({ message: 'Invalid email or password', successful: false });
+                        res.status(200).json({
+                            message: 'Invalid email or password',
+                            successful: false,
+                        });
                     }
                 });
             } else if (!user.verify) {
@@ -25,10 +30,10 @@ class AuthenController {
                 res.status(200).json({ message: 'Invalid email or password', successful: false });
             }
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
-    async storeAccount(req, res) {
+    async storeAccount(req, res, next) {
         try {
             const user = await User.find({
                 email: req.body.email,
@@ -64,13 +69,16 @@ class AuthenController {
                 res.status(200).json({ message: 'Register Successfull', successful: true });
             }
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
 
-    async verifyEmail(req, res) {
+    async verifyEmail(req, res, next) {
         try {
-            const user = await User.findOne({ email: req.query.email, uniqueString: req.query.token });
+            const user = await User.findOne({
+                email: req.query.email,
+                uniqueString: req.query.token,
+            });
             if (user) {
                 await User.updateOne(
                     { _id: user._id },
@@ -83,14 +91,14 @@ class AuthenController {
                 res.status(200).json({ successful: false });
             }
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
 
-    logout(req, res) {
+    logout(req, res, next) {
         res.status(200).json({ message: 'Logout', successful: true });
     }
-    async checkToken(req, res) {
+    async checkToken(req, res, next) {
         try {
             let token = req.header('Authorization').split(' ')[1];
             let checkToken = verifyToken(token);
@@ -100,14 +108,16 @@ class AuthenController {
             res.status(401).json({ message: 'Token is not valid', successful: false });
         }
     }
-    async authService(req, res) {
+    async authService(req, res, next) {
         try {
             if (req.body.accessKey === process.env.JWT_SECRECT) {
                 let accessKey = jwt.sign({}, process.env.JWT_SECRECT, { expiresIn: '1h' });
                 res.status(200).json({ accessKey: accessKey, successful: true });
+            } else {
+                res.status(401).json({ successful: false });
             }
         } catch (error) {
-            res.status(200).json({ successful: false });
+            next(error);
         }
     }
 }

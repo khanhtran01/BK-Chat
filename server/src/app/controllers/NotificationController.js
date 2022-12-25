@@ -2,7 +2,7 @@ const Notification = require('../models/Notification');
 const Conversation = require('../models/Conversation');
 const Chat = require('../models/Chat');
 class NotificationController {
-    async new(req, res) {
+    async new(req, res, next) {
         try {
             const members = req.body.members.map((e) => {
                 return {
@@ -15,11 +15,11 @@ class NotificationController {
             });
             res.status(200).json({ successful: true });
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
 
-    async getAll(req, res) {
+    async getAll(req, res, next) {
         try {
             const notifications = await Notification.find({
                 'member.userId': req.userId,
@@ -28,11 +28,11 @@ class NotificationController {
                 .populate('conversationId', { member: 0, desc: 0, createdAt: 0, updatedAt: 0 });
             res.status(200).json({ notifications, successful: true });
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
 
-    async action(req, res) {
+    async action(req, res, next) {
         try {
             const notificationId = req.body.notifyId;
             await Notification.updateOne(
@@ -78,7 +78,7 @@ class NotificationController {
             }
             res.status(200).json({ successful: true });
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
 }

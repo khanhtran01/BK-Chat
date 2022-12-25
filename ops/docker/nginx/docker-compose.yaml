@@ -1,0 +1,13 @@
+version: '3'
+services:
+  nginx:
+    container_name: nginx
+    image: nginx:1.23.3
+    restart: always
+    # ports:
+    #   - 80:80
+    network_mode: "host"
+    volumes:
+      - ./ssl-cert/:/data/cert/
+      - ./demo.conf:/etc/nginx/conf.d/demo.conf
+      - ./ssl.conf:/etc/nginx/conf.d/ssl.conf

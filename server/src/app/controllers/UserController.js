@@ -2,23 +2,30 @@ const User = require('../models/User');
 const Conversation = require('../models/Conversation');
 const Chat = require('../models/Chat');
 const { mutipleMongooseToObject } = require('../../util/mongoose');
+const userDTOMini = {
+    _id: 1,
+    email: 1,
+    username: 1,
+    avatar: 1,
+};
 class UserController {
-    async home(req, res) {
+    async home(req, res, next) {
         try {
             let conversations = await Conversation.find({ member: req.userId })
                 // .populate('member', { password: 0, address: 0, desc: 0 }) // note
                 .sort({ updatedAt: -1 });
-            conversations = mutipleMongooseToObject(conversations);
+            // conversations = mutipleMongooseToObject(conversations);
             let allContact = [];
             for (let i = 0; i < conversations.length; i++) {
+                conversations[i] = conversations[i].toObject();
                 if (conversations[i].type == 'single') {
                     let user_0 = await User.findOne(
                         { _id: conversations[i].member[0] },
-                        { password: 0, address: 0, desc: 0 },
+                        userDTOMini,
                     );
                     let user_1 = await User.findOne(
                         { _id: conversations[i].member[1] },
-                        { password: 0, address: 0, desc: 0 },
+                        userDTOMini,
                     );
                     if (conversations[i].member[0] != req.userId) {
                         allContact.push({
@@ -35,6 +42,7 @@ class UserController {
                     }
                     conversations[i].member = [user_0, user_1];
                 } else {
+                    conversations[i].member = [];
                     allContact.push({
                         type: conversations[i].type,
                         conversationId: conversations[i]._id,
@@ -42,14 +50,16 @@ class UserController {
                         avatar: conversations[i].avatar,
                     });
                 }
-                conversations[i].numUnRead = await Chat.find({
-                    conversationId: conversations[i]._id,
-                    userRead: { $nin: req.userId },
-                }).count();
-                conversations[i].lastChat = await Chat.findOne(
+                const chats = await Chat.find(
                     { conversationId: conversations[i]._id },
-                    { content: 1, createdAt: 1 },
-                ).sort({ createdAt: -1 });
+                    { content: 1, createdAt: 1, userRead: 1 },
+                )
+                    .limit(10)
+                    .sort({ createdAt: -1 });
+                let numUnRead = chats.filter((e) => !e.userRead.includes(req.userId)).length;
+                console.log(numUnRead);
+                conversations[i].numUnRead = numUnRead < 10 ? numUnRead : 10;
+                conversations[i].lastChat = chats[0];
             }
             res.status(200).json({
                 conversations: conversations,
@@ -57,12 +67,15 @@ class UserController {
                 successful: true,
             });
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
-    async seachUser(req, res) {
+    async seachUser(req, res, next) {
         try {
-            const user = await User.findOne({ email: req.query.email }, { password: 0, address: 0, desc: 0 });
+            const user = await User.findOne(
+                { email: req.query.email },
+                { password: 0, address: 0, desc: 0 },
+            );
             if (user && user._id != req.userId) {
                 console.log(user._id, req.userId);
                 const result = await Conversation.findOne({
@@ -82,15 +95,15 @@ class UserController {
                 res.status(200).json({ message: 'User not found', successful: false });
             }
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
-    async personalInfo(req, res) {
+    async personalInfo(req, res, next) {
         try {
             const userInfor = await User.findOne({ _id: req.userId }, { password: 0 });
             res.status(200).json({ userInfor: userInfor, successful: true });
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
 }

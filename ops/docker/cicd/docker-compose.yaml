@@ -1,0 +1,19 @@
+version: '3'
+services:
+  jenkins:
+    container_name: jenkins
+    image: jenkins/jenkins:lts-jdk11
+    restart: always
+    ports:
+      - 8080:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /usr/bin/docker:/usr/bin/docker
+      - jenkins_data:/var/jenkins_home
+    user: '0'
+volumes:
+  jenkins_data:
+networks:
+  default:
+    name: bk-chat
+    external: true

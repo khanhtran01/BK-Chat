@@ -2,10 +2,16 @@ const Conversation = require('../models/Conversation');
 const User = require('../models/User');
 const Chat = require('../models/Chat');
 const ChatController = require('./ChatController');
+const userDTOMini = {
+    _id: 1,
+    email: 1,
+    username: 1,
+    avatar: 1,
+};
 class ConversationController {
-    async newContact(req, res) {
+    async newContact(req, res, next) {
         try {
-            const user = await User.findOne({ email: req.body.email }, { password: 0, address: 0, desc: 0 });
+            const user = await User.findOne({ email: req.body.email }, userDTOMini);
             if (user && user._id != req.userId) {
                 const result = await Conversation.findOne({
                     type: 'single',
@@ -40,10 +46,10 @@ class ConversationController {
                 });
             }
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
-    async newGroup(req, res) {
+    async newGroup(req, res, next) {
         try {
             let member = req.body.idsUser;
             if (member.length < 2) {
@@ -66,29 +72,44 @@ class ConversationController {
                 res.status(200).json({ successful: true });
             }
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
-    async getConversation(req, res) {
+    async getConversation(req, res, next) {
         try {
             const conversationId = req.query.id;
             // make sure user is in this conversation
             const conversation = await Conversation.findOne({
                 _id: conversationId,
                 member: req.userId,
-            });
-            // .populate('member');
+            }).populate('member', userDTOMini);
             if (conversation) {
+                const chatNeedRead = await Chat.find({ conversationId: conversationId }, { _id: 1 })
+                    .sort({ createdAt: -1 })
+                    .limit(10);
                 await Chat.updateMany(
-                    { conversationId: conversationId },
+                    {
+                        conversationId: conversationId,
+                        _id: { $in: chatNeedRead.map((e) => e._id) },
+                    },
                     {
                         $addToSet: {
                             userRead: req.userId,
                         },
                     },
                 );
-                let chats = await ChatController.pagingChat(conversationId, 25, 1);
-                res.status(200).json({ chats: chats, successful: true });
+                const member = conversation.member.splice(0, 25);
+                const chats = await Chat.find({ conversationId: conversationId })
+                    .populate('userId', userDTOMini)
+                    .populate({
+                        path: 'replyFrom',
+                        select: 'userId content',
+                        populate: { path: 'userId', select: '_id email username' },
+                    })
+                    .sort({ createdAt: -1 })
+                    .limit(25);
+                // const chats = await ChatController.pagingChat(conversationId, 25, 1);
+                res.status(200).json({ chats: chats.reverse(), member: member, successful: true });
             } else {
                 res.status(200).json({
                     message: 'User is not in that conversation',
@@ -96,18 +117,18 @@ class ConversationController {
                 });
             }
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
-    async pagingChat(req, res) {
+    async pagingChat(req, res, next) {
         try {
             const chats = await ChatController.pagingChat(req.query.conversationId, 8, req.query.page);
             res.status(200).json({ chats: chats, successful: true });
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
-    async getAllContact(req, res) {
+    async getAllContact(req, res, next) {
         try {
             let listConversation = await Conversation.find({
                 member: req.userId,
@@ -129,11 +150,10 @@ class ConversationController {
             });
             res.status(200).json({ allContact: allContact, successful: true });
         } catch (error) {
-            console.log(error);
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
-    async getAllContactSort(req, res) {
+    async getAllContactSort(req, res, next) {
         try {
             let listConversation = await Conversation.find({
                 member: req.userId,
@@ -165,11 +185,10 @@ class ConversationController {
             });
             res.status(200).json({ allContactSort: result, successful: true });
         } catch (error) {
-            // console.log(error);
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
-    async addMemberGroup(req, res) {
+    async addMemberGroup(req, res, next) {
         try {
             await Conversation.updateOne(
                 { _id: req.body.conversationId },
@@ -183,10 +202,10 @@ class ConversationController {
             );
             res.status(200).json({ successful: true });
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
-    async outGroup(req, res) {
+    async outGroup(req, res, next) {
         try {
             await Conversation.updateOne(
                 { _id: req.body.messId },
@@ -198,14 +217,18 @@ class ConversationController {
             );
             res.status(200).json({ successful: true });
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
 
-    async getConversationForSugestion(req, res) {
+    async getConversationForSugestion(req, res, next) {
         try {
             const now = new Date();
-            const timeActive = new Date(now.getFullYear(), now.getMonth(), now.getDate() - +req.query.timeActive);
+            const timeActive = new Date(
+                now.getFullYear(),
+                now.getMonth(),
+                now.getDate() - +req.query.timeActive,
+            );
             const conversations = await Conversation.find(
                 {
                     type: 'group',
@@ -216,7 +239,7 @@ class ConversationController {
             );
             res.status(200).json({ conversations: conversations, successful: true });
         } catch (error) {
-            res.status(500).json({ successful: false });
+            next(error);
         }
     }
 }
