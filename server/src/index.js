@@ -1,22 +1,3 @@
-// _______
-// ( baonk )
-//  -------
-// o                             .       .
-//  o                           / `.   .' "
-//   o                  .---.  <    > <    >  .---.
-//    o                 |    \  \ - ~ ~ - /  /    |
-//          _____          ..-~             ~-..-~
-//         |     |   \~~~\.'                    `./~~~/
-//        ---------   \__/                        \__/
-//       .'  O    \     /               /       \  "
-//      (_____,    `._.'               |         }  \/~~~/
-//       `----.          /       }     |        /    \__/
-//             `-.      |       /      |       /      `. ,~~|
-//                 ~-.__|      /_ - ~ ^|      /- _      `..-'
-//                      |     /        |     /     ~-.     `-. _  _  _
-//                      |_____|        |_____|         ~ - . _ _ _ _ _>
-//====================================================================================
-//
 require('dotenv').config();
 const express = require('express');
 const morgan = require('morgan');
@@ -55,6 +36,11 @@ const io = socketio(server, {
         origin: 'http://localhost:3000',
     },
 });
+
+if (process.env.NODE_ENV === 'production') {
+    const redis = require('./config/redis/index');
+    redis.connect(io);
+}
 
 io.on('connection', (socket) => {
     console.log('User connected');

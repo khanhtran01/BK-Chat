@@ -57,7 +57,6 @@ class UserController {
                     .limit(10)
                     .sort({ createdAt: -1 });
                 let numUnRead = chats.filter((e) => !e.userRead.includes(req.userId)).length;
-                console.log(numUnRead);
                 conversations[i].numUnRead = numUnRead < 10 ? numUnRead : 10;
                 conversations[i].lastChat = chats[0];
             }

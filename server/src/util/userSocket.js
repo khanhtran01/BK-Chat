@@ -1,18 +1,25 @@
 let users;
 let redis;
 if (process.env.NODE_ENV === 'production') {
-    redis = require('../config/redis');
+    const redisConnect = require('../config/redis');
+    redis = redisConnect.redis;
 } else {
     users = [];
 }
 module.exports = {
     addUser: async (userId, socketId) => {
         if (process.env.NODE_ENV === 'production') {
-            if (userId && !(await redis.sIsMember('users', userId))) {
-                await redis.sAdd('users', userId);
-                await redis.SET(userId, socketId);
-            } else if (userId) {
-                await redis.SET(userId, socketId);
+            if (userId) {
+                let users = JSON.parse(await redis.get('userInSocket'));
+                let flag = false
+                for (let i = 0; i < users.length; i++) {
+                    if (users[i].userId === userId) {
+                        flag = true;
+                        users[i].socketId = socketId;
+                    }
+                }
+                !flag && users.push({ userId, socketId })
+                await redis.set('userInSocket', JSON.stringify(users))
             }
         } else {
             !users.some((user) => user.userId === userId) && users.push({ userId, socketId });
@@ -21,12 +28,9 @@ module.exports = {
 
     removeUser: async (socketId) => {
         if (process.env.NODE_ENV === 'production') {
-            for await (const userId of redis.sScanIterator('users')) {
-                if ((await redis.get(userId)) === socketId) {
-                    await redis.expire(userId, -1);
-                    await redis.sRem('users', userId);
-                }
-            }
+            let users = JSON.parse(await redis.get('userInSocket'));
+            users = users.filter((user) => user.socketId !== socketId);
+            await redis.set('userInSocket', JSON.stringify(users))
         } else {
             users = users.filter((user) => user.socketId !== socketId);
         }
@@ -34,26 +38,16 @@ module.exports = {
 
     getUser: async (userId) => {
         if (process.env.NODE_ENV === 'production') {
-            if (userId && (await redis.exists(userId))) {
-                return {
-                    userId,
-                    socketId: await redis.get(userId),
-                };
-            }
+            let users = JSON.parse(await redis.get('userInSocket'));
+            return users.find((user) => user.userId === userId);
         } else {
             return users.find((user) => user.userId === userId);
         }
     },
     getUserBySocketId: async (socketId) => {
         if (process.env.NODE_ENV === 'production') {
-            for await (const userId of redis.sScanIterator('users')) {
-                if ((await redis.get(userId)) === socketId) {
-                    return {
-                        userId,
-                        socketId,
-                    };
-                }
-            }
+            let users = JSON.parse(await redis.get('userInSocket'));
+            return users.find((user) => user.socketId === socketId);
         } else {
             return users.find((user) => user.socketId === socketId);
         }
@@ -61,13 +55,14 @@ module.exports = {
     getStatusUsers: async (listUser) => {
         let result = [];
         if (process.env.NODE_ENV === 'production') {
-            for (const element of listUser) {
+            let users = JSON.parse(await redis.get('userInSocket'));
+            listUser.forEach((element) => {
                 if (element.type == 'single') {
-                    if (await redis.exists(element.userId)) {
+                    if (users.find((user) => user.userId === element.userId)) {
                         result.push(element);
                     }
                 }
-            }
+            });
         } else {
             listUser.forEach((element) => {
                 if (element.type == 'single') {
