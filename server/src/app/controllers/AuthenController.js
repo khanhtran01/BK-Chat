@@ -6,6 +6,14 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const saltRounds = 10;
+const userDTO = {
+    _id: 1,
+    email: 1,
+    username: 1,
+    avatar: 1,
+    address: 1,
+    desc: 1,
+};
 class AuthenController {
     async checkLogin(req, res, next) {
         try {
@@ -35,10 +43,10 @@ class AuthenController {
     }
     async storeAccount(req, res, next) {
         try {
-            const user = await User.find({
+            const user = await User.findOne({
                 email: req.body.email,
             });
-            if (user.length > 0) {
+            if (user) {
                 res.status(200).json({ message: 'Email is exit', successful: false });
             } else {
                 const randStr = randString();
@@ -102,7 +110,7 @@ class AuthenController {
         try {
             let token = req.header('Authorization').split(' ')[1];
             let checkToken = verifyToken(token);
-            const userInfor = await User.findOne({ _id: checkToken }, { password: 0 });
+            const userInfor = await User.findOne({ _id: checkToken }, userDTO);
             res.status(200).json({ userInfor: userInfor, successful: true });
         } catch (error) {
             res.status(401).json({ message: 'Token is not valid', successful: false });

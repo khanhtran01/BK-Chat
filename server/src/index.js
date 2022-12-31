@@ -37,10 +37,8 @@ const io = socketio(server, {
     },
 });
 
-if (process.env.NODE_ENV === 'production') {
-    const redis = require('./config/redis/index');
-    redis.connect(io);
-}
+const redis = require('./config/redis/index');
+redis.connect(io);
 
 io.on('connection', (socket) => {
     console.log('User connected');
@@ -188,8 +186,8 @@ io.on('connection', (socket) => {
 // Routes init
 route(app);
 
-app.use((req, res, next) => {
-    console.log(error);
+app.use((err, req, res, next) => {
+    console.log(err);
     res.status(500).json({ successful: false });
 });
 server.listen(port, () => {
