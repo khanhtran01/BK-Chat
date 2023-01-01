@@ -19,6 +19,7 @@ const menuOptions = [
 ];
 
 function ContactList({ listFriends }) {
+  // console.log( listFriends );
   return (
     <Box padding="10px 20px">
       {listFriends.map((contact) => (

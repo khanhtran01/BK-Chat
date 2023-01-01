@@ -10,7 +10,7 @@ const CustomButton = styled(Button)({
   height: "73px",
   padding: "15px 20px",
   color: textcolor.white,
-  textTransform: "capitalize",
+  textTransform: "inherit",
   backgroundColor: bcolors.sidebar,
   marginBottom: "5px",
   "&:focus": {
