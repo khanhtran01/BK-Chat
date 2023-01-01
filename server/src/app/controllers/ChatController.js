@@ -35,7 +35,7 @@ class ChatController {
             const conversationData = JSON.parse(await redis.get(data.conversationId));
             if (parseInt(conversationData.numChat) < 50) {
                 conversationData.chats.push({
-                    id: chat._id,
+                    _id: chat._id,
                     conversationId: data.conversationId,
                     userId: {
                         _id: data.sender._id,
