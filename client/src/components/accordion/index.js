@@ -10,6 +10,7 @@ import { v4 as uuidv4 } from "uuid";
 const Accordion = styled((props) => (
   <MuiAccordion disableGutters elevation={0} square {...props} />
 ))(({ theme }) => ({
+  backgroundColor: bcolors.chatboard,
   "&:not(:last-child)": {
     borderBottom: 0,
   },
@@ -55,6 +56,9 @@ const CustomizedAccordions = ({ title, description }) => {
         "& .MuiSvgIcon-root": {
           color: textcolor.white,
         },
+        "& .MuiAccordion-root": {
+          backgroundColor: "none",
+        }
       }}
       expanded={expanded === tempKey}
       onChange={handleChange(tempKey)}

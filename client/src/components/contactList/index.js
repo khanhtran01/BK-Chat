@@ -24,7 +24,7 @@ function ContactList({ listFriends }) {
     <Box padding="10px 20px">
       {listFriends.map((contact) => (
         <Box
-          key={uuidv4()}
+          key={contact._id}
           display="flex"
           justifyContent={"space-between"}
           alignItems="center"

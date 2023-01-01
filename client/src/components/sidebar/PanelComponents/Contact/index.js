@@ -141,7 +141,7 @@ function Contact() {
 
 
 
-    
+
     return (
         <Box sx={{ height: "100%" }}>
             <CustomerDialog
@@ -191,7 +191,7 @@ function Contact() {
                 {Object.keys(friendsBox).map((keyword) => {
                     if (friendsBox[keyword].length > 0) {
                         return (
-                            <Box key={uuidv4()}>
+                            <Box key={keyword}>
                                 <Box
                                     padding={"16px"}
                                     fontWeight={700}
