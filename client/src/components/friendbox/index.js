@@ -37,7 +37,7 @@ function FriendBox(props) {
         height: "73px",
         padding: "15px 20px",
         color: textcolor.white,
-        textTransform: "capitalize",
+        textTransform: "inherit",
         ".MuiButton-root": {
           backgroundColor: "white",
         },

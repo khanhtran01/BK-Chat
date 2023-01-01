@@ -70,7 +70,7 @@ function ChatPanel() {
                 }
                 return (
                   <FriendBox
-                    key={uuidv4()}
+                    key={conversation._id}
                     id={conversation._id}
                     url={url}
                     name={username}

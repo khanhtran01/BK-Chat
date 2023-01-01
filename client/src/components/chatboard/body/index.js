@@ -20,6 +20,9 @@ function Body() {
       return moment.utc(time).format("HH:mm DD/MM/YYYY");
     }
   };
+  // if (userData && userData.currConversation){
+  //   console.log(userData.currConversation)
+  // }
   const memList = useMemo(() => {
     let temp = [];
     if (userData.chatInfo.member) {
@@ -51,7 +54,7 @@ function Body() {
             if (message.userId._id === authState.user._id) {
               return (
                 <MyMessage
-                  key={uuidv4()}
+                  key={message._id}
                   message={message.content}
                   time={handleTime(message.createdAt)}
                   messageInfo={message}
@@ -62,7 +65,7 @@ function Body() {
             }
             return (
               <FriendMessage
-                key={uuidv4()}
+                key={message._id}
                 message={message.content}
                 time={handleTime(message.createdAt)}
                 username={message.userId.username}

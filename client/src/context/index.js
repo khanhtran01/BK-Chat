@@ -49,8 +49,8 @@ function ContextProvider({ children }) {
 
 
   /**
-   * getAllContact
-   * @TODO get all contacts
+   * getAllNotification
+   * @TODO get all notifications
    * @param {}
    * @returns all contact
    */
@@ -140,6 +140,7 @@ function ContextProvider({ children }) {
       await axios
         .get(`${apiUrl}/conversation?id=${id}`)
         .then(function (response) {
+          // console.log(response.data)  
           dispatch({
             type: "SELECT_CONVERSATION",
             payload: {
@@ -150,7 +151,7 @@ function ContextProvider({ children }) {
                 avatar: url,
                 receiverId: receiverId,
                 type: type,
-                member: member,
+                member: response.data.member,
               },
               isLoadingConversation: false,
             },

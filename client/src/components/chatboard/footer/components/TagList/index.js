@@ -10,7 +10,7 @@ import { bcolors, textcolor } from "../../../../../colors";
 const CustomButton = styled(Button)(({ theme }) => ({
   width: "100%",
   color: textcolor.primaryGray,
-  textTransform: "capitalize",
+  textTransform: "inherit",
   justifyContent: "flex-start",
 }));
 
