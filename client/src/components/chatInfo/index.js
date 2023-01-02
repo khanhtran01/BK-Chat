@@ -203,14 +203,42 @@ export default function ChatInfo() {
                                             alignItems={"center"}
                                             padding={"6px"}
                                         >
-                                            <Avatar
+                                            {/* <Avatar
                                                 sx={{
                                                     width: "28px",
                                                     height: "28px",
                                                 }}
                                                 src={mem.avatar}
                                                 alt={mem.username}
-                                            />
+                                            /> */}
+                                            {mem.avatar ? (
+                                                <Avatar
+                                                    src={`${mem.avatar}`}
+                                                    alt={`${mem.username}}`}
+                                                    sx={{
+                                                        width: "28px",
+                                                        height: "28px",
+                                                    }}
+                                                />
+                                            ) : (
+                                                <Avatar
+                                                    sx={{
+                                                        backgroundColor:
+                                                            "#7269ef40",
+                                                        color: "rgb(114,105,239)",
+                                                        fontSize: ".9375rem",
+                                                        fontWeight: 500,
+                                                        textTransform:
+                                                            "uppercase",
+                                                        width: "28px",
+                                                        height: "28px",
+                                                    }}
+                                                >
+                                                    {mem.username
+                                                        ? `${mem.username[0]}`
+                                                        : "N"}
+                                                </Avatar>
+                                            )}
                                             <Typography
                                                 color={textcolor.primaryGray}
                                                 marginLeft={"10px"}

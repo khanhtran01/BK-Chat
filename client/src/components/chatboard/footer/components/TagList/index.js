@@ -28,6 +28,8 @@ export default function TagList() {
                     backgroundColor: bcolors.bluedark,
                     borderRadius: "8px 8px 0px 0px",
                     padding: "5px",
+                    maxHeight: "400px",
+                    overflow: "scroll",
                 }}
             >
                 {messageData.tagList &&
