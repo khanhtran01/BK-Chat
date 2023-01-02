@@ -19,6 +19,9 @@ function ChatBoardContextProvider({ children }) {
     tagList: [],
   });
   const checkTags = (message) => {
+    if (userData.chatInfo.type === "single"){
+      return;
+    }
     const tagList = message.split("@");
     if (tagList.length > 1) {
       let memlist = [];

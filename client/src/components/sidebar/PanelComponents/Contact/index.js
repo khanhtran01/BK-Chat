@@ -25,12 +25,6 @@ function Contact() {
     });
     const { email, chat } = formData;
 
-
-
-
-
-
-
     // init friend list when swap to contact page
     // run 1 time
     useEffect(() => {
@@ -44,15 +38,8 @@ function Contact() {
         setFriendsBox(friendBoxTemp);
     }, []);
 
-
-
-
-
-
-
     // update contact list when add contact
     useEffect(() => {
-        console.log("update contact list");
         let friendBoxTemp = deepCopy(sortFriend);
         // let data = await getAllContact();
 
@@ -62,16 +49,8 @@ function Contact() {
                 friendBoxTemp[friend.username[0].toLowerCase()].push(friend);
             }
         });
-        console.log(friendBoxTemp);
         setFriendsBox(friendBoxTemp);
     }, [JSON.stringify(userData.contactList)]);
-
-
-
-
-
-
-
 
     // const updateContactList = async () => {
     //   let friendBoxTemp = deepCopy(sortFriend);
@@ -92,11 +71,6 @@ function Contact() {
         setFormData({ ...formData, [event.target.name]: event.target.value });
     };
 
-
-
-
-
-
     const clearForm = () => {
         setFormData({
             email: "",
@@ -107,11 +81,6 @@ function Contact() {
             message: "",
         });
     };
-
-
-
-
-
 
     //handle submit in add contact form
     const handleAddContact = async () => {
@@ -136,11 +105,6 @@ function Contact() {
             setHelper({ ...helper, email: "Invalid email address" });
         }
     };
-
-
-
-
-
 
     return (
         <Box sx={{ height: "100%" }}>

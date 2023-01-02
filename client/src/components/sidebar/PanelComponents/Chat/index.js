@@ -3,20 +3,20 @@ import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
 import SearchInput from "../../../search";
 import { textcolor } from "../../../../colors";
-import ActivateList from "../../../activateList";
+// import ActivateList from "../../../activateList";
 import FriendBox from "../../../friendbox";
 import { conversationContext } from "../../../../context";
 import { AuthContext } from "../../../../context/authContext";
 import { useContext } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { clientList } from "./data";
+// import { clientList } from "./data";
 function ChatPanel() {
   const { userData } = useContext(conversationContext);
   const { authState } = useContext(AuthContext);
   const { conversations, onlineList } = userData;
   return (
     <Box sx={{ height: "100%" }}>
-      <Box sx={{ height: "13.75rem", p: 3 }}>
+      <Box sx={{ height: "6.75rem", p: 3 }}>
         <Typography
           sx={{
             color: textcolor.primaryGray,
@@ -27,7 +27,7 @@ function ChatPanel() {
           Chats
         </Typography>
         <SearchInput />
-        <ActivateList data={clientList} />
+        {/* <ActivateList data={clientList} /> */}
       </Box>
       <Box>
         <Typography
@@ -43,7 +43,7 @@ function ChatPanel() {
         </Typography>
         <Box
           sx={{
-            height: "calc(100vh - 20rem)",
+            height: "calc(100vh - 13rem)",
             overflowY: "scroll",
             position: "relative",
             p: 1,
