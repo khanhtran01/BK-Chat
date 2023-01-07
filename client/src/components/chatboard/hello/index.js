@@ -88,7 +88,7 @@ const Slider = () => {
                     }}
                 >
                     {state.items.map((i) => {
-                        return <Slide item={i} width={width} />;
+                        return <Slide key={"" + i.id + "sldit"}  item={i} width={width} />;
                     })}
                 </SliderWrapper>
                 {/* </Box> */}
