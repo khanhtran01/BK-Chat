@@ -12,6 +12,7 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 function Header() {
     const { userData } = useContext(conversationContext);
     const { chatInfoPopup, setChatInfoPopup } = useContext(context);
+    console.log(Object.keys(userData.chatInfo).length === 0);
     return (
         <Box
             sx={{
