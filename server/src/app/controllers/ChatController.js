@@ -1,4 +1,4 @@
-import axios from 'axios';
+const axios = require('axios');
 const Conversation = require('../models/Conversation');
 const Chat = require('../models/Chat');
 const { redis } = require('../../config/redis');

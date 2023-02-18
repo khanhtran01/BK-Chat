@@ -175,6 +175,13 @@ io.on('connection', (socket) => {
     //     });
     // })
 
+    socket.on('sendUserLogout', async (data) => {
+        await removeUser(data.userId);
+        io.emit('getUserOff', {
+            userId: data.userId,
+        });
+    });
+
     socket.on('disconnect', async () => {
         console.log('user disconnected');
         const user = await getUserBySocketId(socket.id);

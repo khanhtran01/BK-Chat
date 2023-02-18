@@ -261,7 +261,7 @@ class ConversationController {
     async outGroup(req, res, next) {
         try {
             await Conversation.updateOne(
-                { _id: req.body.messId },
+                { _id: req.query.conversationId },
                 {
                     $pull: {
                         member: req.userId,
