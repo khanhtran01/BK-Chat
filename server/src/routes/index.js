@@ -12,11 +12,15 @@ function route(app) {
     app.use('/api/user', AuthenMiddleware, userRoute);
 
     // [GET] /api/notification/sugestion?timeActive
-    app.get('/api/conversation/sugestion', ServiceMiddleware, ConversationController.getConversationForSugestion);
+    app.get(
+        '/api/conversation/sugestion',
+        ServiceMiddleware,
+        ConversationController.getConversationForSugestion,
+    );
     //  [GET] /api/chat/get?conversationId?backToDays=
     app.get('/api/chat/get', ServiceMiddleware, ChatController.getChatForSuggestion);
     // [POST] /api/notification/new
-    app.post('/api/notification/new', ServiceMiddleware, NotificationController.new);
+    app.post('/api/notification/new', NotificationController.new);
 
     app.use('/api/conversation', AuthenMiddleware, conversationRoute);
     app.use('/api/notification', AuthenMiddleware, notificationRoute);

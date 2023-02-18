@@ -1,3 +1,4 @@
+import axios from 'axios';
 const Conversation = require('../models/Conversation');
 const Chat = require('../models/Chat');
 const { redis } = require('../../config/redis');
@@ -18,12 +19,30 @@ class ChatController {
                 userRead: [data.sender._id],
                 replyFrom: data.replyFromChatId,
             });
-            await Conversation.updateOne(
+            const thisConversation = await Conversation.findOne(
                 { _id: data.conversationId },
-                {
-                    updatedAt: Date.now(),
-                },
+                { countForSuggestion: 1 },
             );
+            if (thisConversation.countForSuggestion >= 1000) {
+                await axios.post('localhost:5000/api/checkGrouping');
+                await Conversation.updateOne(
+                    { _id: data.conversationId },
+                    {
+                        updatedAt: Date.now(),
+                        countForSuggestion: 0,
+                    },
+                );
+            } else {
+                await Conversation.updateOne(
+                    { _id: data.conversationId },
+                    {
+                        updatedAt: Date.now(),
+                        $inc: {
+                            countForSuggestion: 1,
+                        },
+                    },
+                );
+            }
             let replyChat = null;
             if (data.replyFromChatId) {
                 replyChat = await Chat.findOne({ _id: data.replyFromChatId }).populate('userId', userDTOMini);

@@ -4,15 +4,16 @@ const Chat = require('../models/Chat');
 class NotificationController {
     async new(req, res, next) {
         try {
-            const members = req.body.members.map((e) => {
-                return {
-                    userId: e,
-                };
-            });
-            await Notification.create({
-                conversationId: req.body.conversationId,
-                member: members,
-            });
+            // const members = req.body.members.map((e) => {
+            //     return {
+            //         userId: e,
+            //     };
+            // });
+            // await Notification.create({
+            //     conversationId: req.body.conversationId,
+            //     member: members,
+            // });
+            console.log(req.body);
             res.status(200).json({ successful: true });
         } catch (error) {
             next(error);
