@@ -2,7 +2,7 @@ const conversationReducer = (state, action) => {
   const { type, payload } = action;
   switch (type) {
     case "UPDATE_CONTACT":
-      return { ...state, contactList: payload };
+      return { ...state, contactList: payload, isLoadingContact: true };
     case "SELECT_CONVERSATION":
       let temp = [...state.conversations];
       for (let i = 0; i < temp.length; i++) {
@@ -88,6 +88,12 @@ const conversationReducer = (state, action) => {
         ...state,
         isLoadingConversation: payload,
       };
+    case "RESET_ALL_STATUS":
+      return {
+        ...state, 
+        isLoadingContact: true,
+        isLoadingConversation: true,
+      }
     default:
       return state;
   }

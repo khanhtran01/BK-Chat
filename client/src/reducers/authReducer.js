@@ -22,6 +22,12 @@ export const authReducer = (state, action) => {
         ...state,
         onlineList: payload,
       }
+    case "LOGOUT":
+      return {
+        ...state,
+        isAuthenticated: false,
+        user: null,
+      }
     default:
       return "unknown action";
   }

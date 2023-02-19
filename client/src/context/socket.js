@@ -10,14 +10,16 @@ import {
 import { AuthContext } from "./authContext";
 import { conversationContext } from ".";
 import { socketReducer } from "../reducers/socketReducer";
+import { useCookies } from "react-cookie";
 
 const SocketContext = createContext();
 
 const socket = io("http://localhost:4000");
 function SocketProvider({ children }) {
   // const [isConnected, setIsconnected] = useState(false);
-  const { authState } = useContext(AuthContext);
-  const { userData, updateFriendStatus, receiveMessage, addToWaitingStack } =
+  const { authState, logoutUser } = useContext(AuthContext);
+  const [cookie, setCookie, removeCookie] = useCookies();
+  const { userData, updateFriendStatus, receiveMessage, addToWaitingStack, reset_logout } =
     useContext(conversationContext);
 
   const [socketData, dispatch] = useReducer(socketReducer, {
@@ -96,7 +98,16 @@ function SocketProvider({ children }) {
     updateFriendStatus(socketData.onlineList);
   }, [JSON.stringify(socketData.onlineList)]);
 
-  const contextValue = { socket };
+  const logout = () => {
+    removeCookie("token", { path: "/" });
+    logoutUser();
+    socket.emit("sendUserLogout", {
+      userId : authState.user._id
+    })
+    reset_logout();
+  }
+
+  const contextValue = { socket, logout };
 
   return (
     <SocketContext.Provider value={contextValue}>

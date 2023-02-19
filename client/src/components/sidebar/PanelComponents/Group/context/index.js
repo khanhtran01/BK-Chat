@@ -1,6 +1,5 @@
 import { createContext, useReducer } from "react";
 import { groupReducer } from "./reducer";
-import axios from "axios";
 const groupsContext = createContext();
 
 const GroupProvider = ({ children }) => {

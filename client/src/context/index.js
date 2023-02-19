@@ -35,6 +35,7 @@ function ContextProvider({ children }) {
    */
   const getAllContact = async () => {
     let data;
+    console.log("log in and update contact")
     await axios
       .get(`${apiUrl}/conversation/get-all-contact`)
       .then((response) => {
@@ -187,6 +188,10 @@ function ContextProvider({ children }) {
     }
   }, [authState.user]);
 
+  const reset_logout = () => {
+    dispatch({type: "RESET_ALL_STATUS"});
+  }
+
   const contextData = {
     addContact,
     getAllContact,
@@ -196,6 +201,7 @@ function ContextProvider({ children }) {
     receiveMessage,
     addToWaitingStack,
     createGroup,
+    reset_logout,
   };
   return (
     <conversationContext.Provider value={contextData}>

@@ -1,20 +1,3 @@
-const friendList = [
-  { userId: 1, username: "abc" },
-  { userId: 342, username: "asd" },
-  { userId: 523, username: "bfer" },
-  { userId: 124165, username: "erttwe" },
-  { userId: 123, username: "twerabc" },
-  { userId: 645, username: "twewet" },
-  { userId: 2346, username: "sdf" },
-  { userId: 759, username: "asdfsgbc" },
-  { userId: 6345, username: "dfgh" },
-  { userId: 8386, username: "aerhbc" },
-  { userId: 45821, username: "egerg" },
-  { userId: 89845, username: "dhghd" },
-  { userId: 83756, username: "fghj" },
-  { userId: 94754, username: "drjrjt" },
-];
-
 const sortFriend = {
   a: [],
   b: [],
@@ -43,4 +26,4 @@ const sortFriend = {
   y: [],
   z: [],
 };
-export { friendList, sortFriend };
+export { sortFriend };

@@ -44,6 +44,7 @@ const AuthContextProvider = ({ children }) => {
               user: response.data.userInfor,
             },
           });
+          console.log("verification successful")
       })
       .catch(function (error) {
         removeCookie("token", { path: "/" });
@@ -73,6 +74,7 @@ const AuthContextProvider = ({ children }) => {
         // localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data._id);
         setCookie("token", response.data.token, { path: "/" });
         setAuthToken(response.data.token);
+
         return true;
       })
       .catch((err) => {
@@ -103,6 +105,11 @@ const AuthContextProvider = ({ children }) => {
       });
   };
 
+
+  const logoutUser = async () => {
+    dispatch({type: "LOGOUT"})
+  }
+
   /**
    * @TODO check token whenever have token in cookie and one time at refresh
    */
@@ -121,6 +128,7 @@ const AuthContextProvider = ({ children }) => {
     authState,
     verify,
     registerUser,
+    logoutUser
   };
 
   return (

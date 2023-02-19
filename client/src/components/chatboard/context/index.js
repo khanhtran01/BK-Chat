@@ -1,5 +1,7 @@
 import { createContext, useReducer, useContext, useEffect } from "react";
 import { chatboardReducer } from "../reducer";
+import { EditReducer } from "../reducer/editReducer";
+
 import { conversationContext } from "../../../context";
 const chatboardContext = createContext();
 
@@ -18,8 +20,20 @@ function ChatBoardContextProvider({ children }) {
     replyFor: "",
     tagList: [],
   });
+
+  const [editFormData, formDispatch] = useReducer(EditReducer, {
+    name: "",
+    avatar: {
+      name: "",
+      file: null,
+    },
+    description: "",
+    openDialog: false,
+  })
+
+
   const checkTags = (message) => {
-    if (userData.chatInfo.type === "single"){
+    if (userData.chatInfo.type === "single") {
       return;
     }
     const tagList = message.split("@");
@@ -67,16 +81,35 @@ function ChatBoardContextProvider({ children }) {
     dispatch({ type: "CLEAR_REPLY" });
   };
 
+  const handleAvatar = (avatar) => {
+    formDispatch({ type: "HANDLE_AVATAR", payload: avatar });
+  }
+  const handleDescription = (description) => {
+    formDispatch({ type: "HANDLE_DESCRIPTION", payload: description })
+  } 
+  const handleName = (name) => {
+    formDispatch({ type: "HANDLE_NAME", payload: name })
+  }
+  const handleDialog = (status) => {
+    formDispatch({ type: "HANDLE_DIALOG", payload: status })
+  }
+
+
   useEffect(() => {
     dispatch({ type: "RESET" });
   }, [userData.currConversationId]);
 
   const contextData = {
     messageData,
+    editFormData,
     typeMessage,
     reply,
     clearReply,
     handleTag,
+    handleAvatar,
+    handleDescription,
+    handleName,
+    handleDialog,
   };
   return (
     <chatboardContext.Provider value={contextData}>
