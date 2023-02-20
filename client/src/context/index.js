@@ -35,7 +35,6 @@ function ContextProvider({ children }) {
    */
   const getAllContact = async () => {
     let data;
-    console.log("log in and update contact")
     await axios
       .get(`${apiUrl}/conversation/get-all-contact`)
       .then((response) => {

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
 
@@ -15,6 +15,8 @@ import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import GroupIcon from "@mui/icons-material/Group";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import Slide from "@mui/material/Slide";
+
 // import panelTab
 import ChatPanel from "./PanelComponents/Chat";
 import ProfileTab from "./PanelComponents/Profile";
@@ -26,17 +28,19 @@ import LogoutDialog from "./Dialog";
 import GroupProvider from "./PanelComponents/Group/context";
 import ProfileProvider from "./PanelComponents/Profile/context";
 import { bcolors, textcolor } from "../../colors";
+import { useMediaQuery } from "@mui/material";
 // import { context } from "../../layout/dashboard/context";
+import { chatboardContext } from "../chatboard/context";
 import React from "react";
 // import panelTab
 
 function TabPanel(props) {
   // const matches = useMediaQuery("(min-width:1000px)");
-  const { children, value, index, ...other } = props;
+  const { children, value, index, fullScreen, ...other } = props;
   return (
     <div
       style={{
-        width: "24.5rem",
+        width: fullScreen ? "100%" : "24.5rem",
         // display: !matches && "none",
       }}
       role="tabpanel"
@@ -156,44 +160,52 @@ export default function SideBar() {
     <GroupIcon sx={iconStyle} />,
     <NotificationsIcon sx={iconStyle} />,
   ];
+  const mobileView = useMediaQuery("(min-width:1000px)");
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  const { back } = useContext(chatboardContext);
   return (
-    <Box
-      sx={{
-        display: "flex",
-        height: "100%",
-      }}
-    >
-      <LogoutDialog open={logoutDialog} setOpen={setLogoutDiaglog} />
-      <CustomTabs
-        listElements={listElements}
-        value={value}
-        handleChange={handleChange}
-        setLogoutDiaglog={setLogoutDiaglog}
-      />
-      <TabPanel value={value} index={0}>
-        <ProfileProvider>
-          <ProfileTab />
-        </ProfileProvider>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        <ChatPanel />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Contact />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        <GroupProvider>
-          <Group />
-        </GroupProvider>
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        <Notification />
-      </TabPanel>
-      {/* <Box>abcdef</Box> */}
-    </Box>
+    <>
+      {(mobileView || back) && (
+        <Slide direction="right" in={mobileView || back}>
+          <Box
+            sx={{
+              display: "flex",
+              height: "100%",
+              width: back ? "100%" : "unset",
+            }}
+          >
+            <LogoutDialog open={logoutDialog} setOpen={setLogoutDiaglog} />
+            <CustomTabs
+              listElements={listElements}
+              value={value}
+              handleChange={handleChange}
+              setLogoutDiaglog={setLogoutDiaglog}
+            />
+            <TabPanel value={value} index={0} fullScreen={back}>
+              <ProfileProvider>
+                <ProfileTab />
+              </ProfileProvider>
+            </TabPanel>
+            <TabPanel value={value} index={1} fullScreen={back}>
+              <ChatPanel />
+            </TabPanel>
+            <TabPanel value={value} index={2} fullScreen={back}>
+              <Contact />
+            </TabPanel>
+            <TabPanel value={value} index={3} fullScreen={back}>
+              <GroupProvider>
+                <Group />
+              </GroupProvider>
+            </TabPanel>
+            <TabPanel value={value} index={4} fullScreen={back}>
+              <Notification />
+            </TabPanel>
+            {/* <Box>abcdef</Box> */}
+          </Box>
+        </Slide>
+      )}
+    </>
   );
 }

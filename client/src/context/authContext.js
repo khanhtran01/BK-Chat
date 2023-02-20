@@ -44,7 +44,6 @@ const AuthContextProvider = ({ children }) => {
               user: response.data.userInfor,
             },
           });
-          console.log("verification successful")
       })
       .catch(function (error) {
         removeCookie("token", { path: "/" });

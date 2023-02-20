@@ -4,6 +4,7 @@ import { Button } from "@mui/material";
 import { textcolor } from "../../colors";
 import { styled } from "@mui/material/styles";
 import { conversationContext } from "../../context";
+import { chatboardContext } from "../chatboard/context";
 import { useContext } from "react";
 import BadgeAvatars from "../avatar";
 import moment from "moment";
@@ -19,6 +20,7 @@ function FriendBox(props) {
     props;
 
   const { selectConversation } = useContext(conversationContext);
+  const { back, setBack } = useContext(chatboardContext)
 
   const convertTime = (time) => {
     let today = new Date();
@@ -42,7 +44,12 @@ function FriendBox(props) {
           backgroundColor: "white",
         },
       }}
-      onClick={() => selectConversation({ id, name, url, receiverId, type, member })}
+      onClick={() => {
+        selectConversation({ id, name, url, receiverId, type, member })
+        if (back) {
+          setBack(false);
+        }
+      }}
     >
       <Box
         sx={{

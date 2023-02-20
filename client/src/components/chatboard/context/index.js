@@ -1,7 +1,7 @@
-import { createContext, useReducer, useContext, useEffect } from "react";
+import { createContext, useReducer, useContext, useEffect, useState } from "react";
 import { chatboardReducer } from "../reducer";
 import { EditReducer } from "../reducer/editReducer";
-
+import { useMediaQuery } from "@mui/material";
 import { conversationContext } from "../../../context";
 const chatboardContext = createContext();
 
@@ -14,13 +14,23 @@ if (!Array.prototype.last) {
 
 function ChatBoardContextProvider({ children }) {
   // const { userData } = useContext(conversationContext);
+  const mobileView = useMediaQuery("(min-width:1000px)");
   const { userData } = useContext(conversationContext);
   const [messageData, dispatch] = useReducer(chatboardReducer, {
     message: "",
     replyFor: "",
     tagList: [],
   });
+  
 
+  const [back, setBack] = useState(!mobileView);
+  const [forward, setForward] = useState(false);
+  useEffect(()=>{
+    if (mobileView){
+      setBack(false);
+      setForward(false);
+    }
+  }, [mobileView])
   const [editFormData, formDispatch] = useReducer(EditReducer, {
     name: "",
     avatar: {
@@ -102,6 +112,9 @@ function ChatBoardContextProvider({ children }) {
   const contextData = {
     messageData,
     editFormData,
+    back,
+    forward,
+    setForward,
     typeMessage,
     reply,
     clearReply,
@@ -110,6 +123,7 @@ function ChatBoardContextProvider({ children }) {
     handleDescription,
     handleName,
     handleDialog,
+    setBack
   };
   return (
     <chatboardContext.Provider value={contextData}>

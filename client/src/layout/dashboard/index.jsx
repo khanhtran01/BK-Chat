@@ -1,12 +1,15 @@
 import SideBar from "../../components/sidebar";
 import ChatBoard from "../../components/chatboard";
 import ChatInfo from "../../components/chatInfo";
+import MobileBar from "../../components/sidebar/mobileView";
+import ChatBoardContextProvider from "../../components/chatboard/context";
 import ActionContextProvider from "./context";
 import React from "react";
-// import { useMediaQuery } from "@mui/material";
+import { useMediaQuery } from "@mui/material";
 
 function Dashboard() {
-  // const mobileView = useMediaQuery("(min-width:1000px)");
+  // const { mobileView } = useContext(context);
+  const mobileView = useMediaQuery("(min-width:1000px)");
   // console.log(mobileView);
   return (
     <div
@@ -19,9 +22,12 @@ function Dashboard() {
       }}
     >
       <ActionContextProvider>
-        <SideBar />
-        <ChatBoard />
-        <ChatInfo />
+        <ChatBoardContextProvider>
+          <SideBar />
+          <ChatBoard />
+          <ChatInfo />
+        </ChatBoardContextProvider>
+        {/* {!mobileView && <MobileBar />} */}
       </ActionContextProvider>
     </div>
   );

@@ -17,7 +17,6 @@ const ProfileProvider = ({ children }) => {
     })
 
     const handleDialog = (status) => {
-        console.log(status);
         dispatch({ type: "HANDLE_DIALOG", payload: status })
     }
     const handleUsername = (username) => {

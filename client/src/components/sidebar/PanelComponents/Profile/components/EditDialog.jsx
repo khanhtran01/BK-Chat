@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 
 // MUI import
 import Button from "@mui/material/Button";
@@ -14,10 +14,6 @@ import Slide from "@mui/material/Slide";
 import { bcolors, textcolor } from "../../../../../colors";
 
 import { ProfileContext } from "../context";
-
-// import { conversationContext } from "../../../../../../context";
-// import { groupsContext } from "../../context";
-
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });

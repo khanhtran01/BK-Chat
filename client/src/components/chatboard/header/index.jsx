@@ -1,7 +1,7 @@
 import { Box, Typography, IconButton } from "@mui/material";
 import { bcolors, textcolor } from "../../../colors";
 import Avatar from "@mui/material/Avatar";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { conversationContext } from "../../../context";
 import { chatboardContext } from "../context";
 import { context } from "../../../layout/dashboard/context";
@@ -10,26 +10,33 @@ import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
 import SearchIcon from "@mui/icons-material/Search";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import EditGroupDialog from "../components/editDialog";
-
+import LeaveDialog from "../components/leaveDialog";
 import LongMenu from "../../menu";
+
+import { useMediaQuery } from "@mui/material";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 function Header() {
   const { userData } = useContext(conversationContext);
   const { chatInfoPopup, setChatInfoPopup } = useContext(context);
-  const { handleDialog } = useContext(chatboardContext);
+  const { handleDialog, setBack, setForward } = useContext(chatboardContext);
+  const [leaveDialog, handleLeaveDialog] = useState(false);
   const menuOptions = [
     {
       component: "Edit",
       handle: () => handleDialog(true),
     },
     {
-      component: "Leave",
-      handle: () => {},
+      component: userData.chatInfo.type === "group" ? "Leave" : "Block",
+      handle: () => handleLeaveDialog(true),
     },
   ];
+  const mobileView = useMediaQuery("(min-width:1000px)");
+
   return (
     <>
       <EditGroupDialog />
+      <LeaveDialog open={leaveDialog} setOpen={handleLeaveDialog} />
       <Box
         sx={{
           backgroundColor: bcolors.chatboard,
@@ -45,6 +52,13 @@ function Header() {
             alignItems: "center",
           }}
         >
+          {!mobileView && (
+            <IconButton onClick={() => setBack(true)}>
+              <ArrowBackIosIcon
+                sx={{ cursor: "pointer", color: textcolor.white }}
+              />
+            </IconButton>
+          )}
           {userData.chatInfo.avatar ? (
             <Avatar
               src={`${userData.chatInfo.avatar}`}
@@ -63,13 +77,6 @@ function Header() {
               {userData.chatInfo.name ? `${userData.chatInfo.name[0]}` : "N"}
             </Avatar>
           )}
-          {/* <Avatar
-          sx={{
-            textTransform: "uppercase",
-          }}
-          alt={userData.chatInfo.name ? `${userData.chatInfo.name}` : "None"}
-          src={`${userData.chatInfo.avatar}`}
-        /> */}
           <Typography
             sx={{
               color: textcolor.primaryGray,
@@ -101,24 +108,27 @@ function Header() {
               }}
             />
           </IconButton>
-          <IconButton onClick={() => setChatInfoPopup(!chatInfoPopup)}>
+          <IconButton onClick={() => {
+            if (!mobileView){
+              setForward(true);
+            }
+            setChatInfoPopup(!chatInfoPopup)
+            }}>
             <PersonOutlineIcon
               sx={{ cursor: "pointer", color: textcolor.white }}
             />
           </IconButton>
-          {/* <IconButton> */}
-            <LongMenu
-              icon={
-                <MoreHorizIcon
-                  sx={{
-                    cursor: "pointer",
-                    color: textcolor.white,
-                  }}
-                />
-              }
-              options={menuOptions}
-            />
-          {/* </IconButton> */}
+          <LongMenu
+            icon={
+              <MoreHorizIcon
+                sx={{
+                  cursor: "pointer",
+                  color: textcolor.white,
+                }}
+              />
+            }
+            options={menuOptions}
+          />
         </Box>
       </Box>
     </>
