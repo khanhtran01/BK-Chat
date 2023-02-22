@@ -3,7 +3,7 @@
 from sklearn.preprocessing import normalize
 from flask_pymongo import PyMongo
 from flask import Flask, redirect, url_for, request, render_template
-
+from google.cloud import language_v1
 
 from sentence_transformers import SentenceTransformer
 import numpy as np
@@ -128,19 +128,40 @@ def data_processing_for_get_content(cluster, chat_data):
             if cluster[i] not in result.keys():
                 result[cluster[i]] = chat_data[i]
             else:
-                print("noi")
+                # print("noi")
                 result[cluster[i]] = result[cluster[i]] + ". " + chat_data[i]
             
     return result
     # for k,v in 
     
-    
+def get_classifies(text_content):
+    client = language_v1.LanguageServiceClient.from_service_account_json("/Users/baonk/Desktop/workspace/keys/bkchat-gcp-key.json")
+    type_ = language_v1.Document.Type.PLAIN_TEXT
+    language = "en"
+    document = {"content": text_content, "type_": type_, "language": language}
+    content_categories_version = (
+        language_v1.ClassificationModelOptions.V2Model.ContentCategoriesVersion.V2
+    )
+    response = client.classify_text(
+        request={
+            "document": document,
+            "classification_model_options": {
+                "v2_model": {"content_categories_version": content_categories_version}
+            },
+        }
+    )
+    for category in response.categories:
+        print("Category name: {}".format(category.name))
+        print("Confidence: {}".format(category.confidence))
+    print("--------------------------------")
+    return None
+
 
 @app.route('/api/checkGrouping', methods=['POST'])
 def checkgrouping():
     conversation_id = request.form['conversation_id']
     datareal = {}
-    data = db.chats.find({'conversationId': conversation_id}).sort("createAt", -1).limit(100)
+    data = db.chats.find({'conversationId': conversation_id}).sort("createdAt", -1).limit(100)
     
     
 
@@ -171,6 +192,10 @@ def checkgrouping():
     result = data_processing_for_get_content(np.flip(clusterer.labels_), np.flip(sentences))
     # json.loads()
     print(result)
+    print("--------------------------------")
+    final = {}
+    for k, v in result.items():
+        get_classifies(v)
     my_dict_converted = {
         str(k): v for k, v in get_cluster_dict(clusterer.labels_).items()}
     json_string = json.dumps(my_dict_converted)
