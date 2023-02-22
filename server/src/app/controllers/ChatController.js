@@ -21,10 +21,12 @@ class ChatController {
             });
             const thisConversation = await Conversation.findOne(
                 { _id: data.conversationId },
-                { countForSuggestion: 1 },
+                { countForSuggestion: 1, _id: 1 },
             );
             if (thisConversation.countForSuggestion >= 1000) {
-                await axios.post('localhost:5000/api/checkGrouping');
+                await axios.post('localhost:5000/api/checkGrouping', {
+                    conversation_id: thisConversation._id,
+                });
                 await Conversation.updateOne(
                     { _id: data.conversationId },
                     {
