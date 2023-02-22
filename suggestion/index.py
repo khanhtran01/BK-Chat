@@ -4,7 +4,8 @@ from sklearn.preprocessing import normalize
 from flask_pymongo import PyMongo
 from flask import Flask, redirect, url_for, request, render_template
 from google.cloud import language_v1
-
+from dotenv import load_dotenv
+import os
 from sentence_transformers import SentenceTransformer
 import numpy as np
 # import sklearn.datasets as data
@@ -135,7 +136,7 @@ def data_processing_for_get_content(cluster, chat_data):
     # for k,v in 
     
 def get_classifies(text_content):
-    client = language_v1.LanguageServiceClient.from_service_account_json("/Users/baonk/Desktop/workspace/keys/bkchat-gcp-key.json")
+    client = language_v1.LanguageServiceClient.from_service_account_json(os.getenv("KET_PATH"))
     type_ = language_v1.Document.Type.PLAIN_TEXT
     language = "en"
     document = {"content": text_content, "type_": type_, "language": language}
@@ -150,11 +151,7 @@ def get_classifies(text_content):
             },
         }
     )
-    for category in response.categories:
-        print("Category name: {}".format(category.name))
-        print("Confidence: {}".format(category.confidence))
-    print("--------------------------------")
-    return None
+    return response.categories[0].name
 
 
 @app.route('/api/checkGrouping', methods=['POST'])
@@ -195,11 +192,22 @@ def checkgrouping():
     print("--------------------------------")
     final = {}
     for k, v in result.items():
-        get_classifies(v)
+        final[k] = {
+            "name" : get_classifies(v)
+        }
+    
+    user_list = get_user_list(clusterer.labels_, userList)
+    for k,v in user_list.items():
+        final[k]["userList"] = list(v)
+        
     my_dict_converted = {
         str(k): v for k, v in get_cluster_dict(clusterer.labels_).items()}
+    
+    my_dict_converted2 = {
+        str(k): v for k, v in final.items()}
+    print(my_dict_converted2)
     json_string = json.dumps(my_dict_converted)
-    return json_string
+    return json.dumps(my_dict_converted2)
 
 
 if __name__ == '__main__':
