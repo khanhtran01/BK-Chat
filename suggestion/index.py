@@ -1,5 +1,7 @@
 # import configparser
 # import os
+from sklearn.preprocessing import normalize
+from flask_pymongo import PyMongo
 from flask import Flask, redirect, url_for, request, render_template
 
 
@@ -13,20 +15,19 @@ app = Flask(__name__)
 
 sbert_model = SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')
 
+
 def cosine(u, v):
     return np.dot(u, v) / (np.linalg.norm(u) * np.linalg.norm(v))
 
+
 # from pymongo import MongoClient
-from flask_pymongo import PyMongo
-from sklearn.preprocessing import normalize
 
 app.config['MONGO_URI'] = "mongodb+srv://baonguyen:bao7122001@cluster0.k6yhm.mongodb.net/bk-chat?retryWrites=true&w=majority"
 mongodb_client = PyMongo(app)
-db= mongodb_client.db
+db = mongodb_client.db
 # client = MongoClient("mongodb+srv://baonguyen:bao7122001@cluster0.k6yhm.mongodb.net/bk-chat?retryWrites=true&w=majority")
 # db = client["bkchat"]
 # collection = db["conversations"]
-
 
 
 # @app.route('/hello', methods=['GET'])
@@ -52,19 +53,12 @@ db= mongodb_client.db
 #     return str(student_subid)
 
 
-
-
-
-
-
-
-
 # @app.route('/home/<name>')
 # def loginSuccess(name):
 #     return render_template('home.html', name=name)
-    
+
 # @app.route('/grade', methods=['POST'])
-# def checkGrade():  
+# def checkGrade():
 #     grade = request.form['grade']
 #     return render_template('showResult.html', grade=int(grade))
 
@@ -79,8 +73,8 @@ db= mongodb_client.db
 
 # @app.route('/flag', methods=['POST'])
 # def flag():
-    
-    
+
+
 # def getData()
 # def runModal()
 
@@ -89,9 +83,10 @@ def testmodel():
     if request.method == "POST":
         sentence_embeddings1 = sbert_model.encode(request.form['sentence'])
         sentence_embeddings2 = sbert_model.encode(request.form['sentence2'])
-        return render_template('modelResult.html', result = str(cosine(sentence_embeddings1, sentence_embeddings2)))
+        return render_template('modelResult.html', result=str(cosine(sentence_embeddings1, sentence_embeddings2)))
     else:
         return render_template('testmodel.html')
+
 
 def get_user_list(labels, userList):
     group_dict = {}
@@ -105,11 +100,12 @@ def get_user_list(labels, userList):
                 group_dict[labels[i]].add(userList[i])
     return group_dict
 
+
 def get_cluster_dict(labels):
     final_dict = {}
     count = 0
     for i in labels:
-        count+=1
+        count += 1
         if (i == -1):
             continue
         else:
@@ -119,41 +115,52 @@ def get_cluster_dict(labels):
             else:
                 final_dict[i] += 1
     return final_dict
-    
+
+
 @app.route('/api/checkGrouping', methods=['POST'])
 def checkgrouping():
     conversation_id = request.form['conversation_id']
     datareal = {}
-    for e in db.chats.find({'conversationId': conversation_id}).limit(1000):
+
+    # data = db.chats.find({'conversationId': conversation_id}).sort(
+    #     "created_at", -1).limit(1000)
+    # print(type(data))
+    # print(data[999])
+
+    for e in db.chats.find({'conversationId': conversation_id}).sort("created_at", -1).limit(1000):
         datareal[str(e['_id'])] = e
-    
+
     data = datareal
     sentences = []
     userList = []
-    
-    for k,v in data.items():
+
+    for k, v in data.items():
         if v['replyFrom'] is not None:
             if v["replyFrom"] in data:
-                sentences.append(data[v["replyFrom"]]["content"] + ". " + v["content"])
+                sentences.append(data[v["replyFrom"]]
+                                 ["content"] + ". " + v["content"])
             else:
                 sentences.append(v["content"])
         else:
             sentences.append(v["content"])
         userList.append(v["userId"])
-    
+
     sentence_embeddings = sbert_model.encode(sentences)
     data = np.array(sentence_embeddings)
     norm_data = normalize(data, norm='l2')
-    clusterer = hdbscan.HDBSCAN(algorithm='best', alpha=1.0, approx_min_span_tree=True,min_cluster_size=10, gen_min_span_tree=True, prediction_data=True)
+    clusterer = hdbscan.HDBSCAN(algorithm='best', alpha=1.0, approx_min_span_tree=True,
+                                min_cluster_size=8, gen_min_span_tree=True, prediction_data=True)
     clusterer.fit(norm_data)
     # json.loads()
-    my_dict_converted = {str(k): v for k, v in get_cluster_dict(clusterer.labels_).items()}
+    my_dict_converted = {
+        str(k): v for k, v in get_cluster_dict(clusterer.labels_).items()}
     json_string = json.dumps(my_dict_converted)
     return json_string
     # return json.dumps(get_cluster_dict(clusterer.labels_), indent=4)
-    return 
+    return
     # return str(get_cluster_dict(clusterer.labels_))
     # return json_util.dumps(db.chats.find({'conversationId': conversation_id}).limit(2))
+
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

@@ -2,6 +2,9 @@
 pip install virtualenv
 # create venv
 virtualenv venv
+# run this command to access the virtualenv
+cd ./suggestion
+./venv/Scripts/activate
 # run this command to install all dependencies
 pip install -r requirements.txt
 # to start server run this command
