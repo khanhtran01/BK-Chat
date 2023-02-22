@@ -117,17 +117,34 @@ def get_cluster_dict(labels):
     return final_dict
 
 
+def data_processing_for_get_content(cluster, chat_data):
+    result = {}
+    count_prev1 = 0
+    for i in range(len(cluster)):
+        if (cluster[i] == -1):
+            count_prev1 += 1
+            continue
+        else:
+            if cluster[i] not in result.keys():
+                result[cluster[i]] = chat_data[i]
+            else:
+                print("noi")
+                result[cluster[i]] = result[cluster[i]] + ". " + chat_data[i]
+            
+    return result
+    # for k,v in 
+    
+    
+
 @app.route('/api/checkGrouping', methods=['POST'])
 def checkgrouping():
     conversation_id = request.form['conversation_id']
     datareal = {}
+    data = db.chats.find({'conversationId': conversation_id}).sort("createAt", -1).limit(100)
+    
+    
 
-    # data = db.chats.find({'conversationId': conversation_id}).sort(
-    #     "created_at", -1).limit(1000)
-    # print(type(data))
-    # print(data[999])
-
-    for e in db.chats.find({'conversationId': conversation_id}).sort("created_at", -1).limit(1000):
+    for e in data:
         datareal[str(e['_id'])] = e
 
     data = datareal
@@ -146,20 +163,18 @@ def checkgrouping():
         userList.append(v["userId"])
 
     sentence_embeddings = sbert_model.encode(sentences)
-    data = np.array(sentence_embeddings)
-    norm_data = normalize(data, norm='l2')
+    data_processing = np.array(sentence_embeddings)
+    norm_data = normalize(data_processing, norm='l2')
     clusterer = hdbscan.HDBSCAN(algorithm='best', alpha=1.0, approx_min_span_tree=True,
-                                min_cluster_size=8, gen_min_span_tree=True, prediction_data=True)
+                                min_cluster_size=3, gen_min_span_tree=True, prediction_data=True)
     clusterer.fit(norm_data)
+    result = data_processing_for_get_content(np.flip(clusterer.labels_), np.flip(sentences))
     # json.loads()
+    print(result)
     my_dict_converted = {
         str(k): v for k, v in get_cluster_dict(clusterer.labels_).items()}
     json_string = json.dumps(my_dict_converted)
     return json_string
-    # return json.dumps(get_cluster_dict(clusterer.labels_), indent=4)
-    return
-    # return str(get_cluster_dict(clusterer.labels_))
-    # return json_util.dumps(db.chats.find({'conversationId': conversation_id}).limit(2))
 
 
 if __name__ == '__main__':
