@@ -1,19 +1,29 @@
 const Notification = require('../models/Notification');
 const Conversation = require('../models/Conversation');
 const Chat = require('../models/Chat');
+const userDTOMini = {
+    _id: 1,
+    email: 1,
+    username: 1,
+    avatar: 1,
+};
 class NotificationController {
     async new(req, res, next) {
         try {
-            // const members = req.body.members.map((e) => {
-            //     return {
-            //         userId: e,
-            //     };
-            // });
-            // await Notification.create({
-            //     conversationId: req.body.conversationId,
-            //     member: members,
-            // });
-            console.log(req.body);
+            const data = JSON.parse(req.body.data);
+            for (let value in data) {
+                let information = data[value];
+                const members = information.userList.map((member) => {
+                    return {
+                        userId: member,
+                    };
+                });
+                await Notification.create({
+                    conversationId: req.body.conversationId,
+                    member: members,
+                    topic: information.name
+                });
+            }
             res.status(200).json({ successful: true });
         } catch (error) {
             next(error);
@@ -25,8 +35,8 @@ class NotificationController {
             const notifications = await Notification.find({
                 'member.userId': req.userId,
             })
-                .populate('member.userId', { password: 0, address: 0, desc: 0 })
-                .populate('conversationId', { member: 0, desc: 0, createdAt: 0, updatedAt: 0 });
+                .populate('member.userId', userDTOMini)
+                .populate('conversationId', { _id: 1, name: 1, avatar: 1 });
             res.status(200).json({ notifications, successful: true });
         } catch (error) {
             next(error);

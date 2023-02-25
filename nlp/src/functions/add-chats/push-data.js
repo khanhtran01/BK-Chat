@@ -150,6 +150,7 @@ const PushData = async (
             }).sort({ createdAt: -1 });
             var flag = false;
             var previousTime;
+            var count = 0;
             for (var i = 0; i < data.length; i++) {
                 if (lastChat._id.equals(mongoose.Types.ObjectId(data[i].id))) {
                     flag = true;
@@ -157,6 +158,7 @@ const PushData = async (
                     continue;
                 }
                 if (flag) {
+                    count++;
                     const current = new Date(data[i].created_At);
                     const distanceMonth =
                         current.getMonth() - previousTime.getMonth();
@@ -173,7 +175,7 @@ const PushData = async (
                         current.getMinutes(),
                         current.getSeconds()
                     );
-                    if (newTime > now) {
+                    if (newTime > now || count >= 1000) {
                         await Conversation.updateOne(
                             { _id: conversationId },
                             {
@@ -181,6 +183,7 @@ const PushData = async (
                                 // updatedAt note cai nay
                             }
                         );
+                        console.log(count);
                         break;
                     }
                     await Chat.create({

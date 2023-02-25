@@ -19,6 +19,7 @@ const Notification = new Schema(
             enum: ['accept', 'reject', 'pending'],
             default: 'pending',
         },
+        topic: { type: String },
     },
     {
         timestamps: true,
