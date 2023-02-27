@@ -21,15 +21,6 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function EditGroupDialog() {
-  //   const {
-  //     profileData,
-  //     handleDialog,
-  //     handleUsername,
-  //     handleAge,
-  //     handleLocation,
-  //     handleDescription,
-  //     handleAvatar,
-  //   } = useContext(ProfileContext);
   const { editFormData, handleAvatar, handleDescription, handleName, handleDialog } =
     useContext(chatboardContext);
   const handleSubmit = () => {

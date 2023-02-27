@@ -27,12 +27,12 @@ export default function LeaveDialog(props) {
   //     handleDescription,
   //     handleAvatar,
   //   } = useContext(ProfileContext);
-  const { userData } = useContext(conversationContext)
+  const { userData, initData } = useContext(conversationContext)
   const { open , setOpen } = props;
   const handleSubmit = async () => {
-    console.log(userData.currConversationId);
     await axios.get(`http://localhost:4000/api/conversation/out-group?conversationId=${userData.currConversationId}`)
     setOpen(false)
+    await initData();
   };
   return (
     <div>

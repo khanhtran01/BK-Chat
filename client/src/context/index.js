@@ -139,8 +139,7 @@ function ContextProvider({ children }) {
       dispatch({type: "LOADING_CONVERSATION", payload: true});
       await axios
         .get(`${apiUrl}/conversation?id=${id}`)
-        .then(function (response) {
-          // console.log(response.data)  
+        .then(function (response) { 
           dispatch({
             type: "SELECT_CONVERSATION",
             payload: {
@@ -201,6 +200,7 @@ function ContextProvider({ children }) {
     addToWaitingStack,
     createGroup,
     reset_logout,
+    initData,
   };
   return (
     <conversationContext.Provider value={contextData}>

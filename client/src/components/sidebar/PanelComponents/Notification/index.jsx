@@ -16,10 +16,11 @@ function Notification() {
     conversationId: "",
     members: [],
     notifyId: "",
+    topic: "",
   });
 
   const [openDialog, setOpenDialog] = useState(false);
-
+  console.log(userData.notifyList);
   return (
     <Box sx={{ height: "100%" }}>
       {/* <Box sx={{ height: "10rem", p: 3 }}>
@@ -54,6 +55,7 @@ function Notification() {
         open={openDialog}
         setOpenDialog={setOpenDialog}
         notifyId={dialogData.notifyId}
+        topic={dialogData.topic}
       />
       <Box pt={3} px={3}>
         <Typography
@@ -77,9 +79,10 @@ function Notification() {
             key={uuidv4()}
             notifyId={e._id}
             conversationId={e.conversationId}
-            members={e.members}
+            members={e.member}
             setDialogData={setDialogData}
             setOpenDialog={setOpenDialog}
+            topic={e.topic}
           />
         ))}
       </Box>

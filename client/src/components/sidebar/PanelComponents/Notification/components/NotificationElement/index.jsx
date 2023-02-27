@@ -24,6 +24,7 @@ function NotificationElement({
   setDialogData,
   setOpenDialog,
   notifyId,
+  topic,
 }) {
   return (
     <CustomButton
@@ -32,6 +33,7 @@ function NotificationElement({
           conversationId: conversationId,
           members: members,
           notifyId: notifyId,
+          topic: topic,
         });
         setOpenDialog(true);
       }}

@@ -34,7 +34,9 @@ export default function NotifyDialog({
   members,
   conversationId,
   notifyId,
+  topic,
 }) {
+  console.log(members)
   const handleSubmitted = async (status) => {
     axios
       .put(`${apiUrl}/notification/action`, {
@@ -70,7 +72,7 @@ export default function NotifyDialog({
         <DialogContent>
           <Box>
             <Typography sx={{ color: textcolor.primaryGray }}>
-              {`The system proposes to create a subgroup with ${members.length} people from group ${conversationId.name}`}
+              {`The system proposes to create a subgroup with ${members.length} people from group ${conversationId.name} about topic ${topic}`}
             </Typography>
             <Typography
               sx={{ color: textcolor.primaryGray }}
