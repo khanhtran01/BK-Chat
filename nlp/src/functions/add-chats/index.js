@@ -15,7 +15,7 @@ async function connect() {
     }
 }
 
-connect();
+await connect();
 
 try {
     PushData(

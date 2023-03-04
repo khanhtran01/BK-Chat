@@ -24,7 +24,7 @@ class ChatController {
                 { countForSuggestion: 1, _id: 1 },
             );
             if (thisConversation.countForSuggestion >= 1000) {
-                await axios.post('localhost:5000/api/checkGrouping', {
+                axios.post('localhost:5000/api/checkGrouping', {
                     conversation_id: thisConversation._id,
                 });
                 await Conversation.updateOne(

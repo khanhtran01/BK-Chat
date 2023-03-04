@@ -8,6 +8,7 @@ const Conversation = new Schema(
         member: [{ type: String, ref: 'User' }],
         desc: { type: String, default: '' },
         avatar: { type: String, default: null },
+        countForSuggestion: { type: Number, default: 0 },
     },
     {
         timestamps: true,
