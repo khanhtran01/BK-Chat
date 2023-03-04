@@ -34,14 +34,15 @@ function ProfileTab() {
   // fake user data
   const { authState } = useContext(AuthContext);
   const { handleDialog } = useContext(ProfileContext);
-  const user = {
-    name: "Tran Le Viet Khanh",
-    age: "21",
-    email: "khanh.tran01@hcmut.edu.vn",
-    location: "Viet Nam",
-  };
+  // const user = {
+  //   name: "Tran Le Viet Khanh",
+  //   age: "21",
+  //   email: "khanh.tran01@hcmut.edu.vn",
+  //   location: "Viet Nam",
+  // };
+  
 
-  const AboutBox = ({ user }) => {
+  const AboutBox = () => {
     return (
       <Box>
         <AboutElement
@@ -49,13 +50,13 @@ function ProfileTab() {
           title="Name"
           content={authState.user.username}
         />
-        <AboutElement marginBottom="1.5rem" title="Age" content={user.age} />
+        {/* <AboutElement marginBottom="1.5rem" title="Age" content={user.age} /> */}
         <AboutElement
           marginBottom="1.5rem"
           title="Email"
           content={authState.user.email}
         />
-        <AboutElement title="Location" content={user.location} />
+        <AboutElement title="Location" content={authState.user.address} />
       </Box>
     );
   };
@@ -73,6 +74,8 @@ function ProfileTab() {
       handle: () => {},
     },
   ];
+
+  console.log(authState.user);
 
   return (
     <>
@@ -186,7 +189,7 @@ function ProfileTab() {
                   <Typography marginLeft={"5px"}>About</Typography>
                 </Box>
               }
-              description={<AboutBox user={user} />}
+              description={<AboutBox />}
             />
 
             <CustomizedAccordions
