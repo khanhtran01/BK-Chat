@@ -4,6 +4,7 @@ class UpdateInfoController {
     async personalInfo(req, res, next) {
         try {
             const id = req.userId;
+            console.log(req.file);
             if (req.file) {
                 req.body.avatar = req.file.path;
                 await User.updateOne(

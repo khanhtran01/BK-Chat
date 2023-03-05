@@ -15,7 +15,7 @@ route.post('/new-group', ConversationController.newGroup);
 route.get('/read-chat', ChatController.addUserReadChat); // read chat nay luon neu no dang o ngay trang do
 
 // [PUT] /api/conversation/update-group-info (conversation, groupAvatar, groupName, groupDesc)
-route.post('/update-group-info', uploads.single('groupAvatar'), UpdateInfoController.groupInfo);
+route.put('/update-group-info', uploads.single('groupAvatar'), UpdateInfoController.groupInfo);
 
 // [PUT] /api/conversation/add-member  (conversationId, idsUser)
 route.put('/add-member', ConversationController.addMemberGroup);
