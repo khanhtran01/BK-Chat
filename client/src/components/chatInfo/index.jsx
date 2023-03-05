@@ -28,12 +28,8 @@ const AboutElement = ({ title, content, marginBottom }) => {
 };
 
 export default function ChatInfo() {
-  let user = {
-    name: "Tran Le Viet Khanh",
-    age: "21",
-    email: "khanh.tran01@hcmut.edu.vn",
-    location: "Viet Nam",
-  };
+  let user = {};
+  
   const { userData } = useContext(conversationContext);
   const { chatInfoPopup, setChatInfoPopup } = useContext(context);
   const { forward, setForward } = useContext(chatboardContext);
@@ -43,6 +39,8 @@ export default function ChatInfo() {
     } else {
       user = userData.chatInfo.member[1];
     }
+  } else {
+    user = userData.chatInfo;
   }
   const AboutBox = () => {
     return userData.chatInfo.type === "single" ? (

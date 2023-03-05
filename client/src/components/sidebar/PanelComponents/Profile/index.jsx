@@ -75,7 +75,7 @@ function ProfileTab() {
     },
   ];
 
-  console.log(authState.user);
+  // console.log(authState.user);
 
   return (
     <>

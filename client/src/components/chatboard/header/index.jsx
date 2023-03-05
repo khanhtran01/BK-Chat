@@ -32,7 +32,6 @@ function Header() {
     },
   ];
   const mobileView = useMediaQuery("(min-width:1000px)");
-
   return (
     <>
       <EditGroupDialog />

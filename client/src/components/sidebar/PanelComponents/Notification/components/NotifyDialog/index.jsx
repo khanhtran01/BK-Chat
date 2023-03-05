@@ -6,7 +6,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import { v4 as uuidv4 } from "uuid";
-import { Box, Typography } from "@mui/material";
+import { Avatar, Box, Typography } from "@mui/material";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 
@@ -20,6 +20,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 // import PendingIcon from "@mui/icons-material/Pending";
 import { bcolors, textcolor } from "../../../../../../colors";
+import CustomizedAccordions from "../../../../../accordion";
 
 // import { conversationContext } from "../../../../../../context";
 // import { groupsContext } from "../../context";
@@ -36,18 +37,17 @@ export default function NotifyDialog({
   notifyId,
   topic,
 }) {
-  console.log(members)
-  const handleSubmitted = async (status) => {
-    axios
-      .put(`${apiUrl}/notification/action`, {
-        notifyId,
-        status,
-      })
-      .then((response) => {
-        // console.log(response.data);
-      })
-      .catch((err) => console.log(err));
-  };
+  // const handleSubmitted = async (status) => {
+
+    // axios
+    //   .put(`${apiUrl}/notification/action`, {
+    //     notifyId,
+    //     status,
+    //   })
+    //   .then((response) => {
+    //   })
+    //   .catch((err) => console.log(err));
+  // };
   return (
     <div>
       <Dialog
@@ -78,54 +78,94 @@ export default function NotifyDialog({
               sx={{ color: textcolor.primaryGray }}
             >{`The list of members includes : `}</Typography>
             <Box>
-              {members.map((member) => (
+              {/* {members.map((member) => (
                 <Box
                   key={uuidv4()}
                   sx={{ display: "flex", alignItems: "center" }}
                 >
-                  {member.accept === "accept" ? (
-                    <CheckIcon
-                      sx={{ color: bcolors.online, marginRight: "5px" }}
-                    />
-                  ) : member.accept === "reject" ? (
-                    <CloseIcon sx={{ color: "red", marginRight: "5px" }} />
-                  ) : (
-                    <CircularProgress
-                      sx={{
-                        color: textcolor.white,
-                        marginRight: "9px",
-                        marginLeft: "5px",
-                        width: "15px !important",
-                        height: "15px !important",
-                      }}
-                    />
-                  )}
-
                   <Typography sx={{ color: textcolor.primaryGray }}>
                     {member.userId.username}
                   </Typography>
                 </Box>
-              ))}
+              ))} */}
+              <CustomizedAccordions title={
+                <Box
+                display={"flex"}
+                justifyContent="center"
+                alignItems={"flex-start"}
+              >
+                <Typography marginLeft={"5px"}>The list of members includes</Typography>
+              </Box>
+              }
+                description={
+                  <Box
+                    sx={{
+                      maxHeight: "300px",
+                      overflow: "scroll",
+                    }}
+                  >
+                    {members.map((mem) => (
+                      <Box
+                        key={uuidv4()}
+                        display={"flex"}
+                        alignItems={"center"}
+                        padding={"6px"}
+                      >
+                        {mem.userId.avatar ? (
+                          <Avatar
+                            src={`${mem.userId.avatar}`}
+                            alt={`${mem.userId.username}}`}
+                            sx={{
+                              width: "28px",
+                              height: "28px",
+                            }}
+                          />
+                        ) : (
+                          <Avatar
+                            sx={{
+                              backgroundColor: "#7269ef40",
+                              color: "rgb(114,105,239)",
+                              fontSize: ".9375rem",
+                              fontWeight: 500,
+                              textTransform: "uppercase",
+                              width: "28px",
+                              height: "28px",
+                            }}
+                          >
+                            {mem.userId.username ? `${mem.userId.username[0]}` : "N"}
+                          </Avatar>
+                        )}
+                        <Typography
+                          color={textcolor.primaryGray}
+                          marginLeft={"10px"}
+                        >
+                          {mem.userId.username}
+                        </Typography>
+                      </Box>
+                    ))}
+                  </Box>
+                }              
+              />
             </Box>
           </Box>
           <DialogActions>
             <Button
               onClick={() => {
-                handleSubmitted("reject");
+                // handleSubmitted("reject");
                 setOpenDialog(false);
               }}
               variant="outlined"
             >
-              Reject
+              Close
             </Button>
             <Button
               onClick={() => {
-                handleSubmitted("accept");
+                // handleSubmitted("accept");
                 setOpenDialog(false);
               }}
               variant="contained"
             >
-              Accept
+              Create Group Now !
             </Button>
           </DialogActions>
         </DialogContent>

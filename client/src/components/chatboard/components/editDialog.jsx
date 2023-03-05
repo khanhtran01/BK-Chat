@@ -1,5 +1,6 @@
 import * as React from "react";
 import { useContext, useState } from "react";
+import axios from "axios";
 
 // MUI import
 import Button from "@mui/material/Button";
@@ -14,6 +15,7 @@ import Slide from "@mui/material/Slide";
 // import { bcolors, textcolor } from "../../../../../colors";
 import { bcolors, textcolor } from "../../../colors";
 
+import { conversationContext } from "../../../context";
 import { chatboardContext } from "../context";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -23,8 +25,27 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function EditGroupDialog() {
   const { editFormData, handleAvatar, handleDescription, handleName, handleDialog } =
     useContext(chatboardContext);
-  const handleSubmit = () => {
-    console.log(editFormData);
+
+  const { userData } = useContext(conversationContext);
+
+  const handleSubmit = async () => {
+    await axios.put("http://localhost:4000/api/conversation/update-group-info", {
+      "conversationId": userData.chatInfo.conversationId,
+      "groupAvatar": editFormData.avatar.file,
+      "groupName": editFormData.name,
+      "groupDesc": editFormData.description,
+    }, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      }
+    }
+    ).then(response => {
+    })
+    .catch(err => {
+      console.log(err);
+    })
+    // await axios.post("")
+
   };
   return (
     <div>

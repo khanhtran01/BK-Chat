@@ -20,7 +20,6 @@ function Notification() {
   });
 
   const [openDialog, setOpenDialog] = useState(false);
-  console.log(userData.notifyList);
   return (
     <Box sx={{ height: "100%" }}>
       {/* <Box sx={{ height: "10rem", p: 3 }}>

@@ -24,19 +24,22 @@ export default function EditDialog() {
     profileData,
     handleDialog,
     handleUsername,
-    handleAge,
     handleLocation,
     handleDescription,
     handleAvatar,
   } = useContext(ProfileContext);
   const handleSubmit = async () => {
-    console.log(profileData)
     await axios.put("http://localhost:4000/api/user/update-personal-info", {
       "avatar": profileData.avatar.file,
       "username": profileData.username,
       "desc": profileData.description,
       "address": profileData.location,
-    })
+    }, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      }
+    }
+    )
   }
   return (
     <div>
@@ -88,28 +91,6 @@ export default function EditDialog() {
               placeholder="Enter Username"
             />
 
-            <Typography
-              sx={{
-                paddingTop: "12px",
-                paddingBottom: "5px",
-                color: textcolor.white,
-              }}
-            >
-              Age
-            </Typography>
-            <TextField
-              sx={{
-                ".MuiInputBase-root": {
-                  color: "white",
-                },
-              }}
-              type="number"
-              name="age"
-              value={profileData.age}
-              onChange={(e) => handleAge(e.target.value)}
-              hiddenLabel
-              placeholder="Enter Age"
-            />
             <Typography
               sx={{
                 paddingTop: "12px",

@@ -146,6 +146,7 @@ function ContextProvider({ children }) {
               id: id,
               currConversation: response.data.chats,
               chatInfo: {
+                conversationId: id,
                 name: name,
                 avatar: url,
                 receiverId: receiverId,

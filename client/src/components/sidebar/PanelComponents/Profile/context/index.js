@@ -1,19 +1,21 @@
-import { createContext, useReducer } from "react";
+import { createContext, useReducer, useContext } from "react";
+import { AuthContext } from "../../../../../context/authContext";
 import { ProfileReducer } from "./reducer";
 
 const ProfileContext = createContext();
 
 const ProfileProvider = ({ children }) => {
+    const {authState} = useContext(AuthContext);
+    // console.log(authState.user);
     const [profileData, dispatch] = useReducer(ProfileReducer, {
-        username: "",
-        age: "",
-        location: "",
+        username: authState.user.username,
+        location: authState.user.address,
         avatar: {
             name: "",
             file: null,
         },
         openDialog: false,
-        description: "",
+        description: authState.user.desc,
     })
 
     const handleDialog = (status) => {
