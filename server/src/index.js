@@ -13,6 +13,7 @@ const socketio = require('socket.io');
 const db = require('./config/db/index');
 const { addUser, removeUser, getUser, getUserBySocketId, getStatusUsers } = require('./util/userSocket');
 const ChatController = require('./app/controllers/ChatController');
+const Neo4jMiddleware = require('./app/middlewares/Neo4jMiddleware');
 
 process.env.NODE_ENV = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
 
@@ -30,6 +31,8 @@ app.use(cookieParse(process.env.COOKIE_SECRECT)); //cookie parser
 app.use(morgan('combined'));
 app.use(cors());
 
+app.use(Neo4jMiddleware);
+
 // Create socketio
 const io = socketio(server, {
     cors: {
@@ -38,6 +41,7 @@ const io = socketio(server, {
 });
 
 const redis = require('./config/redis/index');
+
 redis.connect(io);
 
 io.on('connection', (socket) => {

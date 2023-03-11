@@ -2,7 +2,7 @@ const Conversation = require('../models/Conversation');
 const User = require('../models/User');
 const Chat = require('../models/Chat');
 const ChatController = require('./ChatController');
-const { redis } = require('../../config/redis');
+// const { redis } = require('../../config/redis');
 const userDTOMini = {
     _id: 1,
     email: 1,
@@ -87,83 +87,84 @@ class ConversationController {
             const numberChatReturn = 25;
             const numberMemberReturn = 25;
             const numberChatRead = 10;
-            if (!(await redis.exists(conversationId))) {
-                // make sure user is in this conversation
-                const conversation = await Conversation.findOne({
-                    _id: conversationId,
-                    member: req.userId,
-                }).populate('member', userDTOMini);
-                if (conversation) {
-                    let conversationInCache = {
-                        conversation: conversation,
-                    };
-                    const chatNeedRead = await Chat.find({ conversationId: conversationId }, { _id: 1 })
-                        .sort({ createdAt: -1 })
-                        .limit(numberChatRead);
-                    await Chat.updateMany(
-                        {
-                            conversationId: conversationId,
-                            _id: { $in: chatNeedRead.map((e) => e._id) },
+            // if (!(await redis.exists(conversationId))) {
+            // make sure user is in this conversation
+            const conversation = await Conversation.findOne({
+                _id: conversationId,
+                member: req.userId,
+            }).populate('member', userDTOMini);
+            if (conversation) {
+                // let conversationInCache = {
+                //     conversation: conversation,
+                // };
+                const chatNeedRead = await Chat.find({ conversationId: conversationId }, { _id: 1 })
+                    .sort({ createdAt: -1 })
+                    .limit(numberChatRead);
+                await Chat.updateMany(
+                    {
+                        conversationId: conversationId,
+                        _id: { $in: chatNeedRead.map((e) => e._id) },
+                    },
+                    {
+                        $addToSet: {
+                            userRead: req.userId,
                         },
-                        {
-                            $addToSet: {
-                                userRead: req.userId,
-                            },
-                        },
-                    );
-                    let member = conversation.member.slice();
-                    member = member.splice(0, numberMemberReturn);
-                    const chats = await Chat.find({ conversationId: conversationId }, chatDTO)
-                        .populate('userId', userDTOMini)
-                        .populate({
-                            path: 'replyFrom',
-                            select: 'userId content',
-                            populate: { path: 'userId', select: '_id email username' },
-                        })
-                        .sort({ createdAt: -1 })
-                        .limit(numberChatReturn);
-                    // const chats = await ChatController.pagingChat(conversationId, 25, 1);
-                    conversationInCache.chats = chats.reverse();
-                    conversationInCache.numChat = chats.length > 25 ? numberChatReturn : chats.length;
-                    await redis.set(conversationId, JSON.stringify(conversationInCache));
-                    res.status(200).json({ chats: chats, member: member, successful: true });
-                } else {
-                    res.status(200).json({
-                        message: 'User is not in that conversation',
-                        successful: false,
-                    });
-                }
+                    },
+                );
+                let member = conversation.member.slice();
+                member = member.splice(0, numberMemberReturn);
+                const chats = await Chat.find({ conversationId: conversationId }, chatDTO)
+                    .populate('userId', userDTOMini)
+                    .populate({
+                        path: 'replyFrom',
+                        select: 'userId content',
+                        populate: { path: 'userId', select: '_id email username' },
+                    })
+                    .sort({ createdAt: -1 })
+                    .limit(numberChatReturn);
+                chats.reverse();
+                // const chats = await ChatController.pagingChat(conversationId, 25, 1);
+                // conversationInCache.chats = chats.reverse();
+                // conversationInCache.numChat = chats.length > 25 ? numberChatReturn : chats.length;
+                // await redis.set(conversationId, JSON.stringify(conversationInCache));
+                res.status(200).json({ chats: chats, member: member, successful: true });
             } else {
-                const conversationData = JSON.parse(await redis.get(conversationId));
-                if (conversationData.conversation.member.some((e) => e._id == req.userId)) {
-                    const chatNeedRead = await Chat.find({ conversationId: conversationId }, { _id: 1 })
-                        .sort({ createdAt: -1 })
-                        .limit(numberChatRead);
-                    await Chat.updateMany(
-                        {
-                            conversationId: conversationId,
-                            _id: { $in: chatNeedRead.map((e) => e._id) },
-                        },
-                        {
-                            $addToSet: {
-                                userRead: req.userId,
-                            },
-                        },
-                    );
-                    let member = conversationData.conversation.member.slice();
-                    member = member.splice(0, numberMemberReturn);
-                    res.status(200).json({
-                        chats: conversationData.chats,
-                        member: member,
-                        successful: true,
-                    });
-                } else {
-                    res.status(200).json({
-                        message: 'User is not in that conversation',
-                        successful: false,
-                    });
-                }
+                res.status(200).json({
+                    message: 'User is not in that conversation',
+                    successful: false,
+                });
             }
+            // } else {
+            //     const conversationData = JSON.parse(await redis.get(conversationId));
+            //     if (conversationData.conversation.member.some((e) => e._id == req.userId)) {
+            //         const chatNeedRead = await Chat.find({ conversationId: conversationId }, { _id: 1 })
+            //             .sort({ createdAt: -1 })
+            //             .limit(numberChatRead);
+            //         await Chat.updateMany(
+            //             {
+            //                 conversationId: conversationId,
+            //                 _id: { $in: chatNeedRead.map((e) => e._id) },
+            //             },
+            //             {
+            //                 $addToSet: {
+            //                     userRead: req.userId,
+            //                 },
+            //             },
+            //         );
+            //         let member = conversationData.conversation.member.slice();
+            //         member = member.splice(0, numberMemberReturn);
+            //         res.status(200).json({
+            //             chats: conversationData.chats,
+            //             member: member,
+            //             successful: true,
+            //         });
+            //     } else {
+            //         res.status(200).json({
+            //             message: 'User is not in that conversation',
+            //             successful: false,
+            //         });
+            //     }
+            // }
         } catch (error) {
             next(error);
         }
@@ -179,28 +180,28 @@ class ConversationController {
     async getAllContact(req, res, next) {
         try {
             let allContact = [];
-            if (!(await redis.exists(req.userId))) {
-                let listConversation = await Conversation.find({
-                    member: req.userId,
-                    type: 'single',
-                }).populate('member', userDTOMini);
-                listConversation.forEach((conversation) => {
-                    if (conversation.member[0]._id != req.userId) {
-                        allContact.push({
-                            userId: conversation.member[0]._id,
-                            username: conversation.member[0].username,
-                        });
-                    } else {
-                        allContact.push({
-                            userId: conversation.member[1]._id,
-                            username: conversation.member[1].username,
-                        });
-                    }
-                });
-                await redis.set(req.userId, JSON.stringify(allContact));
-            } else {
-                allContact = JSON.parse(await redis.get(req.userId));
-            }
+            // if (!(await redis.exists(req.userId))) {
+            let listConversation = await Conversation.find({
+                member: req.userId,
+                type: 'single',
+            }).populate('member', userDTOMini);
+            listConversation.forEach((conversation) => {
+                if (conversation.member[0]._id != req.userId) {
+                    allContact.push({
+                        userId: conversation.member[0]._id,
+                        username: conversation.member[0].username,
+                    });
+                } else {
+                    allContact.push({
+                        userId: conversation.member[1]._id,
+                        username: conversation.member[1].username,
+                    });
+                }
+            });
+            // await redis.set(req.userId, JSON.stringify(allContact));
+            // } else {
+            //     allContact = JSON.parse(await redis.get(req.userId));
+            // }
             res.status(200).json({ allContact: allContact, successful: true });
         } catch (error) {
             next(error);

@@ -15,15 +15,17 @@ async function connect() {
     }
 }
 
-await connect();
+connect().then(() => {
+    try {
+        PushData(
+            +process.env.TIMEACTIVATED,
+            mongoose.Types.ObjectId(process.env.CONVERSATIONID),
+            process.env.CONVERSATIONNAME,
+            process.env.FILE
+        );
+    } catch (error) {
+        console.log(error);
+    }
+})
 
-try {
-    PushData(
-        +process.env.TIMEACTIVATED,
-        mongoose.Types.ObjectId(process.env.CONVERSATIONID),
-        process.env.CONVERSATIONNAME,
-        process.env.FILE
-    );
-} catch (error) {
-    console.log(error);
-}
+
