@@ -29,7 +29,7 @@ const AboutElement = ({ title, content, marginBottom }) => {
 
 export default function ChatInfo() {
   let user = {};
-  
+
   const { userData } = useContext(conversationContext);
   const { chatInfoPopup, setChatInfoPopup } = useContext(context);
   const { forward, setForward } = useContext(chatboardContext);
@@ -151,7 +151,6 @@ export default function ChatInfo() {
           </Box>
         </Box>
 
-        {/* quote and About infomation */}
         <Box>
           <Box borderTop={`solid 1px ${bcolors.sidebar}`} padding="1.5rem 0rem">
             <Typography color={textcolor.white}>
@@ -198,14 +197,6 @@ export default function ChatInfo() {
                         alignItems={"center"}
                         padding={"6px"}
                       >
-                        {/* <Avatar
-                                                sx={{
-                                                    width: "28px",
-                                                    height: "28px",
-                                                }}
-                                                src={mem.avatar}
-                                                alt={mem.username}
-                                            /> */}
                         {mem.avatar ? (
                           <Avatar
                             src={`${mem.avatar}`}

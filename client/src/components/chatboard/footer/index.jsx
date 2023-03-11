@@ -6,8 +6,7 @@ import { Box, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import Button from "@mui/material/Button";
 import ClearIcon from "@mui/icons-material/Clear";
-import Fade from '@mui/material/Fade';
-
+import Fade from "@mui/material/Fade";
 
 // import Context
 import { chatboardContext } from "../context";
@@ -28,7 +27,6 @@ function Footer() {
   const { messageData, typeMessage, clearReply } = useContext(chatboardContext);
   const { userData } = useContext(conversationContext);
   const { authState } = useContext(AuthContext);
-
 
   const sendMessage = () => {
     const tagList = [];
@@ -80,7 +78,10 @@ function Footer() {
       }}
     >
       {/* {messageData.replyFor && ( */}
-      <Fade direction="up" in={messageData ? (messageData.replyFor ? true : false) : false}>
+      <Fade
+        direction="up"
+        in={messageData ? (messageData.replyFor ? true : false) : false}
+      >
         <Box
           sx={{
             position: "absolute",
@@ -110,7 +111,12 @@ function Footer() {
               sx={{ color: textcolor.primaryGray, fontSize: "5px" }}
             >
               <Typography fontSize={"14px"}>
-                Reply to <strong>{messageData.replyFor ? messageData.replyFor.userId.username : ""}</strong>
+                Reply to{" "}
+                <strong>
+                  {messageData.replyFor
+                    ? messageData.replyFor.userId.username
+                    : ""}
+                </strong>
                 :
               </Typography>
               <Typography
@@ -127,7 +133,7 @@ function Footer() {
             </div>
           </Box>
         </Box>
-        </Fade>
+      </Fade>
       {messageData.tagList && messageData.tagList.length !== 0 && <TagList />}
 
       <InputText
