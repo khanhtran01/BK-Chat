@@ -8,6 +8,8 @@ const UserController = require('../app/controllers/UserController');
 const ConversationController = require('../app/controllers/ConversationController');
 const NotificationController = require('../app/controllers/NotificationController');
 const ChatController = require('../app/controllers/ChatController');
+const Neo4jController = require('../app/controllers/Neo4jController');
+
 function route(app) {
     app.use('/api/user', AuthenMiddleware, userRoute);
 
@@ -21,6 +23,7 @@ function route(app) {
     app.get('/api/chat/get', ServiceMiddleware, ChatController.getChatForSuggestion);
     // [POST] /api/notification/new
     app.post('/api/notification/new', NotificationController.new);
+    app.get('/api/neo4j/get-all', Neo4jController.getAllUser);
 
     app.use('/api/conversation', AuthenMiddleware, conversationRoute);
     app.use('/api/notification', AuthenMiddleware, notificationRoute);
