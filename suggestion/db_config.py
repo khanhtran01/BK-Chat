@@ -4,9 +4,9 @@ import os
 
 from py2neo import Graph
 def neo4j_auth():
-    user = 'neo4j'
-    pword = 'rXvCXjwjhBzAwYIerp3271aUxN9cBua4rkvQJVYBY2M'
-    graph = Graph("neo4j+s://835db619.databases.neo4j.io", user=user, password=pword)
+    user = os.getenv("NEO4J_USERNAME")
+    pword = os.getenv("NEO4J_PASSWORD")
+    graph = Graph(os.getenv("NEO4J_URL"), user=user, password=pword)
     return graph
 
 
