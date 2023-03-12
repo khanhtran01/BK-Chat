@@ -14,6 +14,9 @@ import Slide from "@mui/material/Slide";
 import { bcolors, textcolor } from "../../../../../colors";
 
 import { ProfileContext } from "../context";
+import { AuthContext } from "../../../../../context/authContext";
+// import { conversationContext } from "../../../../../context";
+
 import axios from "axios";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -28,6 +31,8 @@ export default function EditDialog() {
     handleDescription,
     handleAvatar,
   } = useContext(ProfileContext);
+  // const { initData } = useContext(conversationContext);
+  const { verify } = useContext(AuthContext);
   const handleSubmit = async () => {
     await axios.put("http://localhost:4000/api/user/update-personal-info", {
       "avatar": profileData.avatar.file,
@@ -40,6 +45,8 @@ export default function EditDialog() {
       }
     }
     )
+
+    await verify();
   }
   return (
     <div>
@@ -170,6 +177,7 @@ export default function EditDialog() {
             <Button
               onClick={() => {
                 handleSubmit();
+                handleDialog(false);
               }}
               variant="contained"
             >

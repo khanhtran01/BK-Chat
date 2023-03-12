@@ -54,9 +54,22 @@ const conversationReducer = (state, action) => {
         head1.numUnRead += 1;
       }
       let newConversations1 = [head1, ...remain1];
+      
+      
+      let newCurrConversation = [...state.currConversation];
+      console.log(payload);
+      for (let i = state.currConversation.length - 1; i >=0 ; i--){
+        if (state.currConversation[i]["createdAt"] === payload.createdAt){
+          // console.log("matching ..............................")
+          newCurrConversation[i].verify = true;
+          newCurrConversation[i]._id = payload._id;
+          break;
+        }
+      }
+      // console.log(newCurrConversation);
       return {
         ...state,
-        currConversation: [...state.currConversation, payload],
+        currConversation: newCurrConversation,
         conversations: newConversations1,
       };
     case "ADD_WAIT_LIST":
@@ -90,10 +103,16 @@ const conversationReducer = (state, action) => {
       };
     case "RESET_ALL_STATUS":
       return {
-        ...state, 
+        ...state,
         isLoadingContact: true,
         isLoadingConversation: true,
-      }
+      };
+
+    case "ADD_MESSAGE_FAST":
+      return {
+        ...state,
+        currConversation: [...state.currConversation, payload]
+      };
     default:
       return state;
   }

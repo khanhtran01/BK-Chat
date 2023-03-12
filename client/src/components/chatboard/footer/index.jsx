@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React, { useContext, memo } from "react";
 
 // Mui import
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, unstable_createMuiStrictModeTheme } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import Button from "@mui/material/Button";
 import ClearIcon from "@mui/icons-material/Clear";
@@ -25,41 +25,61 @@ import moment from "moment";
 function Footer() {
   const { socket } = useContext(SocketContext);
   const { messageData, typeMessage, clearReply } = useContext(chatboardContext);
-  const { userData } = useContext(conversationContext);
-  const { authState } = useContext(AuthContext);
+  const { userData : {chatInfo, currConversationId}, add_message_fast } = useContext(conversationContext);
+  const { authState : { user }} = useContext(AuthContext);
 
   const sendMessage = () => {
     const tagList = [];
     // eslint-disable-next-line array-callback-return
-    userData.chatInfo.member.map((mem) => {
+    chatInfo.member.map((mem) => {
       if (messageData.message.includes("@" + mem.username)) {
         tagList.push(mem._id);
       }
     });
-    if (userData.chatInfo.type === "single") {
+    let currTime = moment().utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+    if (chatInfo.type === "single") {
+      let currTime = moment().utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
       socket.emit("sendChatSingle", {
-        receiverId: userData.chatInfo.receiverId,
+        receiverId: chatInfo.receiverId,
         content: messageData.message,
-        time: moment(),
+        time: currTime,
         replyFromChatId: messageData.replyFor ? messageData.replyFor._id : null,
-        sender: authState.user,
-        conversationId: userData.currConversationId,
+        sender: user,
+        conversationId: currConversationId,
         tagList: tagList,
+      });
+      add_message_fast({
+        content: messageData.message,
+        conversationId: currConversationId,
+        createdAt: currTime,
+        replyFrom: messageData.replyFor ? messageData.replyFor : null,
+        userId: user,
+        _id: currTime,
+        verify: false,
       });
     } else {
       socket.emit("sendChatGroup", {
         content: messageData.message,
         time: moment(),
         replyFromChatId: messageData.replyFor ? messageData.replyFor._id : null,
-        sender: authState.user,
-        conversationId: userData.currConversationId,
+        sender: user,
+        conversationId: currConversationId,
         tagList: tagList,
+      });
+
+      add_message_fast({
+        content: messageData.message,
+        conversationId: currConversationId,
+        createdAt: currTime,
+        replyFrom: messageData.replyFor ? messageData.replyFor : null,
+        userId: user,
+        _id: currTime,
+        verify: false,
       });
     }
     typeMessage("");
     clearReply();
   };
-
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       sendMessage();
@@ -140,7 +160,7 @@ function Footer() {
         text={messageData.message}
         setText={typeMessage}
         onKeyDown={handleKeyDown}
-        disabled={userData.currConversationId === ""}
+        disabled={currConversationId === ""}
       />
       <IconPicker />
 
@@ -153,7 +173,7 @@ function Footer() {
             backgroundColor: bcolors.secondary,
           },
         }}
-        disabled={userData.currConversationId === ""}
+        disabled={currConversationId === ""}
         variant="contained"
         onClick={sendMessage}
       >
@@ -163,4 +183,4 @@ function Footer() {
   );
 }
 
-export default Footer;
+export default memo(Footer);
