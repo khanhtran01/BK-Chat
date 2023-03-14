@@ -7,7 +7,7 @@ export const chatboardReducer = (state, action) => {
         message: payload,
       };
     case "SET_REPLY":
-      console.log(payload)
+      // console.log(payload)
       return {
         ...state,
         replyFor: payload,

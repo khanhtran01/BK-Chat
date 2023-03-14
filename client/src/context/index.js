@@ -12,7 +12,7 @@ const conversationContext = createContext();
  */
 function ContextProvider({ children }) {
   const { authState } = useContext(AuthContext);
-
+  console.log("conversation context render")
   // * init value of authContext
   const [userData, dispatch] = useReducer(conversationReducer, {
     contactList: [], // contant list of contacts

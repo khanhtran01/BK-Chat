@@ -2,17 +2,19 @@ import React, { useContext, memo } from "react";
 
 // Mui import
 import AttachFileIcon from "@mui/icons-material/AttachFile";
-import { Box, Typography, unstable_createMuiStrictModeTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import Button from "@mui/material/Button";
 import ClearIcon from "@mui/icons-material/Clear";
 import Fade from "@mui/material/Fade";
 
 // import Context
+import { messageContext } from "../context/messageContext";
 import { chatboardContext } from "../context";
 import { AuthContext } from "../../../context/authContext";
 import { SocketContext } from "../../../context/socket";
 import { conversationContext } from "../../../context";
+import { replyContext } from "../context/replyContext";
 // import component
 import InputText from "../../typemessage";
 import BtnIcon from "../../btnIcon";
@@ -24,15 +26,19 @@ import moment from "moment";
 
 function Footer() {
   const { socket } = useContext(SocketContext);
-  const { messageData, typeMessage, clearReply } = useContext(chatboardContext);
+  const {message, typeMessage, clearReply } = useContext(messageContext);
   const { userData : {chatInfo, currConversationId}, add_message_fast } = useContext(conversationContext);
   const { authState : { user }} = useContext(AuthContext);
-
+  const {replyFor,setReply} = useContext(replyContext)
+  // console.log("oh shjt re-render footer")
   const sendMessage = () => {
+    if (message.message === "") {
+      return;
+    }
     const tagList = [];
     // eslint-disable-next-line array-callback-return
     chatInfo.member.map((mem) => {
-      if (messageData.message.includes("@" + mem.username)) {
+      if (message.message.includes("@" + mem.username)) {
         tagList.push(mem._id);
       }
     });
@@ -41,50 +47,51 @@ function Footer() {
       let currTime = moment().utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
       socket.emit("sendChatSingle", {
         receiverId: chatInfo.receiverId,
-        content: messageData.message,
+        content: message.message,
         time: currTime,
-        replyFromChatId: messageData.replyFor ? messageData.replyFor._id : null,
+        replyFromChatId: replyFor ? replyFor._id : null,
         sender: user,
         conversationId: currConversationId,
         tagList: tagList,
       });
       add_message_fast({
-        content: messageData.message,
+        content: message.message,
         conversationId: currConversationId,
         createdAt: currTime,
-        replyFrom: messageData.replyFor ? messageData.replyFor : null,
+        replyFrom: replyFor ? replyFor : null,
         userId: user,
         _id: currTime,
         verify: false,
       });
     } else {
       socket.emit("sendChatGroup", {
-        content: messageData.message,
+        content: message.message,
         time: moment(),
-        replyFromChatId: messageData.replyFor ? messageData.replyFor._id : null,
+        replyFromChatId: replyFor ? replyFor._id : null,
         sender: user,
         conversationId: currConversationId,
         tagList: tagList,
       });
 
       add_message_fast({
-        content: messageData.message,
+        content: message.message,
         conversationId: currConversationId,
         createdAt: currTime,
-        replyFrom: messageData.replyFor ? messageData.replyFor : null,
+        replyFrom: replyFor ? replyFor : null,
         userId: user,
         _id: currTime,
         verify: false,
       });
     }
     typeMessage("");
-    clearReply();
+    setReply("");
   };
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       sendMessage();
     }
   };
+  // console.log(replyFor);
   return (
     <Box
       sx={{
@@ -97,10 +104,10 @@ function Footer() {
         padding: "1.5rem 1rem",
       }}
     >
-      {/* {messageData.replyFor && ( */}
+      {/* {replyFor && ( */}
       <Fade
         direction="up"
-        in={messageData ? (messageData.replyFor ? true : false) : false}
+        in={message ? (replyFor ? true : false) : false}
       >
         <Box
           sx={{
@@ -133,8 +140,8 @@ function Footer() {
               <Typography fontSize={"14px"}>
                 Reply to{" "}
                 <strong>
-                  {messageData.replyFor
-                    ? messageData.replyFor.userId.username
+                  {replyFor
+                    ? replyFor.userId.username
                     : ""}
                 </strong>
                 :
@@ -145,7 +152,7 @@ function Footer() {
                 whiteSpace="nowrap"
                 overflow="hidden"
               >
-                {messageData.replyFor.content}
+                {replyFor.content}
               </Typography>
             </Box>
             <div onClick={clearReply}>
@@ -154,10 +161,10 @@ function Footer() {
           </Box>
         </Box>
       </Fade>
-      {messageData.tagList && messageData.tagList.length !== 0 && <TagList />}
+      {message.tagList && message.tagList.length !== 0 && <TagList />}
 
       <InputText
-        text={messageData.message}
+        text={message.message}
         setText={typeMessage}
         onKeyDown={handleKeyDown}
         disabled={currConversationId === ""}
@@ -183,4 +190,4 @@ function Footer() {
   );
 }
 
-export default memo(Footer);
+export default Footer;
