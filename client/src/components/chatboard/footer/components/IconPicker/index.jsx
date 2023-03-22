@@ -2,18 +2,20 @@ import { Box } from "@mui/material";
 import { bcolors } from "../../../../../colors";
 import { useState, useContext, useMemo } from "react";
 import InsertEmoticonIcon from "@mui/icons-material/InsertEmoticon";
-import { chatboardContext } from "../../../context";
+// import { chatboardContext } from "../../../context";
+import { messageContext } from "../../../context/messageContext";
 import BtnIcon from "../../../../btnIcon";
 import Picker from "emoji-picker-react";
 
 function IconPicker() {
-  const { messageData, typeMessage } = useContext(chatboardContext);
+  // const { message, typeMessage } = useContext(chatboardContext);
+  const {  message, typeMessage} = useContext(messageContext);
   const [chosenEmoji, setChosenEmoji] = useState({});
   const [displayPopup, setDisplayPopup] = useState(false);
   const onEmojiClick = async (event, emojiObject) => {
     setChosenEmoji(emojiObject);
     setDisplayPopup(!displayPopup);
-    typeMessage(`${messageData.message}${emojiObject.emoji}`);
+    typeMessage(`${message.message}${emojiObject.emoji}`);
   };
   return useMemo(
     () => (

@@ -11,6 +11,8 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { textcolor, bcolors } from "../../../colors/index.js";
 const Slider = () => {
+  // console.log("oh shjt re-render hello")
+
   const [width, setWidth] = useState(0);
   const referent = useRef(null);
   const [state, dispatch] = useReducer(reducer, {

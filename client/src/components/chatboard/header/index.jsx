@@ -1,7 +1,7 @@
 import { Box, Typography, IconButton } from "@mui/material";
 import { bcolors, textcolor } from "../../../colors";
 import Avatar from "@mui/material/Avatar";
-import { useContext, useState } from "react";
+import { useContext, useState, memo } from "react";
 import { conversationContext } from "../../../context";
 import { chatboardContext } from "../context";
 import { context } from "../../../layout/dashboard/context";
@@ -17,6 +17,7 @@ import { useMediaQuery } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 
 function Header() {
+  // console.log("oh shjt re-render header")
   const { userData } = useContext(conversationContext);
   const { chatInfoPopup, setChatInfoPopup } = useContext(context);
   const { handleDialog, setBack, setForward } = useContext(chatboardContext);
@@ -134,4 +135,4 @@ function Header() {
   );
 }
 
-export default Header;
+export default memo(Header);

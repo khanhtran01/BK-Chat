@@ -2,16 +2,20 @@ import { Box } from "@mui/material";
 import { bcolors } from "../../../colors";
 import { AuthContext } from "../../../context/authContext";
 import { conversationContext } from "../../../context";
-import { useContext, useMemo } from "react";
+import { useContext, useMemo, memo } from "react";
 import { v4 as uuidv4 } from "uuid";
 import CircularProgress from "@mui/material/CircularProgress";
 import MyMessage from "../../mymessage";
 import FriendMessage from "../../friendmessage";
 import moment from "moment";
+import { messageContext } from "../context/messageContext";
 
 function Body() {
+  console.log("oh shjt re-render body")
+
   const { userData } = useContext(conversationContext);
   const { authState } = useContext(AuthContext);
+  // const { dispatch } = useContext(messageContext);
   const handleTime = (time) => {
     const today = moment();
     if (today.date() === moment(time).date()) {
@@ -57,6 +61,7 @@ function Body() {
                   messageInfo={message}
                   replyFrom={message.replyFrom}
                   memList={memList}
+                  // reply={reply}
                 />
               );
             }
@@ -70,6 +75,7 @@ function Body() {
                 replyFrom={message.replyFrom}
                 messageInfo={message}
                 memList={memList}
+                // reply={() => dispatch({ type: "SET_REPLY", payload: message })}
               />
             );
           })
@@ -89,4 +95,4 @@ function Body() {
   );
 }
 
-export default Body;
+export default memo(Body);

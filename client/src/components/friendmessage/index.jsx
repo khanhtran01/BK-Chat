@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, memo } from "react";
 import { Box, Typography, Avatar } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -6,6 +6,8 @@ import { bcolors, textcolor } from "../../colors";
 import { styled } from "@mui/material/styles";
 import ReplyIcon from "@mui/icons-material/Reply";
 import { chatboardContext } from "../chatboard/context";
+import { messageContext } from "../chatboard/context/messageContext";
+import { replyContext } from "../chatboard/context/replyContext";
 import Highlighter from "react-highlight-words";
 
 import LongMenu from "../menu";
@@ -26,12 +28,13 @@ const BoxChat = styled(Box)({
   },
 });
 
-export default function FriendMessage(props) {
-  const { reply } = useContext(chatboardContext);
+function FriendMessage(props) {
+  console.log("re-render");
+  const { setReply } = useContext(replyContext)
   const { message, time, username, avatar, messageInfo, replyFrom, memList } =
     props;
   const options = [
-    { component: <Box>Reply</Box>, handle: () => reply(messageInfo) },
+    { component: <Box>Reply</Box>, handle: () => setReply(messageInfo) },
     { component: <Box>Copy</Box>, handle: () => {} },
   ];
   // const handles = [reply(message), () => {}]
@@ -206,3 +209,5 @@ export default function FriendMessage(props) {
     </Box>
   );
 }
+
+export default memo(FriendMessage);

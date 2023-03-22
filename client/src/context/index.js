@@ -12,7 +12,7 @@ const conversationContext = createContext();
  */
 function ContextProvider({ children }) {
   const { authState } = useContext(AuthContext);
-
+  console.log("conversation context render")
   // * init value of authContext
   const [userData, dispatch] = useReducer(conversationReducer, {
     contactList: [], // contant list of contacts
@@ -54,11 +54,11 @@ function ContextProvider({ children }) {
    * @param {}
    * @returns all contact
    */
-   const getAllNotify = async () => {
+  const getAllNotify = async () => {
     await axios
       .get(`${apiUrl}/notification/get`)
       .then((response) => {
-        dispatch({ type: "UPDATE_NOTIFY", payload:  response.data.notifications });
+        dispatch({ type: "UPDATE_NOTIFY", payload: response.data.notifications });
       })
       .catch((err) => {
         console.log(err);
@@ -136,10 +136,10 @@ function ContextProvider({ children }) {
 
   const selectConversation = async ({ id, name, url, receiverId, type, member }) => {
     if (userData.currConversationId !== id) {
-      dispatch({type: "LOADING_CONVERSATION", payload: true});
+      dispatch({ type: "LOADING_CONVERSATION", payload: true });
       await axios
         .get(`${apiUrl}/conversation?id=${id}`)
-        .then(function (response) { 
+        .then(function (response) {
           dispatch({
             type: "SELECT_CONVERSATION",
             payload: {
@@ -188,7 +188,11 @@ function ContextProvider({ children }) {
   }, [authState.user]);
 
   const reset_logout = () => {
-    dispatch({type: "RESET_ALL_STATUS"});
+    dispatch({ type: "RESET_ALL_STATUS" });
+  }
+
+  const add_message_fast = (message) => {
+    dispatch({ type: "ADD_MESSAGE_FAST", payload: message });
   }
 
   const contextData = {
@@ -200,7 +204,7 @@ function ContextProvider({ children }) {
     receiveMessage,
     addToWaitingStack,
     createGroup,
-    reset_logout,
+    reset_logout, add_message_fast,
     initData,
   };
   return (

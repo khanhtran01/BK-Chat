@@ -5,6 +5,7 @@ import { styled } from "@mui/material/styles";
 import { Button, Box, Avatar } from "@mui/material";
 
 import { chatboardContext } from "../../../context";
+import { messageContext } from "../../../context/messageContext";
 import { bcolors, textcolor } from "../../../../../colors";
 
 const CustomButton = styled(Button)(({ theme }) => ({
@@ -15,7 +16,7 @@ const CustomButton = styled(Button)(({ theme }) => ({
 }));
 
 export default function TagList() {
-    const { messageData, handleTag } = useContext(chatboardContext);
+    const { message, handleTag} = useContext(messageContext);
     const data = useMemo(() => {
         return (
             <Box
@@ -32,8 +33,8 @@ export default function TagList() {
                     overflow: "scroll",
                 }}
             >
-                {messageData.tagList &&
-                    messageData.tagList.map((user) => (
+                {message.tagList &&
+                    message.tagList.map((user) => (
                         <CustomButton
                             key={uuidv4()}
                             onClick={() => handleTag(user.name)}
@@ -52,6 +53,6 @@ export default function TagList() {
                     ))}
             </Box>
         );
-    }, [JSON.stringify(messageData.tagList)]);
+    }, [JSON.stringify(message.tagList)]);
     return data;
 }

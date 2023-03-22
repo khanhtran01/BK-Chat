@@ -4,9 +4,11 @@ import Body from "./body";
 import { bcolors } from "../../colors";
 import { Slide } from "@mui/material";
 import { conversationContext } from "../../context";
-import { useContext } from "react";
+import { useContext, memo, useEffect } from "react";
 import { chatboardContext } from "./context";
 import { useMediaQuery } from "@mui/material";
+import MessageContextProvider from "./context/messageContext";
+import ReplyContextProvider from "./context/replyContext";
 
 import Slider from "./hello";
 function ChatBoard() {
@@ -32,8 +34,12 @@ function ChatBoard() {
               ) : (
                 <>
                   <Header />
-                  <Body />
-                  <Footer />
+                  <ReplyContextProvider>
+                    <Body />
+                    <MessageContextProvider>
+                      <Footer />
+                    </MessageContextProvider>
+                  </ReplyContextProvider>
                 </>
               )}
             </div>
@@ -44,4 +50,4 @@ function ChatBoard() {
   );
 }
 
-export default ChatBoard;
+export default memo(ChatBoard);
