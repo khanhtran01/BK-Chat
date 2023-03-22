@@ -1,6 +1,7 @@
 const getSession = require('../../config/neo4j');
 
 const User = require('../models/neo4j/user.neo4j');
+const Topic = require('../models/neo4j/topic.neo4j');
 
 class Neo4jController {
     async getAllUser(req, res, next) {
@@ -10,6 +11,13 @@ class Neo4jController {
         } catch (error) {
             next(error);
         }
+    }
+    async createUser(req, userId, username) {
+        await User.create(getSession(req), userId, username);
+    }
+
+    async createContact(req, user1, user2) {
+        await User.createContact(getSession(req), user1, user2);
     }
 }
 

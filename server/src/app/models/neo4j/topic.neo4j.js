@@ -5,7 +5,7 @@ const Topic = (obj) => {
     };
 };
 
-const getAll = (session) => {
+const getAll = async (session) => {
     return session
         .readTransaction((txc) => txc.run('MATCH (u:Topic) RETURN u'))
         .then((r) => {

@@ -21,7 +21,7 @@ class NotificationController {
                 await Notification.create({
                     conversationId: req.body.conversationId,
                     member: members,
-                    topic: information.name
+                    topic: information.name,
                 });
             }
             res.status(200).json({ successful: true });

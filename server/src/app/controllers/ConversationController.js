@@ -2,6 +2,7 @@ const Conversation = require('../models/Conversation');
 const User = require('../models/User');
 const Chat = require('../models/Chat');
 const ChatController = require('./ChatController');
+const Neo4jController = require('./Neo4jController');
 // const { redis } = require('../../config/redis');
 const userDTOMini = {
     _id: 1,
@@ -40,6 +41,7 @@ class ConversationController {
                         type: 'text',
                         userRead: [req.userId],
                     });
+                    Neo4jController.createContact(req, req.userId, user._id.toString());
                     res.status(200).json({ isContact: false, successful: true });
                 }
             } else if (user) {
