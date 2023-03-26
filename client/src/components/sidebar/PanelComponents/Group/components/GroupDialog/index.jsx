@@ -31,7 +31,6 @@ export default function GroupDialog() {
     handleGroupName,
     handleDescription,
     handleFirstMessage,
-    // createGroup,
   } = useContext(groupsContext);
   const { createGroup } = useContext(conversationContext);
   return (

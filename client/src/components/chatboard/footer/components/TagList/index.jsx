@@ -4,7 +4,6 @@ import { useContext, useMemo } from "react";
 import { styled } from "@mui/material/styles";
 import { Button, Box, Avatar } from "@mui/material";
 
-import { chatboardContext } from "../../../context";
 import { messageContext } from "../../../context/messageContext";
 import { bcolors, textcolor } from "../../../../../colors";
 

@@ -1,4 +1,4 @@
-import React, { useContext, memo } from "react";
+import React, { useContext, useEffect } from "react";
 
 // Mui import
 import AttachFileIcon from "@mui/icons-material/AttachFile";
@@ -26,18 +26,24 @@ import moment from "moment";
 
 function Footer() {
   const { socket } = useContext(SocketContext);
-  const {message, typeMessage, clearReply } = useContext(messageContext);
+  const {message, typeMessage, clearReply, clearTags } = useContext(messageContext);
   const { userData : {chatInfo, currConversationId}, add_message_fast } = useContext(conversationContext);
   const { authState : { user }} = useContext(AuthContext);
   const {replyFor,setReply} = useContext(replyContext)
-  // console.log("oh shjt re-render footer")
+  
+  useEffect(() => {
+    typeMessage("")
+    clearTags()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[currConversationId])
+
+
   const sendMessage = () => {
     if (message.message === "") {
       return;
     }
     const tagList = [];
-    // eslint-disable-next-line array-callback-return
-    chatInfo.member.map((mem) => {
+    chatInfo.member.forEach((mem) => {
       if (message.message.includes("@" + mem.username)) {
         tagList.push(mem._id);
       }
@@ -102,6 +108,7 @@ function Footer() {
         backgroundColor: bcolors.chatboard,
         borderTop: `1px solid ${bcolors.bluedark}`,
         padding: "1.5rem 1rem",
+        zIndex: 2,
       }}
     >
       {/* {replyFor && ( */}

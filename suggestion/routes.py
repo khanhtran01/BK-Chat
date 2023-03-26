@@ -12,6 +12,7 @@ from load_model import sbert_model
 from functions import get_user_list, get_cluster_dict, data_processing_for_get_content, get_classifies, cosine, get_all_friends
 from db_config import db, neo4j_auth
 
+
 def testmodel():
     if request.method == "POST":
         sentence_embeddings1 = sbert_model.encode(request.form['sentence'])
@@ -19,7 +20,7 @@ def testmodel():
         return render_template('modelResult.html', result=str(cosine(sentence_embeddings1, sentence_embeddings2)))
     else:
         return render_template('testmodel.html')
-    
+
 
 def test():
     data = {"0": {"name": "/Finance/Investing/Currencies & Foreign Exchange", "userList": ["313837383832373239686868", "343734313433373734686868", "353034313235323634686868", "333630393037353230686868", "343735333633393032686868", "343039373337393334686868", "343532323431353238686868", "353133343633343439686868", "343333303932343335686868", "343730303835383835686868", "343431373134393430686868", "313734363534393437686868", "353030383033373736686868", "343537383832303431686868", "343233313637353738686868", "333432313932383539686868", "343337363136353232686868", "343031303331303434686868", "333930323239313738686868", "343434373136363233686868", "343330363631323339686868", "343533393236393336686868", "343939303839383631686868", "343637383933373832686868", "333935303431303939686868", "343635353939353339686868"]},
@@ -31,7 +32,7 @@ def test():
     return Response(json.dumps({
         'successful': True,
     }), status=200, mimetype='application/json')
-    
+
 
 def checkgrouping():
     conversation_id = request.form['conversation_id']
@@ -105,44 +106,75 @@ def checkgrouping():
     # })
     return Response(json.dumps({'successful': True}), status=200, mimetype='application/json')
 
-
-
+# 1 week
 def get_recommend_group():
     neo4j = neo4j_auth()
     data = neo4j.run(
         "match (u:User)-[r:CONTACTED]->(u1:User) match (u)-[:LIKE]->(t:Topic)<-[:LIKE]-(u1) return distinct u,u1 order by u.username").data()
 
-
     groups = []
     refactor_data = {}
     # for i in data:
     #     print(dict(i))
-    
-    
+
     for record in data:
         u = dict(record["u"])
         u1 = dict(record["u1"])
         if u["_id"] not in refactor_data:
             refactor_data[u["_id"]] = [u1["_id"]]
-        else :
+        else:
             refactor_data[u["_id"]].append(u1["_id"])
-        
+
     access_list = []
-    for k,v in refactor_data.items():
+    for k, v in refactor_data.items():
         if groups:
             if k in access_list:
                 continue
             else:
                 groups.append(get_all_friends(refactor_data, access_list, k))
-        else :
+        else:
             groups.append(get_all_friends(refactor_data, access_list, k))
             print(groups)
-    
-    
+
     # unique list
     for i in range(len(groups)):
         groups[i] = list(set(groups[i]))
-        
-        
-    
+
     return groups
+
+
+def detectUserTopic():
+    user_Id = request.form['user_Id']
+    
+    userData = db.chats.find({'userId': user_Id},{'content': 1}).sort(
+        "createdAt", -1).limit(50)
+    
+    
+    contentArray = []
+    for message in list(userData):
+        contentArray.append(message['content'])
+    
+    topic = get_classifies("".join(contentArray))
+    # print(topic)
+    # topic = "World"
+    neo4j = neo4j_auth()
+    
+    cypher = 'merge (t:Topic {name :"' + topic + '"}) return t '
+    neo4j.run(cypher)
+    
+    data = neo4j.run(
+        'match (u:User {`_id`: "' + str(user_Id) + '"}) match (u)-[:LIKE]->(t:Topic) return t')
+    if (len(list(data)) != 0):
+        
+        cypher = 'match (u:User {`_id`: "'+ str(user_Id)+'"})-[r:LIKE]->(t:Topic) delete r'
+        neo4j.run(cypher)        
+    
+    
+    cypher = 'match (u:User {`_id`: "'+str(user_Id)+'"}) match (t:Topic {`name` : "' + str(
+        topic)+'"}) create (u)-[r:LIKE]->(t) return r'
+    neo4j.run(cypher)
+    
+    # for record in data:
+    #     u = dict(record['u'])
+    #     print(u)
+    return "success"

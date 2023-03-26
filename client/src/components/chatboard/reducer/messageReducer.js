@@ -34,7 +34,11 @@ const messageReducer = (state, action) => {
                 message: payload,
                 tagList: [],
             };
-
+        case "CLEAR_TAG":
+            return {
+                ...state,
+                tagList: [],
+            };
         default:
             return {
                 ...state,

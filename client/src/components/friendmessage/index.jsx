@@ -29,7 +29,6 @@ const BoxChat = styled(Box)({
 });
 
 function FriendMessage(props) {
-  console.log("re-render");
   const { setReply } = useContext(replyContext)
   const { message, time, username, avatar, messageInfo, replyFrom, memList } =
     props;

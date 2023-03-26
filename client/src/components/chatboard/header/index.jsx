@@ -44,6 +44,7 @@ function Header() {
           padding: "24px",
           display: "flex",
           justifyContent: "space-between",
+          zIndex: 3
         }}
       >
         <Box

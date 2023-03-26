@@ -70,6 +70,9 @@ const MessageContextProvider = ({ children }) => {
     const clearReply = () => {
         dispatch({ type: "CLEAR_REPLY" });
     };
+    const clearTags = () => {
+        dispatch({ type: "CLEAR_TAG" });
+    }
     
 
     const value = {
@@ -77,7 +80,8 @@ const MessageContextProvider = ({ children }) => {
         reply,
         clearReply,
         handleTag,
-        dispatch
+        dispatch,
+        clearTags
     }
     return <messageContext.Provider
         value={value}>
