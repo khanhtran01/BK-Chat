@@ -1,6 +1,7 @@
 const axios = require('axios');
 const Conversation = require('../models/Conversation');
 const Chat = require('../models/Chat');
+const User = require('../models/User');
 // const { redis } = require('../../config/redis');
 const userDTOMini = {
     _id: 1,
@@ -23,27 +24,51 @@ class ChatController {
                 { _id: data.conversationId },
                 { countForSuggestion: 1, _id: 1 },
             );
-            if (thisConversation.countForSuggestion >= 1000) {
-                axios.post('localhost:5000/api/checkGrouping', {
-                    conversation_id: thisConversation._id,
-                });
-                await Conversation.updateOne(
-                    { _id: data.conversationId },
-                    {
-                        updatedAt: Date.now(),
-                        countForSuggestion: 0,
-                    },
-                );
-            } else {
-                await Conversation.updateOne(
-                    { _id: data.conversationId },
-                    {
-                        updatedAt: Date.now(),
-                        $inc: {
-                            countForSuggestion: 1,
+            if (thisConversation.type === 'group') {
+                if (thisConversation.countForSuggestion >= 1000) {
+                    axios.post('localhost:5000/api/checkGrouping', {
+                        conversation_id: thisConversation._id,
+                    });
+                    await Conversation.updateOne(
+                        { _id: data.conversationId },
+                        {
+                            updatedAt: Date.now(),
+                            countForSuggestion: 0,
                         },
-                    },
-                );
+                    );
+                } else {
+                    await Conversation.updateOne(
+                        { _id: data.conversationId },
+                        {
+                            updatedAt: Date.now(),
+                            $inc: {
+                                countForSuggestion: 1,
+                            },
+                        },
+                    );
+                }
+            } else {
+                const user = await User.findOne({ _id: data.sender._id }, { countChat: 1 });
+                if (user.countChat > 150) {
+                    axios.post('localhost:5000/api/detectUserTopic', {
+                        userId: user._id,
+                    });
+                    await User.updateOne(
+                        { _id: data.sender._id },
+                        {
+                            countChat: 0,
+                        },
+                    );
+                } else {
+                    await User.updateOne(
+                        { _id: data.sender._id },
+                        {
+                            $inc: {
+                                countChat: 1,
+                            },
+                        },
+                    );
+                }
             }
             let replyChat = null;
             if (data.replyFromChatId) {

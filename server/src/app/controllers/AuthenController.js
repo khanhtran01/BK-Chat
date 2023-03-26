@@ -5,6 +5,7 @@ const mailVerify = require('../../util/mailVerify');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
+const Neo4jController = require('./Neo4jController');
 const saltRounds = 10;
 const userDTO = {
     _id: 1,
@@ -94,6 +95,7 @@ class AuthenController {
                         verify: true,
                     },
                 );
+                await Neo4jController.createUser(req, user._id.toString(), user.username);
                 res.status(200).json({ successful: true });
             } else {
                 res.status(200).json({ successful: false });
