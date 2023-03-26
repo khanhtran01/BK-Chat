@@ -2,14 +2,14 @@ import { Box, IconButton } from "@mui/material";
 import { bcolors } from "../../../colors";
 import { AuthContext } from "../../../context/authContext";
 import { conversationContext } from "../../../context";
-import { useContext, useMemo, memo, useState, useRef } from "react";
+import { useContext, useMemo, memo, useState, useRef, useEffect } from "react";
 import Slide from "@mui/material/Slide";
 import { v4 as uuidv4 } from "uuid";
 import CircularProgress from "@mui/material/CircularProgress";
 import MyMessage from "../../mymessage";
 import FriendMessage from "../../friendmessage";
 import moment from "moment";
-import KeyboardDoubleArrowDownIcon from '@mui/icons-material/KeyboardDoubleArrowDown';
+import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 
 function Body() {
@@ -18,8 +18,15 @@ function Body() {
     top: false,
     bot: false,
   });
+
   const { userData } = useContext(conversationContext);
   const { authState } = useContext(AuthContext);
+  useEffect(() => {
+    setScrollButton({
+      top: false,
+      bot: false,
+    });
+  }, [userData.currConversationId]);
   const bodyInfo = useRef();
   const handleScroll = (event) => {
     if (
@@ -78,9 +85,9 @@ function Body() {
   const handleScrollToBottom = () => {
     bodyInfo.current.scrollTo({
       top: 0,
-      behavior: 'smooth'
+      behavior: "smooth",
     });
-  }
+  };
 
   return (
     <Box
@@ -88,7 +95,11 @@ function Body() {
         position: "relative",
       }}
     >
-      <Slide direction="down" in={scrollButton.top} container={bodyInfo.current}>
+      <Slide
+        direction="down"
+        in={scrollButton.top}
+        container={bodyInfo.current}
+      >
         <IconButton
           sx={{
             zIndex: 1,
@@ -96,15 +107,15 @@ function Body() {
             top: "10px",
             right: "50%",
             backgroundColor: "#7269efa0",
-            ":hover" :{
-              backgroundColor: bcolors.main
-            }
+            ":hover": {
+              backgroundColor: bcolors.main,
+            },
           }}
         >
           <KeyboardDoubleArrowUpIcon />
         </IconButton>
       </Slide>
-      
+
       <Slide direction="up" in={scrollButton.bot} container={bodyInfo.current}>
         <IconButton
           sx={{
@@ -113,11 +124,11 @@ function Body() {
             bottom: "10px",
             right: "50%",
             backgroundColor: "#7269efa0",
-            ":hover" :{
-              backgroundColor: bcolors.main
-            }
+            ":hover": {
+              backgroundColor: bcolors.main,
+            },
           }}
-          onClick={handleScrollToBottom}  
+          onClick={handleScrollToBottom}
         >
           <KeyboardDoubleArrowDownIcon />
         </IconButton>
@@ -128,6 +139,7 @@ function Body() {
         ref={bodyInfo}
         sx={{
           display: "flex",
+          flex: 1,
           width: "100%",
           flexDirection: "column-reverse",
           height: "calc(100vh - 180px)",

@@ -10,7 +10,6 @@ import Fade from "@mui/material/Fade";
 
 // import Context
 import { messageContext } from "../context/messageContext";
-import { chatboardContext } from "../context";
 import { AuthContext } from "../../../context/authContext";
 import { SocketContext } from "../../../context/socket";
 import { conversationContext } from "../../../context";

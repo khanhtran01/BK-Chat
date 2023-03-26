@@ -52,6 +52,7 @@ export default function TagList() {
                     ))}
             </Box>
         );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [JSON.stringify(message.tagList)]);
     return data;
 }

@@ -4,7 +4,7 @@ import Body from "./body";
 import { bcolors } from "../../colors";
 import { Slide } from "@mui/material";
 import { conversationContext } from "../../context";
-import { useContext, memo, useEffect } from "react";
+import { useContext, memo } from "react";
 import { chatboardContext } from "./context";
 import { useMediaQuery } from "@mui/material";
 import MessageContextProvider from "./context/messageContext";
@@ -25,6 +25,7 @@ function ChatBoard() {
                 width: "100%",
                 height: "100%",
                 display: !back && !forward ? "flex" : "none",
+                
                 flexDirection: "column",
                 backgroundColor: bcolors.chatboard,
               }}
