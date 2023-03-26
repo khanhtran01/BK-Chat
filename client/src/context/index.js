@@ -3,7 +3,7 @@ import { apiUrl } from "./constant";
 import { createContext, useReducer, useEffect, useContext } from "react";
 import conversationReducer from "../reducers/conversationReducer";
 import { AuthContext } from "./authContext";
-
+// import * as dotenv from "dotenv"
 const conversationContext = createContext();
 
 /**
@@ -12,7 +12,7 @@ const conversationContext = createContext();
  */
 function ContextProvider({ children }) {
   const { authState } = useContext(AuthContext);
-  console.log("conversation context render")
+  // console.log("conversation context render")
   // * init value of authContext
   const [userData, dispatch] = useReducer(conversationReducer, {
     contactList: [], // contant list of contacts
@@ -34,6 +34,7 @@ function ContextProvider({ children }) {
    * @returns all contact
    */
   const getAllContact = async () => {
+    
     let data;
     await axios
       .get(`${apiUrl}/conversation/get-all-contact`)

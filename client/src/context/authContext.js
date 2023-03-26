@@ -10,7 +10,7 @@ const AuthContext = createContext();
  * @TODO share all state in authentication processing
  */
 const AuthContextProvider = ({ children }) => {
-  console.log("authcontext render")
+  // console.log("authcontext render")
   // init value of authContext
   // authLoading : it mean we are in authentication process
   // isAuthenticated : it means we are authenticated

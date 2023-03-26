@@ -30,7 +30,7 @@ function ChatBoard() {
                 backgroundColor: bcolors.chatboard,
               }}
             >
-              {Object.keys(userData.chatInfo).length === 0 && mobileView ? (
+              {(Object.keys(userData.chatInfo).length === 0 && mobileView  && !userData.isLoadingConversation) ? (
                 <Slider />
               ) : (
                 <>

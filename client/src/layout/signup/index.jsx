@@ -56,7 +56,7 @@ function SignUp() {
     }
     setIsSubmiting(true);
 
-    let success = await registerUser({
+    await registerUser({
       email: registerForm.email,
       password: registerForm.password,
       username: registerForm.username,

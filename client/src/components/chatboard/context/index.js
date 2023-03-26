@@ -42,62 +42,6 @@ function ChatBoardContextProvider({ children }) {
     openDialog: false,
   })
 
-
-  // const checkTags = useCallback((message) => {
-  //   if (userData.chatInfo.type === "single") {
-  //     return;
-  //   }
-  //   const tagList = message.split("@");
-  //   if (tagList.length > 1) {
-  //     let memlist = [];
-  //     for (let i = 0; i < userData.chatInfo.member.length; i++) {
-  //       memlist = [
-  //         ...memlist,
-  //         {
-  //           name: userData.chatInfo.member[i].username,
-  //           avatar: userData.chatInfo.member[i].avatar,
-  //         },
-  //       ];
-  //     }
-
-  //     const containList = [];
-  //     // eslint-disable-next-line array-callback-return
-  //     memlist.map((mem) => {
-  //       if (mem.name.toLowerCase().includes(tagList.last().toLowerCase())) {
-  //         containList.push(mem);
-  //       }
-  //     });
-  //     dispatch({ type: "SET_TAG_LIST", payload: containList });
-  //   } else {
-  //     dispatch({ type: "SET_TAG_LIST", payload: [] });
-  //   }
-  // }, [JSON.stringify(userData.chatInfo)]); 
-
-  // const debouncedFetchMembers = useCallback((message) => {
-  //   const temp = debounce(() => checkTags(message), 500);
-  //   temp();
-  // }, []);
-
-  // const handleTag = (username) => {
-  //   const tagList = messageData.message.split("@");
-  //   tagList[tagList.length - 1] = username;
-  //   dispatch({ type: "HANDLE_TAG", payload: tagList.join("@") });
-  // };
-
-  // const typeMessage = useCallback((message) => {
-  //   dispatch({ type: "TYPE_MESSAGE", payload: message });
-  //   // checkTags(message);
-  //   debouncedFetchMembers(message)
-  // }, []);
-  // const reply = (chat) => {
-  //   // SET_REPLY
-  //   dispatch({ type: "SET_REPLY", payload: chat });
-  // };
-
-  // const clearReply = () => {
-  //   dispatch({ type: "CLEAR_REPLY" });
-  // };
-
   const handleAvatar = (avatar) => {
     formDispatch({ type: "HANDLE_AVATAR", payload: avatar });
   }
