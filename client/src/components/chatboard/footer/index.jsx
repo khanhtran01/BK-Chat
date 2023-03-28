@@ -25,7 +25,7 @@ import moment from "moment";
 
 function Footer() {
   const { socket } = useContext(SocketContext);
-  const {message, typeMessage, clearReply, clearTags } = useContext(messageContext);
+  const {message, typeMessage, clearTags } = useContext(messageContext);
   const { userData : {chatInfo, currConversationId}, add_message_fast } = useContext(conversationContext);
   const { authState : { user }} = useContext(AuthContext);
   const {replyFor,setReply} = useContext(replyContext)
@@ -33,6 +33,7 @@ function Footer() {
   useEffect(() => {
     typeMessage("")
     clearTags()
+    setReply("")
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[currConversationId])
 
@@ -161,7 +162,7 @@ function Footer() {
                 {replyFor.content}
               </Typography>
             </Box>
-            <div onClick={clearReply}>
+            <div onClick={() => setReply("")}>
               <ClearIcon sx={{ color: textcolor.primaryGray }} />
             </div>
           </Box>

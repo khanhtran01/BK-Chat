@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
 
 function InputText(props) {
-  const { color, title, text, setText, name, type, onKeyDown } = props;
+  const { color, title, text, setText, name, type, onKeyDown, autoComplete } = props;
   return (
     <TextField
       id={uuidv4()}
@@ -16,6 +16,7 @@ function InputText(props) {
       value={text}
       onChange={setText}
       onKeyDown={onKeyDown}
+      autoComplete={autoComplete}
       sx={{
         ".MuiFormLabel-root": {
           color: color,
@@ -55,9 +56,11 @@ InputText.propTypes = {
   name: PropTypes.string.isRequired,
   type: PropTypes.string,
   onKeyDown: PropTypes.func,
+  autoComplete: PropTypes.string
 };
 
 InputText.defaultProps = {
   type: "text",
   onKeyDown: () => {},
+  autoComplete: "off",
 };

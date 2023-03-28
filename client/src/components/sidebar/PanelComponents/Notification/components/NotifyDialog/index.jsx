@@ -10,13 +10,6 @@ import { Avatar, Box, Typography } from "@mui/material";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 
-import axios from "axios";
-import { apiUrl } from "../../../../../../context/constant";
-
-import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
-// import HourglassTopIcon from "@mui/icons-material/HourglassTop";
-import CircularProgress from "@mui/material/CircularProgress";
 
 // import PendingIcon from "@mui/icons-material/Pending";
 import { bcolors, textcolor } from "../../../../../../colors";
@@ -37,17 +30,6 @@ export default function NotifyDialog({
   notifyId,
   topic,
 }) {
-  // const handleSubmitted = async (status) => {
-
-    // axios
-    //   .put(`${apiUrl}/notification/action`, {
-    //     notifyId,
-    //     status,
-    //   })
-    //   .then((response) => {
-    //   })
-    //   .catch((err) => console.log(err));
-  // };
   return (
     <div>
       <Dialog
@@ -72,31 +54,25 @@ export default function NotifyDialog({
         <DialogContent>
           <Box>
             <Typography sx={{ color: textcolor.primaryGray }}>
-              {`The system proposes to create a subgroup with ${members.length} people from group ${conversationId.name} about topic ${topic}`}
+              {`The system proposes to create a subgroup with ${members.length} people from group ${conversationId.name} about topic `}
+              <em>{`${topic}`}</em>
             </Typography>
             <Typography
               sx={{ color: textcolor.primaryGray }}
             >{`The list of members includes : `}</Typography>
             <Box>
-              {/* {members.map((member) => (
-                <Box
-                  key={uuidv4()}
-                  sx={{ display: "flex", alignItems: "center" }}
-                >
-                  <Typography sx={{ color: textcolor.primaryGray }}>
-                    {member.userId.username}
-                  </Typography>
-                </Box>
-              ))} */}
-              <CustomizedAccordions title={
-                <Box
-                display={"flex"}
-                justifyContent="center"
-                alignItems={"flex-start"}
-              >
-                <Typography marginLeft={"5px"}>The list of members includes</Typography>
-              </Box>
-              }
+              <CustomizedAccordions
+                title={
+                  <Box
+                    display={"flex"}
+                    justifyContent="center"
+                    alignItems={"flex-start"}
+                  >
+                    <Typography marginLeft={"5px"}>
+                      The list of members includes
+                    </Typography>
+                  </Box>
+                }
                 description={
                   <Box
                     sx={{
@@ -132,7 +108,9 @@ export default function NotifyDialog({
                               height: "28px",
                             }}
                           >
-                            {mem.userId.username ? `${mem.userId.username[0]}` : "N"}
+                            {mem.userId.username
+                              ? `${mem.userId.username[0]}`
+                              : "N"}
                           </Avatar>
                         )}
                         <Typography
@@ -144,7 +122,7 @@ export default function NotifyDialog({
                       </Box>
                     ))}
                   </Box>
-                }              
+                }
               />
             </Box>
           </Box>

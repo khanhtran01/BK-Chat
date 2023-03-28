@@ -38,13 +38,18 @@ function SignIn() {
     setLoginForm({ ...loginForm, [event.target.name]: event.target.value });
 
   const onSubmit = async (event) => {
+    console.log(loginForm);
     event.preventDefault();
     setIsSubmiting(true);
     let success = await loginUser(loginForm);
-    await verify();
-    await getAllContact();
-    setIsSubmiting(false);
-    if (success) navigate("/dashboard");
+    console.log(success);
+
+    if (success) {
+      await verify();
+      await getAllContact();
+      setIsSubmiting(false);
+      navigate("/dashboard");
+    }
   };
 
   const handleKeyDown = (event) => {
@@ -117,6 +122,7 @@ function SignIn() {
             display="flex"
             flexDirection="column"
             height={150}
+            
             justifyContent="space-between"
           >
             <InputText
@@ -127,6 +133,7 @@ function SignIn() {
               name="username"
             />
             <InputText
+              autoComplete="on"
               name="password"
               color={textcolor.white}
               title={"password"}
@@ -142,6 +149,10 @@ function SignIn() {
             width="100%"
             justifyContent="flex-end"
             marginTop="10px"
+            sx={{
+              cursor: "pointer"
+            }}
+            onClick={() => handleNavigate("/auth/forgotPassword")}
           >
             <Typography color={textcolor.white}>Forgot password?</Typography>
           </Box>
@@ -170,35 +181,35 @@ function SignIn() {
               label="Remember me"
             />
           </FormGroup>
+          <Button
+            sx={{
+              width: "100%",
+              height: "40px",
+              marginTop: "1rem",
+              backgroundColor: bcolors.main,
+              "&.MuiButton-root:hover": {
+                backgroundColor: bcolors.secondary,
+              },
+            }}
+            variant="contained"
+            onClick={onSubmit}
+          >
+            {isSubmiting ? (
+              <CircularProgress
+                variant="indeterminate"
+                disableShrink
+                size={25}
+                thickness={4}
+                sx={{
+                  color: "white",
+                  animationDuration: "550ms",
+                }}
+              />
+            ) : (
+              "Sign in"
+            )}
+          </Button>
         </FormControl>
-        <Button
-          sx={{
-            width: "100%",
-            height: "40px",
-            marginTop: "1rem",
-            backgroundColor: bcolors.main,
-            "&.MuiButton-root:hover": {
-              backgroundColor: bcolors.secondary,
-            },
-          }}
-          variant="contained"
-          onClick={onSubmit}
-        >
-          {isSubmiting ? (
-            <CircularProgress
-              variant="indeterminate"
-              disableShrink
-              size={25}
-              thickness={4}
-              sx={{
-                color: "white",
-                animationDuration: "550ms",
-              }}
-            />
-          ) : (
-            "Sign in"
-          )}
-        </Button>
       </Box>
       <Box mt={4} display="flex">
         <Typography color={textcolor.white}>Don't have account? </Typography>

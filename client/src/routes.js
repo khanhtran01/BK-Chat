@@ -4,7 +4,8 @@ import SignUp from "./layout/signup";
 import SignIn from "./layout/signin";
 import Landing from "./layout/landing";
 import AuthLoading from "./layout/loading";
-
+import PorgotPassword from "./layout/forgotPassword";
+import ChangePassword from "./layout/changePassword";
 const routes = (authState) => [
   {
     key: "chat-dashboard",
@@ -31,6 +32,16 @@ const routes = (authState) => [
     key: "logout",
     route: "/auth/register",
     component: <SignUp />,
+  },
+  {
+    key: "forgotPassword",
+    route: "/auth/forgotPassword",
+    component: <PorgotPassword />,
+  },
+  {
+    key: "changePassword",
+    route: "/auth/changePassword",
+    component: <ChangePassword />,
   },
 ];
 

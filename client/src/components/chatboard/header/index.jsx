@@ -32,6 +32,12 @@ function Header() {
       handle: () => handleLeaveDialog(true),
     },
   ];
+  const menuOptions2 = [
+    {
+      component: userData.chatInfo.type === "group" ? "Leave" : "Block",
+      handle: () => handleLeaveDialog(true),
+    },
+  ];
   const mobileView = useMediaQuery("(min-width:1000px)");
   return (
     <>
@@ -128,7 +134,7 @@ function Header() {
                 }}
               />
             }
-            options={menuOptions}
+            options={ userData.chatInfo.type === "group" ? menuOptions : menuOptions2}
           />
         </Box>
       </Box>

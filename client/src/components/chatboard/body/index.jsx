@@ -18,7 +18,7 @@ function Body() {
     top: false,
     bot: false,
   });
-
+  console.log(process.env.SERVER_ADDRESS)
   const { userData } = useContext(conversationContext);
   const { authState } = useContext(AuthContext);
   useEffect(() => {

@@ -15,7 +15,7 @@ const MessageContextProvider = ({ children }) => {
         tagList: [],
     })
 
-    const checkTags = useCallback((message) => {
+    const checkTags = (message) => {
         if (userData.chatInfo.type === "single") {
             return;
         }
@@ -44,7 +44,7 @@ const MessageContextProvider = ({ children }) => {
         } else {
             dispatch({ type: "SET_TAG_LIST", payload: [] });
         }
-    }, [JSON.stringify(userData.chatInfo)]);
+    };
 
     const debouncedFetchMembers = useCallback((message) => {
         const temp = debounce(() => checkTags(message), 500);
@@ -72,12 +72,12 @@ const MessageContextProvider = ({ children }) => {
     const clearTags = () => {
         dispatch({ type: "CLEAR_TAG" });
     }
-    
+
 
     const value = {
         message, typeMessage,
         reply,
-        clearReply,
+        // clearReply,
         handleTag,
         dispatch,
         clearTags
