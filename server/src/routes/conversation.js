@@ -29,7 +29,7 @@ route.get('/get-all-contact', ConversationController.getAllContact); // use for 
 // [GET] /api/conversation/get-all-contact-sort
 route.get('/get-all-contact-sort', ConversationController.getAllContactSort);
 
-// [GET] /api/conversation/paging-chat?conversationId=xxx&page=x
+// [GET] /api/conversation/paging-chat?conversationId=xxx&chatId=xxx
 route.get('/paging-chat', ConversationController.pagingChat);
 
 // [GET] /api/conversation?id=

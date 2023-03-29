@@ -173,7 +173,12 @@ class ConversationController {
     }
     async pagingChat(req, res, next) {
         try {
-            const chats = await ChatController.pagingChat(req.query.conversationId, 8, req.query.page);
+            const numberChatReturn = 25;
+            const chats = await ChatController.pagingChat(
+                req.query.conversationId,
+                req.query.chatId,
+                numberChatReturn,
+            );
             res.status(200).json({ chats: chats, successful: true });
         } catch (error) {
             next(error);

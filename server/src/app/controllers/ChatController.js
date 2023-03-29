@@ -9,6 +9,11 @@ const userDTOMini = {
     username: 1,
     avatar: 1,
 };
+const chatDTO = {
+    like: 0,
+    totalLike: 0,
+    userRead: 0,
+};
 class ChatController {
     async storeChatAndGetId(data) {
         try {
@@ -155,33 +160,52 @@ class ChatController {
             next(error);
         }
     }
-    async pagingChat(conversationId, size, page) {
-        try {
-            const count = await Chat.find({ conversationId: conversationId }).count();
-            let numSkip, numChat;
-            if (count - size * page < 0) {
-                numSkip = 0;
-                numChat = count - size * (page - 1);
-                if (numChat <= 0) {
-                    return false;
-                }
-            } else {
-                numSkip = count - size * page;
-                numChat = size;
-            }
-            return await Chat.find({ conversationId: conversationId })
-                .populate('userId', userDTOMini)
-                .populate({
-                    path: 'replyFrom',
-                    select: 'userId content',
-                    populate: { path: 'userId', select: '_id email username' },
-                })
-                .limit(numChat)
-                .skip(numSkip);
-        } catch (error) {
-            return false;
-        }
+    async pagingChat(conversationId, lastChatId, size) {
+        const chat = await Chat.findOne({ _id: lastChatId });
+        const chats = await Chat.find(
+            {
+                conversationId: conversationId,
+                createdAt: { $lt: new Date(chat.createdAt) },
+            },
+            chatDTO,
+        )
+            .populate('userId', userDTOMini)
+            .populate({
+                path: 'replyFrom',
+                select: 'userId content',
+                populate: { path: 'userId', select: '_id email username' },
+            })
+            .sort({ createdAt: -1 })
+            .limit(size);
+        return chats.reverse();
     }
+    // async pagingChat(conversationId, size, page) {
+    //     try {
+    //         const count = await Chat.find({ conversationId: conversationId }).count();
+    //         let numSkip, numChat;
+    //         if (count - size * page < 0) {
+    //             numSkip = 0;
+    //             numChat = count - size * (page - 1);
+    //             if (numChat <= 0) {
+    //                 return false;
+    //             }
+    //         } else {
+    //             numSkip = count - size * page;
+    //             numChat = size;
+    //         }
+    //         return await Chat.find({ conversationId: conversationId })
+    //             .populate('userId', userDTOMini)
+    //             .populate({
+    //                 path: 'replyFrom',
+    //                 select: 'userId content',
+    //                 populate: { path: 'userId', select: '_id email username' },
+    //             })
+    //             .limit(numChat)
+    //             .skip(numSkip);
+    //     } catch (error) {
+    //         return false;
+    //     }
+    // }
 
     async getChatForSuggestion(req, res, next) {
         try {
