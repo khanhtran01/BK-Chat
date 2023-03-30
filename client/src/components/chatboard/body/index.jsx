@@ -2,6 +2,7 @@ import { Box, IconButton } from "@mui/material";
 import { bcolors } from "../../../colors";
 import { AuthContext } from "../../../context/authContext";
 import { conversationContext } from "../../../context";
+import { chatboardContext } from "../context";
 import { useContext, useMemo, memo, useState, useRef, useEffect } from "react";
 import Slide from "@mui/material/Slide";
 import { v4 as uuidv4 } from "uuid";
@@ -18,9 +19,15 @@ function Body() {
     top: false,
     bot: false,
   });
-  console.log(process.env.SERVER_ADDRESS)
-  const { userData } = useContext(conversationContext);
+  const { userData, updateOldMessages } = useContext(conversationContext);
   const { authState } = useContext(AuthContext);
+  const { handleLoadMessagePaging } = useContext(chatboardContext);
+  const handleLoadMessage = async () => {
+    const old_message = await handleLoadMessagePaging(userData.currConversation[0].conversationId,userData.currConversation[0]._id)
+    if (old_message !== []){
+      updateOldMessages(old_message);
+    }
+  };
   useEffect(() => {
     setScrollButton({
       top: false,
@@ -111,6 +118,7 @@ function Body() {
               backgroundColor: bcolors.main,
             },
           }}
+          onClick={handleLoadMessage}
         >
           <KeyboardDoubleArrowUpIcon />
         </IconButton>

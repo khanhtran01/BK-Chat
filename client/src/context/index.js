@@ -175,6 +175,9 @@ function ContextProvider({ children }) {
     dispatch({ type: "UPDATE_ONLINE_LIST", payload: { ...tempList } });
   };
 
+  const updateOldMessages = (messages) => {
+    dispatch({type: "UPDATE_OLD_MESSAGES", payload: { messages } });
+  }
   /**
    * Init all contact to load to UI
    */
@@ -207,6 +210,7 @@ function ContextProvider({ children }) {
     createGroup,
     reset_logout, add_message_fast,
     initData,
+    updateOldMessages,
   };
   return (
     <conversationContext.Provider value={contextData}>

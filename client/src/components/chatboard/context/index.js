@@ -3,6 +3,8 @@ import { chatboardReducer } from "../reducer";
 import { EditReducer } from "../reducer/editReducer";
 import { useMediaQuery } from "@mui/material";
 import { conversationContext } from "../../../context";
+import axios from "axios";
+import { apiUrl } from "../../../context/constant";
 import debounce from "lodash/debounce";
 // import { stringify } from "uuid";
 const chatboardContext = createContext();
@@ -54,6 +56,17 @@ function ChatBoardContextProvider({ children }) {
   const handleDialog = useCallback((status) => {
     formDispatch({ type: "HANDLE_DIALOG", payload: status })
   },[])
+  const handleLoadMessagePaging = async (conversationId, chatId) => {
+    try {
+      const data = await axios.get(`${apiUrl}/conversation/paging-chat?conversationId=${conversationId}&chatId=${chatId}`);
+      return data.data.chats;
+    }
+    catch (err) {
+      console.log(err);
+      return [];
+    }
+    // /api/conversation/paging-chat?conversationId=xxx&chatId=xxx
+  }
 
   useEffect(() => {
     dispatch({ type: "RESET" });
@@ -65,6 +78,7 @@ function ChatBoardContextProvider({ children }) {
     back,
     forward,
     setForward,
+    handleLoadMessagePaging,
     // typeMessage,
     // reply,
     // clearReply,
