@@ -107,6 +107,8 @@ def checkgrouping():
     return Response(json.dumps({'successful': True}), status=200, mimetype='application/json')
 
 # 1 week
+
+
 def get_recommend_group():
     neo4j = neo4j_auth()
     data = neo4j.run(
@@ -145,35 +147,34 @@ def get_recommend_group():
 
 def detectUserTopic():
     user_Id = request.form['user_Id']
-    
-    userData = db.chats.find({'userId': user_Id},{'content': 1}).sort(
+
+    userData = db.chats.find({'userId': user_Id}, {'content': 1}).sort(
         "createdAt", -1).limit(50)
-    
-    
+
     contentArray = []
     for message in list(userData):
         contentArray.append(message['content'])
-    
+
     topic = get_classifies("".join(contentArray))
     # print(topic)
     # topic = "World"
     neo4j = neo4j_auth()
-    
+
     cypher = 'merge (t:Topic {name :"' + topic + '"}) return t '
     neo4j.run(cypher)
-    
+
     data = neo4j.run(
         'match (u:User {`_id`: "' + str(user_Id) + '"}) match (u)-[:LIKE]->(t:Topic) return t')
     if (len(list(data)) != 0):
-        
-        cypher = 'match (u:User {`_id`: "'+ str(user_Id)+'"})-[r:LIKE]->(t:Topic) delete r'
-        neo4j.run(cypher)        
-    
-    
+
+        cypher = 'match (u:User {`_id`: "' + str(user_Id) + \
+            '"})-[r:LIKE]->(t:Topic) delete r'
+        neo4j.run(cypher)
+
     cypher = 'match (u:User {`_id`: "'+str(user_Id)+'"}) match (t:Topic {`name` : "' + str(
         topic)+'"}) create (u)-[r:LIKE]->(t) return r'
     neo4j.run(cypher)
-    
+
     # for record in data:
     #     u = dict(record['u'])
     #     print(u)

@@ -27,13 +27,26 @@ class ChatController {
             });
             const thisConversation = await Conversation.findOne(
                 { _id: data.conversationId },
-                { countForSuggestion: 1, _id: 1 },
+                { countForSuggestion: 1, _id: 1, type: 1 },
             );
+
             if (thisConversation.type === 'group') {
+                
                 if (thisConversation.countForSuggestion >= 1000) {
-                    axios.post('localhost:5000/api/checkGrouping', {
-                        conversation_id: thisConversation._id,
-                    });
+                    
+                    try {
+                        axios.post('http://localhost:5000/api/checkGrouping', {
+                            conversation_id: thisConversation._id,
+                        }, {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded'
+                            },
+                        });
+                    }
+                    catch (err) {
+                        console.log(err);
+                    }
+
                     await Conversation.updateOne(
                         { _id: data.conversationId },
                         {
