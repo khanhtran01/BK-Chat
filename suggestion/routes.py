@@ -100,10 +100,10 @@ def checkgrouping():
     my_dict_converted2 = {
         str(k): v for k, v in final.items()}
     print(my_dict_converted2)
-    # requests.post(f'http://localhost:4000/api/notification/new', json={
-    #     'conversationId': conversation_id,
-    #     'data': json.dumps(my_dict_converted2)
-    # })
+    requests.post('http://localhost:4000/api/notification/new', json={
+        'conversationId': conversation_id,
+        'data': json.dumps(my_dict_converted2)
+    })
     return Response(json.dumps({'successful': True}), status=200, mimetype='application/json')
 
 # 1 week
