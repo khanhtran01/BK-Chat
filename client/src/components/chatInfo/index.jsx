@@ -31,8 +31,7 @@ export default function ChatInfo() {
   let user = {};
 
   const { userData } = useContext(conversationContext);
-  const { chatInfoPopup, setChatInfoPopup } = useContext(context);
-  const { forward, setForward } = useContext(chatboardContext);
+  const { setChatInfoPopup } = useContext(context);
   if (userData.chatInfo.type === "single") {
     if (userData.chatInfo.name === userData.chatInfo.member[0].username) {
       user = userData.chatInfo.member[0];
@@ -71,13 +70,11 @@ export default function ChatInfo() {
     );
   };
   return (
-    <Slide direction="left" in={chatInfoPopup} mountOnEnter unmountOnExit>
       <Box
-        // display={chatInfoPopup ? "block" : "none"}
         sx={{
           height: "100%",
           padding: "24px",
-          width: forward ? "100%" : "40rem",
+          width: "20rem",
           overflow: "scroll",
           backgroundColor: bcolors.bluedark,
         }}
@@ -85,7 +82,6 @@ export default function ChatInfo() {
         <IconButton
           onClick={() => {
             setChatInfoPopup(false);
-            setForward(false);
           }}
         >
           <CloseIcon sx={{ cursor: "pointer", color: textcolor.white }} />
@@ -250,6 +246,6 @@ export default function ChatInfo() {
           </Box>
         </Box>
       </Box>
-    </Slide>
+    // </Slide>
   );
 }

@@ -68,7 +68,7 @@ export default function NotifyDialog({
                     justifyContent="center"
                     alignItems={"flex-start"}
                   >
-                    <Typography marginLeft={"5px"}>
+                    <Typography marginLeft={"5px"}>   
                       The list of members includes
                     </Typography>
                   </Box>

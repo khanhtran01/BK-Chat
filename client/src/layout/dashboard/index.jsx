@@ -4,10 +4,14 @@ import ChatInfo from "../../components/chatInfo";
 // import MobileBar from "../../components/sidebar/mobileView";
 import ChatBoardContextProvider from "../../components/chatboard/context";
 import ActionContextProvider from "./context";
-import React from "react";
+import React, {useState} from "react";
 // import { useMediaQuery } from "@mui/material";
+import SwipeableDrawer from '@mui/material/SwipeableDrawer';
 
 function Dashboard() {
+
+  const [state, setState] = React.useState(false);
+
   // const { mobileView } = useContext(context);
   // const mobileView = useMediaQuery("(min-width:1000px)");
   // console.log(mobileView);
@@ -25,7 +29,8 @@ function Dashboard() {
         <ChatBoardContextProvider>
           <SideBar />
           <ChatBoard />
-          <ChatInfo />
+          
+          
         </ChatBoardContextProvider>
         {/* {!mobileView && <MobileBar />} */}
       </ActionContextProvider>

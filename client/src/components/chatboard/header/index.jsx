@@ -20,7 +20,7 @@ function Header() {
   // console.log("oh shjt re-render header")
   const { userData } = useContext(conversationContext);
   const { chatInfoPopup, setChatInfoPopup } = useContext(context);
-  const { handleDialog, setBack, setForward } = useContext(chatboardContext);
+  const { handleDialog, setBack } = useContext(chatboardContext);
   const [leaveDialog, handleLeaveDialog] = useState(false);
   const menuOptions = [
     {
@@ -116,9 +116,6 @@ function Header() {
             />
           </IconButton>
           <IconButton onClick={() => {
-            if (!mobileView){
-              setForward(true);
-            }
             setChatInfoPopup(!chatInfoPopup)
             }}>
             <PersonOutlineIcon

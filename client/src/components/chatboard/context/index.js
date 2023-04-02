@@ -27,11 +27,9 @@ function ChatBoardContextProvider({ children }) {
   
   // console.log("chatboard context render")
   const [back, setBack] = useState(!mobileView);
-  const [forward, setForward] = useState(false);
   useEffect(()=>{
     if (mobileView){
       setBack(false);
-      setForward(false);
     }
   }, [mobileView])
   const [editFormData, formDispatch] = useReducer(EditReducer, {
@@ -76,8 +74,6 @@ function ChatBoardContextProvider({ children }) {
     messageData,
     editFormData,
     back,
-    forward,
-    setForward,
     handleLoadMessagePaging,
     // typeMessage,
     // reply,

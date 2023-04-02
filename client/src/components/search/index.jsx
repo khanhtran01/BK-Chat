@@ -11,7 +11,7 @@ import PropTypes from "prop-types";
 import { bcolors, textcolor } from "../../colors";
 // import SelectInput from "@mui/material/Select/SelectInput";
 
-function SearchInput({ placeholder }) {
+function SearchInput({ placeholder, value, onChange }) {
   return (
     <Box
       sx={{
@@ -39,6 +39,8 @@ function SearchInput({ placeholder }) {
             color: `${textcolor.white}`,
           },
         }}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
         placeholder={placeholder}
         inputProps={{ "aria-label": "search google maps" }}
       />
@@ -50,8 +52,11 @@ export default SearchInput;
 
 SearchInput.propTypes = {
   placeholder: PropTypes.string,
+  value: PropTypes.string,
+  onChange: PropTypes.func,
 };
 
 SearchInput.defaultProps = {
   placeholder: "Search messages or users",
+  value: "",
 };

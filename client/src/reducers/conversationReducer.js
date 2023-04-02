@@ -105,7 +105,7 @@ const conversationReducer = (state, action) => {
       return {
         ...state,
         isLoadingContact: true,
-        isLoadingConversation: true,
+        isLoadingConversation: false,
       };
 
     case "ADD_MESSAGE_FAST":

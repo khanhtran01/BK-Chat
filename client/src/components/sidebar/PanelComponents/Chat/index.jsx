@@ -7,12 +7,53 @@ import { textcolor } from "../../../../colors";
 import FriendBox from "../../../friendbox";
 import { conversationContext } from "../../../../context";
 import { AuthContext } from "../../../../context/authContext";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 function ChatPanel() {
   const { userData } = useContext(conversationContext);
   const { authState } = useContext(AuthContext);
+
+  const [searchInput, setSearchInput] = useState("");
+
   const { conversations, onlineList } = userData;
+  const [tempConversation, setTemp] = useState([...conversations]);
+  useEffect(() => {
+    let temp = [];
+    if (conversations.length > 0 && authState.user) {
+      conversations.forEach((conversation) => {
+        if (conversation.type === "single") {
+          if (
+            conversation.member[0]._id === authState.user._id &&
+            conversation.member[1].username
+              .toLowerCase()
+              .includes(searchInput.toLowerCase())
+          ) {
+            temp.push(conversation);
+          } else if (
+            conversation.member[0].username
+              .toLowerCase()
+              .includes(searchInput.toLowerCase())
+          ) {
+            temp.push(conversation);
+          }
+        } else if (
+          conversation.name.toLowerCase().includes(searchInput.toLowerCase())
+        ) {
+          temp.push(conversation);
+        }
+      });
+    }
+
+    if (!authState.user&&  conversations.length > 0){
+      setTemp([...conversations])
+    }
+    else {
+      setTemp([...temp]);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [JSON.stringify(conversations), searchInput]);
+
   return (
     <Box sx={{ height: "100%" }}>
       <Box sx={{ height: "6.75rem", p: 3 }}>
@@ -25,7 +66,7 @@ function ChatPanel() {
         >
           Chats
         </Typography>
-        <SearchInput />
+        <SearchInput value={searchInput} onChange={setSearchInput} />
       </Box>
       <Box>
         <Typography
@@ -47,8 +88,8 @@ function ChatPanel() {
             p: 1,
           }}
         >
-          {(!userData.isLoadingContact && authState.user)
-            ? conversations.map((conversation) => {
+          {!userData.isLoadingContact && authState.user
+            ? tempConversation.map((conversation) => {
                 let url, username, status, receiverId;
                 if (conversation.type === "single") {
                   if (conversation.member[0]._id === authState.user._id) {
