@@ -104,8 +104,16 @@ const conversationReducer = (state, action) => {
     case "RESET_ALL_STATUS":
       return {
         ...state,
-        isLoadingContact: true,
+        contactList: [], // contant list of contacts
+        conversations: [], // contant list of conversations
+        currConversationId: "", // contant id of current conversation
+        currConversation: [], // contant all chats of current conversation
+        waitingList: {}, // contant an object with key is a conversation
+        chatInfo: {}, // all chat info of current conversation
+        onlineList: {}, // contant an object with key is a friend online and value is true
+        notifyList: [],
         isLoadingConversation: false,
+        isLoadingContact: true,
       };
 
     case "ADD_MESSAGE_FAST":

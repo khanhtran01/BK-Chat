@@ -1,5 +1,5 @@
 /* eslint-disable array-callback-return */
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 // MUI import
@@ -22,6 +22,26 @@ import React from "react";
 function Group() {
   const { handleCreateGroup } = useContext(groupsContext);
   const { userData } = useContext(conversationContext);
+  const [searchInput, setSearchInput] = useState("");
+  const [tempConversation, setTempConversation] = useState([
+    ...userData.contactList,
+  ]);
+
+  useEffect(() => {
+    let resConversations = [];
+    if (tempConversation) {
+      userData.contactList.forEach((conversation) => {
+        if (
+          conversation.type === "group" &&
+          conversation.groupName.toLowerCase().includes(searchInput.toLowerCase())
+        ) {
+          resConversations.push(conversation);
+        }
+      });
+    }
+    setTempConversation([...resConversations]);
+  }, [searchInput, tempConversation]);
+
   return (
     <Box sx={{ height: "100%" }}>
       <GroupDialog />
@@ -50,7 +70,12 @@ function Group() {
             <GroupIcon />
           </Button>
         </Box>
-        <SearchInput placeholder={"Search groups..."} />
+        <SearchInput
+          placeholder={"Search groups..."}
+          value={searchInput}
+          onChange={setSearchInput}
+          
+        />
       </Box>
       <Box
         sx={{
@@ -59,7 +84,7 @@ function Group() {
           padding: "24px",
         }}
       >
-        {userData.contactList.map((contact) => {
+        {tempConversation.map((contact) => {
           if (contact.type === "group") {
             return (
               <Box

@@ -12,29 +12,57 @@ import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import EditGroupDialog from "../components/editDialog";
 import LeaveDialog from "../components/leaveDialog";
 import LongMenu from "../../menu";
-
+import EditIcon from "@mui/icons-material/Edit";
+import LogoutIcon from "@mui/icons-material/Logout";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
+import BlockIcon from "@mui/icons-material/Block";
 import { useMediaQuery } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
-
+import AddMemberDialog from "../components/addMemberDialog";
 function Header() {
   // console.log("oh shjt re-render header")
   const { userData } = useContext(conversationContext);
   const { chatInfoPopup, setChatInfoPopup } = useContext(context);
   const { handleDialog, setBack } = useContext(chatboardContext);
   const [leaveDialog, handleLeaveDialog] = useState(false);
+  const [addMemberDialogStatus, setAddMemberDialogStatus] = useState(false);
   const menuOptions = [
     {
-      component: "Edit",
+      component: (
+        <Box display="flex" justifyContent="space-between" width="100%">
+          <Typography>Edit</Typography>
+          <EditIcon sx={{ fontSize: "18px" }} />
+        </Box>
+      ),
       handle: () => handleDialog(true),
     },
     {
-      component: userData.chatInfo.type === "group" ? "Leave" : "Block",
+      component: (
+        <Box display="flex" justifyContent="space-between" width="100%">
+          <Typography>Add Member</Typography>
+          <GroupAddIcon sx={{ fontSize: "18px" }} />
+        </Box>
+      ),
+      handle: () => setAddMemberDialogStatus(true),
+    },
+    {
+      component: (
+        <Box display="flex" justifyContent="space-between" width="100%">
+          <Typography>Leave</Typography>
+          <LogoutIcon sx={{ fontSize: "18px" }} />
+        </Box>
+      ),
       handle: () => handleLeaveDialog(true),
     },
   ];
   const menuOptions2 = [
     {
-      component: userData.chatInfo.type === "group" ? "Leave" : "Block",
+      component: (
+        <Box display="flex" justifyContent="space-between" width="100%">
+          <Typography>Block</Typography>
+          <BlockIcon sx={{ fontSize: "18px" }} />
+        </Box>
+      ),
       handle: () => handleLeaveDialog(true),
     },
   ];
@@ -43,6 +71,10 @@ function Header() {
     <>
       <EditGroupDialog />
       <LeaveDialog open={leaveDialog} setOpen={handleLeaveDialog} />
+      <AddMemberDialog
+        open={addMemberDialogStatus}
+        setOpen={setAddMemberDialogStatus}
+      />
       <Box
         sx={{
           backgroundColor: bcolors.chatboard,
@@ -50,7 +82,7 @@ function Header() {
           padding: "24px",
           display: "flex",
           justifyContent: "space-between",
-          zIndex: 3
+          zIndex: 3,
         }}
       >
         <Box
@@ -115,9 +147,11 @@ function Header() {
               }}
             />
           </IconButton>
-          <IconButton onClick={() => {
-            setChatInfoPopup(!chatInfoPopup)
-            }}>
+          <IconButton
+            onClick={() => {
+              setChatInfoPopup(!chatInfoPopup);
+            }}
+          >
             <PersonOutlineIcon
               sx={{ cursor: "pointer", color: textcolor.white }}
             />
@@ -131,7 +165,9 @@ function Header() {
                 }}
               />
             }
-            options={ userData.chatInfo.type === "group" ? menuOptions : menuOptions2}
+            options={
+              userData.chatInfo.type === "group" ? menuOptions : menuOptions2
+            }
           />
         </Box>
       </Box>

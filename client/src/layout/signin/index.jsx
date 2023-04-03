@@ -10,7 +10,8 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import { conversationContext } from "../../context";
@@ -18,13 +19,23 @@ import { bcolors, textcolor } from "../../colors";
 import React from "react";
 
 // import axios from "axios";
-
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
 function SignIn() {
   const { loginUser, authState, verify } = useContext(AuthContext);
   const { getAllContact } = useContext(conversationContext);
 
+  const [alertStatus, setAlertStatus] = useState(false);
+  const handleCloseAlert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setAlertStatus(false);
+  };
   const [loginForm, setLoginForm] = useState({
     username: "",
     password: "",
@@ -49,6 +60,9 @@ function SignIn() {
       await getAllContact();
       setIsSubmiting(false);
       navigate("/dashboard");
+    } else {
+      setAlertStatus(true);
+      setIsSubmiting(false);
     }
   };
 
@@ -75,6 +89,20 @@ function SignIn() {
         overflow: "scroll",
       }}
     >
+      <Snackbar
+        open={alertStatus}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity="error"
+          sx={{ width: "100%" }}
+        >
+          Username or password is invalid
+        </Alert>
+      </Snackbar>
       {authState.isAuthenticated && <Navigate to="/dashboard" replace />}
       <img
         style={{
@@ -117,12 +145,12 @@ function SignIn() {
             width: "100%",
           }}
           variant="standard"
+          autoSave="" 
         >
           <Box
             display="flex"
             flexDirection="column"
             height={150}
-            
             justifyContent="space-between"
           >
             <InputText
@@ -131,16 +159,18 @@ function SignIn() {
               text={username}
               setText={onChangeLoginForm}
               name="username"
+              type={"email"}
+              autoComplete={"username"}
             />
             <InputText
-              autoComplete="on"
               name="password"
               color={textcolor.white}
               title={"password"}
               text={password}
               setText={onChangeLoginForm}
               type="password"
-              onKeyDown={handleKeyDown}
+              onKeyDown={handleKeyDown} 
+              autoComplete="password"
             />
           </Box>
           <Box
@@ -150,7 +180,7 @@ function SignIn() {
             justifyContent="flex-end"
             marginTop="10px"
             sx={{
-              cursor: "pointer"
+              cursor: "pointer",
             }}
             onClick={() => handleNavigate("/auth/forgotPassword")}
           >

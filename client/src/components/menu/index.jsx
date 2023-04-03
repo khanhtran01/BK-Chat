@@ -57,7 +57,6 @@ export default function LongMenu(props) {
         {options.map((option) => (
           <MenuItem
             key={uuidv4()}
-            selected={option === "Pyxis"}
             onClick={() => {
               handleClose()
               option.handle()

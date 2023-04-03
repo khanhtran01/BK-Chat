@@ -161,7 +161,7 @@ function Body() {
         {/* <Slide direction="up" in={scrollButton.top} container={bodyInfo.current}> */}
 
         {/* </Slide> */}
-        {!userData.isLoadingConversation ? (
+        {!userData.isLoadingConversation && authState.user ? (
           []
             .concat(userData && userData.currConversation)
             .reverse()

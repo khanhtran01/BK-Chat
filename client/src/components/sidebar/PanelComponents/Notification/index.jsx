@@ -69,7 +69,7 @@ function Notification() {
       <Box
         sx={{
           overflow: "scroll",
-          height: "calc(100vh - 40px)",
+          height: "calc(100vh - 60px)",
           padding: "24px",
         }}
       >
