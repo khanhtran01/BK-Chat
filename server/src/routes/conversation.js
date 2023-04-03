@@ -17,6 +17,9 @@ route.get('/read-chat', ChatController.addUserReadChat); // read chat nay luon n
 // [PUT] /api/conversation/update-group-info (conversation, groupAvatar, groupName, groupDesc)
 route.put('/update-group-info', uploads.single('groupAvatar'), UpdateInfoController.groupInfo);
 
+// [GET] /api/conversation/check-contact-group?conversationId=  (conversationId)
+route.get('/check-contact-group', ConversationController.checkContact);
+
 // [PUT] /api/conversation/add-member  (conversationId, idsUser)
 route.put('/add-member', ConversationController.addMemberGroup);
 

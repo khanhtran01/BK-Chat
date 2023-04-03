@@ -36,7 +36,8 @@ class NotificationController {
                 'member.userId': req.userId,
             })
                 .populate('member.userId', userDTOMini)
-                .populate('conversationId', { _id: 1, name: 1, avatar: 1 });
+                .populate('conversationId', { _id: 1, name: 1, avatar: 1 })
+                .sort({ createdAt: -1 });
             res.status(200).json({ notifications, successful: true });
         } catch (error) {
             next(error);
