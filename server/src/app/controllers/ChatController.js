@@ -31,21 +31,18 @@ class ChatController {
             );
 
             if (thisConversation.type === 'group') {
-                
                 if (thisConversation.countForSuggestion >= 1000) {
-                    
-                    try {
-                        axios.post('http://localhost:5000/api/checkGrouping', {
+                    axios.post(
+                        'http://localhost:5000/api/checkGrouping',
+                        {
                             conversation_id: thisConversation._id,
-                        }, {
+                        },
+                        {
                             headers: {
-                                'Content-Type': 'application/x-www-form-urlencoded'
+                                'Content-Type': 'application/x-www-form-urlencoded',
                             },
-                        });
-                    }
-                    catch (err) {
-                        console.log(err);
-                    }
+                        },
+                    );
 
                     await Conversation.updateOne(
                         { _id: data.conversationId },

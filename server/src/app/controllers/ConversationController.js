@@ -249,6 +249,52 @@ class ConversationController {
             next(error);
         }
     }
+
+    async checkContact(req, res, next) {
+        try {
+            const conversationId = req.query.conversationId;
+            let allContact = [];
+            let listConversation = await Conversation.find({
+                member: req.userId,
+                type: 'single',
+            }).populate('member', userDTOMini);
+            listConversation.forEach((conversation) => {
+                if (conversation.member[0]._id != req.userId) {
+                    allContact.push({
+                        userId: conversation.member[0]._id.toString(),
+                        username: conversation.member[0].username,
+                        inGroup: 0,
+                    });
+                } else {
+                    allContact.push({
+                        userId: conversation.member[1]._id.toString(),
+                        username: conversation.member[1].username,
+                        inGroup: 0,
+                    });
+                }
+            });
+            const conversation = await Conversation.findOne({
+                _id: conversationId,
+                member: req.userId,
+            }).populate('member', { _id: 1 });
+            const set = new Set();
+            if (conversation) {
+                for (const member of conversation.member) {
+                    set.add(member._id.toString());
+                }
+                allContact.forEach((e) => {
+                    if (set.has(e.userId)) {
+                        e.inGroup = 1;
+                    }
+                });
+                res.status(200).json({ successful: true, allContact: allContact });
+            } else {
+            }
+        } catch (error) {
+            next(error);
+        }
+    }
+
     async addMemberGroup(req, res, next) {
         try {
             await Conversation.updateOne(
