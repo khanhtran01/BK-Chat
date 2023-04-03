@@ -263,13 +263,13 @@ class ConversationController {
                     allContact.push({
                         userId: conversation.member[0]._id.toString(),
                         username: conversation.member[0].username,
-                        inGroup: 0,
+                        avatar: conversation.member[0].avatar,
                     });
                 } else {
                     allContact.push({
                         userId: conversation.member[1]._id.toString(),
                         username: conversation.member[1].username,
-                        inGroup: 0,
+                        avatar: conversation.member[1].avatar,
                     });
                 }
             });
@@ -282,13 +282,13 @@ class ConversationController {
                 for (const member of conversation.member) {
                     set.add(member._id.toString());
                 }
-                allContact.forEach((e) => {
-                    if (set.has(e.userId)) {
-                        e.inGroup = 1;
-                    }
-                });
-                res.status(200).json({ successful: true, allContact: allContact });
+                let result = allContact.filter((e) => !set.has(e.userId));
+                res.status(200).json({ successful: true, allContact: result });
             } else {
+                res.status(200).json({
+                    message: 'User is not in that conversation',
+                    successful: false,
+                });
             }
         } catch (error) {
             next(error);

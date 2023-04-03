@@ -182,7 +182,8 @@ io.on('connection', (socket) => {
     // })
 
     socket.on('sendUserLogout', async (data) => {
-        await removeUser(data.userId);
+        console.log('user logout');
+        await removeUser(socket.id);
         io.emit('getUserOff', {
             userId: data.userId,
         });
