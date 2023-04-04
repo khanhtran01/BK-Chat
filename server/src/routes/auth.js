@@ -14,7 +14,7 @@ route.post('/register', AuthenController.storeAccount);
 // [GET] /api/auth/verify-token
 route.get('/verify-token', AuthenController.checkToken);
 
-// [GET] /api/auth/verify-email
+// [GET] /api/auth/verify-email?email=xx&token=xx
 route.get('/verify-email', AuthenController.verifyEmail);
 
 route.post('/service', AuthenController.authService);

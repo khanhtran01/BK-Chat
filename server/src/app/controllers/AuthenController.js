@@ -48,7 +48,7 @@ class AuthenController {
                 email: req.body.email,
             });
             if (user) {
-                res.status(200).json({ message: 'Email is exit', successful: false });
+                res.status(200).json({ message: 'Email is exist', successful: false });
             } else {
                 const randStr = randString();
                 bcrypt.hash(req.body.password, saltRounds, async function (err, hash) {

@@ -11,6 +11,7 @@ const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
     params: {
         folder: 'uploads',
+        // resource_type: 'raw',
     },
 });
 

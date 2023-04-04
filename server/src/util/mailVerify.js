@@ -168,7 +168,7 @@ const mailVerify = (randStr, email, url) => {
                             style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
                             <p style="margin: 0;">If that doesn't work, copy and paste the following link in your
                                 browser:</p>
-                            <p style="margin: 0;"><a href="${url}?verify=${randStr}" target="_blank">${url}?verify=${randStr}</a>
+                            <p style="margin: 0;"><a href="${url}?email=${email}&token=${randStr}" target="_blank">${url}?email=${email}&token=${randStr}</a>
                             </p>
                         </td>
                     </tr>
