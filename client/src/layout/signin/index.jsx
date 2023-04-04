@@ -56,6 +56,7 @@ function SignIn() {
     console.log(success);
 
     if (success) {
+      console.log("success");
       await verify();
       await getAllContact();
       setIsSubmiting(false);

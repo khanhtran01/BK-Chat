@@ -40,7 +40,9 @@ function Group() {
       });
     }
     setTempConversation([...resConversations]);
-  }, [searchInput, tempConversation]);
+  }, [searchInput, userData.contactList]);
+
+  console.log("group page re-render");
 
   return (
     <Box sx={{ height: "100%" }}>

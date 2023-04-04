@@ -45,7 +45,7 @@ export default function SelectMemberDialog() {
     setContactList(temp);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(userData.contactList)]);
-
+  console.log("re-render");
   return (
     <div>
       <Dialog

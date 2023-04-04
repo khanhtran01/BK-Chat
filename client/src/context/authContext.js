@@ -57,87 +57,88 @@ const AuthContextProvider = ({ children }) => {
     }
   };
 
-/**
- * @public
- * @todo login with username and password
- * @returns { String } token string
- */
-const loginUser = async (userForm) => {
-  const { username, password } = userForm;
-  try {
-    await axios
-      .post(`http://localhost:4000/api/auth/login`, {
-        email: username,
-        password: password,
-      })
-      .then((response) => {
+  /**
+   * @public
+   * @todo login with username and password
+   * @returns { String } token string
+   */
+  const loginUser = async (userForm) => {
+    const { username, password } = userForm;
+    try {
+      let response = await axios
+        .post(`http://localhost:4000/api/auth/login`, {
+          email: username,
+          password: password,
+        });
+      if (response.data.successful) {
         dispatch({ type: "LOGIN", payload: response.data });
         // localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data._id);
         setCookie("token", response.data.token, { path: "/" });
         setAuthToken(response.data.token);
         console.log(response)
-      })
-  }
-  catch (err) {
-    console.log("error : " + err);
-    return false;
-  }
-  return true;
-};
-
-/**
- * @public
- * @todo register new account
- */
-const registerUser = async (userForm) => {
-  const { email, username, password } = userForm;
-
-  await axios
-    .post(`http://localhost:4000/api/auth/register`, {
-      email: email,
-      password: password,
-      username: username,
-    })
-    .then((response) => {
-      return true;
-    })
-    .catch((err) => {
+      }
+      return response.data.successful;
+    }
+    catch (err) {
       console.log("error : " + err);
       return false;
-    });
-};
+    }
+  };
+
+  /**
+   * @public
+   * @todo register new account
+   */
+  const registerUser = async (userForm) => {
+    const { email, username, password } = userForm;
+    try {
+      let response = await axios
+        .post(`http://localhost:4000/api/auth/register`, {
+          email: email,
+          password: password,
+          username: username,
+        })
+      return response.data;
+    }
+    catch (err) {
+      return {
+        message: "Something went wrong",
+        successful: false,
+      };
+    }
+  };
 
 
-const logoutUser = async () => {
-  dispatch({ type: "LOGOUT" })
-}
-
-/**
- * @TODO check token whenever have token in cookie and one time at refresh
- */
-useEffect(() => {
-  async function checkToken() {
-    await verify();
+  const logoutUser = async () => {
+    dispatch({ type: "LOGOUT" })
   }
-  if (cookies.token) {
-    checkToken();
-  }
-}, []);
 
-// Value to share
-const authContextData = {
-  loginUser,
-  authState,
-  verify,
-  registerUser,
-  logoutUser
-};
+  /**
+   * @TODO check token whenever have token in cookie and one time at refresh
+   */
+  useEffect(() => {
+    async function checkToken() {
+      await verify();
+    }
+    if (cookies.token) {
+      checkToken();
+    }
+  }, []);
 
-return (
-  <AuthContext.Provider value={authContextData}>
-    {children}
-  </AuthContext.Provider>
-);
+  // Value to share
+  const authContextData = {
+    loginUser,
+    authState,
+    verify,
+    registerUser,
+    logoutUser
+  };
+
+  return (
+    <AuthContext.Provider value={authContextData}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export { AuthContext };
