@@ -11,6 +11,8 @@ import Button from "@mui/material/Button";
 import { AuthContext } from "../../context/authContext";
 import { useNavigate, Navigate } from "react-router-dom";
 import CircularProgress from "@mui/material/CircularProgress";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 import { checkEmail } from "../../functions";
 import logo from "./img/logo.png";
@@ -19,13 +21,33 @@ import React from "react";
 
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 function SignUp() {
   const navigate = useNavigate();
   const handleNavigate = (link) => {
     navigate(link);
   };
   const [isSubmiting, setIsSubmiting] = useState(false);
+  const [alertStatus, setAlertStatus] = useState({
+    open: false,
+    message: "",
+    type: "error",
+  });
   const { authState, registerUser } = useContext(AuthContext);
+
+  const handleCloseAlert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setAlertStatus({
+      ...alertStatus,
+      open: false,
+    });
+  };
 
   const [registerForm, setRegisterFrom] = useState({
     email: "",
@@ -44,23 +66,36 @@ function SignUp() {
 
   const handleSignUp = async (event) => {
     event.preventDefault();
-    if (checkEmail(registerForm.email)) {
-      console.log("correct email");
-    } else {
-      console.log("incorrect email");
+    if (!checkEmail(registerForm.email)) {
+      setAlertStatus({
+        open: true,
+        message: "Email invalidate",
+        type: "error",
+      });
       return;
     }
     if (registerForm.password !== registerForm.confirmpassword) {
-      console.log("password mismatch");
+      setAlertStatus({
+        open: true,
+        message: "password mismatch",
+        type: "error",
+      });
       return;
     }
     setIsSubmiting(true);
 
-    await registerUser({
+    let respone = await registerUser({
       email: registerForm.email,
       password: registerForm.password,
       username: registerForm.username,
     });
+    console.log(respone);
+    setAlertStatus({
+      open: true,
+      message: respone.message,
+      type: respone.successful ? "success" : "error",
+    });
+
     setIsSubmiting(false);
   };
 
@@ -77,6 +112,20 @@ function SignUp() {
         overflow: "scroll",
       }}
     >
+      <Snackbar
+        open={alertStatus.open}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity={alertStatus.type}
+          sx={{ width: "100%" }}
+        >
+          {alertStatus.message}
+        </Alert>
+      </Snackbar>
       {authState.isAuthenticated && <Navigate to="/dashboard" replace />}
       <img
         style={{
