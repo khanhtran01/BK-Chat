@@ -41,7 +41,7 @@ class ConversationController {
                         type: 'text',
                         userRead: [req.userId],
                     });
-                    Neo4jController.createContact(req, req.userId, user._id.toString());
+                    // Neo4jController.createContact(req, req.userId, user._id.toString());
                     res.status(200).json({ isContact: false, successful: true });
                 }
             } else if (user) {

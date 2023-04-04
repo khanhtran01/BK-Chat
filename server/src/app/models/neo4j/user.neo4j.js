@@ -11,7 +11,7 @@ const getAll = async (session) => {
 };
 
 const create = async (session, userId, username) => {
-    const query = ['create (u1:User {_id: $id, username: $username})'].join('\n');
+    const query = ['merge (u1:User {_id: $id, username: $username})'].join('\n');
     await session.writeTransaction((txc) =>
         txc.run(query, {
             id: userId,

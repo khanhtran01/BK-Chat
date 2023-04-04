@@ -88,7 +88,7 @@ class AuthenController {
                 email: req.query.email,
                 uniqueString: req.query.token,
             });
-            if (user) {
+            if (user && !user.verify) {
                 await User.updateOne(
                     { _id: user._id },
                     {
