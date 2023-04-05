@@ -16,6 +16,8 @@ import CircularProgress from "@mui/material/CircularProgress";
 import { selectMemberContext } from "../context/addMemberContext";
 import { bcolors, textcolor } from "../../../colors";
 import SelectList from "./selectListDialog";
+import CloseIcon from "@mui/icons-material/Close";
+import { v4 as uuidv4 } from "uuid";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -28,7 +30,13 @@ export default function AddMemberDialog(props) {
   const [allContact, setAllContact] = useState([]);
   const [contactAfterSearch, setContactAfterSearch] = useState([]);
 
-  const { selectedMember } = useContext(selectMemberContext);
+  const { selectedMember, setSelectedMember } = useContext(selectMemberContext);
+
+  const handleRemoveMember = (memId) => {
+    let temp = { ...selectedMember };
+    delete temp[memId];
+    setSelectedMember({ ...temp });
+  };
 
   const {
     userData: { currConversationId },
@@ -76,6 +84,8 @@ export default function AddMemberDialog(props) {
         sx={{
           "& .MuiDialog-paper": {
             backgroundColor: bcolors.dialog,
+            width: "100%",
+            maxWidth: "400px",
           },
         }}
       >
@@ -92,7 +102,7 @@ export default function AddMemberDialog(props) {
             value={searchText}
             onChange={setSearchText}
           />
-          <Box>
+          <Box marginBottom="20px">
             <Typography
               sx={{
                 color: textcolor.primaryGray,
@@ -107,39 +117,81 @@ export default function AddMemberDialog(props) {
             }}
           >
             {Object.values(selectedMember).length === 0 ? (
-              <Box
-                display={"flex"}
-                justifyContent={"center"}
-                alignItems={"center"}
-              >
-                <Typography sx ={{color: textcolor.primaryGray}}>No member is selected now!</Typography>
+              <Box display={"flex"} justifyContent="center" alignItems="center">
+                <Typography sx={{ color: textcolor.primaryGray }}>
+                  No member is selected now!
+                </Typography>
               </Box>
             ) : (
               <Box>
                 {Object.values(selectedMember).map((member) =>
                   member.avatar ? (
-                    <Avatar
-                      src={`${member.avatar}`}
-                      alt={`${member.username}}`}
-                      sx={{
-                        width: "35px",
-                        height: "35px",
-                      }}
-                    />
-                  ) : (
-                    <Avatar
-                      sx={{
-                        backgroundColor: "#7269ef40",
-                        color: "rgb(114,105,239)",
-                        fontSize: ".9375rem",
-                        fontWeight: 500,
-                        textTransform: "uppercase",
-                        width: "35px",
-                        height: "35px",
-                      }}
+                    <Box
+                      key={uuidv4()}
+                      position="relative"
+                      width={"fit-content"}
                     >
-                      {member.username ? `${member.username[0]}` : "N"}
-                    </Avatar>
+                      <Avatar
+                        src={`${member.avatar}`}
+                        alt={`${member.username}}`}
+                        sx={{
+                          width: "35px",
+                          height: "35px",
+                        }}
+                      />
+                      <Box
+                        position="absolute"
+                        borderRadius={"50%"}
+                        top={-10}
+                        right={-10}
+                        backgroundColor={bcolors.dialog}
+                        onClick={() => handleRemoveMember(member.userId)}
+                      >
+                        <CloseIcon
+                          sx={{
+                            color: textcolor.primaryGray,
+                            height: "18px",
+                            widows: "18px",
+                          }}
+                        />
+                      </Box>
+                    </Box>
+                  ) : (
+                    <Box
+                      key={uuidv4()}
+                      position="relative"
+                      width={"fit-content"}
+                    >
+                      <Avatar
+                        sx={{
+                          backgroundColor: "#7269ef40",
+                          color: "rgb(114,105,239)",
+                          fontSize: ".9375rem",
+                          fontWeight: 500,
+                          textTransform: "uppercase",
+                          width: "35px",
+                          height: "35px",
+                        }}
+                      >
+                        {member.username ? `${member.username[0]}` : "N"}
+                      </Avatar>
+                      <Box
+                        position="absolute"
+                        borderRadius={"50%"}
+                        top={-10}
+                        right={-10}
+                        backgroundColor={bcolors.dialog}
+                        onClick={() => handleRemoveMember(member.userId)}
+                      >
+                        <CloseIcon
+                          sx={{
+                            color: textcolor.primaryGray,
+                            height: "18px",
+                            widows: "18px",
+                          }}
+                        />
+                      </Box>
+                    </Box>
                   )
                 )}
               </Box>
@@ -147,7 +199,7 @@ export default function AddMemberDialog(props) {
 
             {/* {isLoadingConversation && <CircularProgress />} */}
           </Box>
-          <Box>
+          <Box marginBottom="20px">
             <Typography
               sx={{
                 color: textcolor.primaryGray,
