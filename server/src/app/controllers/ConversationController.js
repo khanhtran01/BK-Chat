@@ -9,6 +9,7 @@ const userDTOMini = {
     email: 1,
     username: 1,
     avatar: 1,
+    verify: 1,
 };
 const chatDTO = {
     like: 0,

@@ -93,15 +93,16 @@ function ContextProvider({ children }) {
    */
   const addContact = async (formData) => {
     let result;
-    await axios
-      .post(`${apiUrl}/conversation/new-contact`, formData)
-      .then((response) => {
-        result = response;
-        initData();
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    try {
+      const respone = await axios.post(`${apiUrl}/conversation/new-contact`, formData);
+      result = respone;
+      console.log(respone);
+      await initData();
+    }
+    catch (err) {
+      console.error(err)
+
+    }
     return result;
   };
 

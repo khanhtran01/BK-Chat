@@ -42,7 +42,20 @@ export default function AddMemberDialog(props) {
     userData: { currConversationId },
   } = useContext(conversationContext);
   const { open, setOpen } = props;
-  const handleSubmit = async () => {};
+  const handleSubmit = async () => {
+    try {
+      let respone = await axios.put(`http://localhost:4000/api/conversation/add-member`, {
+        conversationId: currConversationId,
+        idsUser: selectedMember
+      })
+      console.log(respone.data);
+    }
+    catch (err) {
+      console.log(err);
+
+    }
+    setOpen(false);
+  };
 
   useEffect(() => {
     const getAllConversations = async () => {

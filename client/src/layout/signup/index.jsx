@@ -92,7 +92,7 @@ function SignUp() {
     console.log(respone);
     setAlertStatus({
       open: true,
-      message: respone.message,
+      message: "Register successful, please verify your email address",
       type: respone.successful ? "success" : "error",
     });
 
