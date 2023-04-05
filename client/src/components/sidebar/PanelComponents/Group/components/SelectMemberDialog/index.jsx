@@ -45,7 +45,6 @@ export default function SelectMemberDialog() {
     setContactList(temp);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [JSON.stringify(userData.contactList)]);
-  console.log("re-render");
   return (
     <div>
       <Dialog
@@ -71,9 +70,6 @@ export default function SelectMemberDialog() {
             <SelectList data={contactList} />
           </Box>
           <DialogActions>
-            {/* <Button variant="outlined">
-              Close
-            </Button> */}
             <Button onClick={closeSelectPopup} variant="contained">
               Confirm
             </Button>

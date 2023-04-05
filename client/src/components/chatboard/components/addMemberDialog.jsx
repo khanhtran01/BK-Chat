@@ -9,12 +9,13 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Box, Typography } from "@mui/material";
+import { Avatar, Box, Typography } from "@mui/material";
 import SearchInput from "../../search";
 import Slide from "@mui/material/Slide";
 import CircularProgress from "@mui/material/CircularProgress";
-import { v4 as uuidv4 } from "uuid";
+import { selectMemberContext } from "../context/addMemberContext";
 import { bcolors, textcolor } from "../../../colors";
+import SelectList from "./selectListDialog";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -26,6 +27,9 @@ export default function AddMemberDialog(props) {
   const [isLoadingConversation, setIsLoadingConversation] = useState(true);
   const [allContact, setAllContact] = useState([]);
   const [contactAfterSearch, setContactAfterSearch] = useState([]);
+
+  const { selectedMember } = useContext(selectMemberContext);
+
   const {
     userData: { currConversationId },
   } = useContext(conversationContext);
@@ -40,6 +44,7 @@ export default function AddMemberDialog(props) {
             `http://localhost:4000/api/conversation/check-contact-group?conversationId=${currConversationId}`
           );
           setAllContact(respone.data.allContact);
+          console.log(respone.data.allContact);
           setIsLoadingConversation(false);
         } catch (err) {
           console.log(err);
@@ -101,12 +106,52 @@ export default function AddMemberDialog(props) {
               height: "60px",
             }}
           >
-            {isLoadingConversation && <CircularProgress />}
+            {Object.values(selectedMember).length === 0 ? (
+              <Box
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
+                <Typography sx ={{color: textcolor.primaryGray}}>No member is selected now!</Typography>
+              </Box>
+            ) : (
+              <Box>
+                {Object.values(selectedMember).map((member) =>
+                  member.avatar ? (
+                    <Avatar
+                      src={`${member.avatar}`}
+                      alt={`${member.username}}`}
+                      sx={{
+                        width: "35px",
+                        height: "35px",
+                      }}
+                    />
+                  ) : (
+                    <Avatar
+                      sx={{
+                        backgroundColor: "#7269ef40",
+                        color: "rgb(114,105,239)",
+                        fontSize: ".9375rem",
+                        fontWeight: 500,
+                        textTransform: "uppercase",
+                        width: "35px",
+                        height: "35px",
+                      }}
+                    >
+                      {member.username ? `${member.username[0]}` : "N"}
+                    </Avatar>
+                  )
+                )}
+              </Box>
+            )}
+
+            {/* {isLoadingConversation && <CircularProgress />} */}
           </Box>
           <Box>
             <Typography
               sx={{
                 color: textcolor.primaryGray,
+                userSelect: "none",
               }}
             >
               Member
@@ -119,13 +164,7 @@ export default function AddMemberDialog(props) {
             }}
           >
             {isLoadingConversation && <CircularProgress />}
-            {!isLoadingConversation && (
-              <Box>
-                {contactAfterSearch.map((contact) => (
-                  <Box key={uuidv4()}>{contact.username}</Box>
-                ))}
-              </Box>
-            )}
+            {!isLoadingConversation && <SelectList data={contactAfterSearch} />}
           </Box>
           <DialogActions>
             <Button

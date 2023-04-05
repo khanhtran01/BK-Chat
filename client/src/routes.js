@@ -6,6 +6,8 @@ import Landing from "./layout/landing";
 import AuthLoading from "./layout/loading";
 import PorgotPassword from "./layout/forgotPassword";
 import ChangePassword from "./layout/changePassword";
+import VerifyAccount from "./layout/verifyAccount";
+
 const routes = (authState) => [
   {
     key: "chat-dashboard",
@@ -42,6 +44,11 @@ const routes = (authState) => [
     key: "changePassword",
     route: "/auth/changePassword",
     component: <ChangePassword />,
+  },
+  {
+    key: "verifyAccount",
+    route: "/auth/verify",
+    component: <VerifyAccount />,
   },
 ];
 

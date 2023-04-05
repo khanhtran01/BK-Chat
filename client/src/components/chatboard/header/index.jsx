@@ -19,6 +19,7 @@ import BlockIcon from "@mui/icons-material/Block";
 import { useMediaQuery } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import AddMemberDialog from "../components/addMemberDialog";
+import SelectContextProvider from "../context/addMemberContext";
 function Header() {
   // console.log("oh shjt re-render header")
   const { userData } = useContext(conversationContext);
@@ -71,10 +72,12 @@ function Header() {
     <>
       <EditGroupDialog />
       <LeaveDialog open={leaveDialog} setOpen={handleLeaveDialog} />
-      <AddMemberDialog
-        open={addMemberDialogStatus}
-        setOpen={setAddMemberDialogStatus}
-      />
+      <SelectContextProvider>
+        <AddMemberDialog
+          open={addMemberDialogStatus}
+          setOpen={setAddMemberDialogStatus}
+        />
+      </SelectContextProvider>
       <Box
         sx={{
           backgroundColor: bcolors.chatboard,
