@@ -19,7 +19,7 @@ class ConversationController {
     async newContact(req, res, next) {
         try {
             const user = await User.findOne({ email: req.body.email }, userDTOMini);
-            if (user && user._id != req.userId) {
+            if (user && user._id != req.userId && user.verify) {
                 const result = await Conversation.findOne({
                     type: 'single',
                     member: {

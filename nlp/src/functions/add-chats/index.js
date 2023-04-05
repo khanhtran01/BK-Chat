@@ -1,6 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const PushData = require('./push-data');
+const PushDataSub = require('./push-data-sub');
 
 async function connect() {
     try {
@@ -17,15 +18,19 @@ async function connect() {
 
 connect().then(() => {
     try {
-        PushData(
-            +process.env.TIMEACTIVATED,
-            mongoose.Types.ObjectId(process.env.CONVERSATIONID),
+        // PushData(
+        //     +process.env.TIMEACTIVATED,
+        //     mongoose.Types.ObjectId(process.env.CONVERSATIONID),
+        //     process.env.CONVERSATIONNAME,
+        //     process.env.FILE
+        // );
+        PushDataSub(
+            process.env.CONVERSATIONID,
             process.env.CONVERSATIONNAME,
-            process.env.FILE
+            process.env.FILE,
+            +process.env.NUMCHAT
         );
     } catch (error) {
         console.log(error);
     }
-})
-
-
+});
