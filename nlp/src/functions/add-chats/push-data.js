@@ -175,11 +175,12 @@ const PushData = async (
                         current.getMinutes(),
                         current.getSeconds()
                     );
-                    if (newTime > now || count >= 1000) {
+                    if (newTime > now || count >= 500) {
                         await Conversation.updateOne(
                             { _id: conversationId },
                             {
                                 member: oldMembers,
+                                countForSuggestion: 500,
                                 // updatedAt note cai nay
                             }
                         );
