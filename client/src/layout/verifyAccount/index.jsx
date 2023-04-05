@@ -73,6 +73,8 @@ function VerifyAccount() {
         alignItems: "center",
         flexDirection: "column",
         overflow: "scroll",
+        boxSizing: "border-box",
+        padding: "100px 0px",
       }}
     >
       <Snackbar

@@ -58,6 +58,8 @@ function PorgotPassword() {
         alignItems: "center",
         flexDirection: "column",
         overflow: "scroll",
+        boxSizing: "border-box",
+        padding: "100px 0px",
       }}
     >
       {authState.isAuthenticated && <Navigate to="/dashboard" replace />}

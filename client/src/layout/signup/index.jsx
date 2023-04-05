@@ -103,13 +103,15 @@ function SignUp() {
     <Box
       sx={{
         backgroundColor: bcolors.bluedark,
-        height: "100%",
+        height: "fit-content",
         width: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
         overflow: "scroll",
+        boxSizing: "border-box",
+        padding: "100px 0px"
       }}
     >
       <Snackbar
@@ -127,152 +129,159 @@ function SignUp() {
         </Alert>
       </Snackbar>
       {authState.isAuthenticated && <Navigate to="/dashboard" replace />}
-      <img
-        style={{
-          height: "100px",
-        }}
-        src={logo}
-        alt="logo"
-      />
-      <Typography
-        sx={{
-          color: textcolor.primaryGray,
-          fontSize: "1.3125rem",
-          fontWeight: 600,
-        }}
-      >
-        Sign up
-      </Typography>
-      <Typography
-        sx={{
-          color: textcolor.textMuted,
-          fontSize: "1rem",
-          fontWeight: 400,
-          marginTop: "0.6rem",
-        }}
-      >
-        Get your BKChat account now.
-      </Typography>
       <Box
-        mt={3}
-        p={5}
-        bgcolor={bcolors.dark}
-        sx={{
-          width: "550px",
-        }}
-        borderRadius={1}
+        height={"max-content"}
+        display={"flex"}
+        flexDirection={"column"}
+        alignItems={"center"}
       >
-        <FormControl
-          sx={{
-            width: "100%",
+        <img
+          style={{
+            height: "100px",
           }}
-          variant="standard"
-        >
-          <Box
-            display="flex"
-            flexDirection="column"
-            height={320}
-            justifyContent="space-between"
-          >
-            <InputText
-              name="email"
-              text={email}
-              setText={onChangeRegisterFrom}
-              color={textcolor.white}
-              title={"email"}
-              type="email"
-            />
-            <InputText
-              name="username"
-              text={username}
-              setText={onChangeRegisterFrom}
-              color={textcolor.white}
-              title={"username"}
-            />
-            <InputText
-              name="password"
-              text={password}
-              setText={onChangeRegisterFrom}
-              color={textcolor.white}
-              title={"password"}
-              type="password"
-            />
-            <InputText
-              name="confirmpassword"
-              text={confirmpassword}
-              setText={onChangeRegisterFrom}
-              color={textcolor.white}
-              title={"confirm password"}
-              type="password"
-            />
-          </Box>
-          <FormGroup>
-            <FormControlLabel
-              sx={{
-                marginTop: "1rem",
-
-                ".MuiFormControlLabel-label": {
-                  color: bcolors.white,
-                },
-                color: `${textcolor.white} !important`,
-              }}
-              control={
-                <Checkbox
-                  {...label}
-                  defaultChecked
-                  sx={{
-                    color: textcolor.white,
-                    "&.Mui-checked": {
-                      color: bcolors.main,
-                    },
-                  }}
-                />
-              }
-              label="Remember me"
-            />
-          </FormGroup>
-        </FormControl>
-        <Button
+          src={logo}
+          alt="logo"
+        />
+        <Typography
           sx={{
-            width: "100%",
-            height: "40px",
-            marginTop: "1rem",
-            backgroundColor: bcolors.main,
-            "&.MuiButton-root:hover": {
-              backgroundColor: bcolors.secondary,
-            },
+            color: textcolor.primaryGray,
+            fontSize: "1.3125rem",
+            fontWeight: 600,
           }}
-          variant="contained"
-          onClick={handleSignUp}
         >
-          {isSubmiting ? (
-            <CircularProgress
-              variant="indeterminate"
-              disableShrink
-              size={25}
-              thickness={4}
-              sx={{
-                color: "white",
-                animationDuration: "550ms",
-              }}
-            />
-          ) : (
-            "Sign up"
-          )}
-        </Button>
-      </Box>
-      <Box mt={4} display="flex">
-        <Typography color={textcolor.white}>
-          Already have an account ?
+          Sign up
         </Typography>
         <Typography
-          sx={{ marginLeft: "10px", cursor: "pointer" }}
-          color={bcolors.main}
-          onClick={() => handleNavigate("/auth/login")}
+          sx={{
+            color: textcolor.textMuted,
+            fontSize: "1rem",
+            fontWeight: 400,
+            marginTop: "0.6rem",
+          }}
         >
-          {" "}
-          Signin
+          Get your BKChat account now.
         </Typography>
+        <Box
+          mt={3}
+          p={5}
+          bgcolor={bcolors.dark}
+          sx={{
+            width: "550px",
+          }}
+          borderRadius={1}
+        >
+          <FormControl
+            sx={{
+              width: "100%",
+            }}
+            variant="standard"
+          >
+            <Box
+              display="flex"
+              flexDirection="column"
+              height={320}
+              justifyContent="space-between"
+            >
+              <InputText
+                name="email"
+                text={email}
+                setText={onChangeRegisterFrom}
+                color={textcolor.white}
+                title={"email"}
+                type="email"
+              />
+              <InputText
+                name="username"
+                text={username}
+                setText={onChangeRegisterFrom}
+                color={textcolor.white}
+                title={"username"}
+              />
+              <InputText
+                name="password"
+                text={password}
+                setText={onChangeRegisterFrom}
+                color={textcolor.white}
+                title={"password"}
+                type="password"
+              />
+              <InputText
+                name="confirmpassword"
+                text={confirmpassword}
+                setText={onChangeRegisterFrom}
+                color={textcolor.white}
+                title={"confirm password"}
+                type="password"
+              />
+            </Box>
+            <FormGroup>
+              <FormControlLabel
+                sx={{
+                  marginTop: "1rem",
+
+                  ".MuiFormControlLabel-label": {
+                    color: bcolors.white,
+                  },
+                  color: `${textcolor.white} !important`,
+                }}
+                control={
+                  <Checkbox
+                    {...label}
+                    defaultChecked
+                    sx={{
+                      color: textcolor.white,
+                      "&.Mui-checked": {
+                        color: bcolors.main,
+                      },
+                    }}
+                  />
+                }
+                label="Remember me"
+              />
+            </FormGroup>
+          </FormControl>
+          <Button
+            sx={{
+              width: "100%",
+              height: "40px",
+              marginTop: "1rem",
+              backgroundColor: bcolors.main,
+              "&.MuiButton-root:hover": {
+                backgroundColor: bcolors.secondary,
+              },
+            }}
+            variant="contained"
+            onClick={handleSignUp}
+          >
+            {isSubmiting ? (
+              <CircularProgress
+                variant="indeterminate"
+                disableShrink
+                size={25}
+                thickness={4}
+                sx={{
+                  color: "white",
+                  animationDuration: "550ms",
+                }}
+              />
+            ) : (
+              "Sign up"
+            )}
+          </Button>
+        </Box>
+        <Box mt={4} display="flex">
+          <Typography color={textcolor.white}>
+            Already have an account ?
+          </Typography>
+          <Typography
+            sx={{ marginLeft: "10px", cursor: "pointer" }}
+            color={bcolors.main}
+            onClick={() => handleNavigate("/auth/login")}
+          >
+            {" "}
+            Signin
+          </Typography>
+        </Box>
       </Box>
     </Box>
   );

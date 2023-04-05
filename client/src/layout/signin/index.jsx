@@ -81,18 +81,20 @@ function SignIn() {
     <Box
       sx={{
         backgroundColor: bcolors.bluedark,
-        height: "100%",
+        height: "fit-content",
         width: "100%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         flexDirection: "column",
         overflow: "scroll",
+        boxSizing: "border-box",
+        padding: "100px 0px",
       }}
     >
       <Snackbar
         open={alertStatus}
-        autoHideDuration={6000}
+        autoHideDuration={4000}
         onClose={handleCloseAlert}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
