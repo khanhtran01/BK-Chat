@@ -2,6 +2,7 @@ const User = require('../models/User');
 const Conversation = require('../models/Conversation');
 const Chat = require('../models/Chat');
 const { redis } = require('../../config/redis');
+const resizingImg = require('../../util/resizingImg');
 const userDTOMini = {
     _id: 1,
     email: 1,
@@ -27,8 +28,12 @@ class UserController {
             for (let i = 0; i < conversations.length; i++) {
                 conversations[i] = conversations[i].toObject();
                 if (conversations[i].type == 'single') {
-                    let user_0 = await User.findOne({ _id: conversations[i].member[0] }, userDTOMini);
-                    let user_1 = await User.findOne({ _id: conversations[i].member[1] }, userDTOMini);
+                    let user_0 = (
+                        await User.findOne({ _id: conversations[i].member[0] }, userDTOMini)
+                    ).toObject();
+                    let user_1 = (
+                        await User.findOne({ _id: conversations[i].member[1] }, userDTOMini)
+                    ).toObject();
                     if (conversations[i].member[0] != req.userId) {
                         allContact.push({
                             type: conversations[i].type,
@@ -44,9 +49,12 @@ class UserController {
                             avatar: user_1.avatar,
                         });
                     }
+                    user_0.avatar = resizingImg(user_0.avatar);
+                    user_1.avatar = resizingImg(user_1.avatar);
                     conversations[i].member = [user_0, user_1];
                 } else {
                     conversations[i].member = [];
+                    conversations[i].avatar = resizingImg(conversations[i].avatar);
                     allContact.push({
                         type: conversations[i].type,
                         conversationId: conversations[i]._id,

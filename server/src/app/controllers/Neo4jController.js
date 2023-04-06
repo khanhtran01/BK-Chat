@@ -13,11 +13,19 @@ class Neo4jController {
         }
     }
     async createUser(req, userId, username) {
-        await User.create(getSession(req), userId, username);
+        try {
+            await User.create(getSession(req), userId, username);
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     async createContact(req, user1, user2) {
-        await User.createContact(getSession(req), user1, user2);
+        try {
+            await User.createContact(getSession(req), user1, user2);
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 

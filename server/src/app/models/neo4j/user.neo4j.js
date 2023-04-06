@@ -24,7 +24,8 @@ const createContact = async (session, user1, user2) => {
     const query = [
         'match (u1:User {_id: $user1})',
         'match (u2:User {_id: $user2})',
-        'create (u1)-[:CONTACTED]->(u2), (u1)<-[:CONTACTED]-(u2)',
+        'merge (u1)-[:CONTACTED]->(u2)',
+        'merge (u1)<-[:CONTACTED]-(u2)',
     ].join('\n');
     await session.writeTransaction((txc) =>
         txc.run(query, {

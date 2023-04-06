@@ -9,6 +9,7 @@ const cookieParse = require('cookie-parser');
 const http = require('http');
 const server = http.createServer(app);
 const socketio = require('socket.io');
+const { Readable } = require('stream');
 
 const db = require('./config/db/index');
 const { addUser, removeUser, getUser, getUserBySocketId, getStatusUsers } = require('./util/userSocket');

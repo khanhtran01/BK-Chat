@@ -12,7 +12,7 @@ const User = new Schema({
     avatar: { type: String, default: null },
     address: { type: String, default: '' },
     desc: { type: String, default: '' },
-    countChat: { type: String, default: 0 },
+    countChat: { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model('User', User);

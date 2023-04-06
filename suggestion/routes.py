@@ -38,10 +38,10 @@ def checkgrouping():
     conversation_id = request.form['conversation_id']
     datareal = {}
     data = db.chats.find({'conversationId': conversation_id}).sort(
-        "createdAt", -1).limit(500)
+        "createdAt", -1).limit(1000)
 
-    GROUP_MEMBER_LIMIT = [4, 20]
-    GROUP_MESSAGE_LIMIT = 20
+    GROUP_MEMBER_LIMIT = [0, 100]
+    GROUP_MESSAGE_LIMIT = 0
     for e in data:
         datareal[str(e['_id'])] = e
 
@@ -100,10 +100,10 @@ def checkgrouping():
     my_dict_converted2 = {
         str(k): v for k, v in final.items()}
     print(my_dict_converted2)
-    requests.post('http://localhost:4000/api/notification/new', json={
-        'conversationId': conversation_id,
-        'data': json.dumps(my_dict_converted2)
-    })
+    # requests.post('http://localhost:4000/api/notification/new', json={
+    #     'conversationId': conversation_id,
+    #     'data': json.dumps(my_dict_converted2)
+    # })
     return Response(json.dumps({'successful': True}), status=200, mimetype='application/json')
 
 # 1 week

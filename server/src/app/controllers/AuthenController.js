@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const Neo4jController = require('./Neo4jController');
+const resizingImg = require('../../util/resizingImg');
 const saltRounds = 10;
 const userDTO = {
     _id: 1,
@@ -98,7 +99,7 @@ class AuthenController {
                 await Neo4jController.createUser(req, user._id.toString(), user.username);
                 res.status(200).json({ successful: true });
             } else {
-                res.status(200).json({ successful: false });
+                res.status(200).json({ successful: false, message: 'Email is already verify' });
             }
         } catch (error) {
             next(error);
@@ -112,7 +113,8 @@ class AuthenController {
         try {
             let token = req.header('Authorization').split(' ')[1];
             let checkToken = verifyToken(token);
-            const userInfor = await User.findOne({ _id: checkToken }, userDTO);
+            const userInfor = (await User.findOne({ _id: checkToken }, userDTO)).toObject();
+            userInfor.avatar = resizingImg(userInfor.avatar);
             res.status(200).json({ userInfor: userInfor, successful: true });
         } catch (error) {
             res.status(401).json({ message: 'Token is not valid', successful: false });
