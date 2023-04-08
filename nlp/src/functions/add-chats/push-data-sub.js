@@ -1,10 +1,23 @@
+require('dotenv').config();
 const fs = require('fs');
 const mongoose = require('mongoose');
 const { uniqueNamesGenerator, names } = require('unique-names-generator');
+const neo4j = require('neo4j-driver');
+const driver = neo4j.driver(
+    process.env.NEO4J_URL,
+    neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD)
+);
+const session = driver.session();
 const User = require('../../models/User');
 const Chat = require('../../models/Chat');
 const Conversation = require('../../models/Conversation');
-const PushDataSub = async (conversationId, conversationName, file, numChat) => {
+const PushDataSub = async (
+    conversationId,
+    conversationName,
+    file,
+    numChat,
+    type
+) => {
     const password =
         '$2b$10$FzU29JF7cNwHL9gmj/xp6uE3KThoJET3dVGPP689CA8k6DADj3CHC';
     const now = new Date();
@@ -62,7 +75,15 @@ const PushDataSub = async (conversationId, conversationName, file, numChat) => {
                             verify: true,
                             desc: 'User from dataset',
                         });
-
+                        await session.run(
+                            'merge (a:User {_id: $id, username: $username})',
+                            {
+                                id: mongoose.Types.ObjectId(
+                                    data[i].userId
+                                ).toString(),
+                                username: data[i].userId,
+                            }
+                        );
                         oldMembers.push(
                             mongoose.Types.ObjectId(data[i].userId)
                         );
@@ -75,9 +96,21 @@ const PushDataSub = async (conversationId, conversationName, file, numChat) => {
                         _id: conversationId,
                         name: conversationName,
                         member: oldMembers,
-                        type: 'group',
+                        type: type,
                         createdAt: firstChat.createdAt,
                     });
+                    if (type === 'single') {
+                        const query = [
+                            'match (u1:User {_id: $user1})',
+                            'match (u2:User {_id: $user2})',
+                            'merge (u1)-[:CONTACTED]->(u2)',
+                            'merge (u1)<-[:CONTACTED]-(u2)',
+                        ].join('\n');
+                        await session.run(query, {
+                            user1: arrUser[0]._id.toString(),
+                            user2: arrUser[1]._id.toString(),
+                        });
+                    }
                     break;
                 }
             }
@@ -140,6 +173,15 @@ const PushDataSub = async (conversationId, conversationName, file, numChat) => {
                             verify: true,
                             desc: 'User from dataset',
                         });
+                        await session.run(
+                            'merge (a:User {_id: $id, username: $username})',
+                            {
+                                id: mongoose.Types.ObjectId(
+                                    data[i].userId
+                                ).toString(),
+                                username: randomName,
+                            }
+                        );
                         oldMembers.push(
                             mongoose.Types.ObjectId(data[i].userId)
                         );

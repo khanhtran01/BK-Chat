@@ -28,7 +28,8 @@ connect().then(() => {
             process.env.CONVERSATIONID,
             process.env.CONVERSATIONNAME,
             process.env.FILE,
-            +process.env.NUMCHAT
+            +process.env.NUMCHAT,
+            process.env.CONVERSATIONTYPE
         );
     } catch (error) {
         console.log(error);
