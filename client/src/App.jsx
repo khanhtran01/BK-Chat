@@ -3,10 +3,12 @@ import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { AuthContext } from "./context/authContext";
 import { useContext } from "react";
 import { useCookies } from "react-cookie";
+// import dotenv from "dotenv"
 import routes from "./routes";
 import "./App.css";
-
+// dotenv.config();
 function App() {
+  console.log(process.env)
   const getRoutes = (allRoutes) =>
     allRoutes.map((route) => {
       if (route.collapse) {

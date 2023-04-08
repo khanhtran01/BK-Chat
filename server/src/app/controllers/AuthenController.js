@@ -97,9 +97,9 @@ class AuthenController {
                     },
                 );
                 await Neo4jController.createUser(req, user._id.toString(), user.username);
-                res.status(200).json({ successful: true });
+                res.status(200).json({ successful: true, message: 'Verify successfully' });
             } else {
-                res.status(200).json({ successful: false, message: 'Email is already verify' });
+                res.status(200).json({ successful: true, message: 'Email is already verify' });
             }
         } catch (error) {
             next(error);

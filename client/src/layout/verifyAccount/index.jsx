@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useContext, useEffect, memo } from "react";
 import Box from "@mui/material/Box";
 import logo from "./img/logo.png";
 import Typography from "@mui/material/Typography";
@@ -8,8 +8,7 @@ import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
-import { conversationContext } from "../../context";
-import { useParams, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import axios from "axios";
 
@@ -28,8 +27,8 @@ function VerifyAccount() {
   const searchParams = new URLSearchParams(location.search);
   const token = searchParams.get("token");
   const email = searchParams.get("email");
-  const [verifyStatus, setVerifyStatus] = useState('inprocess');
-
+  const [verifyStatus, setVerifyStatus] = useState("inprocess");
+  console.log(verifyStatus);
   useEffect(() => {
     const verify = async () => {
       try {
@@ -44,6 +43,7 @@ function VerifyAccount() {
         }
       } catch (err) {}
     };
+    console.log("call verify");
     verify();
   }, []);
 
@@ -132,8 +132,9 @@ function VerifyAccount() {
         justifyContent={"center"}
         alignItems={"center"}
       >
-        <CircularProgress />
-        <Button variant="contained" disabled={verifyStatus !== "successful"}>
+        {(verifyStatus !== "successful") && <CircularProgress />}
+
+        <Button variant="contained" disabled={verifyStatus !== "successful"} onClick={() => handleNavigate("/auth/login")}>
           Go to Login page
         </Button>
       </Box>
