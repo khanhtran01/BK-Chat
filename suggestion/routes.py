@@ -127,6 +127,8 @@ def get_recommend_group():
         else:
             refactor_data[u["_id"]].append(u1["_id"])
 
+    print(refactor_data)
+    
     access_list = []
     for k, v in refactor_data.items():
         if groups:
@@ -149,7 +151,7 @@ def detectUserTopic():
     user_Id = request.form['user_Id']
 
     userData = db.chats.find({'userId': user_Id}, {'content': 1}).sort(
-        "createdAt", -1).limit(50)
+        "createdAt", -1).limit(100)
 
     contentArray = []
     for message in list(userData):

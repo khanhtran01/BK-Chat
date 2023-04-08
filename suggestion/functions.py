@@ -9,15 +9,15 @@ def get_all_friends(refactor_data, access_list, element):
     if element in access_list:
         # print("reject  " + element)
         return []
-    access_list.append(element)
+    
     friend_list = refactor_data[element]
-    res= []
+    access_list.append(element)
+    res= [element]
     for i in friend_list:
         # print("store  " + str(access_list))
         # print("in  " + str(element)+ " add "+ str(i))
-        res = friend_list + get_all_friends(refactor_data, access_list, i)
+        res = res + get_all_friends(refactor_data, access_list, i)
         # print("res " + str(res))
-
     return res
 
 
