@@ -97,7 +97,6 @@ function Footer() {
       sendMessage();
     }
   };
-  // console.log(replyFor);
   return (
     <Box
       sx={{

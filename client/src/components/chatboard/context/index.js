@@ -4,8 +4,6 @@ import { EditReducer } from "../reducer/editReducer";
 import { useMediaQuery } from "@mui/material";
 import { conversationContext } from "../../../context";
 import axios from "axios";
-import { apiUrl } from "../../../context/constant";
-import debounce from "lodash/debounce";
 // import { stringify } from "uuid";
 const chatboardContext = createContext();
 
@@ -25,7 +23,6 @@ function ChatBoardContextProvider({ children }) {
     tagList: [],
   });
   
-  // console.log("chatboard context render")
   const [back, setBack] = useState(!mobileView);
   useEffect(()=>{
     if (mobileView){
@@ -56,7 +53,7 @@ function ChatBoardContextProvider({ children }) {
   },[])
   const handleLoadMessagePaging = async (conversationId, chatId) => {
     try {
-      const data = await axios.get(`${apiUrl}/conversation/paging-chat?conversationId=${conversationId}&chatId=${chatId}`);
+      const data = await axios.get(`${process.env.REACT_APP_SERVER_ADDRESS}/api/conversation/paging-chat?conversationId=${conversationId}&chatId=${chatId}`);
       return data.data.chats;
     }
     catch (err) {

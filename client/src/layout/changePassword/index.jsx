@@ -36,7 +36,6 @@ function ChangePassword() {
   const onSubmit = async (event) => {
     event.preventDefault();
     setIsSubmiting(true);
-    console.log(loginForm);
 
     setIsSubmiting(false);
     navigate("/auth/changePassword");

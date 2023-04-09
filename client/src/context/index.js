@@ -1,5 +1,5 @@
 import axios from "axios";
-import { apiUrl } from "./constant";
+// import { apiUrl } from "./constant";
 import { createContext, useReducer, useEffect, useContext } from "react";
 import conversationReducer from "../reducers/conversationReducer";
 import { AuthContext } from "./authContext";
@@ -12,7 +12,6 @@ const conversationContext = createContext();
  */
 function ContextProvider({ children }) {
   const { authState } = useContext(AuthContext);
-  // console.log("conversation context render")
   // * init value of authContext
   const [userData, dispatch] = useReducer(conversationReducer, {
     contactList: [], // contant list of contacts
@@ -37,7 +36,7 @@ function ContextProvider({ children }) {
     
     let data;
     await axios
-      .get(`${apiUrl}/conversation/get-all-contact`)
+      .get(`${process.env.REACT_APP_SERVER_ADDRESS}/api/conversation/get-all-contact`)
       .then((response) => {
         data = response.data.allContact;
         dispatch({ type: "UPDATE_CONTACT", payload: response.data.allContact });
@@ -57,7 +56,7 @@ function ContextProvider({ children }) {
    */
   const getAllNotify = async () => {
     await axios
-      .get(`${apiUrl}/notification/get`)
+      .get(`${process.env.REACT_APP_SERVER_ADDRESS}/api/notification/get`)
       .then((response) => {
         dispatch({ type: "UPDATE_NOTIFY", payload: response.data.notifications });
       })
@@ -75,7 +74,7 @@ function ContextProvider({ children }) {
   const initData = async () => {
     let data;
     await axios
-      .get(`${apiUrl}/home`)
+      .get(`${process.env.REACT_APP_SERVER_ADDRESS}/api/home`)
       .then((response) => {
         dispatch({ type: "INIT_DATA", payload: response.data });
       })
@@ -94,9 +93,8 @@ function ContextProvider({ children }) {
   const addContact = async (formData) => {
     let result;
     try {
-      const respone = await axios.post(`${apiUrl}/conversation/new-contact`, formData);
+      const respone = await axios.post(`${process.env.REACT_APP_SERVER_ADDRESS}/api/conversation/new-contact`, formData);
       result = respone;
-      console.log(respone);
       await initData();
     }
     catch (err) {
@@ -108,7 +106,7 @@ function ContextProvider({ children }) {
 
   const createGroup = async (formData) => {
     await axios
-      .post(`${apiUrl}/conversation/new-group`, formData)
+      .post(`${process.env.REACT_APP_SERVER_ADDRESS}/api/conversation/new-group`, formData)
       .then((res) => {
         if (res.data.successful) {
           initData();
@@ -126,7 +124,7 @@ function ContextProvider({ children }) {
   const receiveMessage = async (data) => {
     dispatch({ type: "RECEIVE_MESSAGE", payload: data });
     await axios
-      .get(`${apiUrl}/conversation/read-chat?chatId=${data._id}`)
+      .get(`${process.env.REACT_APP_SERVER_ADDRESS}/api/conversation/read-chat?chatId=${data._id}`)
       .catch(err => {
         console.error(err);
       });
@@ -140,7 +138,7 @@ function ContextProvider({ children }) {
     if (userData.currConversationId !== id) {
       dispatch({ type: "LOADING_CONVERSATION", payload: true });
       await axios
-        .get(`${apiUrl}/conversation?id=${id}`)
+        .get(`${process.env.REACT_APP_SERVER_ADDRESS}/api/conversation?id=${id}`)
         .then(function (response) {
           dispatch({
             type: "SELECT_CONVERSATION",
@@ -160,7 +158,6 @@ function ContextProvider({ children }) {
           });
         })
         .catch(function (err) {
-          console.log("lỗi API get conversation?id");
         });
     }
   };

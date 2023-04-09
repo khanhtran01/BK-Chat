@@ -82,6 +82,14 @@ function SignUp() {
       });
       return;
     }
+    if (registerForm.password.length < 8) {
+      setAlertStatus({
+        open: true,
+        message: "Password must be at least 8 characters",
+        type: "error",
+      });
+      return;
+    }
     setIsSubmiting(true);
 
     let respone = await registerUser({
@@ -89,7 +97,6 @@ function SignUp() {
       password: registerForm.password,
       username: registerForm.username,
     });
-    console.log(respone);
     setAlertStatus({
       open: true,
       message: "Register successful, please verify your email address",

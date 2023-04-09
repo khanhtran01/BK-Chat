@@ -49,14 +49,11 @@ function SignIn() {
     setLoginForm({ ...loginForm, [event.target.name]: event.target.value });
 
   const onSubmit = async (event) => {
-    console.log(loginForm);
     event.preventDefault();
     setIsSubmiting(true);
     let success = await loginUser(loginForm);
-    console.log(success);
 
     if (success) {
-      console.log("success");
       await verify();
       await getAllContact();
       setIsSubmiting(false);

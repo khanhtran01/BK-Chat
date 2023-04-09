@@ -9,9 +9,8 @@ import {
 import { Box, Button, Typography } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import { textcolor, bcolors } from "../../../colors/index.js";
+import { textcolor } from "../../../colors/index.js";
 const Slider = () => {
-  // console.log("oh shjt re-render hello")
 
   const [width, setWidth] = useState(0);
   const referent = useRef(null);
@@ -68,6 +67,7 @@ const Slider = () => {
   useEffect(() => {
     let currentWidth = referent.current.offsetWidth;
     setWidth(currentWidth);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [useWindowWidth()]);
 
   return (

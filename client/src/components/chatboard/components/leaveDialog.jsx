@@ -30,7 +30,7 @@ export default function LeaveDialog(props) {
   const { userData, initData } = useContext(conversationContext)
   const { open , setOpen } = props;
   const handleSubmit = async () => {
-    await axios.get(`http://localhost:4000/api/conversation/out-group?conversationId=${userData.currConversationId}`)
+    await axios.get(`${process.env.REACT_APP_SERVER_ADDRESS}/api/conversation/out-group?conversationId=${userData.currConversationId}`)
     setOpen(false)
     await initData();
   };

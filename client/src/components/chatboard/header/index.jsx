@@ -21,7 +21,6 @@ import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import AddMemberDialog from "../components/addMemberDialog";
 import SelectContextProvider from "../context/addMemberContext";
 function Header() {
-  // console.log("oh shjt re-render header")
   const { userData } = useContext(conversationContext);
   const { chatInfoPopup, setChatInfoPopup } = useContext(context);
   const { handleDialog, setBack } = useContext(chatboardContext);

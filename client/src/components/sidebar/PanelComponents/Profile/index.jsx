@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import Box from "@mui/material/Box";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Avatar from "@mui/material/Avatar";
@@ -75,7 +75,6 @@ function ProfileTab() {
     },
   ];
 
-  // console.log(authState.user);
 
   return (
     <>
@@ -117,11 +116,6 @@ function ProfileTab() {
             justifyContent="center"
             alignItems={"center"}
           >
-            {/* <Avatar
-                        alt="Remy Sharp"
-                        src={`${authState.user.avatar}`}
-                        sx={{ height: "5.375rem", width: "5.375rem" }}
-                    /> */}
             {authState.user.avatar ? (
               <Avatar
                 src={`${authState.user.avatar}`}

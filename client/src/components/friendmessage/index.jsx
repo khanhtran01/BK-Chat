@@ -5,8 +5,6 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { bcolors, textcolor } from "../../colors";
 import { styled } from "@mui/material/styles";
 import ReplyIcon from "@mui/icons-material/Reply";
-import { chatboardContext } from "../chatboard/context";
-import { messageContext } from "../chatboard/context/messageContext";
 import { replyContext } from "../chatboard/context/replyContext";
 import Highlighter from "react-highlight-words";
 

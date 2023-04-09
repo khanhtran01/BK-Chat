@@ -10,7 +10,6 @@ const AuthContext = createContext();
  * @TODO share all state in authentication processing
  */
 const AuthContextProvider = ({ children }) => {
-  // console.log("authcontext render")
   // init value of authContext
   // authLoading : it mean we are in authentication process
   // isAuthenticated : it means we are authenticated
@@ -34,7 +33,7 @@ const AuthContextProvider = ({ children }) => {
     }
     try {
       await axios
-        .get(`http://localhost:4000/api/auth/verify-token`)
+        .get(`${process.env.REACT_APP_SERVER_ADDRESS}/api/auth/verify-token`)
         .then(function (response) {
           if (response.data.successful)
             dispatch({
@@ -66,7 +65,7 @@ const AuthContextProvider = ({ children }) => {
     const { username, password } = userForm;
     try {
       let response = await axios
-        .post(`http://localhost:4000/api/auth/login`, {
+        .post(`${process.env.REACT_APP_SERVER_ADDRESS}/api/auth/login`, {
           email: username,
           password: password,
         });
@@ -75,7 +74,6 @@ const AuthContextProvider = ({ children }) => {
         // localStorage.setItem(LOCAL_STORAGE_TOKEN_NAME, response.data._id);
         setCookie("token", response.data.token, { path: "/" });
         setAuthToken(response.data.token);
-        console.log(response)
       }
       return response.data.successful;
     }
@@ -93,7 +91,7 @@ const AuthContextProvider = ({ children }) => {
     const { email, username, password } = userForm;
     try {
       let response = await axios
-        .post(`http://localhost:4000/api/auth/register`, {
+        .post(`${process.env.REACT_APP_SERVER_ADDRESS}/api/auth/register`, {
           email: email,
           password: password,
           username: username,

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import axios from "axios";
 
 // MUI import
@@ -29,7 +29,7 @@ export default function EditGroupDialog() {
   const { userData } = useContext(conversationContext);
 
   const handleSubmit = async () => {
-    await axios.put("http://localhost:4000/api/conversation/update-group-info", {
+    await axios.put(`${process.env.REACT_APP_SERVER_ADDRESS}/api/conversation/update-group-info`, {
       "conversationId": userData.chatInfo.conversationId,
       "groupAvatar": editFormData.avatar.file,
       "groupName": editFormData.name,

@@ -7,7 +7,6 @@ import { useEffect, useState, useContext } from "react";
 import Button from "@mui/material/Button";
 import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import CustomerDialog from "../../../customDialog";
-import { v4 as uuidv4 } from "uuid";
 import { deepCopy } from "../../../../functions";
 import { conversationContext } from "../../../../context";
 import { sortFriend } from "./data";
@@ -31,23 +30,9 @@ function Contact() {
   });
   const { email, chat } = formData;
 
-  // init friend list when swap to contact page
-  // run 1 time
-  // useEffect(() => {
-  //   let friendBoxTemp = deepCopy(sortFriend);
-  //   // eslint-disable-next-line array-callback-return
-  //   contactList.map((friend) => {
-  //     if (friend.type === "single") {
-  //       friendBoxTemp[friend.username[0].toLowerCase()].push(friend);
-  //     }
-  //   });
-  //   setFriendsBox(friendBoxTemp);
-  // }, [contactList]);
-
   useEffect(() => {
     let temp = [];
     userData.contactList.forEach((contact) => {
-
       if (contact.type === "single") {
         if (
           contact.username.toLowerCase().includes(searchInput.toLowerCase())
@@ -57,7 +42,7 @@ function Contact() {
       }
     });
     setContactList([...temp]);
-		
+
     // Object.keys(friendsBox).forEach()
   }, [searchInput, userData.contactList]);
 
@@ -71,7 +56,6 @@ function Contact() {
       }
     });
     setFriendsBox(friendBoxTemp);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [contactList, searchInput]);
 
   // handle input in add contact form
@@ -123,7 +107,7 @@ function Contact() {
         onChange={handleDialog}
         submit={handleAddContact}
         helperText={helper}
-        clearForm={clearForm}
+        setHelper={setHelper}
       />
       <Box sx={{ height: "10rem", p: 3 }}>
         <Box
@@ -163,23 +147,26 @@ function Contact() {
           padding: "24px",
         }}
       >
-        {Object.keys(friendsBox).map((keyword) => {
-          if (friendsBox[keyword].length > 0) {
-            return (
-              <Box key={keyword}>
-                <Box
-                  padding={"16px"}
-                  fontWeight={700}
-                  fontSize={".9375rem"}
-                  color={bcolors.main}
-                >
-                  <Typography textTransform="uppercase">{keyword}</Typography>
+        {
+          // eslint-disable-next-line array-callback-return
+          Object.keys(friendsBox).map((keyword) => {
+            if (friendsBox[keyword].length > 0) {
+              return (
+                <Box key={keyword}>
+                  <Box
+                    padding={"16px"}
+                    fontWeight={700}
+                    fontSize={".9375rem"}
+                    color={bcolors.main}
+                  >
+                    <Typography textTransform="uppercase">{keyword}</Typography>
+                  </Box>
+                  <ContactList listFriends={friendsBox[keyword]} />
                 </Box>
-                <ContactList listFriends={friendsBox[keyword]} />
-              </Box>
-            );
-          }
-        })}
+              );
+            }
+          })
+        }
       </Box>
     </Box>
   );

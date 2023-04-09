@@ -14,7 +14,6 @@ import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrow
 import KeyboardDoubleArrowUpIcon from "@mui/icons-material/KeyboardDoubleArrowUp";
 
 function Body() {
-  // console.log("oh shjt re-render body");
   const [scrollButton, setScrollButton] = useState({
     top: false,
     bot: false,
@@ -175,6 +174,7 @@ function Body() {
                     messageInfo={message}
                     replyFrom={message.replyFrom}
                     memList={memList}
+                    verify={message.verify}
                   />
                 );
               }

@@ -8,7 +8,6 @@ import routes from "./routes";
 import "./App.css";
 // dotenv.config();
 function App() {
-  console.log(process.env)
   const getRoutes = (allRoutes) =>
     allRoutes.map((route) => {
       if (route.collapse) {

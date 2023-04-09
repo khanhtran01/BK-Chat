@@ -44,11 +44,10 @@ export default function AddMemberDialog(props) {
   const { open, setOpen } = props;
   const handleSubmit = async () => {
     try {
-      let respone = await axios.put(`http://localhost:4000/api/conversation/add-member`, {
+      await axios.put(`${process.env.REACT_APP_SERVER_ADDRESS}/api/conversation/add-member`, {
         conversationId: currConversationId,
         idsUser: selectedMember
       })
-      console.log(respone.data);
     }
     catch (err) {
       console.log(err);
@@ -62,10 +61,9 @@ export default function AddMemberDialog(props) {
       if (currConversationId !== "") {
         try {
           const respone = await axios.get(
-            `http://localhost:4000/api/conversation/check-contact-group?conversationId=${currConversationId}`
+            `${process.env.REACT_APP_SERVER_ADDRESS}/api/conversation/check-contact-group?conversationId=${currConversationId}`
           );
           setAllContact(respone.data.allContact);
-          console.log(respone.data.allContact);
           setIsLoadingConversation(false);
         } catch (err) {
           console.log(err);

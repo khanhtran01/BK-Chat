@@ -1,5 +1,5 @@
 import React from "react";
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import { selectMemberContext } from "../context/addMemberContext";
 import { v4 as uuidv4 } from "uuid";
 
@@ -29,9 +29,7 @@ export default function SelectList({ data }) {
     } else {
       setSelectedMember({ ...selectedMember, [memInfo.userId]: memInfo });
     }
-    console.log(selectedMember);
   };
-  // console.log("re-render");
   return (
     <Box>
       <FormGroup>

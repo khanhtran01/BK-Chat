@@ -40,9 +40,9 @@ function Group() {
       });
     }
     setTempConversation([...resConversations]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchInput, userData.contactList]);
 
-  console.log("group page re-render");
 
   return (
     <Box sx={{ height: "100%" }}>

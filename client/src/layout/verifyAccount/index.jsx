@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect, memo } from "react";
+import { useState, useContext, useEffect } from "react";
 import Box from "@mui/material/Box";
 import logo from "./img/logo.png";
 import Typography from "@mui/material/Typography";
@@ -28,14 +28,13 @@ function VerifyAccount() {
   const token = searchParams.get("token");
   const email = searchParams.get("email");
   const [verifyStatus, setVerifyStatus] = useState("inprocess");
-  console.log(verifyStatus);
+
   useEffect(() => {
     const verify = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:4000/api/auth/verify-email?email=${email}&token=${token}`
+          `${process.env.REACT_APP_SERVER_ADDRESS}/api/auth/verify-email?email=${email}&token=${token}`
         );
-        console.log(response.data);
         if (response.data.successful) {
           setVerifyStatus("successful");
         } else {
@@ -43,7 +42,6 @@ function VerifyAccount() {
         }
       } catch (err) {}
     };
-    console.log("call verify");
     verify();
   }, []);
 
@@ -56,7 +54,6 @@ function VerifyAccount() {
     setAlertStatus(false);
   };
 
-  const onSubmit = async (event) => {};
 
   const navigate = useNavigate();
   const handleNavigate = (link) => {

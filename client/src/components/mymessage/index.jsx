@@ -4,13 +4,13 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { AuthContext } from "../../context/authContext";
 import { useContext } from "react";
 import LongMenu from "../menu";
-import { chatboardContext } from "../chatboard/context";
-import { messageContext } from "../chatboard/context/messageContext";
 import { bcolors, textcolor } from "../../colors";
 import { styled } from "@mui/material/styles";
 import ReplyIcon from "@mui/icons-material/Reply";
 import { replyContext } from "../chatboard/context/replyContext";
 import Highlighter from "react-highlight-words";
+import HourglassTopIcon from "@mui/icons-material/HourglassTop";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
 
 const BoxChat = styled(Box)({
   "&.MuiBox-root": {
@@ -30,14 +30,15 @@ const BoxChat = styled(Box)({
 
 export default function MyMessage(props) {
   // const { reply } = useContext(messageContext);
-  const { setReply } = useContext(replyContext)
+  const { setReply } = useContext(replyContext);
 
-  const { message, time, messageInfo, replyFrom, memList } = props;
+  const { message, time, messageInfo, replyFrom, memList, verify } = props;
 
   const options = [
     { component: <Box>Reply</Box>, handle: () => setReply(messageInfo) },
     { component: <Box>Delete</Box>, handle: () => {} },
   ];
+
   const { authState } = useContext(AuthContext);
   return (
     <>
@@ -154,6 +155,16 @@ export default function MyMessage(props) {
                 >
                   {time}
                 </Typography>
+                {typeof verify != "undefined" &&
+                  (verify ? (
+                    <DoneAllIcon
+                      sx={{ fontSize: "12px", color: textcolor.white, marginLeft: "5px" }}
+                    />
+                  ) : (
+                    <HourglassTopIcon
+                      sx={{ fontSize: "12px", color: textcolor.white, marginLeft: "5px" }}
+                    />
+                  ))}
               </Box>
             </BoxChat>
             <Typography

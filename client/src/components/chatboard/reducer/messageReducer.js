@@ -8,7 +8,6 @@ const messageReducer = (state, action) => {
             }
         }
         case "SET_REPLY":
-            // console.log(payload)
             return {
                 ...state,
                 replyFor: payload,

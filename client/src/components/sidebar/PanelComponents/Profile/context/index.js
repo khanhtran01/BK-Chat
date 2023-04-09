@@ -6,7 +6,6 @@ const ProfileContext = createContext();
 
 const ProfileProvider = ({ children }) => {
     const {authState} = useContext(AuthContext);
-    // console.log(authState.user);
     const [profileData, dispatch] = useReducer(ProfileReducer, {
         username: authState.user.username,
         location: authState.user.address,
