@@ -4,10 +4,16 @@ services:
     container_name: nginx
     image: nginx:1.23.3
     restart: always
-    # ports:
-    #   - 80:80
-    network_mode: "host"
+    ports:
+      - 80:80
+    # network_mode: "host"
     volumes:
-      - ./ssl-cert/:/data/cert/
-      - ./demo.conf:/etc/nginx/conf.d/demo.conf
-      - ./ssl.conf:/etc/nginx/conf.d/ssl.conf
+      - ./cache:/data/cache
+      - ./proxy_params:/etc/nginx/proxy_params
+      - ./imgproxy.conf:/etc/nginx/conf.d/imgproxy.conf
+      - ./portainer.conf:/etc/nginx/conf.d/portainer.conf
+      - ./fe.conf:/etc/nginx/conf.d/bk-chat.conf
+networks:
+  default:
+    name: bk-chat
+    external: true

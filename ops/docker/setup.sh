@@ -2,6 +2,14 @@
 docker volume create portainer_data
 docker run -d -p 9000:9000 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:2.16.0
 docker network create bk-chat
+
+# start db
+# start imgproxy
+# start fe
+# start node
+# start flask
+# start nginx
+
 # cd ./db
 # docker compose up -d
 # cd ../cicd/

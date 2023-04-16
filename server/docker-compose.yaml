@@ -2,12 +2,26 @@ version: '3'
 services:
   bkchat:
     build: .
-    container_name: bkchat-backend
+    container_name: bkchat-node
     environment:
-      - MONGODB_SERVER=mongodb://admin:admin12345@mongodb:27017/BK-Chat?authSource=admin
-      - JWT_SECRECT=123456
-    ports:
-      - 4000:4000
+      MONGODB_URL: ${MONGODB_URL}
+      REDIS_URL: ${REDIS_URL}
+      NEO4J_URL: ${NEO4J_URL}
+      NEO4J_PASSWORD: ${NEO4J_PASSWORD}
+      NEO4J_USERNAME: ${NEO4J_USERNAME}
+      FE_URL: ${FE_URL}
+      AI_URL: ${AI_URL}
+      IMGPROXY_ENABLE: ${IMGPROXY_ENABLE}
+      IMGPROXY_URL: ${IMGPROXY_URL}
+      JWT_SECRECT: ${JWT_SECRECT}
+      COOKIE_SECRECT: ${COOKIE_SECRECT}
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      CLOUDINARY_NAME: ${CLOUDINARY_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_SECRET: ${CLOUDINARY_SECRET}
+    # ports:
+    #   - 4000:4000
 networks:
   default:
     name: mongodb_default

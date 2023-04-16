@@ -1,5 +1,4 @@
 version: "3"
-
 services:
   imgproxy:
     image: darthsim/imgproxy:latest
@@ -10,11 +9,7 @@ services:
     # ports:
     #   - "8080:8080"
 
-  nginx:
-    image: nginx:1.23.3
-    ports:
-      - "80:80"
-    volumes:
-      - ./default.conf:/etc/nginx/conf.d/default.conf
-      - ./cache:/data/cache
-      - ./proxy_params:/etc/nginx/proxy_params
+networks:
+  default:
+    name: bk-chat
+    external: true

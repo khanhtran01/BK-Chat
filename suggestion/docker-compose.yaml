@@ -1,0 +1,20 @@
+version: '3'
+services:
+  bk-chat-flask:
+    container_name: bk-chat-flask
+    build: .
+    restart: always
+    environment:
+      DB_CONNECT_PATH: ${DB_CONNECT_PATH}
+      NEO4J_URL: ${NEO4J_URL}
+      NEO4J_USERNAME: ${NEO4J_USERNAME}
+      NEO4J_PASSWORD: ${NEO4J_PASSWORD}
+      NODE_SERVER_URL: ${NODE_SERVER_URL}
+      KEY_PATH: ${KEY_PATH}
+    # ports:
+    #   - 5000:5000
+
+networks:
+  default:
+    name: bk-chat
+    external: true
