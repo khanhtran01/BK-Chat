@@ -62,7 +62,8 @@ def data_processing_for_get_content(cluster, chat_data, reject_list):
                 result[cluster[i]] = chat_data[i]
             else:
                 # print("noi")
-                result[cluster[i]] = result[cluster[i]] + ". " + chat_data[i]
+                # result[cluster[i]] = result[cluster[i]] + ". " + chat_data[i]
+                result[cluster[i]] = result[cluster[i]] + chat_data[i]
 
     return result
     # for k,v in
@@ -85,7 +86,10 @@ def get_classifies(text_content):
             },
         }
     )
-    return response.categories[0].name
+    for category in response.categories:
+        if 'Online Communities' not in category.name:
+            return category
+    return None
 
 
 def cosine(u, v):

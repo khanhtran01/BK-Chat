@@ -1,8 +1,8 @@
 from sklearn.preprocessing import normalize
 from flask import request, render_template, Response
 
-# from dotenv import load_dotenv
-# import os
+from dotenv import load_dotenv
+import os
 import requests
 import numpy as np
 import json
@@ -12,6 +12,7 @@ from load_model import sbert_model
 from functions import get_user_list, get_cluster_dict, data_processing_for_get_content, get_classifies, cosine, get_all_friends
 from db_config import db, neo4j_auth
 
+load_dotenv()
 
 def testmodel():
     if request.method == "POST":
@@ -38,10 +39,10 @@ def checkgrouping():
     conversation_id = request.form['conversation_id']
     datareal = {}
     data = db.chats.find({'conversationId': conversation_id}).sort(
-        "createdAt", -1).limit(1000)
+        "createdAt", -1).limit(200)
 
-    GROUP_MEMBER_LIMIT = [0, 100]
-    GROUP_MESSAGE_LIMIT = 0
+    GROUP_MEMBER_LIMIT = [2, 100]
+    GROUP_MESSAGE_LIMIT = 5
     for e in data:
         datareal[str(e['_id'])] = e
 
@@ -53,7 +54,7 @@ def checkgrouping():
         if v['replyFrom'] is not None:
             if v["replyFrom"] in data:
                 sentences.append(data[v["replyFrom"]]
-                                 ["content"] + ". " + v["content"])
+                                ["content"] + ". " + v["content"])
             else:
                 sentences.append(v["content"])
         else:
@@ -64,7 +65,7 @@ def checkgrouping():
     data_processing = np.array(sentence_embeddings)
     norm_data = normalize(data_processing, norm='l2')
     clusterer = hdbscan.HDBSCAN(algorithm='best', alpha=1.0, approx_min_span_tree=True,
-                                min_cluster_size=8, gen_min_span_tree=True, prediction_data=True)
+                                min_cluster_size=5, gen_min_span_tree=True, prediction_data=True)
     clusterer.fit(norm_data)
     print(get_cluster_dict(clusterer.labels_))
 
@@ -89,8 +90,10 @@ def checkgrouping():
     final = {}
 
     for k, v in result.items():
+        predict = get_classifies(v)
         final[k] = {
-            "name": get_classifies(v)
+            "name": predict.name,
+            "confidence": predict.confidence
         }
 
     user_list = get_user_list(clusterer.labels_, userList, reject_list)
@@ -100,10 +103,10 @@ def checkgrouping():
     my_dict_converted2 = {
         str(k): v for k, v in final.items()}
     print(my_dict_converted2)
-    # requests.post('http://localhost:4000/api/notification/new', json={
-    #     'conversationId': conversation_id,
-    #     'data': json.dumps(my_dict_converted2)
-    # })
+    requests.post(f'{os.getenv("NODE_SERVER_URL")}/api/notification/new', json={
+        'conversationId': conversation_id,
+        'data': json.dumps(my_dict_converted2)
+    })
     return Response(json.dumps({'successful': True}), status=200, mimetype='application/json')
 
 # 1 week
@@ -149,17 +152,38 @@ def get_recommend_group():
 
 def detectUserTopic():
     user_Id = request.form['user_Id']
-
-    userData = db.chats.find({'userId': user_Id}, {'content': 1}).sort(
+    data = db.chats.find({'userId': user_Id}, {'content': 1}).sort(
         "createdAt", -1).limit(100)
+    sentences = []
+    for e in data:
+        if len(e['content']) > 5:
+            sentences.append(e['content'])
 
-    contentArray = []
-    for message in list(userData):
-        contentArray.append(message['content'])
+    sentence_embeddings = sbert_model.encode(sentences)
+    data_processing = np.array(sentence_embeddings)
+    norm_data = normalize(data_processing, norm='l2')
+    clusterer = hdbscan.HDBSCAN(algorithm='best', alpha=1.0, approx_min_span_tree=True,
+                                min_cluster_size=3, gen_min_span_tree=True, prediction_data=True)
+    clusterer.fit(norm_data)
+    print(get_cluster_dict(clusterer.labels_))
 
-    topic = get_classifies("".join(contentArray))
-    # print(topic)
-    # topic = "World"
+    reject_list = []
+    result = data_processing_for_get_content(
+        np.flip(clusterer.labels_), np.flip(sentences), reject_list)
+
+    topic = ""
+    maxConfidence = 0
+    for k, v in result.items():
+        print(v)
+        print('\n')
+        predict = get_classifies(v)
+        print(predict)
+        if predict and predict.confidence > maxConfidence:
+            maxConfidence = predict.confidence
+            topic = predict.name
+        
+    print(topic)
+
     neo4j = neo4j_auth()
 
     cypher = 'merge (t:Topic {name :"' + topic + '"}) return t '
