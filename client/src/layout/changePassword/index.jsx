@@ -6,13 +6,19 @@ import InputText from "../../components/inputText";
 import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-
-import { Navigate, useNavigate } from "react-router-dom";
+import axios from "axios";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import { bcolors, textcolor } from "../../colors";
 import React from "react";
 
 // import axios from "axios";
+
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 
 function ChangePassword() {
@@ -22,11 +28,23 @@ function ChangePassword() {
     newPassword: "",
     reNewPassword: "",
   });
+
+  const [alertStatus, setAlertStatus] = useState({
+    open: false,
+    message: "",
+    type: "error",
+  });
   const navigate = useNavigate();
   const handleNavigate = (link) => {
     navigate(link);
   };
   const [isSubmiting, setIsSubmiting] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const token = searchParams.get("token");
+  const email = searchParams.get("email");
 
   const { newPassword, reNewPassword } = loginForm;
 
@@ -35,10 +53,63 @@ function ChangePassword() {
 
   const onSubmit = async (event) => {
     event.preventDefault();
+    if (isComplete){
+      navigate('/auth/login');
+      return;
+    }
+    if (loginForm.newPassword !== loginForm.reNewPassword) {
+      setAlertStatus({
+        open: true,
+        message: 'retype password not match',
+        type: "error",
+      });
+
+      return;
+    }
     setIsSubmiting(true);
 
+
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_ADDRESS}/api/auth/reset-password`, {
+        email: email,
+        password: newPassword,
+        token: token
+      })
+      console.log(loginForm.password)
+      if (response.data.successful) {
+        setAlertStatus({
+          open: true,
+          message: response.data.message,
+          type: "success",
+        });
+        setIsComplete(true)
+      } else {
+        setAlertStatus({
+          open: true,
+          message: response.data.message,
+          type: "error",
+        });
+      }
+    }
+    catch (err) {
+      setAlertStatus({
+        open: true,
+        message: err,
+        type: "error",
+      });
+    }
     setIsSubmiting(false);
-    navigate("/auth/changePassword");
+    // navigate("/auth/changePassword");
+  };
+  const handleCloseAlert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setAlertStatus({
+      ...alertStatus,
+      open: false,
+    });
   };
 
   const handleKeyDown = (event) => {
@@ -47,7 +118,7 @@ function ChangePassword() {
     }
   };
 
-  
+
   return (
     <Box
       sx={{
@@ -63,6 +134,21 @@ function ChangePassword() {
         padding: "100px 0px",
       }}
     >
+
+      <Snackbar
+        open={alertStatus.open}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity={alertStatus.type}
+          sx={{ width: "100%" }}
+        >
+          {alertStatus.message}
+        </Alert>
+      </Snackbar>
       {authState.isAuthenticated && <Navigate to="/dashboard" replace />}
       <img
         style={{
@@ -100,11 +186,11 @@ function ChangePassword() {
         }}
         borderRadius={1}
       >
-        <FormControl
+        {!isComplete && <FormControl
           sx={{
             width: "100%",
           }}
-          variant="standard"        
+          variant="standard"
         >
           <Box
             display="flex"
@@ -114,6 +200,7 @@ function ChangePassword() {
           >
             <InputText
               color={textcolor.white}
+              type={'password'}
               title={"new password"}
               text={newPassword}
               onKeyDown={handleKeyDown}
@@ -122,6 +209,7 @@ function ChangePassword() {
             />
             <InputText
               color={textcolor.white}
+              type={'password'}
               title={"re-type new password"}
               text={reNewPassword}
               onKeyDown={handleKeyDown}
@@ -129,7 +217,8 @@ function ChangePassword() {
               name="reNewPassword"
             />
           </Box>
-        </FormControl>
+        </FormControl>}
+
         <Button
           sx={{
             width: "100%",
@@ -143,7 +232,8 @@ function ChangePassword() {
           variant="contained"
           onClick={onSubmit}
         >
-          {isSubmiting ? (
+          {isComplete && "Go back to Login page"}
+          {!isComplete && (isSubmiting ? (
             <CircularProgress
               variant="indeterminate"
               disableShrink
@@ -156,7 +246,7 @@ function ChangePassword() {
             />
           ) : (
             "Reset password"
-          )}
+          ))}
         </Button>
       </Box>
       <Box mt={4} display="flex">

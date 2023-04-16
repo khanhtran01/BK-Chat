@@ -28,6 +28,7 @@ export default function NotifyDialog({
   members,
   conversationId,
   notifyId,
+  confidence,
   topic,
 }) {
   return (
@@ -56,6 +57,7 @@ export default function NotifyDialog({
             <Typography sx={{ color: textcolor.primaryGray }}>
               {`The system proposes to create a subgroup with ${members.length} people from group ${conversationId.name} about topic `}
               <em>{`${topic}`}</em>
+              {` with confidence ${confidence}`}
             </Typography>
             <Typography
               sx={{ color: textcolor.primaryGray }}

@@ -41,8 +41,8 @@ const routes = (authState) => [
     component: <PorgotPassword />,
   },
   {
-    key: "changePassword",
-    route: "/auth/changePassword",
+    key: "resetPassword",
+    route: "/auth/reset-password",
     component: <ChangePassword />,
   },
   {

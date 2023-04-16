@@ -17,37 +17,12 @@ function Notification() {
     members: [],
     notifyId: "",
     topic: "",
+    confidence: "",
   });
-
+  console.log(userData.notifyList)
   const [openDialog, setOpenDialog] = useState(false);
   return (
     <Box sx={{ height: "100%" }}>
-      {/* <Box sx={{ height: "10rem", p: 3 }}>
-        <Box
-          display="flex"
-          justifyContent={"space-between"}
-          alignItems="center"
-          marginBottom="1.5rem"
-        >
-          <Typography
-            sx={{
-              color: textcolor.primaryGray,
-              fontSize: "1.3125rem",
-            }}
-          >
-            Groups
-          </Typography>
-          <Button
-            sx={{
-              color: textcolor.primaryGray,
-            }}
-            onClick={() => handleCreateGroup(true)}
-          >
-            <GroupIcon />
-          </Button>
-        </Box>
-        <SearchInput placeholder={"Search groups..."} />
-      </Box> */}
       <NotifyDialog
         conversationId={dialogData.conversationId}
         members={dialogData.members}
@@ -55,6 +30,7 @@ function Notification() {
         setOpenDialog={setOpenDialog}
         notifyId={dialogData.notifyId}
         topic={dialogData.topic}
+        confidence={dialogData.confidence}
       />
       <Box pt={3} px={3}>
         <Typography
@@ -73,7 +49,7 @@ function Notification() {
           padding: "24px",
         }}
       >
-        {userData.notifyList.map((e) => (
+        {userData.notifyList && userData.notifyList.map((e) => (
           <NotificationElement
             key={uuidv4()}
             notifyId={e._id}
@@ -81,6 +57,7 @@ function Notification() {
             members={e.member}
             setDialogData={setDialogData}
             setOpenDialog={setOpenDialog}
+            confidence={e.confidence}
             topic={e.topic}
           />
         ))}

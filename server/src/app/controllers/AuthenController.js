@@ -173,13 +173,16 @@ class AuthenController {
             const user = await User.findOne({ email: req.body.email, uniqueString: req.body.token });
             if (user) {
                 const randStr = randString();
+                console.log(req.body.email)
+                console.log(req.body.password)
                 bcrypt.hash(req.body.password, saltRounds, async function (err, hash) {
                     await User.updateOne(
                         { email: req.body.email },
                         { password: hash, uniqueString: randStr },
                     );
+                    console.log(hash)
                 });
-                res.status(200).json({ successful: true });
+                res.status(200).json({ successful: true, message: 'Password reset successfully' });
             } else {
                 res.status(200).json({
                     successful: false,

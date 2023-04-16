@@ -8,7 +8,6 @@ import { Avatar } from "@mui/material";
 import { Box, Typography } from "@mui/material";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-import CircularProgress from "@mui/material/CircularProgress";
 
 import { bcolors, textcolor } from "../../colors";
 const Transition = React.forwardRef(function Transition(props, ref) {

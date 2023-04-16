@@ -6,13 +6,17 @@ import InputText from "../../components/inputText";
 import FormControl from "@mui/material/FormControl";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 import { Navigate, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/authContext";
 import { bcolors, textcolor } from "../../colors";
+import axios from "axios";
 import React from "react";
 
-
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
 
 function PorgotPassword() {
   const { authState } = useContext(AuthContext);
@@ -28,15 +32,40 @@ function PorgotPassword() {
 
   const { email } = loginForm;
 
+  const [alertStatus, setAlertStatus] = useState({
+    open: false,
+    message: "",
+    type: "error",
+  });
+
   const onChangeLoginForm = (event) =>
     setLoginForm({ ...loginForm, [event.target.name]: event.target.value });
 
   const onSubmit = async (event) => {
     event.preventDefault();
     setIsSubmiting(true);
+    try {
+      const response = await axios.get(`${process.env.REACT_APP_SERVER_ADDRESS}/api/auth/forget-password?email=${email}`)
+      if (response.data.successful) {
+        setAlertStatus({
+          open: true,
+          message: response.data.message,
+          type: "success",
+        });
+        // navigate("/auth/changePassword");
+      } else {
 
+        setAlertStatus({
+          open: true,
+          message: response.data.message,
+          type: "error",
+        });
+      }
+    }
+    catch (err) {
+      console.log(err)
+    }
     setIsSubmiting(false);
-    navigate("/auth/changePassword");
   };
 
   const handleKeyDown = (event) => {
@@ -45,7 +74,18 @@ function PorgotPassword() {
     }
   };
 
-  
+  const handleCloseAlert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setAlertStatus({
+      ...alertStatus,
+      open: false,
+    });
+  };
+
+
   return (
     <Box
       sx={{
@@ -61,6 +101,20 @@ function PorgotPassword() {
         padding: "100px 0px",
       }}
     >
+      <Snackbar
+        open={alertStatus.open}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity={alertStatus.type}
+          sx={{ width: "100%" }}
+        >
+          {alertStatus.message}
+        </Alert>
+      </Snackbar>
       {authState.isAuthenticated && <Navigate to="/dashboard" replace />}
       <img
         style={{
@@ -102,7 +156,7 @@ function PorgotPassword() {
           sx={{
             width: "100%",
           }}
-          variant="standard"        
+          variant="standard"
         >
           <Box
             display="flex"
