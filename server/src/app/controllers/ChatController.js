@@ -33,7 +33,7 @@ class ChatController {
             if (thisConversation.type === 'group') {
                 if (thisConversation.countForSuggestion >= 1000) {
                     axios.post(
-                        'http://localhost:5000/api/checkGrouping',
+                        `${process.env.AI_URL}/api/checkGrouping`,
                         {
                             conversation_id: thisConversation._id,
                         },
@@ -65,9 +65,17 @@ class ChatController {
             } else {
                 const user = await User.findOne({ _id: data.sender._id }, { countChat: 1 });
                 if (user.countChat > 150) {
-                    axios.post('localhost:5000/api/detectUserTopic', {
-                        userId: user._id,
-                    });
+                    axios.post(
+                        `${process.env.AI_URL}/api/detectUserTopic`,
+                        {
+                            user_Id: user._id,
+                        },
+                        {
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded',
+                            },
+                        },
+                    );
                     await User.updateOne(
                         { _id: data.sender._id },
                         {

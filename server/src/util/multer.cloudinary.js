@@ -12,6 +12,9 @@ const storage = new CloudinaryStorage({
     params: {
         folder: 'uploads',
         // resource_type: 'raw',
+        // public_id: (req, file) => {
+        //     return file.originalname;
+        // },
     },
 });
 

@@ -20,6 +20,7 @@ const Notification = new Schema(
             default: 'pending',
         },
         topic: { type: String },
+        confidence: { type: String, default: '' },
     },
     {
         timestamps: true,

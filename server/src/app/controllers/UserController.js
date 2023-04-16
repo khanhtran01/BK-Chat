@@ -3,6 +3,8 @@ const Conversation = require('../models/Conversation');
 const Chat = require('../models/Chat');
 const { redis } = require('../../config/redis');
 const resizingImg = require('../../util/resizingImg');
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 const userDTOMini = {
     _id: 1,
     email: 1,
@@ -113,6 +115,16 @@ class UserController {
         try {
             const userInfor = await User.findOne({ _id: req.userId }, userDTO);
             res.status(200).json({ userInfor: userInfor, successful: true });
+        } catch (error) {
+            next(error);
+        }
+    }
+    async changePassword(req, res, next) {
+        try {
+            bcrypt.hash(req.body.password, saltRounds, async function (err, hash) {
+                await User.updateOne({ _id: req.userId }, { password: hash });
+            });
+            res.status(200).json({ successful: true });
         } catch (error) {
             next(error);
         }

@@ -17,6 +17,12 @@ route.get('/verify-token', AuthenController.checkToken);
 // [GET] /api/auth/verify-email?email=xx&token=xx
 route.get('/verify-email', AuthenController.verifyEmail);
 
+// [GET] /api/auth/forget-password?email=xxx
+route.get('/forget-password', AuthenController.forgetPassword);
+
+// [POST] /api/auth/reset-password [email, password, token]
+route.post('/reset-password', AuthenController.resetPassword);
+
 route.post('/service', AuthenController.authService);
 
 module.exports = route;

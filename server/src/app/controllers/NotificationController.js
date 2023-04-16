@@ -22,6 +22,7 @@ class NotificationController {
                     conversationId: req.body.conversationId,
                     member: members,
                     topic: information.name,
+                    confidence: information.confidence,
                 });
             }
             res.status(200).json({ successful: true });

@@ -2,6 +2,7 @@ const User = require('../models/User');
 const verifyToken = require('../../util/verifyToken');
 const randString = require('../../util/randString');
 const mailVerify = require('../../util/mailVerify');
+const forgetPassword = require('../../util/forgetPassword');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
@@ -90,16 +91,21 @@ class AuthenController {
                 uniqueString: req.query.token,
             });
             if (user && !user.verify) {
+                const randStr = randString();
                 await User.updateOne(
                     { _id: user._id },
                     {
                         verify: true,
+                        uniqueString: randStr,
                     },
                 );
                 await Neo4jController.createUser(req, user._id.toString(), user.username);
                 res.status(200).json({ successful: true, message: 'Verify successfully' });
             } else {
-                res.status(200).json({ successful: true, message: 'Email is already verify' });
+                res.status(200).json({
+                    successful: false,
+                    message: 'Email is already verify or token is not valid',
+                });
             }
         } catch (error) {
             next(error);
@@ -127,6 +133,58 @@ class AuthenController {
                 res.status(200).json({ accessKey: accessKey, successful: true });
             } else {
                 res.status(401).json({ successful: false });
+            }
+        } catch (error) {
+            next(error);
+        }
+    }
+    async forgetPassword(req, res, next) {
+        try {
+            const user = await User.findOne({ email: req.query.email });
+            if (user) {
+                const randStr = randString();
+                await User.updateOne({ email: req.query.email }, { uniqueString: randStr });
+                const transport = nodemailer.createTransport({
+                    host: 'smtp.gmail.com',
+                    port: 465,
+                    secure: true,
+                    auth: {
+                        user: process.env.ADMIN_EMAIL,
+                        pass: process.env.ADMIN_PASSWORD,
+                    },
+                });
+                const mailOptions = {
+                    from: `BK-Chat <${process.env.ADMIN_EMAIL}>`,
+                    to: `${req.query.email}`,
+                    subject: '🚀 BK-Chat reset password ✔',
+                    html: forgetPassword(randStr, req.query.email, process.env.FE_URL),
+                };
+                await transport.sendMail(mailOptions);
+                res.status(200).json({ message: 'Already send mail', successful: true });
+            } else {
+                res.status(200).json({ message: 'Email is not exist', successful: false });
+            }
+        } catch (error) {
+            next(error);
+        }
+    }
+    async resetPassword(req, res, next) {
+        try {
+            const user = await User.findOne({ email: req.body.email, uniqueString: req.body.token });
+            if (user) {
+                const randStr = randString();
+                bcrypt.hash(req.body.password, saltRounds, async function (err, hash) {
+                    await User.updateOne(
+                        { email: req.body.email },
+                        { password: hash, uniqueString: randStr },
+                    );
+                });
+                res.status(200).json({ successful: true });
+            } else {
+                res.status(200).json({
+                    successful: false,
+                    message: 'Token is invalid or Email is not exist',
+                });
             }
         } catch (error) {
             next(error);

@@ -13,4 +13,7 @@ route.get('/search-contact', UserController.seachUser);
 // [GET] /api/user/get-infor
 route.get('/get-infor', UserController.personalInfo);
 
+// [PUT] /api/user/change-password
+route.put('/change-password', UserController.changePassword);
+
 module.exports = route;
