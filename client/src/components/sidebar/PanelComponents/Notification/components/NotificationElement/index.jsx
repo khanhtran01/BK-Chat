@@ -25,6 +25,7 @@ function NotificationElement({
   setOpenDialog,
   notifyId,
   topic,
+  confidence
 }) {
   return (
     <CustomButton
@@ -34,6 +35,7 @@ function NotificationElement({
           members: members,
           notifyId: notifyId,
           topic: topic,
+          confidence: confidence,
         });
         setOpenDialog(true);
       }}
