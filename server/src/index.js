@@ -37,7 +37,7 @@ app.use(Neo4jMiddleware);
 // Create socketio
 const io = socketio(server, {
     cors: {
-        origin: 'http://localhost:3000',
+        origin: '*',
     },
 });
 

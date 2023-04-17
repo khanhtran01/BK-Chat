@@ -1,8 +1,8 @@
 version: '3'
 services:
-  bk-chat-fe:
-    container_name: bk-chat-fe
+  bkchat-fe:
     build: .
+    container_name: bkchat-fe
     restart: always
     environment:
       REACT_APP_SERVER_ADDRESS: ${REACT_APP_SERVER_ADDRESS}
@@ -11,5 +11,5 @@ services:
 
 networks:
   default:
-    name: bk-chat
+    name: bkchat
     external: true

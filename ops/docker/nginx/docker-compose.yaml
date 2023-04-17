@@ -12,8 +12,8 @@ services:
       - ./proxy_params:/etc/nginx/proxy_params
       - ./imgproxy.conf:/etc/nginx/conf.d/imgproxy.conf
       - ./portainer.conf:/etc/nginx/conf.d/portainer.conf
-      - ./fe.conf:/etc/nginx/conf.d/bk-chat.conf
+      - ./fe.conf:/etc/nginx/conf.d/fe.conf
 networks:
   default:
-    name: bk-chat
+    name: bkchat
     external: true

@@ -1,10 +1,11 @@
 version: '3'
 services:
-  bkchat:
+  bkchat-node:
     build: .
     container_name: bkchat-node
+    restart: always
     environment:
-      MONGODB_URL: ${MONGODB_URL}
+      MONGODB_ATLAS: ${MONGODB_ATLAS}
       REDIS_URL: ${REDIS_URL}
       NEO4J_URL: ${NEO4J_URL}
       NEO4J_PASSWORD: ${NEO4J_PASSWORD}
@@ -24,5 +25,5 @@ services:
     #   - 4000:4000
 networks:
   default:
-    name: mongodb_default
+    name: bkchat
     external: true

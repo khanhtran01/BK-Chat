@@ -1,8 +1,8 @@
 version: '3'
 services:
-  bk-chat-flask:
-    container_name: bk-chat-flask
+  bkchat-flask:
     build: .
+    container_name: bkchat-flask
     restart: always
     environment:
       DB_CONNECT_PATH: ${DB_CONNECT_PATH}
@@ -16,5 +16,5 @@ services:
 
 networks:
   default:
-    name: bk-chat
+    name: bkchat
     external: true
