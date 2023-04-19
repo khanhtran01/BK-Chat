@@ -1,6 +1,6 @@
 from sklearn.preprocessing import normalize
 from flask import request, render_template, Response
-
+from app import app
 from dotenv import load_dotenv
 import os
 import requests
@@ -24,12 +24,7 @@ def testmodel():
 
 
 def test():
-    data = {"0": {"name": "/Finance/Investing/Currencies & Foreign Exchange", "userList": ["313837383832373239686868", "343734313433373734686868", "353034313235323634686868", "333630393037353230686868", "343735333633393032686868", "343039373337393334686868", "343532323431353238686868", "353133343633343439686868", "343333303932343335686868", "343730303835383835686868", "343431373134393430686868", "313734363534393437686868", "353030383033373736686868", "343537383832303431686868", "343233313637353738686868", "333432313932383539686868", "343337363136353232686868", "343031303331303434686868", "333930323239313738686868", "343434373136363233686868", "343330363631323339686868", "343533393236393336686868", "343939303839383631686868", "343637383933373832686868", "333935303431303939686868", "343635353939353339686868"]},
-            "1": {"name": "/Finance/Investing/Currencies & Foreign Exchange", "userList": ["343031303331303434686868", "343434373136363233686868", "343730303835383835686868", "343537383832303431686868"]}}
-    requests.post(f'http://localhost:4000/api/notification/new', json={
-        'conversationId': '6344e91b89558fb2b5ec0001',
-        'data': json.dumps(data)
-    })
+    app.logger.info("Testing model")
     return Response(json.dumps({
         'successful': True,
     }), status=200, mimetype='application/json')
@@ -67,7 +62,7 @@ def checkgrouping():
     clusterer = hdbscan.HDBSCAN(algorithm='best', alpha=1.0, approx_min_span_tree=True,
                                 min_cluster_size=5, gen_min_span_tree=True, prediction_data=True)
     clusterer.fit(norm_data)
-    print(get_cluster_dict(clusterer.labels_))
+    app.logger.info(get_cluster_dict(clusterer.labels_))
 
     reject_list = set()
     for k, v in get_cluster_dict(clusterer.labels_).items():
@@ -82,7 +77,7 @@ def checkgrouping():
             reject_list.add(k)
 
     reject_list = list(reject_list)
-    print(reject_list)
+    app.logger.info(reject_list)
 
     result = data_processing_for_get_content(
         np.flip(clusterer.labels_), np.flip(sentences), reject_list)
@@ -102,7 +97,7 @@ def checkgrouping():
 
     my_dict_converted2 = {
         str(k): v for k, v in final.items()}
-    print(my_dict_converted2)
+    app.logger.info(my_dict_converted2)
     requests.post(f'{os.getenv("NODE_SERVER_URL")}/api/notification/new', json={
         'conversationId': conversation_id,
         'data': json.dumps(my_dict_converted2)
