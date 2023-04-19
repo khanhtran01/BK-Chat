@@ -48,15 +48,15 @@ function ProfileTab() {
         <AboutElement
           marginBottom="1.5rem"
           title="Name"
-          content={authState.user.username}
+          content={authState.user?.username}
         />
         {/* <AboutElement marginBottom="1.5rem" title="Age" content={user.age} /> */}
         <AboutElement
           marginBottom="1.5rem"
           title="Email"
-          content={authState.user.email}
+          content={authState.user?.email}
         />
-        <AboutElement title="Location" content={authState.user.address} />
+        <AboutElement title="Location" content={authState.user?.address} />
       </Box>
     );
   };
@@ -116,10 +116,10 @@ function ProfileTab() {
             justifyContent="center"
             alignItems={"center"}
           >
-            {authState.user.avatar ? (
+            {authState.user?.avatar ? (
               <Avatar
-                src={`${authState.user.avatar}`}
-                alt={`${authState.user.username}}`}
+                src={`${authState.user?.avatar}`}
+                alt={`${authState.user?.username}}`}
                 sx={{ height: "5.375rem", width: "5.375rem" }}
               />
             ) : (
@@ -134,8 +134,8 @@ function ProfileTab() {
                   width: "5.375rem",
                 }}
               >
-                {authState.user.username
-                  ? `${authState.user.username[0]}`
+                {authState.user?.username
+                  ? `${authState.user?.username[0]}`
                   : "N"}
               </Avatar>
             )}
@@ -146,7 +146,7 @@ function ProfileTab() {
             marginTop={3}
             color={textcolor.primaryGray}
           >
-            {authState.user.username}
+            {authState.user?.username}
           </Typography>
           <Box
             display="flex"
@@ -168,7 +168,7 @@ function ProfileTab() {
         <Box>
           <Box borderTop={`solid 1px ${bcolors.sidebar}`} padding="1.5rem 0rem">
             <Typography color={textcolor.white}>
-              {authState.user.desc ? authState.user.desc : "No description"}
+              {authState.user?.desc ? authState.user?.desc : "No description"}
             </Typography>
           </Box>
           <Box>

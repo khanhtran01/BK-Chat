@@ -7,14 +7,14 @@ const ProfileContext = createContext();
 const ProfileProvider = ({ children }) => {
     const {authState} = useContext(AuthContext);
     const [profileData, dispatch] = useReducer(ProfileReducer, {
-        username: authState.user.username,
-        location: authState.user.address,
+        username: authState.user?.username,
+        location: authState.user?.address,
         avatar: {
             name: "",
             file: null,
         },
         openDialog: false,
-        description: authState.user.desc,
+        description: authState.user?.desc,
     })
 
     const handleDialog = (status) => {

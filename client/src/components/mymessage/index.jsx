@@ -175,7 +175,7 @@ export default function MyMessage(props) {
                 fontSize: "14px",
               }}
             >
-              {authState.user.username}
+              {authState.user?.username}
             </Typography>
           </Box>
           <Box
@@ -192,8 +192,8 @@ export default function MyMessage(props) {
             /> */}
             {authState.user.avatar ? (
               <Avatar
-                src={`${authState.user.avatar}`}
-                alt={`${authState.user.username}`}
+                src={`${authState.user?.avatar}`}
+                alt={`${authState.user?.username}`}
                 sx={{ marginRight: "10px", height: "32px", width: "32px" }}
               />
             ) : (
@@ -208,7 +208,7 @@ export default function MyMessage(props) {
                   fontWeight: 500,
                   textTransform: "uppercase",
                 }}
-              >{`${authState.user.username[0]}`}</Avatar>
+              >{`${authState.user?.username[0]}`}</Avatar>
             )}
           </Box>
         </Box>

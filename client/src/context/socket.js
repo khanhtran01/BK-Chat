@@ -28,9 +28,9 @@ function SocketProvider({ children }) {
   });
 
   useEffect(() => {
-    socket.on("connect", () => {});
+    socket.on("connect", () => { });
 
-    socket.on("disconnect", () => {});
+    socket.on("disconnect", () => { });
 
     /**
      * TODO open gateways to receive online list
@@ -47,7 +47,7 @@ function SocketProvider({ children }) {
       dispatch({ type: "REMOVE_USER_OFFLINE", payload: data });
     });
 
-    
+
     return () => {
       socket.off("connect");
       socket.off("disconnect");
@@ -63,10 +63,13 @@ function SocketProvider({ children }) {
    */
   useEffect(() => {
     const sendPing = async () => {
-      socket.emit("sendJoin", {
-        userId: authState.user && authState.user._id,
-        allContact: userData.contactList,
-      });
+      if (authState.user) {
+        socket.emit("sendJoin", {
+          userId: authState.user && authState.user._id,
+          allContact: userData.contactList,
+        });
+      }
+
     };
     sendPing();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -101,9 +104,11 @@ function SocketProvider({ children }) {
   const logout = () => {
     removeCookie("token", { path: "/" });
     logoutUser();
-    socket.emit("sendUserLogout", {
-      userId : authState.user._id
-    })
+    if (authState.user) {
+      socket.emit("sendUserLogout", {
+        userId: authState.user._id
+      })
+    }
     reset_logout();
   }
 

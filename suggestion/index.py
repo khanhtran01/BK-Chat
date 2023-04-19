@@ -16,5 +16,10 @@ app.add_url_rule('/api/get-recommend-group', view_func=get_recommend_group, meth
 
 app.add_url_rule('/api/detectUserTopic', view_func=detectUserTopic, methods=['POST'])
 
+@app.route('/')
+def helloFunc():
+    print("hhello")
+    return "hello world"
+
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

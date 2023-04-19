@@ -57,12 +57,17 @@ const conversationReducer = (state, action) => {
 
 
       let newCurrConversation = [...state.currConversation];
+      let myMessage = false;
       for (let i = state.currConversation.length - 1; i >= 0; i--) {
         if (state.currConversation[i]["createdAt"] === payload.createdAt) {
           newCurrConversation[i].verify = true;
           newCurrConversation[i]._id = payload._id;
+          myMessage = true;
           break;
         }
+      }
+      if (!myMessage) {
+        newCurrConversation = [...newCurrConversation, payload]
       }
       return {
         ...state,
