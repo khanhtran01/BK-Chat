@@ -31,7 +31,7 @@ class ChatController {
             );
 
             if (thisConversation.type === 'group') {
-                if (thisConversation.countForSuggestion >= 1000) {
+                if (thisConversation.countForSuggestion >= 200) {
                     axios.post(
                         `${process.env.AI_URL}/api/checkGrouping`,
                         {
@@ -64,7 +64,7 @@ class ChatController {
                 }
             } else {
                 const user = await User.findOne({ _id: data.sender._id }, { countChat: 1 });
-                if (user.countChat > 150) {
+                if (user.countChat >= 100) {
                     axios.post(
                         `${process.env.AI_URL}/api/detectUserTopic`,
                         {
@@ -92,6 +92,12 @@ class ChatController {
                         },
                     );
                 }
+                await Conversation.updateOne(
+                    { _id: data.conversationId },
+                    {
+                        updatedAt: Date.now(),
+                    },
+                );
             }
             let replyChat = null;
             if (data.replyFromChatId) {

@@ -30,14 +30,18 @@ app.use(cookieParse(process.env.COOKIE_SECRECT)); //cookie parser
 
 // Set up
 app.use(morgan('combined'));
-app.use(cors());
+app.use(
+    cors({
+        origin: [process.env.FE_URL, process.env.AI_URL],
+    }),
+);
 
 app.use(Neo4jMiddleware);
 
 // Create socketio
 const io = socketio(server, {
     cors: {
-        origin: '*',
+        origin: process.env.FE_URL,
     },
 });
 
@@ -108,9 +112,9 @@ io.on('connection', (socket) => {
                 },
                 conversationId: data.conversationId,
                 content: data.content,
-                _id: result.id,
+                _id: result?.id,
                 createdAt: data.time,
-                replyFrom: result.replyChat,
+                replyFrom: result?.replyChat,
             });
     });
 
@@ -126,9 +130,9 @@ io.on('connection', (socket) => {
             },
             conversationId: data.conversationId,
             content: data.content,
-            _id: result.id,
+            _id: result?.id,
             createdAt: data.time,
-            replyFrom: result.replyChat,
+            replyFrom: result?.replyChat,
         });
     });
 

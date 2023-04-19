@@ -9,7 +9,7 @@ async function connect(io) {
     await redis.connect();
     await subClient.connect();
     io.adapter(createAdapter(redis, subClient));
-    if (! await redis.exists('userInSocket')) {
+    if (!(await redis.exists('userInSocket'))) {
         await redis.SET('userInSocket', '[]');
     }
     console.log('Redis connect successful !!');

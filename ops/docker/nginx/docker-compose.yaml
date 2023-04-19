@@ -3,7 +3,7 @@ services:
   nginx:
     container_name: nginx
     image: nginx:1.23.3
-    restart: always
+    # restart: always
     ports:
       - 80:80
     # network_mode: "host"
@@ -11,8 +11,9 @@ services:
       - ./cache:/data/cache
       - ./proxy_params:/etc/nginx/proxy_params
       - ./imgproxy.conf:/etc/nginx/conf.d/imgproxy.conf
-      - ./portainer.conf:/etc/nginx/conf.d/portainer.conf
+      # - ./portainer.conf:/etc/nginx/conf.d/portainer.conf
       - ./fe.conf:/etc/nginx/conf.d/fe.conf
+      - ./api-node.conf:/etc/nginx/conf.d/api-node.conf
 networks:
   default:
     name: bkchat

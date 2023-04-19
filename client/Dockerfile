@@ -8,6 +8,10 @@ RUN npm install
 
 COPY . .
 
+ARG REACT_APP_SERVER_ADDRESS
+
+ENV REACT_APP_SERVER_ADDRESS $REACT_APP_SERVER_ADDRESS
+
 RUN npm run build
 
 FROM nginx:1.23.3 as production-stage

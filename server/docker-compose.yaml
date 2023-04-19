@@ -1,9 +1,9 @@
 version: '3'
 services:
   bkchat-node:
-    build: .
+    image: bkchat-node:v1
     container_name: bkchat-node
-    restart: always
+    # restart: always
     environment:
       MONGODB_ATLAS: ${MONGODB_ATLAS}
       REDIS_URL: ${REDIS_URL}
@@ -12,8 +12,8 @@ services:
       NEO4J_USERNAME: ${NEO4J_USERNAME}
       FE_URL: ${FE_URL}
       AI_URL: ${AI_URL}
-      IMGPROXY_ENABLE: ${IMGPROXY_ENABLE}
-      IMGPROXY_URL: ${IMGPROXY_URL}
+      # IMGPROXY_ENABLE: ${IMGPROXY_ENABLE}
+      # IMGPROXY_URL: ${IMGPROXY_URL}
       JWT_SECRECT: ${JWT_SECRECT}
       COOKIE_SECRECT: ${COOKIE_SECRECT}
       ADMIN_EMAIL: ${ADMIN_EMAIL}

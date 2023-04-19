@@ -1,11 +1,12 @@
 version: '3'
 services:
   bkchat-fe:
-    build: .
+    build:
+      context: .
+      args:
+        REACT_APP_SERVER_ADDRESS: ${REACT_APP_SERVER_ADDRESS}
     container_name: bkchat-fe
-    restart: always
-    environment:
-      REACT_APP_SERVER_ADDRESS: ${REACT_APP_SERVER_ADDRESS}
+    # restart: always
     # ports:
     #   - 3000:80
 

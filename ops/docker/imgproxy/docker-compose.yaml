@@ -11,5 +11,5 @@ services:
 
 networks:
   default:
-    name: bk-chat
+    name: bkchat
     external: true
