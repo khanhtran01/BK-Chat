@@ -120,6 +120,7 @@ function ChatPanel() {
                     receiverId={receiverId}
                     numUnRead={conversation.numUnRead}
                     member={conversation.member}
+                    desc={conversation.desc}
                   />
                 );
               })

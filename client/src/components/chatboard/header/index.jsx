@@ -141,14 +141,14 @@ function Header() {
           </Typography>
         </Box>
         <Box sx={{ color: "white", display: "flex", alignItems: "center" }}>
-          <IconButton>
+          {/* <IconButton>
             <SearchIcon
               sx={{
                 cursor: "pointer",
                 color: textcolor.white,
               }}
             />
-          </IconButton>
+          </IconButton> */}
           <IconButton
             onClick={() => {
               setChatInfoPopup(!chatInfoPopup);

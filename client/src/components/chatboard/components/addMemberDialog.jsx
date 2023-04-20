@@ -134,13 +134,16 @@ export default function AddMemberDialog(props) {
                 </Typography>
               </Box>
             ) : (
-              <Box>
+              <Box
+              sx={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'scroll' }}
+              >
                 {Object.values(selectedMember).map((member) =>
                   member.avatar ? (
                     <Box
                       key={uuidv4()}
                       position="relative"
                       width={"fit-content"}
+                      marginRight={"15px"}
                     >
                       <Avatar
                         src={`${member.avatar}`}
@@ -148,12 +151,13 @@ export default function AddMemberDialog(props) {
                         sx={{
                           width: "35px",
                           height: "35px",
+                          marginTop: "10px",
                         }}
                       />
                       <Box
                         position="absolute"
                         borderRadius={"50%"}
-                        top={-10}
+                        top={0}
                         right={-10}
                         backgroundColor={bcolors.dialog}
                         onClick={() => handleRemoveMember(member.userId)}
@@ -172,6 +176,7 @@ export default function AddMemberDialog(props) {
                       key={uuidv4()}
                       position="relative"
                       width={"fit-content"}
+                      marginRight={"15px"}
                     >
                       <Avatar
                         sx={{
@@ -182,6 +187,7 @@ export default function AddMemberDialog(props) {
                           textTransform: "uppercase",
                           width: "35px",
                           height: "35px",
+                          marginTop: "10px"
                         }}
                       >
                         {member.username ? `${member.username[0]}` : "N"}
@@ -189,7 +195,7 @@ export default function AddMemberDialog(props) {
                       <Box
                         position="absolute"
                         borderRadius={"50%"}
-                        top={-10}
+                        top={0}
                         right={-10}
                         backgroundColor={bcolors.dialog}
                         onClick={() => handleRemoveMember(member.userId)}
@@ -224,6 +230,7 @@ export default function AddMemberDialog(props) {
             sx={{
               minHeight: "100px",
               maxHeight: "150px",
+              overflow: "scroll"
             }}
           >
             {isLoadingConversation && <CircularProgress />}

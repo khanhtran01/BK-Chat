@@ -31,6 +31,7 @@ export default function ChatInfo() {
   let user = {};
 
   const { userData } = useContext(conversationContext);
+  console.log(userData.chatInfo);
   const { setChatInfoPopup } = useContext(context);
   if (userData.chatInfo.type === "single") {
     if (userData.chatInfo.name === userData.chatInfo.member[0].username) {
@@ -150,7 +151,7 @@ export default function ChatInfo() {
         <Box>
           <Box borderTop={`solid 1px ${bcolors.sidebar}`} padding="1.5rem 0rem">
             <Typography color={textcolor.white}>
-              {user.desc ? user.desc : "No description"}
+              {userData.chatInfo.desc ? userData.chatInfo.desc : "No description"}
             </Typography>
           </Box>
           <Box>
@@ -230,7 +231,7 @@ export default function ChatInfo() {
               />
             )}
 
-            <CustomizedAccordions
+            {/* <CustomizedAccordions
               title={
                 <Box
                   display={"flex"}
@@ -242,7 +243,7 @@ export default function ChatInfo() {
                 </Box>
               }
               description={""}
-            />
+            /> */}
           </Box>
         </Box>
       </Box>

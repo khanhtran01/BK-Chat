@@ -134,7 +134,7 @@ function ContextProvider({ children }) {
     dispatch({ type: "ADD_WAIT_LIST", payload: data });
   };
 
-  const selectConversation = async ({ id, name, url, receiverId, type, member }) => {
+  const selectConversation = async ({ id, name, url, receiverId, type, member, desc }) => {
     if (userData.currConversationId !== id) {
       dispatch({ type: "LOADING_CONVERSATION", payload: true });
       await axios
@@ -152,6 +152,7 @@ function ContextProvider({ children }) {
                 receiverId: receiverId,
                 type: type,
                 member: response.data.member,
+                desc: desc
               },
               isLoadingConversation: false,
             },

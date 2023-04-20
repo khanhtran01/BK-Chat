@@ -64,15 +64,7 @@ function ProfileTab() {
     {
       component: "Edit",
       handle: () => handleDialog(true),
-    },
-    {
-      component: "Action",
-      handle: () => {},
-    },
-    {
-      component: "Another Action",
-      handle: () => {},
-    },
+    }
   ];
 
 
@@ -186,7 +178,7 @@ function ProfileTab() {
               description={<AboutBox />}
             />
 
-            <CustomizedAccordions
+            {/* <CustomizedAccordions
               title={
                 <Box
                   display={"flex"}
@@ -198,7 +190,7 @@ function ProfileTab() {
                 </Box>
               }
               description={""}
-            />
+            /> */}
           </Box>
         </Box>
       </Box>

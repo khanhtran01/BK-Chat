@@ -18,7 +18,7 @@ import CheckBox from "../../sidebar/PanelComponents/Group/components/SelectMembe
 
 export default function SelectList({ data }) {
   //   const { groupData, selectMember } = useContext(groupsContext);
-  const {selectedMember, setSelectedMember} = useContext(selectMemberContext);
+  const { selectedMember, setSelectedMember } = useContext(selectMemberContext);
   // const [selectedMember, setSelectedMember] = useState({});
   const handleSelectMember = (memInfo) => {
 
@@ -32,7 +32,7 @@ export default function SelectList({ data }) {
   };
   return (
     <Box>
-      <FormGroup>
+      <FormGroup sx={{ width: "21rem" }}>
         {data.map((user) => (
           <FormControlLabel
             key={uuidv4()}
@@ -41,6 +41,7 @@ export default function SelectList({ data }) {
                 color: textcolor.white,
                 flex: 1,
                 marginLeft: "-16px",
+                marginTop: "8px"
               },
             }}
             control={

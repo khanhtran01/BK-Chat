@@ -21,7 +21,9 @@ import TagList from "./components/TagList";
 import IconPicker from "./components/IconPicker";
 // import material and function
 import { bcolors, textcolor } from "../../../colors";
-import moment from "moment";
+// import moment from "moment";
+import moment from 'moment-timezone';
+// import moment from "mo"
 
 function Footer() {
   const { socket } = useContext(SocketContext);
@@ -48,9 +50,9 @@ function Footer() {
         tagList.push(mem._id);
       }
     });
-    let currTime = moment().utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+    let currTime = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
     if (chatInfo.type === "single") {
-      let currTime = moment().utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+      // let currTime = moment().utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
       socket.emit("sendChatSingle", {
         receiverId: chatInfo.receiverId,
         content: message.message,
@@ -177,7 +179,7 @@ function Footer() {
       />
       <IconPicker />
 
-      <BtnIcon icon={<AttachFileIcon sx={{ color: bcolors.main }} />} />
+      {/* <BtnIcon icon={<AttachFileIcon sx={{ color: bcolors.main }} />} /> */}
       <Button
         sx={{
           width: "3rem",

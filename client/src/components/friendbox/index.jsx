@@ -16,13 +16,14 @@ const CustomButton = styled(Button)({
 });
 
 function FriendBox(props) {
-  const { url, status, id, name, message, time, receiverId, type, numUnRead, member } =
+  const { url, status, id, name, message, time, receiverId, type, numUnRead, member, desc } =
     props;
 
   const { selectConversation } = useContext(conversationContext);
   const { back, setBack } = useContext(chatboardContext)
 
   const convertTime = (time) => {
+    console.log(time);
     let today = new Date();
     if (moment(today).date() === moment(time).date()) {
       return moment(time).format("HH:mm");
@@ -45,7 +46,7 @@ function FriendBox(props) {
         },
       }}
       onClick={() => {
-        selectConversation({ id, name, url, receiverId, type, member })
+        selectConversation({ id, name, url, receiverId, type, member, desc })
         if (back) {
           setBack(false);
         }

@@ -80,7 +80,8 @@ function ChatBoardContextProvider({ children }) {
     handleDescription,
     handleName,
     handleDialog,
-    setBack
+    setBack,
+    formDispatch
   };
   return (
     <chatboardContext.Provider value={contextData}>

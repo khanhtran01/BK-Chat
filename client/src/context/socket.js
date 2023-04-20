@@ -44,7 +44,10 @@ function SocketProvider({ children }) {
     });
 
     socket.on("getUserOff", (data) => {
-      dispatch({ type: "REMOVE_USER_OFFLINE", payload: data });
+      console.log(data);
+      if (data.userId) {
+        dispatch({ type: "REMOVE_USER_OFFLINE", payload: data });
+      }
     });
 
 

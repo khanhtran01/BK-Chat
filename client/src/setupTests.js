@@ -3,3 +3,19 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
+
+// example.test.js
+
+import React from 'react'
+import {render, fireEvent} from '@testing-library/react'
+import Example from './example.js'
+
+it('shows success message after confirm button is clicked', () => {
+  const {getByText} = render(<Example />)
+
+  expect(getByText(/waiting/i)).toBeInTheDocument()
+
+  fireEvent.click(getByText('Confirm'))
+
+  expect(getByText('Confirmed!')).toBeInTheDocument()
+})

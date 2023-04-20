@@ -14,6 +14,7 @@ import Slide from "@mui/material/Slide";
 
 // import { bcolors, textcolor } from "../../../../../colors";
 import { bcolors, textcolor } from "../../../colors";
+import { useState } from "react";
 
 import { conversationContext } from "../../../context";
 import { chatboardContext } from "../context";
@@ -25,25 +26,39 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function EditGroupDialog() {
   const { editFormData, handleAvatar, handleDescription, handleName, handleDialog } =
     useContext(chatboardContext);
-
+    
   const { userData } = useContext(conversationContext);
+  const [editForm, setEditForm] = useState({
+    groupname: userData.chatInfo.name,
+    avatar: {
+      name: "",
+      file: null,
+    },
+    description: userData.chatInfo.desc,
+    openDialog: false,
+  })
+
+
 
   const handleSubmit = async () => {
+    console.log("submit form");
+    console.log(editForm);
     await axios.put(`${process.env.REACT_APP_SERVER_ADDRESS}/api/conversation/update-group-info`, {
       "conversationId": userData.chatInfo.conversationId,
-      "groupAvatar": editFormData.avatar.file,
-      "groupName": editFormData.name,
-      "groupDesc": editFormData.description,
+      "groupAvatar": editForm.avatar.file,
+      "groupName": editForm.groupname,
+      "groupDesc": editForm.description,
     }, {
       headers: {
         "Content-Type": "multipart/form-data",
       }
     }
     ).then(response => {
+      console.log(response);
     })
-    .catch(err => {
-      console.log(err);
-    })
+      .catch(err => {
+        console.log(err);
+      })
     // await axios.post("")
 
   };
@@ -90,8 +105,8 @@ export default function EditGroupDialog() {
                   color: "white",
                 },
               }}
-              value={editFormData.name}
-              onChange={(e) => handleName(e.target.value)}
+              value={editForm.groupname}
+              onChange={(e) => setEditForm({ ...editForm, groupname: e.target.value })}
               name="groupname"
               hiddenLabel
               placeholder="Enter group name"
@@ -115,8 +130,8 @@ export default function EditGroupDialog() {
               type="number"
               name="age"
               multiline
-              value={editFormData.description}
-              onChange={(e) => handleDescription(e.target.value)}
+              value={editForm.description}
+              onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
               hiddenLabel
               placeholder="Enter Description"
             />
@@ -137,8 +152,17 @@ export default function EditGroupDialog() {
               }}
               type="file"
               name="avatar"
-              value={editFormData.avatar.name}
-              onChange={(e) => handleAvatar({name : e.target.value, file: e.target.files[0]})}
+              value={editForm.avatar.name}
+              onChange={(e) => setEditForm(
+                {
+                  ...editForm,
+                  avatar: {
+                    ...editForm.avatar,
+                    name: e.target.value,
+                    file: e.target.files[0],
+                  }
+                }
+              )}
               hiddenLabel
               placeholder="Enter avatar file"
             />
