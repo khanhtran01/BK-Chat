@@ -11,7 +11,7 @@ import { replyContext } from "../chatboard/context/replyContext";
 import Highlighter from "react-highlight-words";
 import HourglassTopIcon from "@mui/icons-material/HourglassTop";
 import DoneAllIcon from "@mui/icons-material/DoneAll";
-// import moment from "moment";
+import moment from "moment";
 
 const BoxChat = styled(Box)({
   "&.MuiBox-root": {
@@ -39,14 +39,6 @@ export default function MyMessage(props) {
     { component: <Box>Reply</Box>, handle: () => setReply(messageInfo) },
     { component: <Box>Delete</Box>, handle: () => {} },
   ];
-  // const convertTime = (time) => {
-  //   let today = new Date();
-  //   if (moment(today).date() === moment(time).date()) {
-  //     return moment(time).format("HH:mm");
-  //   } else {
-  //     return moment(time).format("DD/MM");
-  //   }
-  // };
   // console.log(time);
   const { authState } = useContext(AuthContext);
   return (
