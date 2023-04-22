@@ -31,12 +31,17 @@ services:
     ports:
       - 7474:7474
       - 7687:7687
+    environment:
+      NEO4J_AUTH: ${NEO4J_USERNAME}/${NEO4J_PASSWORD}
     volumes:
       - neo4j_data:/data
 volumes:
   mongo_data:
+    external: true
   redis_data:
+    external: true
   neo4j_data:
+    external: true
 networks:
   default:
     name: bk-chat
