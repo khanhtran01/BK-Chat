@@ -195,8 +195,10 @@ io.on('connection', (socket) => {
     socket.on('disconnect', async () => {
         console.log('user disconnected');
         const user = await getUserBySocketId(socket.id);
-        await removeUser(socket.id);
-        io.emit('getUserOff', user);
+        if (user) {
+            await removeUser(socket.id);
+            io.emit('getUserOff', user);
+        }
     });
 });
 

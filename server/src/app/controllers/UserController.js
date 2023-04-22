@@ -22,10 +22,10 @@ const userDTO = {
 class UserController {
     async home(req, res, next) {
         try {
-            let conversations = await Conversation.find({ member: req.userId })
-                // .populate('member', { password: 0, address: 0, desc: 0 }) // note
-                .sort({ updatedAt: -1 });
-            // conversations = mutipleMongooseToObject(conversations);
+            let conversations = await Conversation.find({
+                member: req.userId,
+                $expr: { $gte: [{ $size: '$member' }, 2] },
+            }).sort({ updatedAt: -1 });
             let allContact = [];
             for (let i = 0; i < conversations.length; i++) {
                 conversations[i] = conversations[i].toObject();

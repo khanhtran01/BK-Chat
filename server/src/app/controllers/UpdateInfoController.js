@@ -53,7 +53,7 @@ class UpdateInfoController {
                     },
                 );
             }
-            res.status(200).json({ successful: true });
+            res.status(200).json({ successful: true, message: 'Update successful' });
         } catch (error) {
             next(error);
         }

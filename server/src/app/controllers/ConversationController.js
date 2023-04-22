@@ -192,6 +192,7 @@ class ConversationController {
             let listConversation = await Conversation.find({
                 member: req.userId,
                 type: 'single',
+                $expr: { $gte: [{ $size: '$member' }, 2] },
             }).populate('member', userDTOMini);
             listConversation.forEach((conversation) => {
                 if (conversation.member[0]._id != req.userId) {
@@ -258,6 +259,7 @@ class ConversationController {
             let listConversation = await Conversation.find({
                 member: req.userId,
                 type: 'single',
+                $expr: { $gte: [{ $size: '$member' }, 2] },
             }).populate('member', userDTOMini);
             listConversation.forEach((conversation) => {
                 if (conversation.member[0]._id != req.userId) {
