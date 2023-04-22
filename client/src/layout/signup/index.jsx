@@ -99,7 +99,7 @@ function SignUp() {
     });
     setAlertStatus({
       open: true,
-      message: "Register successful, please verify your email address",
+      message: respone.successful ? "Register successful, please verify your email address" : "Something went wrong",
       type: respone.successful ? "success" : "error",
     });
 
