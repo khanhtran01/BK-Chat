@@ -160,7 +160,7 @@ def detectUserTopic():
     clusterer = hdbscan.HDBSCAN(algorithm='best', alpha=1.0, approx_min_span_tree=True,
                                 min_cluster_size=3, gen_min_span_tree=True, prediction_data=True)
     clusterer.fit(norm_data)
-    print(get_cluster_dict(clusterer.labels_))
+    app.logger.info(get_cluster_dict(clusterer.labels_))
 
     reject_list = []
     result = data_processing_for_get_content(
@@ -169,15 +169,18 @@ def detectUserTopic():
     topic = ""
     maxConfidence = 0
     for k, v in result.items():
-        print(v)
-        print('\n')
+        # print(v)
+        # print('\n')
         predict = get_classifies(v)
-        print(predict)
+        app.logger.info(predict)
         if predict and predict.confidence > maxConfidence:
             maxConfidence = predict.confidence
             topic = predict.name
         
-    print(topic)
+    app.logger.info(topic)
+
+    if len(topic) == 0:
+        return "No topic found"
 
     neo4j = neo4j_auth()
 
