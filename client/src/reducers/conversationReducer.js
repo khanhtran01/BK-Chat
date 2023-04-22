@@ -50,6 +50,8 @@ const conversationReducer = (state, action) => {
       head1.lastChat._id = payload._id;
       head1.lastChat.content = payload.content;
       head1.updatedAt = payload.createAt;
+      head1.lastChat.createdAt = payload.createdAt;
+
       if (payload.conversationId !== state.currConversationId) {
         head1.numUnRead += 1;
       }
@@ -58,6 +60,7 @@ const conversationReducer = (state, action) => {
 
       let newCurrConversation = [...state.currConversation];
       let myMessage = false;
+      console.log(newCurrConversation);
       for (let i = state.currConversation.length - 1; i >= 0; i--) {
         if (state.currConversation[i]["createdAt"] === payload.createdAt) {
           newCurrConversation[i].verify = true;
@@ -92,7 +95,10 @@ const conversationReducer = (state, action) => {
       }
       head.lastChat._id = payload._id;
       head.lastChat.content = payload.content;
+      // console.log(head.lastChat);
+      // console.log(payload);
       head.updatedAt = payload.createAt;
+      head.lastChat.createdAt = payload.createdAt;
       let newConversations = [head, ...remain];
       return {
         ...state,

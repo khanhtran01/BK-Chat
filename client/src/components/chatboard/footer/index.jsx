@@ -16,13 +16,13 @@ import { conversationContext } from "../../../context";
 import { replyContext } from "../context/replyContext";
 // import component
 import InputText from "../../typemessage";
-import BtnIcon from "../../btnIcon";
+// import BtnIcon from "../../btnIcon";
 import TagList from "./components/TagList";
 import IconPicker from "./components/IconPicker";
 // import material and function
 import { bcolors, textcolor } from "../../../colors";
-// import moment from "moment";
-import moment from 'moment-timezone';
+import moment from "moment";
+// import moment from 'moment-timezone';
 // import moment from "mo"
 
 function Footer() {
@@ -50,9 +50,11 @@ function Footer() {
         tagList.push(mem._id);
       }
     });
-    let currTime = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+    // let currTime = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+    let currTime = moment().utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+    // console.log(`send ${currTime}`);
     if (chatInfo.type === "single") {
-      // let currTime = moment().utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
+      // let currTime = moment().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
       socket.emit("sendChatSingle", {
         receiverId: chatInfo.receiverId,
         content: message.message,
@@ -74,7 +76,7 @@ function Footer() {
     } else {
       socket.emit("sendChatGroup", {
         content: message.message,
-        time: moment(),
+        time: currTime,
         replyFromChatId: replyFor ? replyFor._id : null,
         sender: user,
         conversationId: currConversationId,
