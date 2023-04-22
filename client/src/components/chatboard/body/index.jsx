@@ -94,7 +94,6 @@ function Body() {
       behavior: "smooth",
     });
   };
-  console.log(userData.currConversation)
   return (
     <Box
       sx={{

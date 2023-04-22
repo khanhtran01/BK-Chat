@@ -23,7 +23,6 @@ function FriendBox(props) {
   const { back, setBack } = useContext(chatboardContext)
 
   const convertTime = (time) => {
-    console.log(time);
     let today = new Date();
     if (moment(today).date() === moment(time).date()) {
       return moment(time).format("HH:mm");
@@ -116,7 +115,7 @@ function FriendBox(props) {
               borderRadius: "20px",
             }}
           >
-            {numUnRead}
+            {`${numUnRead >= 10 ? '10+' : numUnRead}`}
           </Typography>
         )}
       </Box>

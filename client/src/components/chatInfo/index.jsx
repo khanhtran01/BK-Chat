@@ -31,7 +31,6 @@ export default function ChatInfo() {
   let user = {};
 
   const { userData } = useContext(conversationContext);
-  console.log(userData.chatInfo);
   const { setChatInfoPopup } = useContext(context);
   if (userData.chatInfo.type === "single") {
     if (userData.chatInfo.name === userData.chatInfo.member[0].username) {

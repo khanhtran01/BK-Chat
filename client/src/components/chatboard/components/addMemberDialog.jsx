@@ -18,18 +18,39 @@ import { bcolors, textcolor } from "../../../colors";
 import SelectList from "./selectListDialog";
 import CloseIcon from "@mui/icons-material/Close";
 import { v4 as uuidv4 } from "uuid";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 export default function AddMemberDialog(props) {
+  const [alertStatus, setAlertStatus] = useState({
+    open: false,
+    message: "",
+    type: "error",
+  });
+  const handleCloseAlert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setAlertStatus({
+      ...alertStatus,
+      open: false,
+    });
+  };
   // const { userData, initData } = useContext(conversationContext);
   const [searchText, setSearchText] = useState("");
   const [isLoadingConversation, setIsLoadingConversation] = useState(true);
   const [allContact, setAllContact] = useState([]);
   const [contactAfterSearch, setContactAfterSearch] = useState([]);
-
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { selectedMember, setSelectedMember } = useContext(selectMemberContext);
 
   const handleRemoveMember = (memId) => {
@@ -43,16 +64,34 @@ export default function AddMemberDialog(props) {
   } = useContext(conversationContext);
   const { open, setOpen } = props;
   const handleSubmit = async () => {
+    // console.log(Object.keys(selectedMember))
+    setIsSubmitting(true)
     try {
-      await axios.put(`${process.env.REACT_APP_SERVER_ADDRESS}/api/conversation/add-member`, {
-        conversationId: currConversationId,
-        idsUser: selectedMember
-      })
+      if (Object.keys(selectedMember).length > 0) {
+        let response = await axios.put(`${process.env.REACT_APP_SERVER_ADDRESS}/api/conversation/add-member`, {
+          conversationId: currConversationId,
+          idsUser: Object.keys(selectedMember)
+        })
+        console.log(response);
+        if (response.data.successful) {
+          setSelectedMember({})
+          setAlertStatus({
+            open: true,
+            message: "Add successful",
+            type: "success",
+          });
+        }
+      }
     }
     catch (err) {
-      console.log(err);
-
+      // console.log(err);
+      setAlertStatus({
+        open: true,
+        message: "Add failed",
+        type: "error",
+      });
     }
+    setIsSubmitting(false)
     setOpen(false);
   };
 
@@ -86,6 +125,20 @@ export default function AddMemberDialog(props) {
 
   return (
     <div>
+      <Snackbar
+        open={alertStatus.open}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity={alertStatus.type}
+          sx={{ width: "100%" }}
+        >
+          {alertStatus.message}
+        </Alert>
+      </Snackbar>
       <Dialog
         open={open}
         TransitionComponent={Transition}
@@ -135,7 +188,7 @@ export default function AddMemberDialog(props) {
               </Box>
             ) : (
               <Box
-              sx={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'scroll' }}
+                sx={{ display: 'flex', flexWrap: 'nowrap', overflowX: 'scroll' }}
               >
                 {Object.values(selectedMember).map((member) =>
                   member.avatar ? (
@@ -251,7 +304,20 @@ export default function AddMemberDialog(props) {
               }}
               variant="contained"
             >
-              Add
+              {isSubmitting ? (
+                <CircularProgress
+                  variant="indeterminate"
+                  disableShrink
+                  size={25}
+                  thickness={4}
+                  sx={{
+                    color: "white",
+                    animationDuration: "550ms",
+                  }}
+                />
+              ) : (
+                `Add`
+              )}
             </Button>
           </DialogActions>
         </DialogContent>

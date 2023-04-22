@@ -53,7 +53,7 @@ export default function LeaveDialog(props) {
             color: textcolor.primaryGray,
           }}
         >
-          {"Are you sure you want to exit the group?"}
+          {userData&& userData.chatInfo && userData.chatInfo.type === "group" ? `Are you sure you want to exit the group?` : `Are you sure you want to block this user?`}
         </DialogTitle>
         <DialogContent>
           <DialogActions>
