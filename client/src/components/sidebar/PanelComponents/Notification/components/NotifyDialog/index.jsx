@@ -30,6 +30,7 @@ export default function NotifyDialog({
   notifyId,
   confidence,
   topic,
+  type
 }) {
   return (
     <div>
@@ -54,11 +55,18 @@ export default function NotifyDialog({
         </DialogTitle>
         <DialogContent>
           <Box>
-            <Typography sx={{ color: textcolor.primaryGray }}>
-              {`The system proposes to create a subgroup with ${members.length} people from group ${conversationId.name} about topic `}
-              <em>{`${topic}`}</em>
-              {` with confidence ${confidence}`}
-            </Typography>
+            {
+              type === "single" ? (<Typography sx={{ color: textcolor.primaryGray }}>
+                {`The system suggests you create a new group on the topic ${topic}`}
+
+              </Typography>) : (<Typography sx={{ color: textcolor.primaryGray }}>
+                {`The system proposes to create a subgroup with ${members.length} people from group ${conversationId.name} about topic `}
+                <em>{`${topic}`}</em>
+                {` with confidence ${confidence}`}
+
+              </Typography>)
+            }
+
             <Typography
               sx={{ color: textcolor.primaryGray }}
             >{`The list of members includes : `}</Typography>
@@ -70,7 +78,7 @@ export default function NotifyDialog({
                     justifyContent="center"
                     alignItems={"flex-start"}
                   >
-                    <Typography marginLeft={"5px"}>   
+                    <Typography marginLeft={"5px"}>
                       The list of members includes
                     </Typography>
                   </Box>

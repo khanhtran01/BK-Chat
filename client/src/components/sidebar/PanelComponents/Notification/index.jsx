@@ -18,6 +18,7 @@ function Notification() {
     notifyId: "",
     topic: "",
     confidence: "",
+    type: "",
   });
   const [openDialog, setOpenDialog] = useState(false);
   return (
@@ -30,6 +31,7 @@ function Notification() {
         notifyId={dialogData.notifyId}
         topic={dialogData.topic}
         confidence={dialogData.confidence}
+        type={dialogData.type}
       />
       <Box pt={3} px={3}>
         <Typography
@@ -58,6 +60,7 @@ function Notification() {
             setOpenDialog={setOpenDialog}
             confidence={e.confidence}
             topic={e.topic}
+            type={e.type}
           />
         ))}
       </Box>

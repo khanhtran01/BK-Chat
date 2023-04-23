@@ -25,7 +25,8 @@ function NotificationElement({
   setOpenDialog,
   notifyId,
   topic,
-  confidence
+  confidence,
+  type
 }) {
   return (
     <CustomButton
@@ -36,6 +37,7 @@ function NotificationElement({
           notifyId: notifyId,
           topic: topic,
           confidence: confidence,
+          type: type
         });
         setOpenDialog(true);
       }}
@@ -60,8 +62,9 @@ function NotificationElement({
 
         <Box ml={2}>
           <Typography fontSize={"14px"} textAlign="left">
-            The system proposes to create a subgroup from group{" "}
-            {`${conversationId.name}`}
+            {
+              type === "single" ? `The system suggests you create a new group on the topic ${topic}` : `The system proposes to create a subgroup from group ${conversationId.name}`
+            }
           </Typography>
         </Box>
       </Box>
