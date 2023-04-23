@@ -110,16 +110,19 @@ def checkgrouping():
 def get_recommend_group():
     neo4j = neo4j_auth()
     data = neo4j.run(
-        "match (u:User)-[r:CONTACTED]->(u1:User) match (u)-[:LIKE]->(t:Topic)<-[:LIKE]-(u1) return distinct u,u1 order by u.username").data()
+        "match (u:User)-[r:CONTACTED]->(u1:User) match (u)-[:LIKE]->(t:Topic)<-[:LIKE]-(u1) return distinct u,u1,t order by u.username").data()
 
     groups = []
     refactor_data = {}
+    topicObj = {}
     # for i in data:
     #     print(dict(i))
 
     for record in data:
         u = dict(record["u"])
         u1 = dict(record["u1"])
+        t = dict(record["t"])
+        topicObj[u["_id"]] = t["name"]
         if u["_id"] not in refactor_data:
             refactor_data[u["_id"]] = [u1["_id"]]
         else:
@@ -139,10 +142,15 @@ def get_recommend_group():
             print(groups)
 
     # unique list
+    topicList = []
     for i in range(len(groups)):
         groups[i] = list(set(groups[i]))
 
-    return groups
+    for i in range(len(groups)):
+        # print(topicObj[groups[i][0]])
+        topicList.append(topicObj[groups[i][0]])
+    
+    return {"group": groups, "topics" : topicList}
 
 
 def detectUserTopic():
