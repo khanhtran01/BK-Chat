@@ -31,6 +31,30 @@ class NotificationController {
         }
     }
 
+    async newSingle(req, res, next) {
+        try {
+            const groups = req.body.groups;
+            const topics = req.body.topics;
+            for (let i = 0; i < groups.length; i++) {
+                if (groups[i].length <= 2) continue;
+                const members = groups[i].map((member) => {
+                    return {
+                        userId: member,
+                    };
+                });
+                await Notification.create({
+                    conversationId: '',
+                    member: members,
+                    topic: topics[i],
+                    type: 'single',
+                });
+            }
+            res.status(200).json({ successful: true });
+        } catch (error) {
+            next(error);
+        }
+    }
+
     async getAll(req, res, next) {
         try {
             const notifications = await Notification.find({

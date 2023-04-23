@@ -79,6 +79,7 @@ function route(app) {
     app.get('/api/chat/get', ServiceMiddleware, ChatController.getChatForSuggestion);
     // [POST] /api/notification/new
     app.post('/api/notification/new', NotificationController.new);
+    app.post('/api/notification/new-single', NotificationController.newSingle);
     app.get('/api/neo4j/get-all', Neo4jController.getAllUser);
 
     app.use('/api/conversation', AuthenMiddleware, conversationRoute);

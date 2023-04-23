@@ -128,7 +128,7 @@ def get_recommend_group():
         else:
             refactor_data[u["_id"]].append(u1["_id"])
 
-    print(refactor_data)
+    # print(refactor_data)
     
     access_list = []
     for k, v in refactor_data.items():
@@ -139,7 +139,7 @@ def get_recommend_group():
                 groups.append(get_all_friends(refactor_data, access_list, k))
         else:
             groups.append(get_all_friends(refactor_data, access_list, k))
-            print(groups)
+            # print(groups)
 
     # unique list
     topicList = []
@@ -147,10 +147,16 @@ def get_recommend_group():
         groups[i] = list(set(groups[i]))
 
     for i in range(len(groups)):
-        # print(topicObj[groups[i][0]])
         topicList.append(topicObj[groups[i][0]])
+
+    app.logger.info(groups)
+    app.logger.info(topicList)
     
-    return {"group": groups, "topics" : topicList}
+    requests.post(f'{os.getenv("NODE_SERVER_URL")}/api/notification/new-single', json={
+        "groups": groups, "topics": topicList
+    })
+
+    return "success"
 
 
 def detectUserTopic():
