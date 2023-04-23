@@ -43,7 +43,7 @@ function NotificationElement({
       }}
     >
       <Box display="flex">
-        {conversationId.avatar ? (
+        {conversationId && conversationId.avatar ? (
           <Avatar
             src={`${conversationId.avatar}`}
             alt={`${conversationId.name}`}
