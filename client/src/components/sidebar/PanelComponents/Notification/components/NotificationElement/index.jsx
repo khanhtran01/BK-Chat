@@ -57,7 +57,7 @@ function NotificationElement({
               fontWeight: 500,
               textTransform: "uppercase",
             }}
-          >{`${conversationId.name[0]}`}</Avatar>
+          >{`${conversationId ? conversationId.name[0] : 'N'}`}</Avatar>
         )}
 
         <Box ml={2}>
