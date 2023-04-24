@@ -4,7 +4,7 @@ const NotificationController = require('../app/controllers/NotificationControlle
 
 // [GET] /api/notification/get
 route.get('/get', NotificationController.getAll);
-// [PUT] /api/notification/action
+// [PUT] /api/notification/action [notifyId, action, conversationId]
 route.put('/action', NotificationController.action);
 
 module.exports = route;

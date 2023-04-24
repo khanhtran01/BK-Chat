@@ -22,6 +22,7 @@ const Notification = new Schema(
         topic: { type: String },
         confidence: { type: String, default: '' },
         type: { type: String, enum: ['single', 'group'], default: 'group' },
+        kind: { type: String, enum: ['recommendation', 'notification'], default: 'recommendation' },
     },
     {
         timestamps: true,
