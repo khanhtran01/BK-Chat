@@ -19,7 +19,9 @@ function Notification() {
     topic: "",
     confidence: "",
     type: "",
+    time: "",
   });
+  console.log(userData.notifyList);
   const [openDialog, setOpenDialog] = useState(false);
   return (
     <Box sx={{ height: "100%" }}>
@@ -32,6 +34,7 @@ function Notification() {
         topic={dialogData.topic}
         confidence={dialogData.confidence}
         type={dialogData.type}
+        time={dialogData.time}
       />
       <Box pt={3} px={3}>
         <Typography
@@ -61,6 +64,7 @@ function Notification() {
             confidence={e.confidence}
             topic={e.topic}
             type={e.type}
+            time={e.createdAt}
           />
         ))}
       </Box>

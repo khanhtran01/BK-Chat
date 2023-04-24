@@ -2,6 +2,8 @@ import React from "react";
 import { Button, Box, Typography, Avatar } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { textcolor, bcolors } from "../../../../../../colors";
+import moment from "moment";
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 const CustomButton = styled(Button)({
   display: "flex",
   flexDirection: "row",
@@ -26,8 +28,17 @@ function NotificationElement({
   notifyId,
   topic,
   confidence,
-  type
+  type,
+  time
 }) {
+  const convertTime = (time) => {
+    let today = new Date();
+    if (moment(today).date() === moment(time).date()) {
+      return moment(time).format("HH:mm");
+    } else {
+      return moment(time).format("DD/MM");
+    }
+  };
   return (
     <CustomButton
       onClick={() => {
@@ -41,8 +52,11 @@ function NotificationElement({
         });
         setOpenDialog(true);
       }}
+      sx={{
+        height: 'fit-content'
+      }}
     >
-      <Box display="flex">
+      <Box display="flex" alignItems={'center'}>
         {conversationId && conversationId.avatar ? (
           <Avatar
             src={`${conversationId.avatar}`}
@@ -63,9 +77,16 @@ function NotificationElement({
         <Box ml={2}>
           <Typography fontSize={"14px"} textAlign="left">
             {
-              type === "single" ? `The system suggests you create a new group on the topic ${topic}` : `The system proposes to create a subgroup from group ${conversationId.name}`
+              type === "single" ? `Suggest to create a group about ${topic}` : `The system proposes to create a subgroup from group ${conversationId.name}`
             }
           </Typography>
+          <Box display={"flex"} alignItems={"center"}>
+            <AccessTimeIcon sx={{ width: '12px', height: '12px', marginRight: '5px' }} />
+            <Typography fontSize={"12px"} textAlign="left" fontWeight={500} display={"flex"} alignItems={'center'} mt={'4px'}>
+              {convertTime(time)}
+            </Typography>
+          </Box>
+
         </Box>
       </Box>
     </CustomButton>
