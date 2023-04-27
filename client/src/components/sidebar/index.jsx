@@ -12,7 +12,7 @@ import Box from "@mui/material/Box";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import PermContactCalendarIcon from "@mui/icons-material/PermContactCalendar";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+// import NotificationsIcon from "@mui/icons-material/Notifications";
 import GroupIcon from "@mui/icons-material/Group";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
 import Slide from "@mui/material/Slide";
@@ -31,6 +31,7 @@ import { bcolors, textcolor } from "../../colors";
 import { useMediaQuery } from "@mui/material";
 // import { context } from "../../layout/dashboard/context";
 import { chatboardContext } from "../chatboard/context";
+import RecommendIcon from '@mui/icons-material/Recommend';
 import React from "react";
 // import panelTab
 
@@ -158,7 +159,7 @@ export default function SideBar() {
     <ChatBubbleIcon sx={iconStyle} />,
     <PermContactCalendarIcon sx={iconStyle} />,
     <GroupIcon sx={iconStyle} />,
-    <NotificationsIcon sx={iconStyle} />,
+    <RecommendIcon sx={iconStyle} />,
   ];
   const mobileView = useMediaQuery("(min-width:1000px)");
   const handleChange = (event, newValue) => {

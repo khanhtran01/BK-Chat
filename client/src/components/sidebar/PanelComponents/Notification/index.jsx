@@ -43,7 +43,7 @@ function Notification() {
             fontSize: "1.3125rem",
           }}
         >
-          Notifications
+          Suggestions
         </Typography>
       </Box>
       <Box
