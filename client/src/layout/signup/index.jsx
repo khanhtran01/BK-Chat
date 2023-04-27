@@ -110,7 +110,7 @@ function SignUp() {
     <Box
       sx={{
         backgroundColor: bcolors.bluedark,
-        height: "fit-content",
+        height: "100%",
         width: "100%",
         display: "flex",
         justifyContent: "center",

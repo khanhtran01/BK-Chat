@@ -210,6 +210,7 @@ function ContextProvider({ children }) {
     reset_logout, add_message_fast,
     initData,
     updateOldMessages,
+    getAllNotify
   };
   return (
     <conversationContext.Provider value={contextData}>

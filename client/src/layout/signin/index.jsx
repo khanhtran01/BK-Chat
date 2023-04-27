@@ -78,7 +78,6 @@ function SignIn() {
     <Box
       sx={{
         backgroundColor: bcolors.bluedark,
-        height: "fit-content",
         width: "100%",
         display: "flex",
         justifyContent: "center",
@@ -87,6 +86,7 @@ function SignIn() {
         overflow: "scroll",
         boxSizing: "border-box",
         padding: "100px 0px",
+        height: "100%",
       }}
     >
       <Snackbar

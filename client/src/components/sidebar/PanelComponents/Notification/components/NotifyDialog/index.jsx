@@ -20,7 +20,7 @@ import CustomizedAccordions from "../../../../../accordion";
 import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
-// import { conversationContext } from "../../../../../../context";
+import { conversationContext } from "../../../../../../context";
 // import { groupsContext } from "../../context";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -41,6 +41,7 @@ export default function NotifyDialog({
   time,
 }) {
   const { authState } = useContext(AuthContext)
+  const { getAllNotify } = useContext(conversationContext)
   const [alertStatus, setAlertStatus] = useState({
     open: false,
     message: "",
@@ -72,6 +73,7 @@ export default function NotifyDialog({
           message: 'voted successfully',
           type: "success",
         });
+        await getAllNotify()
       } else {
         setAlertStatus({
           open: true,
