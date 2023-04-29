@@ -46,6 +46,7 @@ const io = socketio(server, {
 });
 
 const redis = require('./config/redis/index');
+const handleNotify = require('./util/handleNotify');
 
 redis.connect(io);
 
@@ -204,6 +205,8 @@ io.on('connection', (socket) => {
 
 // Routes init
 route(app);
+
+handleNotify.start();
 
 app.use((err, req, res, next) => {
     console.log(err);

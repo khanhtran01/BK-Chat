@@ -78,9 +78,13 @@ class NotificationController {
                     $set: { 'member.$.status': req.body.action },
                 },
             );
-            const notification = await Notification.findOne({ _id: notificationId, status: 'pending' });
+            const notification = await Notification.findOne({
+                _id: notificationId,
+                // kind: 'suggestion',
+                status: 'pending',
+            });
             if (!notification) {
-                res.status(200).json({ successful: false, message: 'This recommendation is already done.' });
+                res.status(200).json({ successful: false, message: 'This suggestion is already done.' });
                 return;
             }
             let members = [];
@@ -94,7 +98,10 @@ class NotificationController {
                 }
             }
             if (flag) {
-                const parentConversation = await Conversation.findOne({ _id: req.body.conversationId });
+                const parentConversation = await Conversation.findOne(
+                    { _id: req.body.conversationId },
+                    { name: 1 },
+                );
                 const conversation = await Conversation.create({
                     name: 'Sub group of ' + parentConversation.name,
                     type: 'group',
@@ -120,6 +127,60 @@ class NotificationController {
             }
         } catch (error) {
             next(error);
+        }
+    }
+
+    async validateNotifications() {
+        const now = new Date();
+        const time = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7);
+        const suggesstions = await Notification.find({
+            // kind: 'suggestion',
+            status: 'pending',
+            createdAt: {
+                $lt: time,
+            },
+            // type: 'group',
+        });
+        // console.log(suggesstions);
+        for (const suggestion of suggesstions) {
+            let membersForGroup = [];
+            suggestion.member.forEach((e) => {
+                if (e.status === 'accept') membersForGroup.push(e._id);
+            });
+            if (membersForGroup.length > 2) {
+                const parentConversation = await Conversation.findOne(
+                    { _id: suggestion.conversationId },
+                    { name: 1 },
+                );
+                const conversation = await Conversation.create({
+                    name: 'Sub group of ' + parentConversation.name,
+                    type: 'group',
+                    member: membersForGroup,
+                });
+                await Chat.create({
+                    conversationId: conversation._id,
+                    userId: membersForGroup[membersForGroup.length - 1],
+                    content: 'Hi',
+                    type: 'text',
+                    userRead: [membersForGroup[membersForGroup.length - 1]],
+                    replyFrom: null,
+                });
+                await Notification.updateOne(
+                    {
+                        _id: suggestion._id,
+                    },
+                    { status: 'accept' },
+                );
+                console.log('🚀 ~ Accepted notificationId: ' + suggestion._id);
+            } else {
+                await Notification.updateOne(
+                    {
+                        _id: suggestion._id,
+                    },
+                    { status: 'reject' },
+                );
+                console.log('🚀 ~ Rejected notificationId: ' + suggestion._id);
+            }
         }
     }
 }
