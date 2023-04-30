@@ -134,6 +134,11 @@ const conversationReducer = (state, action) => {
         ...state,
         currConversation: [...payload.messages, ...state.currConversation]
       };
+    case "OUT_OF_CONVERSATION":
+      return {
+        ...state,
+        currConversationId: "",
+      }
     default:
       return state;
   }

@@ -65,6 +65,7 @@ function Notification() {
             topic={e.topic}
             type={e.type}
             time={e.createdAt}
+            status={e.status}
           />
         ))}
       </Box>

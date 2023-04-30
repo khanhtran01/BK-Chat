@@ -197,6 +197,10 @@ function ContextProvider({ children }) {
   const add_message_fast = (message) => {
     dispatch({ type: "ADD_MESSAGE_FAST", payload: message });
   }
+  const out_of_conversation = () => {
+    dispatch({ type: "OUT_OF_CONVERSATION"});
+
+  }
 
   const contextData = {
     addContact,
@@ -210,7 +214,8 @@ function ContextProvider({ children }) {
     reset_logout, add_message_fast,
     initData,
     updateOldMessages,
-    getAllNotify
+    getAllNotify,
+    out_of_conversation
   };
   return (
     <conversationContext.Provider value={contextData}>
