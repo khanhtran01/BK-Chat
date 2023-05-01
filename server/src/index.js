@@ -30,11 +30,7 @@ app.use(cookieParse(process.env.COOKIE_SECRECT)); //cookie parser
 
 // Set up
 app.use(morgan('combined'));
-app.use(
-    cors({
-        origin: [process.env.FE_URL, process.env.AI_URL],
-    }),
-);
+app.use(cors());
 
 app.use(Neo4jMiddleware);
 
@@ -69,33 +65,34 @@ io.on('connection', (socket) => {
             }
         });
     });
+    // senderId, receiverId, username, avatar, content
+    socket.on('sendNewContact', async (data) => {
+        const receiverUser = getUser(data.receiverId);
+        io.to(receiverUser?.socketId).emit('getNewContact', {
+            senderId: data.senderId,
+            username: data.username,
+            avatar: data.avatar,
+            receiverId: data.receiverId,
+            content: data.content,
+            conversationId: data.conversationId,
+            time: data.time,
+        });
+    });
+    //
+    socket.on('sendNewGroup', async (data) => {
+        data.memberIdAndAva.forEach((e) => {
+            if (e.id != data.senderId) {
+                var receiverUser = getUser(e.id);
+                io.to(receiverUser?.socketId).emit('getNewGroup', {
+                    senderId: data.senderId,
+                    nameGroup: data.nameGroup,
+                    messId: data.messId,
+                    memberIdAndAva: data.memberIdAndAva,
+                });
+            }
+        });
+    });
 
-    // socket.on("sendNewContact", async (data) => {
-    //     const receiverUser = getUser(data.receiverId);
-    //     io.to(receiverUser?.socketId).emit("getNewContact", {
-    //         senderId: data.senderId,
-    //         username: data.username,
-    //         avatar: data.avatar,
-    //         receiverId: data.receiverId,
-    //         content: data.content,
-    //         conversationId: data.conversationId,
-    //         time: data.time,
-    //     });
-    // });
-
-    // socket.on('sendNewGroup', async (data) => {
-    //     data.memberIdAndAva.forEach(e => {
-    //         if (e.id != data.senderId) {
-    //             var receiverUser = getUser(e.id);
-    //             io.to(receiverUser?.socketId).emit("getNewGroup", {
-    //                 senderId: data.senderId,
-    //                 nameGroup: data.nameGroup,
-    //                 messId: data.messId,
-    //                 memberIdAndAva: data.memberIdAndAva
-    //             });
-    //         }
-    //     })
-    // })
     // senderId, receiverId, conversationId, content, replyFromChatId, time,
     socket.on('sendChatSingle', async (data) => {
         data.type = 'text';
@@ -116,6 +113,20 @@ io.on('connection', (socket) => {
                 _id: result?.id,
                 createdAt: data.time,
                 replyFrom: result?.replyChat,
+                conversationInfor: {
+                    _id: data.conversationId,
+                    name: '',
+                    type: 'single',
+                    avatar: data.sender.avatar,
+                    numUnRead: 1,
+                    lastChat: {
+                        _id: result?.id,
+                        content: data.content,
+                        createdAt: data.time,
+                    },
+                    createdAt: data.time,
+                    updatedAt: data.time,
+                },
             });
     });
 
@@ -134,6 +145,20 @@ io.on('connection', (socket) => {
             _id: result?.id,
             createdAt: data.time,
             replyFrom: result?.replyChat,
+            conversationInfor: {
+                _id: data.conversationId,
+                name: 'New group',
+                type: 'group',
+                avatar: data.sender.avatar,
+                numUnRead: 1,
+                lastChat: {
+                    _id: result?.id,
+                    content: data.content,
+                    createdAt: data.time,
+                },
+                createdAt: data.time,
+                updatedAt: data.time,
+            },
         });
     });
 

@@ -84,7 +84,7 @@ class NotificationController {
                 status: 'pending',
             });
             if (!notification) {
-                res.status(200).json({ successful: false, message: 'This suggestion is already done.' });
+                res.status(200).json({ successful: false, message: 'This suggestion is already done' });
                 return;
             }
             let members = [];

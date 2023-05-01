@@ -35,8 +35,8 @@ class AuthenController {
                         });
                     }
                 });
-            } else if (!user.verify) {
-                res.status(200).json({ message: 'Your email is not verify', successful: false });
+            } else if (user && !user.verify) {
+                res.status(200).json({ message: 'Your email is not verified', successful: false });
             } else {
                 res.status(200).json({ message: 'Invalid email or password', successful: false });
             }
@@ -50,7 +50,7 @@ class AuthenController {
                 email: req.body.email,
             });
             if (user) {
-                res.status(200).json({ message: 'Email is exist', successful: false });
+                res.status(200).json({ message: 'Email does exist', successful: false });
             } else {
                 const randStr = randString();
                 bcrypt.hash(req.body.password, saltRounds, async function (err, hash) {
@@ -100,11 +100,11 @@ class AuthenController {
                     },
                 );
                 await Neo4jController.createUser(req, user._id.toString(), user.username);
-                res.status(200).json({ successful: true, message: 'Verify successfully' });
+                res.status(200).json({ successful: true, message: 'Verify Successfully' });
             } else {
                 res.status(200).json({
                     successful: false,
-                    message: 'Email is already verify or token is not valid',
+                    message: 'Email is already verified, or token is not valid',
                 });
             }
         } catch (error) {
@@ -160,9 +160,9 @@ class AuthenController {
                     html: forgetPassword(randStr, req.query.email, process.env.FE_URL),
                 };
                 await transport.sendMail(mailOptions);
-                res.status(200).json({ message: 'Already send mail', successful: true });
+                res.status(200).json({ message: 'Email sent successfully', successful: true });
             } else {
-                res.status(200).json({ message: 'Email is not exist', successful: false });
+                res.status(200).json({ message: 'Email does not exist', successful: false });
             }
         } catch (error) {
             next(error);
@@ -173,20 +173,17 @@ class AuthenController {
             const user = await User.findOne({ email: req.body.email, uniqueString: req.body.token });
             if (user) {
                 const randStr = randString();
-                console.log(req.body.email)
-                console.log(req.body.password)
                 bcrypt.hash(req.body.password, saltRounds, async function (err, hash) {
                     await User.updateOne(
                         { email: req.body.email },
                         { password: hash, uniqueString: randStr },
                     );
-                    console.log(hash)
                 });
                 res.status(200).json({ successful: true, message: 'Password reset successfully' });
             } else {
                 res.status(200).json({
                     successful: false,
-                    message: 'Token is invalid or Email is not exist',
+                    message: 'Token is invalid or Email email does not exist',
                 });
             }
         } catch (error) {
