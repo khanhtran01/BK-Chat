@@ -55,6 +55,7 @@ export default function SelectMemberDialog() {
         sx={{
           "& .MuiDialog-paper": {
             backgroundColor: bcolors.dialog,
+            width: "90%"
           },
         }}
       >
@@ -66,7 +67,7 @@ export default function SelectMemberDialog() {
           {"Select Members"}
         </DialogTitle>
         <DialogContent>
-          <Box display="flex" flexDirection={"column"} width="450px">
+          <Box display="flex" flexDirection={"column"} width="100%">
             <SelectList data={contactList} />
           </Box>
           <DialogActions>

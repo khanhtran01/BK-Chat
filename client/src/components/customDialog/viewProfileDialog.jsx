@@ -30,6 +30,7 @@ export default function ViewProfileDiaglog({ open, setOpen, userInfo }) {
         sx={{
           "& .MuiDialog-paper": {
             backgroundColor: bcolors.dialog,
+            width: "90%"
           },
         }}
       >
@@ -41,7 +42,7 @@ export default function ViewProfileDiaglog({ open, setOpen, userInfo }) {
           {"Profile"}
         </DialogTitle>
         <DialogContent>
-          <Box display="flex" flexDirection={"column"} width="450px">
+          <Box display="flex" flexDirection={"column"} width="100%">
             <Box
             display="flex"
             flexDirection={"column"}

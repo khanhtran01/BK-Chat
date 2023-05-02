@@ -71,6 +71,9 @@ function FriendBox(props) {
           sx={{
             color: textcolor.primaryGray,
             fontSize: "15px",
+            whiteSpace: "nowrap",
+            textOverflow: "ellipsis",
+            overflow: "hidden",
           }}
         >
           {name}
@@ -81,7 +84,7 @@ function FriendBox(props) {
             textOverflow: "ellipsis",
             overflow: "hidden",
             fontSize: "14px",
-            fontWeight: numUnRead > 0 ? 550: 400,
+            fontWeight: numUnRead > 0 ? 550 : 400,
             color: numUnRead > 0 && textcolor.primaryGray,
           }}
         >

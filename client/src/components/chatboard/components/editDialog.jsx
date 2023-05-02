@@ -143,6 +143,7 @@ export default function EditGroupDialog({ initData }) {
         sx={{
           "& .MuiDialog-paper": {
             backgroundColor: bcolors.dialog,
+            width: "90%"
           },
         }}
       >
@@ -158,7 +159,7 @@ export default function EditGroupDialog({ initData }) {
             component="form"
             display="flex"
             flexDirection={"column"}
-            width="450px"
+            width="100%"
           >
             <Typography
               sx={{

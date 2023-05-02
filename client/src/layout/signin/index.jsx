@@ -138,7 +138,9 @@ function SignIn() {
         p={5}
         bgcolor={bcolors.dark}
         sx={{
-          width: "550px",
+          // width: "550px",
+          width: "90%",
+          maxWidth: "550px",
         }}
         borderRadius={1}
       >
@@ -147,7 +149,7 @@ function SignIn() {
             width: "100%",
           }}
           variant="standard"
-          autoSave="" 
+          autoSave=""
         >
           <Box
             display="flex"
@@ -171,7 +173,7 @@ function SignIn() {
               text={password}
               setText={onChangeLoginForm}
               type="password"
-              onKeyDown={handleKeyDown} 
+              onKeyDown={handleKeyDown}
               autoComplete="password"
             />
           </Box>

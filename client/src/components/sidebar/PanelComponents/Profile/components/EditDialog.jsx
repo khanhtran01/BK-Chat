@@ -59,6 +59,7 @@ export default function EditDialog() {
         sx={{
           "& .MuiDialog-paper": {
             backgroundColor: bcolors.dialog,
+            width: "90%",
           },
         }}
       >
@@ -74,7 +75,7 @@ export default function EditDialog() {
             component="form"
             display="flex"
             flexDirection={"column"}
-            width="450px"
+            width="100%"
           >
             <Typography
               sx={{
@@ -138,7 +139,7 @@ export default function EditDialog() {
               type="file"
               value={profileData.avatar.name}
               name="avatar"
-              onChange={(e) => handleAvatar({name: e.target.value, file: e.target.files[0]})}
+              onChange={(e) => handleAvatar({ name: e.target.value, file: e.target.files[0] })}
               hiddenLabel
               placeholder="Enter avatar file"
             />

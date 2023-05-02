@@ -95,6 +95,7 @@ export default function CustomerDialog({
         sx={{
           "& .MuiDialog-paper": {
             backgroundColor: bcolors.dialog,
+            width: "90%"
           },
         }}
       >
@@ -106,7 +107,7 @@ export default function CustomerDialog({
           {"Add Contacts?"}
         </DialogTitle>
         <DialogContent>
-          <Box display="flex" flexDirection={"column"} width="450px">
+          <Box display="flex" flexDirection={"column"} width="100%">
             <Box width={"100%"} position={"relative"}>
               <Typography
                 sx={{

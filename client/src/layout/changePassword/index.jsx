@@ -53,7 +53,7 @@ function ChangePassword() {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    if (isComplete){
+    if (isComplete) {
       navigate('/auth/login');
       return;
     }
@@ -182,7 +182,8 @@ function ChangePassword() {
         p={5}
         bgcolor={bcolors.dark}
         sx={{
-          width: "550px",
+          width: "90%",
+          maxWidth: "550px",
         }}
         borderRadius={1}
       >
