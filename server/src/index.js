@@ -9,7 +9,6 @@ const cookieParse = require('cookie-parser');
 const http = require('http');
 const server = http.createServer(app);
 const socketio = require('socket.io');
-const { Readable } = require('stream');
 
 const db = require('./config/db/index');
 const { addUser, removeUser, getUser, getUserBySocketId, getStatusUsers } = require('./util/userSocket');
@@ -43,6 +42,7 @@ const io = socketio(server, {
 
 const redis = require('./config/redis/index');
 const handleNotify = require('./util/handleNotify');
+const UserController = require('./app/controllers/UserController');
 
 redis.connect(io);
 
@@ -66,32 +66,32 @@ io.on('connection', (socket) => {
         });
     });
     // senderId, receiverId, username, avatar, content
-    socket.on('sendNewContact', async (data) => {
-        const receiverUser = getUser(data.receiverId);
-        io.to(receiverUser?.socketId).emit('getNewContact', {
-            senderId: data.senderId,
-            username: data.username,
-            avatar: data.avatar,
-            receiverId: data.receiverId,
-            content: data.content,
-            conversationId: data.conversationId,
-            time: data.time,
-        });
-    });
+    // socket.on('sendNewContact', async (data) => {
+    //     const receiverUser = getUser(data.receiverId);
+    //     io.to(receiverUser?.socketId).emit('getNewContact', {
+    //         senderId: data.senderId,
+    //         username: data.username,
+    //         avatar: data.avatar,
+    //         receiverId: data.receiverId,
+    //         content: data.content,
+    //         conversationId: data.conversationId,
+    //         time: data.time,
+    //     });
+    // });
     //
-    socket.on('sendNewGroup', async (data) => {
-        data.memberIdAndAva.forEach((e) => {
-            if (e.id != data.senderId) {
-                var receiverUser = getUser(e.id);
-                io.to(receiverUser?.socketId).emit('getNewGroup', {
-                    senderId: data.senderId,
-                    nameGroup: data.nameGroup,
-                    messId: data.messId,
-                    memberIdAndAva: data.memberIdAndAva,
-                });
-            }
-        });
-    });
+    // socket.on('sendNewGroup', async (data) => {
+    //     data.memberIdAndAva.forEach((e) => {
+    //         if (e.id != data.senderId) {
+    //             var receiverUser = getUser(e.id);
+    //             io.to(receiverUser?.socketId).emit('getNewGroup', {
+    //                 senderId: data.senderId,
+    //                 nameGroup: data.nameGroup,
+    //                 messId: data.messId,
+    //                 memberIdAndAva: data.memberIdAndAva,
+    //             });
+    //         }
+    //     });
+    // });
 
     // senderId, receiverId, conversationId, content, replyFromChatId, time,
     socket.on('sendChatSingle', async (data) => {
@@ -113,20 +113,6 @@ io.on('connection', (socket) => {
                 _id: result?.id,
                 createdAt: data.time,
                 replyFrom: result?.replyChat,
-                conversationInfor: {
-                    _id: data.conversationId,
-                    name: '',
-                    type: 'single',
-                    avatar: data.sender.avatar,
-                    numUnRead: 1,
-                    lastChat: {
-                        _id: result?.id,
-                        content: data.content,
-                        createdAt: data.time,
-                    },
-                    createdAt: data.time,
-                    updatedAt: data.time,
-                },
             });
     });
 
@@ -145,21 +131,85 @@ io.on('connection', (socket) => {
             _id: result?.id,
             createdAt: data.time,
             replyFrom: result?.replyChat,
-            conversationInfor: {
-                _id: data.conversationId,
-                name: 'New group',
-                type: 'group',
-                avatar: data.sender.avatar,
-                numUnRead: 1,
-                lastChat: {
-                    _id: result?.id,
-                    content: data.content,
-                    createdAt: data.time,
-                },
-                createdAt: data.time,
-                updatedAt: data.time,
-            },
         });
+    });
+
+    socket.on('sendNewConversation', async (data) => {
+        // type, time, content, senderEmail, senderId, senderUsername, senderAvatar, conversationId, receiverEmail.
+        if (data.type === 'single') {
+            const receiver = await UserController.findUserByEmail(data.receiverEmail);
+            const receiverUser = getUser(receiver._id);
+            io.to(receiverUser?.socketId).emit('getNewConversation', {
+                conversationInfor: {
+                    _id: data.conversationId,
+                    name: 'Name conversation',
+                    type: data.type,
+                    member: [
+                        {
+                            _id: data.senderId,
+                            email: data.senderEmail,
+                            username: data.senderUsername,
+                            avatar: data.senderAvatar,
+                        },
+                        {
+                            _id: receiver._id,
+                            email: receiver.email,
+                            username: receiver.username,
+                            avatar: receiver.avatar,
+                        },
+                    ],
+                    desc: '',
+                    avatar: null,
+                    numUnRead: 1,
+                    lastChat: {
+                        content: data.content,
+                        createdAt: data.time,
+                    },
+                },
+            });
+        }
+        // type, time, content, members [userId], senderId, conversationId, conversationName
+        if (data.type === 'group') {
+            data.members.forEach((member) => {
+                if (member != data.senderId) {
+                    const receiverUser = getUser(member);
+                    io.to(receiverUser?.socketId).emit('getNewConversation', {
+                        conversationInfor: {
+                            _id: data.conversationId,
+                            name: data.conversationName,
+                            type: data.type,
+                            member: [],
+                            desc: '',
+                            avatar: null,
+                            numUnRead: 1,
+                            lastChat: {
+                                content: data.content,
+                                createdAt: data.time,
+                            },
+                        },
+                    });
+                }
+            });
+        }
+        // conversationId, conversationName, conversationAvatar, senderId, receiverId,
+        if (data.type === 'addmember') {
+            const receiverUser = getUser(data.receiverId);
+            io.to(receiverUser?.socketId).emit('getNewConversation', {
+                conversationInfor: {
+                    _id: data.conversationId,
+                    name: data.conversationName,
+                    type: data.type,
+                    member: [],
+                    desc: '',
+                    avatar: data.conversationAvatar,
+                    numUnRead: 1,
+                    lastChat: {
+                        content: data.content,
+                        createdAt: data.time,
+                    },
+                },
+            });
+        }
     });
 
     // socket.on('sendReactionChatSingle', async (data) => {
@@ -232,6 +282,8 @@ io.on('connection', (socket) => {
 route(app);
 
 handleNotify.start();
+
+module.exports = server;
 
 app.use((err, req, res, next) => {
     console.log(err);

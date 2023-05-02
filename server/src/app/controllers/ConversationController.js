@@ -42,8 +42,8 @@ class ConversationController {
                         type: 'text',
                         userRead: [req.userId],
                     });
-                    await Neo4jController.createContact(req, req.userId, user._id.toString());
-                    res.status(200).json({ isContact: false, successful: true });
+                    // await Neo4jController.createContact(req, req.userId, user._id.toString());
+                    res.status(200).json({ isContact: false, successful: true, conversation: conversation });
                 }
             } else if (user) {
                 res.status(200).json({ isContact: true, successful: false });

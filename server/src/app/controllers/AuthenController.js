@@ -99,7 +99,7 @@ class AuthenController {
                         uniqueString: randStr,
                     },
                 );
-                await Neo4jController.createUser(req, user._id.toString(), user.username);
+                // await Neo4jController.createUser(req, user._id.toString(), user.username);
                 res.status(200).json({ successful: true, message: 'Verify Successfully' });
             } else {
                 res.status(200).json({

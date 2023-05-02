@@ -1,2 +1,2 @@
 cd server/ 
-npm start
+npm test
