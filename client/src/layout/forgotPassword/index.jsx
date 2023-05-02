@@ -148,7 +148,8 @@ function PorgotPassword() {
         p={5}
         bgcolor={bcolors.dark}
         sx={{
-          width: "550px",
+          width: "90%",
+          maxWidth: "550px",
         }}
         borderRadius={1}
       >

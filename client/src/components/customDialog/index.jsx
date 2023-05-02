@@ -13,6 +13,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import ViewProfileDiaglog from "./viewProfileDialog";
 import { bcolors, textcolor } from "../../colors";
 import axios from "axios";
+// import { SocketContext } from "../../context/socket";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -29,6 +30,8 @@ export default function CustomerDialog({
 }) {
   const [isSubmiting, setIsSubmiting] = React.useState(false);
   const [friendInfo, setFriendInfo] = React.useState({});
+  // const { socket } = React.useContext(SocketContext);
+
   const handleSubmit = async () => {
     setIsSubmiting(true);
     await submit();
@@ -92,6 +95,7 @@ export default function CustomerDialog({
         sx={{
           "& .MuiDialog-paper": {
             backgroundColor: bcolors.dialog,
+            width: "90%"
           },
         }}
       >
@@ -103,7 +107,7 @@ export default function CustomerDialog({
           {"Add Contacts?"}
         </DialogTitle>
         <DialogContent>
-          <Box display="flex" flexDirection={"column"} width="450px">
+          <Box display="flex" flexDirection={"column"} width="100%">
             <Box width={"100%"} position={"relative"}>
               <Typography
                 sx={{

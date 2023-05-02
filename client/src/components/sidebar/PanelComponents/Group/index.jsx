@@ -40,7 +40,7 @@ function Group() {
       });
     }
     setTempConversation([...resConversations]);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchInput, userData.contactList]);
 
 
@@ -48,17 +48,18 @@ function Group() {
     <Box sx={{ height: "100%" }}>
       <GroupDialog />
       <SelectMemberDialog />
-      <Box sx={{ height: "10rem", p: 3 }}>
+      <Box sx={{ height: "6.75rem", p: 3 }}>
         <Box
           display="flex"
           justifyContent={"space-between"}
-          alignItems="center"
-          marginBottom="1.5rem"
+          alignItems="flex-start"
         >
           <Typography
             sx={{
               color: textcolor.primaryGray,
               fontSize: "1.3125rem",
+              marginBottom: "1.5rem"
+
             }}
           >
             Groups
@@ -76,7 +77,7 @@ function Group() {
           placeholder={"Search groups..."}
           value={searchInput}
           onChange={setSearchInput}
-          
+
         />
       </Box>
       <Box
