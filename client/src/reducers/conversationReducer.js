@@ -84,22 +84,31 @@ const conversationReducer = (state, action) => {
           head = state.conversations[i];
         }
       }
+      console.log(state.conversations)
+      console.log(payload)
       let remain = state.conversations.filter(
         (conversation) => conversation._id !== payload.conversationId
       );
-      if (
-        head.lastChat._id !== payload._id &&
+      console.log(head);
+
+      if (Object.keys(head).length === 0) {
+        console.log('length = 0  and assign')
+        head = { ...payload.conversationInfor }
+      } else if (
+        head.lastChat?._id !== payload._id &&
         payload.conversationId !== state.currConversationId
       ) {
         head.numUnRead += 1;
       }
+
+      console.log(head);
       head.lastChat._id = payload._id;
       head.lastChat.content = payload.content;
-      // console.log(head.lastChat);
-      // console.log(payload);
       head.updatedAt = payload.createAt;
       head.lastChat.createdAt = payload.createdAt;
       let newConversations = [head, ...remain];
+      console.log(head.lastChat);
+      console.log(payload);
       return {
         ...state,
         conversations: newConversations,

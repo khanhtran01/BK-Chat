@@ -63,7 +63,7 @@ function Header() {
           <BlockIcon sx={{ fontSize: "18px" }} />
         </Box>
       ),
-      handle: () => handleLeaveDialog(true),
+      handle: () => { }
     },
   ];
   const mobileView = useMediaQuery("(min-width:1000px)");

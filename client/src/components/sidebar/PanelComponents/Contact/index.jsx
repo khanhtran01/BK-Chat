@@ -109,17 +109,19 @@ function Contact() {
         helperText={helper}
         setHelper={setHelper}
       />
-      <Box sx={{ height: "10rem", p: 3 }}>
+      <Box sx={{ height: "6.75rem", p: 3 }}>
         <Box
           display="flex"
           justifyContent={"space-between"}
-          alignItems="center"
-          marginBottom="1.5rem"
+          alignItems="flex-start"
+        // marginBottom="1.5rem"
         >
           <Typography
             sx={{
               color: textcolor.primaryGray,
               fontSize: "1.3125rem",
+              marginBottom: "1.5rem",
+
             }}
           >
             Contacts

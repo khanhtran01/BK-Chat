@@ -83,6 +83,7 @@ function SocketProvider({ children }) {
       if (data.conversationId === userData.currConversationId) {
         receiveMessage(data);
       } else {
+        console.log('add to wait list')
         addToWaitingStack(data);
       }
     });

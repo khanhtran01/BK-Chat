@@ -13,6 +13,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import ViewProfileDiaglog from "./viewProfileDialog";
 import { bcolors, textcolor } from "../../colors";
 import axios from "axios";
+// import { SocketContext } from "../../context/socket";
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -29,6 +30,8 @@ export default function CustomerDialog({
 }) {
   const [isSubmiting, setIsSubmiting] = React.useState(false);
   const [friendInfo, setFriendInfo] = React.useState({});
+  // const { socket } = React.useContext(SocketContext);
+
   const handleSubmit = async () => {
     setIsSubmiting(true);
     await submit();
