@@ -21,6 +21,7 @@ import axios from "axios";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 import { conversationContext } from "../../../../../../context";
+import { SocketContext } from "../../../../../../context/socket";
 // import { groupsContext } from "../../context";
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -42,6 +43,7 @@ export default function NotifyDialog({
 }) {
   const { authState } = useContext(AuthContext)
   const { getAllNotify } = useContext(conversationContext)
+  const { socket } = useContext(SocketContext);
   const [alertStatus, setAlertStatus] = useState({
     open: false,
     message: "",
@@ -73,6 +75,11 @@ export default function NotifyDialog({
           message: 'voted successfully',
           type: "success",
         });
+        if (response.data.createGroup){
+          socket.emit('newGroupFromSuggestion', {
+            conversationId: response.data.conversation?._id,
+          })
+        }
         await getAllNotify()
       } else {
         setAlertStatus({

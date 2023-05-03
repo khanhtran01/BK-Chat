@@ -7,7 +7,6 @@ import { chatboardContext } from "../context";
 import { context } from "../../../layout/dashboard/context";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import MoreHorizIcon from "@mui/icons-material/MoreHoriz";
-import SearchIcon from "@mui/icons-material/Search";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
 import EditGroupDialog from "../components/editDialog";
 import LeaveDialog from "../components/leaveDialog";
@@ -63,7 +62,8 @@ function Header() {
           <BlockIcon sx={{ fontSize: "18px" }} />
         </Box>
       ),
-      handle: () => handleLeaveDialog(true),
+      // handle: () => handleLeaveDialog(true),
+      handle: () => { },
     },
   ];
   const mobileView = useMediaQuery("(min-width:1000px)");

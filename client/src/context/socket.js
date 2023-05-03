@@ -18,7 +18,7 @@ const socket = io(`${process.env.REACT_APP_SERVER_ADDRESS}`);
 function SocketProvider({ children }) {
   // const [isConnected, setIsconnected] = useState(false);
   const { authState, logoutUser } = useContext(AuthContext);
-  const [cookie, setCookie, removeCookie] = useCookies();
+  const [, , removeCookie] = useCookies();
   const { userData, updateFriendStatus, receiveMessage, addToWaitingStack, reset_logout } =
     useContext(conversationContext);
 

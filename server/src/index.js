@@ -224,7 +224,7 @@ io.on('connection', (socket) => {
     // conversationId
     socket.on('newGroupFromSuggestion', async (data) => {
         const conversation = await ConversationController.getAllMembers(data.conversationId);
-        for (let i = 0; i < conversation.member.length; i) {
+        for (let i = 0; i < conversation.member.length; i++) {
             const receiverUser = await getUser(conversation.member[i]);
             io.to(receiverUser?.socketId).emit('getNewConversation', {
                 conversationInfor: {
