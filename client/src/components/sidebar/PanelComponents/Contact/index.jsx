@@ -1,16 +1,25 @@
+import React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
+
+
+
 import SearchInput from "../../../search";
 import { textcolor, bcolors } from "../../../../colors";
 import ContactList from "../../../contactList";
 import { useEffect, useState, useContext } from "react";
-import Button from "@mui/material/Button";
-import PersonAddAltIcon from "@mui/icons-material/PersonAddAlt";
 import CustomerDialog from "../../../customDialog";
 import { deepCopy } from "../../../../functions";
-import { conversationContext } from "../../../../context";
 import { sortFriend } from "./data";
-import React from "react";
+
+
+import { AuthContext } from "../../../../context/authContext";
+import { conversationContext } from "../../../../context";
+import { SocketContext } from "../../../../context/socket";
+
+import moment from "moment";
 function Contact() {
   const { addContact, userData } = useContext(conversationContext);
   const [openAddfriend, setOpenAddfriend] = useState(false);
@@ -20,6 +29,10 @@ function Contact() {
 
   const [contactList, setContactList] = useState([...userData.contactList]);
 
+  const { socket } = useContext(SocketContext);
+  const { authState: {
+    user
+  } } = useContext(AuthContext)
   const [helper, setHelper] = useState({
     email: "",
     message: "",
@@ -88,6 +101,19 @@ function Contact() {
     let respone = await addContact(formData);
     if (respone.data.successful) {
       // updateContactList();
+      
+      socket.emit("sendNewConversation", {
+        type: 'single',
+        receiverEmail: email,
+        senderId: user?._id,
+        conversationId: respone.data.conversation._id,
+        conversationName: userData?.chatInfo?.name,
+        content: chat,
+        time: moment().utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+        senderEmail: user?.email,
+        senderUsername: user?.username,
+        senderAvatar: user?.avatar,
+      })
       setOpenAddfriend(false);
       clearForm();
     } else if (respone.data.isContact) {

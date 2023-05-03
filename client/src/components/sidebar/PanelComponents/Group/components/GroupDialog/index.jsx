@@ -13,11 +13,15 @@ import Slide from "@mui/material/Slide";
 
 import { bcolors, textcolor } from "../../../../../../colors";
 
+import { SocketContext } from "../../../../../../context/socket";
 import { conversationContext } from "../../../../../../context";
 import { groupsContext } from "../../context";
+import { AuthContext } from "../../../../../../context/authContext";
 
 import SelectButton from "./components/SelectButton";
 import ListMember from "./components/ListMember";
+
+import moment from "moment";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -32,7 +36,13 @@ export default function GroupDialog() {
     handleDescription,
     handleFirstMessage,
   } = useContext(groupsContext);
-  const { createGroup } = useContext(conversationContext);
+  const { createGroup, userData } = useContext(conversationContext);
+  const { socket } = useContext(SocketContext);
+  const { authState: {
+    user
+  } } = useContext(AuthContext);
+
+
   return (
     <div>
       <Dialog
@@ -156,14 +166,31 @@ export default function GroupDialog() {
               Close
             </Button>
             <Button
-              onClick={() => {
+              onClick={async () => {
                 handleCreateGroup(false);
-                createGroup({
+                const groupConversationId = await createGroup({
                   idsUser: Object.keys(groupData.listMembers),
                   groupName: groupData.groupName,
                   groupDesc: groupData.description,
                   chat: groupData.firstMessage,
                 });
+                console.log(groupConversationId);
+                if (groupConversationId) {
+                  console.log('emit')
+                  socket.emit("sendNewConversation", {
+                    type: 'group',
+                    members: Object.keys(groupData.listMembers),
+                    // receiverEmail: email,
+                    senderId: user?._id,
+                    conversationId: groupConversationId,
+                    conversationName: userData?.chatInfo?.name,
+                    content: groupData.firstMessage,
+                    time: moment().utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
+                    // senderEmail: user?.email,
+                    // senderUsername: user?.username,
+                    // senderAvatar: user?.avatar,
+                  })
+                }
               }}
               variant="contained"
             >

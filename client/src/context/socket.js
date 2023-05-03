@@ -50,6 +50,10 @@ function SocketProvider({ children }) {
       }
     });
 
+    socket.on("getNewConversation", (data) => {
+      addToWaitingStack(data);
+    })
+
 
     return () => {
       socket.off("connect");
@@ -57,6 +61,7 @@ function SocketProvider({ children }) {
       socket.off("getUserOnline");
       socket.off("getFriendOnline");
       socket.off("getUserOff");
+      socket.off("getNewConversation");
     };
   }, []);
 

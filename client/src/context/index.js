@@ -3,6 +3,8 @@ import axios from "axios";
 import { createContext, useReducer, useEffect, useContext } from "react";
 import conversationReducer from "../reducers/conversationReducer";
 import { AuthContext } from "./authContext";
+// import { SocketContext } from "./socket";
+// import moment from "moment";
 // import * as dotenv from "dotenv"
 const conversationContext = createContext();
 
@@ -12,6 +14,7 @@ const conversationContext = createContext();
  */
 function ContextProvider({ children }) {
   const { authState } = useContext(AuthContext);
+  // const { socket } = useContext(SocketContext);
   // * init value of authContext
   const [userData, dispatch] = useReducer(conversationReducer, {
     contactList: [], // contant list of contacts
@@ -33,7 +36,7 @@ function ContextProvider({ children }) {
    * @returns all contact
    */
   const getAllContact = async () => {
-    
+
     let data;
     await axios
       .get(`${process.env.REACT_APP_SERVER_ADDRESS}/api/conversation/get-all-contact`)
@@ -105,16 +108,29 @@ function ContextProvider({ children }) {
   };
 
   const createGroup = async (formData) => {
-    await axios
-      .post(`${process.env.REACT_APP_SERVER_ADDRESS}/api/conversation/new-group`, formData)
-      .then((res) => {
-        if (res.data.successful) {
-          initData();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      const response = await axios.post(`${process.env.REACT_APP_SERVER_ADDRESS}/api/conversation/new-group`, formData)
+      if (response.status === 200 && response.data.successful) {
+        initData();
+        console.log(response.data)
+        return response.data.conversation._id;
+      }
+    }
+    catch (err) {
+      console.log(err);
+      return ''
+    }
+
+    //   .then((res) => {
+    //     if (res.data.successful) {
+    //       initData();
+    //       return res.data.conversation._id;
+    //     }
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    // return '';
   };
 
   /**
@@ -175,7 +191,7 @@ function ContextProvider({ children }) {
   };
 
   const updateOldMessages = (messages) => {
-    dispatch({type: "UPDATE_OLD_MESSAGES", payload: { messages } });
+    dispatch({ type: "UPDATE_OLD_MESSAGES", payload: { messages } });
   }
   /**
    * Init all contact to load to UI
@@ -198,7 +214,7 @@ function ContextProvider({ children }) {
     dispatch({ type: "ADD_MESSAGE_FAST", payload: message });
   }
   const out_of_conversation = () => {
-    dispatch({ type: "OUT_OF_CONVERSATION"});
+    dispatch({ type: "OUT_OF_CONVERSATION" });
 
   }
 

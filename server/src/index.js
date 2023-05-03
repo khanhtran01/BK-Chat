@@ -136,9 +136,14 @@ io.on('connection', (socket) => {
 
     socket.on('sendNewConversation', async (data) => {
         // type, time, content, senderEmail, senderId, senderUsername, senderAvatar, conversationId, receiverEmail.
+        console.log(data);
         if (data.type === 'single') {
             const receiver = await UserController.findUserByEmail(data.receiverEmail);
-            const receiverUser = getUser(receiver._id);
+            const receiverUser = await getUser(receiver._id.toString());
+            console.log(receiver._id.toString());
+            console.log('emittttttttttttttttttt !!');
+            console.log(receiverUser?.socketId);
+            console.log(receiverUser);
             io.to(receiverUser?.socketId).emit('getNewConversation', {
                 conversationInfor: {
                     _id: data.conversationId,
@@ -170,9 +175,13 @@ io.on('connection', (socket) => {
         }
         // type, time, content, members [userId], senderId, conversationId, conversationName
         if (data.type === 'group') {
-            data.members.forEach((member) => {
+            console.log('group type')
+            console.log(data)
+            data.members.forEach(async (member) => {
                 if (member != data.senderId) {
-                    const receiverUser = getUser(member);
+                    console.log('member != sender')
+                    const receiverUser = await getUser(member);
+                    console.log(receiverUser)
                     io.to(receiverUser?.socketId).emit('getNewConversation', {
                         conversationInfor: {
                             _id: data.conversationId,

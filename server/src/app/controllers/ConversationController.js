@@ -78,7 +78,7 @@ class ConversationController {
                     type: 'text',
                     userRead: [req.userId],
                 });
-                res.status(200).json({ successful: true });
+                res.status(200).json({ successful: true, conversation: conversation });
             }
         } catch (error) {
             next(error);

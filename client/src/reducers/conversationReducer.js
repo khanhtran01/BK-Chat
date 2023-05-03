@@ -99,13 +99,14 @@ const conversationReducer = (state, action) => {
         payload.conversationId !== state.currConversationId
       ) {
         head.numUnRead += 1;
+        head.lastChat._id = payload._id;
+        head.lastChat.content = payload.content;
+        head.updatedAt = payload.createAt;
+        head.lastChat.createdAt = payload.createdAt;
       }
 
       console.log(head);
-      head.lastChat._id = payload._id;
-      head.lastChat.content = payload.content;
-      head.updatedAt = payload.createAt;
-      head.lastChat.createdAt = payload.createdAt;
+
       let newConversations = [head, ...remain];
       console.log(head.lastChat);
       console.log(payload);
