@@ -86,7 +86,7 @@ export default function AddMemberDialog(props) {
             conversationName: chatInfo?.name,
             conversationAvatar: chatInfo?.avatar,
             type: 'addmember',
-            receiverId: ''
+            members: Object.keys(selectedMember)
           })
         }
       }

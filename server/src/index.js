@@ -202,7 +202,7 @@ io.on('connection', (socket) => {
                     conversationInfor: {
                         _id: data.conversationId,
                         name: data.conversationName,
-                        type: data.type,
+                        type: 'group',
                         member: [],
                         desc: '',
                         avatar: data.conversationAvatar,
