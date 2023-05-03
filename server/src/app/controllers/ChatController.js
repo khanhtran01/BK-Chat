@@ -83,7 +83,6 @@ class ChatController {
                         },
                     );
                 } else {
-                    // console.log(1)
                     await User.updateOne(
                         { _id: data.sender._id },
                         {
@@ -92,7 +91,6 @@ class ChatController {
                             },
                         },
                     );
-                    // console.log(2)
                 }
                 await Conversation.updateOne(
                     { _id: data.conversationId },
@@ -101,7 +99,6 @@ class ChatController {
                     },
                 );
             }
-            // console.log(3)
             let replyChat = null;
             if (data.replyFromChatId) {
                 replyChat = await Chat.findOne({ _id: data.replyFromChatId }).populate('userId', userDTOMini);
@@ -131,7 +128,6 @@ class ChatController {
             // } else {
             //     await redis.expire(data.conversationId, -1);
             // }
-            // console.log(4)
             return {
                 id: chat._id,
                 replyChat: replyChat,
