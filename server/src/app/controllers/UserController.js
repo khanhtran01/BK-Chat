@@ -113,7 +113,8 @@ class UserController {
     }
     async findUserByEmail(email) {
         try {
-            return await User.findOne({ email: email }, userDTOMini);
+            const user = await User.findOne({ email: email }, userDTOMini);
+            return user;
         } catch (error) {
             console.log(error);
             return null;

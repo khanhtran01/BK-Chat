@@ -12,7 +12,7 @@ describe('POST /api/auth/login', () => {
         expect(res.body.token).toBeDefined();
     });
 
-    it('should return a message Your email is not verified', async () => {
+    it('should return a message "Your email is not verified"', async () => {
         const res = await request(app).post('/api/auth/login').send({
             email: 'test@example.com',
             password: 'invalidpassword',
@@ -22,7 +22,7 @@ describe('POST /api/auth/login', () => {
         expect(res.body.message).toEqual('Your email is not verified');
     });
 
-    it('should return a message Invalid email or password', async () => {
+    it('should return a message "Invalid email or password"', async () => {
         const res = await request(app).post('/api/auth/login').send({
             email: 'test@gmail.com',
             password: 'invalidpassword',
