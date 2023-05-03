@@ -70,6 +70,7 @@ function Header() {
   return (
     <>
       <EditGroupDialog initData={userData.chatInfo} />
+
       <LeaveDialog open={leaveDialog} setOpen={handleLeaveDialog} />
       <SelectContextProvider>
         <AddMemberDialog

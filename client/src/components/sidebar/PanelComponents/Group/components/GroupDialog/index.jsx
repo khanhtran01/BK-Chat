@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 
 // MUI import
 import Button from "@mui/material/Button";
@@ -10,6 +10,10 @@ import DialogContent from "@mui/material/DialogContent";
 import { Box, Typography } from "@mui/material";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
+import Snackbar from "@mui/material/Snackbar";
+import MuiAlert from "@mui/material/Alert";
+import CircularProgress from "@mui/material/CircularProgress";
+
 
 import { bcolors, textcolor } from "../../../../../../colors";
 
@@ -20,12 +24,15 @@ import { AuthContext } from "../../../../../../context/authContext";
 
 import SelectButton from "./components/SelectButton";
 import ListMember from "./components/ListMember";
-
 import moment from "moment";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
+const Alert = React.forwardRef(function Alert(props, ref) {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+});
+
 
 export default function GroupDialog() {
   const {
@@ -36,15 +43,44 @@ export default function GroupDialog() {
     handleDescription,
     handleFirstMessage,
   } = useContext(groupsContext);
-  const { createGroup, userData } = useContext(conversationContext);
+  const { createGroup } = useContext(conversationContext);
   const { socket } = useContext(SocketContext);
   const { authState: {
     user
   } } = useContext(AuthContext);
+  const [alertStatus, setAlertStatus] = useState({
+    open: false,
+    message: "",
+    type: "error",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const handleCloseAlert = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
+    setAlertStatus({
+      ...alertStatus,
+      open: false,
+    });
+  };
 
   return (
     <div>
+      <Snackbar
+        open={alertStatus.open}
+        autoHideDuration={6000}
+        onClose={handleCloseAlert}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseAlert}
+          severity={alertStatus.type}
+          sx={{ width: "100%" }}
+        >
+          {alertStatus.message}
+        </Alert>
+      </Snackbar>
       <Dialog
         open={groupData.groupDialog}
         TransitionComponent={Transition}
@@ -168,6 +204,7 @@ export default function GroupDialog() {
             <Button
               onClick={async () => {
                 handleCreateGroup(false);
+                setIsSubmitting(true);
                 const groupConversation = await createGroup({
                   idsUser: Object.keys(groupData.listMembers),
                   groupName: groupData.groupName,
@@ -190,11 +227,37 @@ export default function GroupDialog() {
                     // senderUsername: user?.username,
                     // senderAvatar: user?.avatar,
                   })
+                  setAlertStatus({
+                    open: true,
+                    message: "Create group successful",
+                    type: "success",
+                  })
+                } else {
+                  setAlertStatus({
+                    open: true,
+                    message: "Create group failed",
+                    type: "error",
+                  })
                 }
+                setIsSubmitting(false);
               }}
               variant="contained"
             >
-              Create Group
+              
+              {isSubmitting ? (
+                <CircularProgress
+                  variant="indeterminate"
+                  disableShrink
+                  size={25}
+                  thickness={4}
+                  sx={{
+                    color: "white",
+                    animationDuration: "550ms",
+                  }}
+                />
+              ) : (
+                `Create Group`
+              )}
             </Button>
           </DialogActions>
         </DialogContent>

@@ -51,8 +51,13 @@ function SocketProvider({ children }) {
     });
 
     socket.on("getNewConversation", (data) => {
-      console.group(data);
+      console.log(data);
       addToWaitingStack(data);
+      if (data.conversationInfor.type === 'group' || data.conversationInfor.type === 'addmember') {
+        socket.emit('addMemberGroup', {
+          conversationId: data.conversationInfor?._id
+        })
+      }
     })
 
 
