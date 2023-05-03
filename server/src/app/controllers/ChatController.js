@@ -231,6 +231,11 @@ class ChatController {
     //     }
     // }
 
+    async findLastChat(conversationId) {
+        const chat = await Chat.find({ conversationId: conversationId }).limit(1).sort({ createdAt: -1 });
+        return chat[0];
+    }
+
     async getChatForSuggestion(req, res, next) {
         try {
             const now = new Date();

@@ -43,6 +43,7 @@ const io = socketio(server, {
 const redis = require('./config/redis/index');
 const handleNotify = require('./util/handleNotify');
 const UserController = require('./app/controllers/UserController');
+const { findLastChat } = require('./app/controllers/ChatController');
 
 redis.connect(io);
 
@@ -192,24 +193,28 @@ io.on('connection', (socket) => {
                 }
             }
         }
-        // conversationId, conversationName, conversationAvatar, senderId, receiverId,
+        // conversationId, conversationName, conversationAvatar, members [userId],
         if (data.type === 'addmember') {
-            const receiverUser = await getUser(data.receiverId.toString());
-            io.to(receiverUser?.socketId).emit('getNewConversation', {
-                conversationInfor: {
-                    _id: data.conversationId,
-                    name: data.conversationName,
-                    type: data.type,
-                    member: [],
-                    desc: '',
-                    avatar: data.conversationAvatar,
-                    numUnRead: 1,
-                    lastChat: {
-                        content: data.content,
-                        createdAt: data.time,
+            const lastChat = await findLastChat(data.conversationId);
+            for (let i = 0; i < data.members.length; i++) {
+                const receiverUser = await getUser(data.members[i]);
+                io.to(receiverUser?.socketId).emit('getNewConversation', {
+                    conversationInfor: {
+                        _id: data.conversationId,
+                        name: data.conversationName,
+                        type: data.type,
+                        member: [],
+                        desc: '',
+                        avatar: data.conversationAvatar,
+                        numUnRead: 1,
+                        lastChat: {
+                            _id: lastChat._id,
+                            content: lastChat.content,
+                            createdAt: lastChat.createdAt,
+                        },
                     },
-                },
-            });
+                });
+            }
         }
     });
     // conversationId
