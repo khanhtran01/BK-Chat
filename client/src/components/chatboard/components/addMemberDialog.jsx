@@ -20,6 +20,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import { v4 as uuidv4 } from "uuid";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
+import { SocketContext } from './../../../context/socket'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -52,7 +53,7 @@ export default function AddMemberDialog(props) {
   const [contactAfterSearch, setContactAfterSearch] = useState([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { selectedMember, setSelectedMember } = useContext(selectMemberContext);
-
+  const { socket } = useContext(SocketContext);
   const handleRemoveMember = (memId) => {
     let temp = { ...selectedMember };
     delete temp[memId];
@@ -60,7 +61,7 @@ export default function AddMemberDialog(props) {
   };
 
   const {
-    userData: { currConversationId },
+    userData: { currConversationId, chatInfo },
   } = useContext(conversationContext);
   const { open, setOpen } = props;
   const handleSubmit = async () => {
@@ -80,6 +81,13 @@ export default function AddMemberDialog(props) {
             message: "Add successful",
             type: "success",
           });
+          socket.emit('sendNewConversation', {
+            conversationId: currConversationId,
+            conversationName: chatInfo?.name,
+            conversationAvatar: chatInfo?.avatar,
+            type: 'addmember',
+            receiverId: ''
+          })
         }
       }
     }

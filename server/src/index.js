@@ -170,7 +170,7 @@ io.on('connection', (socket) => {
         }
         // type, time, content, members [userId], senderId, conversationId, conversationName
         if (data.type === 'group') {
-            socket.json(data.conversationId);
+            socket.join(data.conversationId);
             for (let i = 0; i < data.members.length; i++) {
                 if (data.members[i] != data.senderId) {
                     const receiverUser = await getUser(data.members[i]);
@@ -214,7 +214,7 @@ io.on('connection', (socket) => {
     });
     // conversationId
     socket.on('addMemberGroup', (data) => {
-        socket.json(data.conversationId);
+        socket.join(data.conversationId);
     });
 
     // socket.on('sendReactionChatSingle', async (data) => {
