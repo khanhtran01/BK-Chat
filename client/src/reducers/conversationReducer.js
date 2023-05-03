@@ -47,6 +47,7 @@ const conversationReducer = (state, action) => {
       let remain1 = state.conversations.filter(
         (conversation) => conversation._id !== payload.conversationId
       );
+      console.log(payload)
       head1.lastChat._id = payload._id;
       head1.lastChat.content = payload.content;
       head1.updatedAt = payload.createAt;

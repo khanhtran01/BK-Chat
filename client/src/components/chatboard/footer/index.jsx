@@ -64,6 +64,7 @@ function Footer() {
         conversationId: currConversationId,
         tagList: tagList,
       });
+      console.log(replyFor)
       add_message_fast({
         content: message.message,
         conversationId: currConversationId,

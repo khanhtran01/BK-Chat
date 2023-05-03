@@ -51,6 +51,7 @@ function SocketProvider({ children }) {
     });
 
     socket.on("getNewConversation", (data) => {
+      console.group(data);
       addToWaitingStack(data);
     })
 
@@ -85,6 +86,7 @@ function SocketProvider({ children }) {
 
   useEffect(() => {
     socket.on("getChatSingle", (data) => {
+      console.log(data)
       if (data.conversationId === userData.currConversationId) {
         receiveMessage(data);
       } else {

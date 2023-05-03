@@ -168,22 +168,22 @@ export default function GroupDialog() {
             <Button
               onClick={async () => {
                 handleCreateGroup(false);
-                const groupConversationId = await createGroup({
+                const groupConversation = await createGroup({
                   idsUser: Object.keys(groupData.listMembers),
                   groupName: groupData.groupName,
                   groupDesc: groupData.description,
                   chat: groupData.firstMessage,
                 });
-                console.log(groupConversationId);
-                if (groupConversationId) {
+                console.log(groupConversation);
+                if (Object.keys(groupConversation).length > 0) {
                   console.log('emit')
                   socket.emit("sendNewConversation", {
                     type: 'group',
                     members: Object.keys(groupData.listMembers),
                     // receiverEmail: email,
                     senderId: user?._id,
-                    conversationId: groupConversationId,
-                    conversationName: userData?.chatInfo?.name,
+                    conversationId: groupConversation._id,
+                    conversationName: groupConversation.name,
                     content: groupData.firstMessage,
                     time: moment().utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]'),
                     // senderEmail: user?.email,

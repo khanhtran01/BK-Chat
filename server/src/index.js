@@ -99,6 +99,10 @@ io.on('connection', (socket) => {
         const result = await ChatController.storeChatAndGetId(data);
         const receiverUser = await getUser(data.receiverId);
         const senderUser = await getUser(data.sender._id);
+        console.log(data)
+        console.log(result)
+        console.log(receiverUser)
+        console.log(senderUser)
         io.to(receiverUser?.socketId)
             .to(senderUser?.socketId)
             .emit('getChatSingle', {
@@ -110,7 +114,7 @@ io.on('connection', (socket) => {
                 },
                 conversationId: data.conversationId,
                 content: data.content,
-                _id: result?.id,
+                _id: result?.id.toString(),
                 createdAt: data.time,
                 replyFrom: result?.replyChat,
             });
@@ -128,7 +132,7 @@ io.on('connection', (socket) => {
             },
             conversationId: data.conversationId,
             content: data.content,
-            _id: result?.id,
+            _id: result?.id.toString(),
             createdAt: data.time,
             replyFrom: result?.replyChat,
         });
@@ -140,10 +144,10 @@ io.on('connection', (socket) => {
         if (data.type === 'single') {
             const receiver = await UserController.findUserByEmail(data.receiverEmail);
             const receiverUser = await getUser(receiver._id.toString());
-            console.log(receiver._id.toString());
-            console.log('emittttttttttttttttttt !!');
-            console.log(receiverUser?.socketId);
-            console.log(receiverUser);
+            // console.log(receiver._id.toString());
+            // console.log('emittttttttttttttttttt !!');
+            // console.log(receiverUser?.socketId);
+            // console.log(receiverUser);
             io.to(receiverUser?.socketId).emit('getNewConversation', {
                 conversationInfor: {
                     _id: data.conversationId,
@@ -175,13 +179,13 @@ io.on('connection', (socket) => {
         }
         // type, time, content, members [userId], senderId, conversationId, conversationName
         if (data.type === 'group') {
-            console.log('group type')
-            console.log(data)
-            data.members.forEach(async (member) => {
-                if (member != data.senderId) {
-                    console.log('member != sender')
-                    const receiverUser = await getUser(member);
-                    console.log(receiverUser)
+            // console.log('group type')
+            // console.log(data)
+            for (let i = 0 ; i < data.members.length; i++){
+                if (data.members[i] != data.senderId) {
+                    // console.log('member != sender')
+                    const receiverUser = await getUser(data.members[i]);
+                    // console.log(receiverUser)
                     io.to(receiverUser?.socketId).emit('getNewConversation', {
                         conversationInfor: {
                             _id: data.conversationId,
@@ -198,7 +202,51 @@ io.on('connection', (socket) => {
                         },
                     });
                 }
-            });
+            }
+            // for (let member in data.members){
+            //     if (member != data.senderId) {
+            //         console.log('member != sender')
+            //         const receiverUser = await getUser(member);
+            //         console.log(receiverUser)
+            //         io.to(receiverUser?.socketId).emit('getNewConversation', {
+            //             conversationInfor: {
+            //                 _id: data.conversationId,
+            //                 name: data.conversationName,
+            //                 type: data.type,
+            //                 member: [],
+            //                 desc: '',
+            //                 avatar: null,
+            //                 numUnRead: 1,
+            //                 lastChat: {
+            //                     content: data.content,
+            //                     createdAt: data.time,
+            //                 },
+            //             },
+            //         });
+            //     }
+            // }
+            // data.members.forEach(async (member) => {
+            //     if (member != data.senderId) {
+            //         console.log('member != sender')
+            //         const receiverUser = await getUser(member);
+            //         console.log(receiverUser)
+            //         io.to(receiverUser?.socketId).emit('getNewConversation', {
+            //             conversationInfor: {
+            //                 _id: data.conversationId,
+            //                 name: data.conversationName,
+            //                 type: data.type,
+            //                 member: [],
+            //                 desc: '',
+            //                 avatar: null,
+            //                 numUnRead: 1,
+            //                 lastChat: {
+            //                     content: data.content,
+            //                     createdAt: data.time,
+            //                 },
+            //             },
+            //         });
+            //     }
+            // });
         }
         // conversationId, conversationName, conversationAvatar, senderId, receiverId,
         if (data.type === 'addmember') {

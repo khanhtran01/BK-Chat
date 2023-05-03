@@ -113,12 +113,12 @@ function ContextProvider({ children }) {
       if (response.status === 200 && response.data.successful) {
         initData();
         console.log(response.data)
-        return response.data.conversation._id;
+        return response.data.conversation;
       }
     }
     catch (err) {
       console.log(err);
-      return ''
+      return {}
     }
 
     //   .then((res) => {
