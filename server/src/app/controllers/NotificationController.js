@@ -110,7 +110,7 @@ class NotificationController {
                 await Chat.create({
                     conversationId: conversation._id,
                     userId: members[members.length - 1],
-                    content: 'Hi',
+                    content: 'This group is created automatically by the system.',
                     type: 'text',
                     userRead: [members[members.length - 1]],
                     replyFrom: null,
@@ -121,9 +121,14 @@ class NotificationController {
                     },
                     { status: 'accept' },
                 );
-                res.status(200).json({ successful: true, message: 'Create group is successful' });
+                res.status(200).json({
+                    successful: true,
+                    message: 'Create group is successful',
+                    conversation: conversation,
+                    createGroup: true,
+                });
             } else {
-                res.status(200).json({ successful: true, message: 'Wait for voting' });
+                res.status(200).json({ successful: true, message: 'Wait for voting', createGroup: false });
             }
         } catch (error) {
             next(error);

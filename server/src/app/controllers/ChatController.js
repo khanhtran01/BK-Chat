@@ -232,8 +232,12 @@ class ChatController {
     // }
 
     async findLastChat(conversationId) {
-        const chat = await Chat.find({ conversationId: conversationId }).limit(1).sort({ createdAt: -1 });
-        return chat[0];
+        try {
+            const chat = await Chat.find({ conversationId: conversationId }).limit(1).sort({ createdAt: -1 });
+            return chat[0];
+        } catch (error) {
+            return null;
+        }
     }
 
     async getChatForSuggestion(req, res, next) {

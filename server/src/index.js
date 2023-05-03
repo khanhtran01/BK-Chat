@@ -43,7 +43,7 @@ const io = socketio(server, {
 const redis = require('./config/redis/index');
 const handleNotify = require('./util/handleNotify');
 const UserController = require('./app/controllers/UserController');
-const { findLastChat } = require('./app/controllers/ChatController');
+const ConversationController = require('./app/controllers/ConversationController');
 
 redis.connect(io);
 
@@ -195,7 +195,7 @@ io.on('connection', (socket) => {
         }
         // conversationId, conversationName, conversationAvatar, members [userId],
         if (data.type === 'addmember') {
-            const lastChat = await findLastChat(data.conversationId);
+            const lastChat = await ChatController.findLastChat(data.conversationId);
             for (let i = 0; i < data.members.length; i++) {
                 const receiverUser = await getUser(data.members[i]);
                 io.to(receiverUser?.socketId).emit('getNewConversation', {
@@ -221,7 +221,28 @@ io.on('connection', (socket) => {
     socket.on('addMemberGroup', (data) => {
         socket.json(data.conversationId);
     });
-
+    // conversationId
+    socket.on('newGroupFromSuggestion', async (data) => {
+        const conversation = await ConversationController.getAllMembers(data.conversationId);
+        for (let i = 0; i < conversation.member.length; i) {
+            const receiverUser = await getUser(conversation.member[i]);
+            io.to(receiverUser?.socketId).emit('getNewConversation', {
+                conversationInfor: {
+                    _id: data.conversationId,
+                    name: conversation.name,
+                    type: conversation.type,
+                    member: [],
+                    desc: conversation.desc,
+                    avatar: conversation.avatar,
+                    numUnRead: 1,
+                    lastChat: {
+                        content: 'This group is created automatically by the system.',
+                        createdAt: conversation.createdAt,
+                    },
+                },
+            });
+        }
+    });
     // socket.on('sendReactionChatSingle', async (data) => {
     //     const receiverUser = getUser(data.receiverId);
     //     const senderUser = getUser(data.senderId);

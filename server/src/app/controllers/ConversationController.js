@@ -331,6 +331,11 @@ class ConversationController {
         }
     }
 
+    async getAllMembers(conversationId) {
+        const conversation = await Conversation.findOne({ _id: conversationId });
+        return conversation;
+    }
+
     async getConversationForSugestion(req, res, next) {
         try {
             const now = new Date();
