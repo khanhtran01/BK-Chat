@@ -112,7 +112,6 @@ function ContextProvider({ children }) {
       const response = await axios.post(`${process.env.REACT_APP_SERVER_ADDRESS}/api/conversation/new-group`, formData)
       if (response.status === 200 && response.data.successful) {
         initData();
-        console.log(response.data)
         return response.data.conversation;
       }
     }

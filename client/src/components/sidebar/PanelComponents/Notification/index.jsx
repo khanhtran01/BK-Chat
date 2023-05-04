@@ -21,7 +21,6 @@ function Notification() {
     type: "",
     time: "",
   });
-  console.log(userData.notifyList);
   const [openDialog, setOpenDialog] = useState(false);
   return (
     <Box sx={{ height: "100%" }}>

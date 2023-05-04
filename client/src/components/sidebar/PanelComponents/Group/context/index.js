@@ -22,7 +22,6 @@ const GroupProvider = ({ children }) => {
     dispatch({ type: "CLOSE_SELECT_POPUP" });
   }
   const selectMember = (user) => {
-    console.log("selectMember");
     dispatch({ type: "SELECT_MEMBER", payload: user });
   }
   const handleGroupName = (event) => {

@@ -29,7 +29,6 @@ test('successful login redirects to dashboard', async () => {
 
     fireEvent.change(usernameInput, { target: { value: '342192859hhh@gmail.com' } });
     fireEvent.change(passwordInput, { target: { value: '1' } });
-    // console.log(submitButton.innerHTML)
     fireEvent.click(submitButton);
     const myFunc = jest.spyOn(console, 'log');
 

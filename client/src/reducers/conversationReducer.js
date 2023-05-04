@@ -47,7 +47,6 @@ const conversationReducer = (state, action) => {
       let remain1 = state.conversations.filter(
         (conversation) => conversation._id !== payload.conversationId
       );
-      console.log(payload)
       head1.lastChat._id = payload._id;
       head1.lastChat.content = payload.content;
       head1.updatedAt = payload.createAt;
@@ -61,7 +60,6 @@ const conversationReducer = (state, action) => {
 
       let newCurrConversation = [...state.currConversation];
       let myMessage = false;
-      console.log(newCurrConversation);
       for (let i = state.currConversation.length - 1; i >= 0; i--) {
         if (state.currConversation[i]["createdAt"] === payload.createdAt) {
           newCurrConversation[i].verify = true;
@@ -85,15 +83,11 @@ const conversationReducer = (state, action) => {
           head = state.conversations[i];
         }
       }
-      console.log(state.conversations)
-      console.log(payload)
       let remain = state.conversations.filter(
         (conversation) => conversation._id !== payload.conversationId
       );
-      console.log(head);
 
       if (Object.keys(head).length === 0) {
-        console.log('length = 0  and assign')
         head = { ...payload.conversationInfor }
       } else if (
         head.lastChat?._id !== payload._id &&
@@ -106,11 +100,7 @@ const conversationReducer = (state, action) => {
         head.lastChat.createdAt = payload.createdAt;
       }
 
-      console.log(head);
-
       let newConversations = [head, ...remain];
-      console.log(head.lastChat);
-      console.log(payload);
       return {
         ...state,
         conversations: newConversations,

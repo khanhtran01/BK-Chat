@@ -24,7 +24,6 @@ const PushData = async (
     }
     fs.readFile(`./dataset/${file}`, 'utf8', async (err, jsonString) => {
         if (err) {
-            console.log('File read failed:', err);
             process.exit(1);
         }
         const data = JSON.parse(jsonString);
@@ -184,7 +183,6 @@ const PushData = async (
                                 // updatedAt note cai nay
                             }
                         );
-                        console.log(count);
                         break;
                     }
                     await Chat.create({
@@ -226,7 +224,6 @@ const PushData = async (
                 }
             }
         }
-        console.log('Done!!');
         process.exit(0);
     });
 };

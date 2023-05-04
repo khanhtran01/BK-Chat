@@ -65,7 +65,6 @@ export default function AddMemberDialog(props) {
   } = useContext(conversationContext);
   const { open, setOpen } = props;
   const handleSubmit = async () => {
-    // console.log(Object.keys(selectedMember))
     setIsSubmitting(true)
     try {
       if (Object.keys(selectedMember).length > 0) {
@@ -73,7 +72,6 @@ export default function AddMemberDialog(props) {
           conversationId: currConversationId,
           idsUser: Object.keys(selectedMember)
         })
-        console.log(response);
         if (response.data.successful) {
           setSelectedMember({})
           setAlertStatus({
@@ -92,7 +90,6 @@ export default function AddMemberDialog(props) {
       }
     }
     catch (err) {
-      // console.log(err);
       setAlertStatus({
         open: true,
         message: "Add failed",
