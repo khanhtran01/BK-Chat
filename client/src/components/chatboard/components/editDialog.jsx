@@ -60,7 +60,6 @@ export default function EditGroupDialog({ initData }) {
       openDialog: false,
     })
   }, [JSON.stringify(userData.chatInfo)])
-  console.log(userData.chatInfo);
   const [editForm, setEditForm] = useState({
     groupname: initData.name,
     avatar: {

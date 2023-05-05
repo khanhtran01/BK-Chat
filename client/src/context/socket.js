@@ -44,14 +44,12 @@ function SocketProvider({ children }) {
     });
 
     socket.on("getUserOff", (data) => {
-      console.log(data);
       if (data.userId) {
         dispatch({ type: "REMOVE_USER_OFFLINE", payload: data });
       }
     });
 
     socket.on("getNewConversation", (data) => {
-      console.log(data);
       addToWaitingStack(data);
       if (data.conversationInfor.type === 'group' || data.conversationInfor.type === 'addmember') {
         socket.emit('addMemberGroup', {
@@ -91,11 +89,9 @@ function SocketProvider({ children }) {
 
   useEffect(() => {
     socket.on("getChatSingle", (data) => {
-      console.log(data)
       if (data.conversationId === userData.currConversationId) {
         receiveMessage(data);
       } else {
-        console.log('add to wait list')
         addToWaitingStack(data);
       }
     });

@@ -75,7 +75,6 @@ function ChangePassword() {
         password: newPassword,
         token: token
       })
-      console.log(loginForm.password)
       if (response.data.successful) {
         setAlertStatus({
           open: true,

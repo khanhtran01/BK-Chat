@@ -39,7 +39,6 @@ export default function MyMessage(props) {
     { component: <Box>Reply</Box>, handle: () => setReply(messageInfo) },
     { component: <Box>Delete</Box>, handle: () => {} },
   ];
-  // console.log(time);
   const { authState } = useContext(AuthContext);
   return (
     <>

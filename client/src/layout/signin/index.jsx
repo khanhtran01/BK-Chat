@@ -52,15 +52,12 @@ function SignIn() {
     event.preventDefault();
     setIsSubmiting(true);
     let success = await loginUser(loginForm);
-    console.log('login successful')
     if (success) {
       await verify();
       await getAllContact();
       setIsSubmiting(false);
-      console.log('login successful')
       navigate("/dashboard");
     } else {
-      console.log('login failed');
       setAlertStatus(true);
       setIsSubmiting(false);
     }

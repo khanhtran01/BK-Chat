@@ -59,7 +59,6 @@ export default function NotifyDialog({
       open: false,
     });
   };
-  // console.log(authState);
   const handleVote = async (action) => {
     // [PUT] /api/notification/action [notifyId, action, conversationId]
     try {
@@ -69,7 +68,6 @@ export default function NotifyDialog({
         notifyId: notifyId,
       })
       if (response.status === 200 && response.data.successful === true) {
-        console.log('successful')
         setAlertStatus({
           open: true,
           message: 'voted successfully',

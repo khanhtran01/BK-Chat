@@ -50,11 +50,8 @@ function Footer() {
         tagList.push(mem._id);
       }
     });
-    // let currTime = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
     let currTime = moment().utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
-    // console.log(`send ${currTime}`);
     if (chatInfo.type === "single") {
-      // let currTime = moment().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]')
       socket.emit("sendChatSingle", {
         receiverId: chatInfo.receiverId,
         content: message.message,
@@ -64,7 +61,6 @@ function Footer() {
         conversationId: currConversationId,
         tagList: tagList,
       });
-      console.log(replyFor)
       add_message_fast({
         content: message.message,
         conversationId: currConversationId,

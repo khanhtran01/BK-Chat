@@ -12,7 +12,6 @@ export const socketReducer = (state, action) => {
         onlineList: [...state.onlineList, payload],
       };
     case "REMOVE_USER_OFFLINE":
-      console.log(payload.userId)
       return {
         ...state,
         onlineList: state.onlineList.filter(

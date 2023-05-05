@@ -211,9 +211,7 @@ export default function GroupDialog() {
                   groupDesc: groupData.description,
                   chat: groupData.firstMessage,
                 });
-                console.log(groupConversation);
                 if (Object.keys(groupConversation).length > 0) {
-                  console.log('emit')
                   socket.emit("sendNewConversation", {
                     type: 'group',
                     members: Object.keys(groupData.listMembers),
