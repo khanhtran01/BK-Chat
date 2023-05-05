@@ -1,3 +1,4 @@
+const resizeCloudinaryUrl = require('../../util/resizeCloudinaryUrl');
 const Conversation = require('../models/Conversation');
 const User = require('../models/User');
 class UpdateInfoController {
@@ -6,12 +7,11 @@ class UpdateInfoController {
             const id = req.userId;
             console.log(req.file);
             if (req.file) {
-                req.body.avatar = req.file.path;
                 await User.updateOne(
                     { _id: id },
                     {
                         username: req.body.username,
-                        avatar: req.body.avatar,
+                        avatar: resizeCloudinaryUrl(req.file.path),
                         desc: req.body.desc,
                         address: req.body.address,
                     },
@@ -41,7 +41,7 @@ class UpdateInfoController {
                     {
                         name: req.body.groupName,
                         desc: req.body.groupDesc,
-                        avatar: req.file.path,
+                        avatar: resizeCloudinaryUrl(req.file.path),
                     },
                 );
             } else {

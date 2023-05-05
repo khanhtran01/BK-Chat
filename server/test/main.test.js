@@ -1,7 +1,7 @@
 const app = require('../src/index.js');
 const request = require('supertest');
 
-describe('POST /api/auth/login', () => {
+describe('POST /api/auth/login. Test Authentication', () => {
     it('should return a 200 OK status and a JWT token', async () => {
         const res = await request(app).post('/api/auth/login').send({
             email: 'admin1@gmail.com',
@@ -43,5 +43,19 @@ describe('GET /api/home', () => {
             .get('/api/home')
             .set('Authorization', 'Bearer ' + loginResponse.body.token);
         expect(res.statusCode).toEqual(200);
+    });
+});
+
+describe('GET /api/user/get-infor', () => {
+    it('should return a 200 OK status and a user information', async () => {
+        const loginResponse = await request(app).post('/api/auth/login').send({
+            email: 'admin1@gmail.com',
+            password: 'admin12345',
+        });
+        const res = await request(app)
+            .get('/api/user/get-infor')
+            .set('Authorization', 'Bearer ' + loginResponse.body.token);
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.userInfor).toBeDefined();
     });
 });

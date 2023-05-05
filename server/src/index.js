@@ -12,7 +12,6 @@ const socketio = require('socket.io');
 
 const db = require('./config/db/index');
 const { addUser, removeUser, getUser, getUserBySocketId, getStatusUsers } = require('./util/userSocket');
-const ChatController = require('./app/controllers/ChatController');
 const Neo4jMiddleware = require('./app/middlewares/Neo4jMiddleware');
 
 process.env.NODE_ENV = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
@@ -42,6 +41,7 @@ const io = socketio(server, {
 
 const redis = require('./config/redis/index');
 const handleNotify = require('./util/handleNotify');
+const ChatController = require('./app/controllers/ChatController');
 const UserController = require('./app/controllers/UserController');
 const ConversationController = require('./app/controllers/ConversationController');
 
