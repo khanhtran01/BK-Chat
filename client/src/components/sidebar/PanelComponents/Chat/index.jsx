@@ -85,6 +85,7 @@ function ChatPanel() {
             height: "calc(100vh - 13rem)",
             overflowY: "scroll",
             position: "relative",
+            width: "calc(100vw - 60.800px)",
             p: 1,
           }}
         >

@@ -119,17 +119,6 @@ function ContextProvider({ children }) {
       console.log(err);
       return {}
     }
-
-    //   .then((res) => {
-    //     if (res.data.successful) {
-    //       initData();
-    //       return res.data.conversation._id;
-    //     }
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-    // return '';
   };
 
   /**

@@ -11,7 +11,7 @@ import { textcolor, bcolors } from "../../../../colors";
 import ContactList from "../../../contactList";
 import { useEffect, useState, useContext } from "react";
 import CustomerDialog from "../../../customDialog";
-import { deepCopy } from "../../../../functions";
+import { deepCopy } from "../../../../utils/general";
 import { sortFriend } from "./data";
 
 

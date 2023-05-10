@@ -14,7 +14,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Snackbar from "@mui/material/Snackbar";
 import MuiAlert from "@mui/material/Alert";
 
-import { checkEmail } from "../../functions";
+import { checkEmail } from "../../utils/general";
 import logo from "./img/logo.png";
 import { bcolors, textcolor } from "../../colors";
 import React from "react";
