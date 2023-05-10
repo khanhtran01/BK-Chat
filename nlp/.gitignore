@@ -1,0 +1,5 @@
+node_modules
+.env
+# MONGODB_SERVER=mongodb://x:x@34.85.10.111:27017/BK-Chat?authSource=admin
+# STEP=3
+# NUMBER=1000
