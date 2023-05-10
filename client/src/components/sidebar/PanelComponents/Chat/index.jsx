@@ -44,7 +44,7 @@ function ChatPanel() {
       });
     }
 
-    if (!authState.user&&  conversations.length > 0){
+    if (!authState.user && conversations.length > 0) {
       setTemp([...conversations])
     }
     else {
@@ -85,65 +85,67 @@ function ChatPanel() {
             height: "calc(100vh - 13rem)",
             overflowY: "scroll",
             position: "relative",
+            width: "calc(100vw - 60.800px)",
+            maxWidth: "392px",
             p: 1,
           }}
         >
           {!userData.isLoadingContact && authState.user
             ? tempConversation.map((conversation) => {
-                let url, username, status, receiverId;
-                if (conversation.type === "single") {
-                  if (conversation.member[0]._id === authState.user._id) {
-                    url = conversation.member[1].avatar;
-                    username = conversation.member[1].username;
-                    status = onlineList[conversation.member[1]._id];
-                    receiverId = conversation.member[1]._id;
-                  } else {
-                    url = conversation.member[0].avatar;
-                    username = conversation.member[0].username;
-                    status = onlineList[conversation.member[0]._id];
-                    receiverId = conversation.member[0]._id;
-                  }
+              let url, username, status, receiverId;
+              if (conversation.type === "single") {
+                if (conversation.member[0]._id === authState.user._id) {
+                  url = conversation.member[1].avatar;
+                  username = conversation.member[1].username;
+                  status = onlineList[conversation.member[1]._id];
+                  receiverId = conversation.member[1]._id;
                 } else {
-                  url = conversation.avatar;
-                  username = conversation.name;
+                  url = conversation.member[0].avatar;
+                  username = conversation.member[0].username;
+                  status = onlineList[conversation.member[0]._id];
+                  receiverId = conversation.member[0]._id;
                 }
-                return (
-                  <FriendBox
-                    key={conversation._id}
-                    id={conversation._id}
-                    url={url}
-                    name={username}
-                    status={status ? "online" : "offline"}
-                    time={conversation.lastChat.createdAt}
-                    message={conversation.lastChat.content}
-                    type={conversation.type}
-                    receiverId={receiverId}
-                    numUnRead={conversation.numUnRead}
-                    member={conversation.member}
-                    desc={conversation.desc}
-                  />
-                );
-              })
+              } else {
+                url = conversation.avatar;
+                username = conversation.name;
+              }
+              return (
+                <FriendBox
+                  key={conversation._id}
+                  id={conversation._id}
+                  url={url}
+                  name={username}
+                  status={status ? "online" : "offline"}
+                  time={conversation.lastChat.createdAt}
+                  message={conversation.lastChat.content}
+                  type={conversation.type}
+                  receiverId={receiverId}
+                  numUnRead={conversation.numUnRead}
+                  member={conversation.member}
+                  desc={conversation.desc}
+                />
+              );
+            })
             : [0, 0, 0, 0, 0].map(() => (
-                <Box
-                  key={uuidv4()}
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    width: "100%",
-                    height: "73px",
-                    padding: "15px 20px",
-                  }}
-                >
-                  <Skeleton variant="circular" width={40} height={40} />
-                  <Skeleton
-                    sx={{ marginLeft: "10px" }}
-                    variant="rounded"
-                    width={"80%"}
-                    height={40}
-                  />
-                </Box>
-              ))}
+              <Box
+                key={uuidv4()}
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  width: "100%",
+                  height: "73px",
+                  padding: "15px 20px",
+                }}
+              >
+                <Skeleton variant="circular" width={40} height={40} />
+                <Skeleton
+                  sx={{ marginLeft: "10px" }}
+                  variant="rounded"
+                  width={"80%"}
+                  height={40}
+                />
+              </Box>
+            ))}
         </Box>
       </Box>
     </Box>
