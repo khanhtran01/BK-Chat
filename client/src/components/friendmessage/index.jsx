@@ -42,7 +42,7 @@ function FriendMessage(props) {
           <Typography
             sx={{
               color: textcolor.primaryGray,
-              textAlign: "right",
+              textAlign: "left",
               fontSize: ".8375rem",
               opacity: 0.7,
               marginLeft: "50px",

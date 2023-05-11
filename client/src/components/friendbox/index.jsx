@@ -61,10 +61,10 @@ function FriendBox(props) {
       </Box>
       <Box
         sx={{
-          width: " 80%",
           height: "100%",
           paddingLeft: "10px",
           textAlign: "left",
+          width: 'calc(100% - 40px - 29.55px)'
         }}
       >
         <Typography
