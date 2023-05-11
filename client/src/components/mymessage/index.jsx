@@ -76,6 +76,8 @@ export default function MyMessage(props) {
                   color: textcolor.primaryGray,
                   textAlign: "right",
                   fontSize: ".8375rem",
+                  wordBreak: 'break-all'
+
                 }}
               >
                 {replyFrom.content}
@@ -124,6 +126,7 @@ export default function MyMessage(props) {
                   letterSpacing: "0.00938em",
                   color: textcolor.primaryGray,
                   textDecoration: "underline",
+                  wordBreak: 'break-all'
                 }}
                 unhighlightStyle={{
                   color: textcolor.primaryGray,
@@ -132,6 +135,7 @@ export default function MyMessage(props) {
                   fontFamily: "Roboto,Helvetica,Arial,sans-serif",
                   letterSpacing: "0.00938em",
                   fontWeight: 400,
+                  wordBreak: 'break-all'
                 }}
                 searchWords={memList}
                 textToHighlight={message}

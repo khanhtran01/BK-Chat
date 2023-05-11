@@ -32,7 +32,7 @@ function FriendMessage(props) {
     props;
   const options = [
     { component: <Box>Reply</Box>, handle: () => setReply(messageInfo) },
-    { component: <Box>Copy</Box>, handle: () => {} },
+    { component: <Box>Copy</Box>, handle: () => { } },
   ];
   // const handles = [reply(message), () => {}]
   return (
@@ -70,6 +70,7 @@ function FriendMessage(props) {
                 color: textcolor.primaryGray,
                 textAlign: "right",
                 fontSize: ".8375rem",
+                wordBreak: 'break-all'
               }}
             >
               {replyFrom.content}
@@ -140,6 +141,8 @@ function FriendMessage(props) {
                 letterSpacing: "0.00938em",
                 color: textcolor.primaryGray,
                 textDecoration: "underline",
+                wordBreak: 'break-all'
+
               }}
               unhighlightStyle={{
                 color: textcolor.primaryGray,
@@ -148,6 +151,8 @@ function FriendMessage(props) {
                 fontFamily: "Roboto,Helvetica,Arial,sans-serif",
                 letterSpacing: "0.00938em",
                 fontWeight: 400,
+                wordBreak: 'break-all'
+
               }}
               searchWords={memList}
               textToHighlight={message}
