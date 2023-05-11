@@ -1,7 +1,7 @@
 # initialize
 docker volume create portainer_data
-docker run -d -p 9000:9000 --name portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:2.16.0
 docker network create bkchat
+docker run -d -p 9000:9000 --name portainer --network bkchat --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer-ce:2.16.0
 
 # start db
 # start imgproxy

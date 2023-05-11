@@ -7,8 +7,12 @@ var CronJob = require('cron').CronJob;
 const handleNotify = new CronJob(
     '0 23 * * 0',
     async function () {
-        console.log('🚀 ~ Cron job started');
-        await NotificationController.validateNotifications();
+        console.log('🚀 ~ Handle notification started');
+        try {
+            await NotificationController.validateNotifications();
+        } catch (error) {
+            console.log(error.message);
+        }
     },
     null,
     true,

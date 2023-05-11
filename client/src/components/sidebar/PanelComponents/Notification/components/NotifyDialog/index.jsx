@@ -70,7 +70,7 @@ export default function NotifyDialog({
       if (response.status === 200 && response.data.successful === true) {
         setAlertStatus({
           open: true,
-          message: 'voted successfully',
+          message: 'Voted successfully',
           type: "success",
         });
         if (response.data.createGroup){

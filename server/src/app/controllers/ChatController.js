@@ -137,38 +137,7 @@ class ChatController {
             return null;
         }
     }
-    // async addReactionChat(data) {
-    //     try {
-    //         const chat = await Chat
-    //             .findOne({ _id: data.chat_id })
-    //         if (chat.like.includes(data.senderId)) {
-    //             await Chat
-    //                 .updateOne({ _id: data.chat_id }, {
-    //                     $pull: {
-    //                         like: data.senderId
-    //                     },
-    //                     $inc: {
-    //                         totalLike: -1
-    //                     }
-    //                 })
-    //         } else {
-    //             await Chat
-    //                 .updateOne({ _id: data.chat_id }, {
-    //                     $addToSet: {
-    //                         like: data.senderId
-    //                     },
-    //                     $inc: {
-    //                         totalLike: 1
-    //                     }
-    //                 })
-    //         }
-    //         const newChat = await Chat
-    //             .findOne({ _id: data.chat_id })
-    //         return newChat.totalLike;
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    // }
+
     async addUserReadChat(req, res, next) {
         try {
             await Chat.updateOne(
@@ -203,33 +172,6 @@ class ChatController {
             .limit(size);
         return chats.reverse();
     }
-    // async pagingChat(conversationId, size, page) {
-    //     try {
-    //         const count = await Chat.find({ conversationId: conversationId }).count();
-    //         let numSkip, numChat;
-    //         if (count - size * page < 0) {
-    //             numSkip = 0;
-    //             numChat = count - size * (page - 1);
-    //             if (numChat <= 0) {
-    //                 return false;
-    //             }
-    //         } else {
-    //             numSkip = count - size * page;
-    //             numChat = size;
-    //         }
-    //         return await Chat.find({ conversationId: conversationId })
-    //             .populate('userId', userDTOMini)
-    //             .populate({
-    //                 path: 'replyFrom',
-    //                 select: 'userId content',
-    //                 populate: { path: 'userId', select: '_id email username' },
-    //             })
-    //             .limit(numChat)
-    //             .skip(numSkip);
-    //     } catch (error) {
-    //         return false;
-    //     }
-    // }
 
     async findLastChat(conversationId) {
         try {

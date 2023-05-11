@@ -11,8 +11,16 @@ const server = http.createServer(app);
 const socketio = require('socket.io');
 
 const db = require('./config/db/index');
-const { addUser, removeUser, getUser, getUserBySocketId, getStatusUsers } = require('./util/userSocket');
+const redis = require('./config/redis/index');
+
 const Neo4jMiddleware = require('./app/middlewares/Neo4jMiddleware');
+const ChatController = require('./app/controllers/ChatController');
+const UserController = require('./app/controllers/UserController');
+const ConversationController = require('./app/controllers/ConversationController');
+
+const { addUser, removeUser, getUser, getUserBySocketId, getStatusUsers } = require('./util/userSocket');
+const handleNotify = require('./util/handleNotify');
+const checkRecommend = require('./util/checkRecommend');
 
 process.env.NODE_ENV = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
 
@@ -39,12 +47,6 @@ const io = socketio(server, {
     },
 });
 
-const redis = require('./config/redis/index');
-const handleNotify = require('./util/handleNotify');
-const ChatController = require('./app/controllers/ChatController');
-const UserController = require('./app/controllers/UserController');
-const ConversationController = require('./app/controllers/ConversationController');
-
 redis.connect(io);
 
 io.on('connection', (socket) => {
@@ -66,33 +68,6 @@ io.on('connection', (socket) => {
             }
         });
     });
-    // senderId, receiverId, username, avatar, content
-    // socket.on('sendNewContact', async (data) => {
-    //     const receiverUser = getUser(data.receiverId);
-    //     io.to(receiverUser?.socketId).emit('getNewContact', {
-    //         senderId: data.senderId,
-    //         username: data.username,
-    //         avatar: data.avatar,
-    //         receiverId: data.receiverId,
-    //         content: data.content,
-    //         conversationId: data.conversationId,
-    //         time: data.time,
-    //     });
-    // });
-    //
-    // socket.on('sendNewGroup', async (data) => {
-    //     data.memberIdAndAva.forEach((e) => {
-    //         if (e.id != data.senderId) {
-    //             var receiverUser = getUser(e.id);
-    //             io.to(receiverUser?.socketId).emit('getNewGroup', {
-    //                 senderId: data.senderId,
-    //                 nameGroup: data.nameGroup,
-    //                 messId: data.messId,
-    //                 memberIdAndAva: data.memberIdAndAva,
-    //             });
-    //         }
-    //     });
-    // });
 
     // senderId, receiverId, conversationId, content, replyFromChatId, time,
     socket.on('sendChatSingle', async (data) => {
@@ -243,53 +218,6 @@ io.on('connection', (socket) => {
             });
         }
     });
-    // socket.on('sendReactionChatSingle', async (data) => {
-    //     const receiverUser = getUser(data.receiverId);
-    //     const senderUser = getUser(data.senderId);
-    //     const totalReactions = await ChatController.addReactionChat(data);
-    //     io.to(receiverUser?.socketId).to(senderUser?.socketId).emit("getReactionChatSingle", {
-    //         senderId: data.senderId,
-    //         receiverId: data.receiverId,
-    //         chat_id: data.chat_id,
-    //         totalReactions: totalReactions
-    //     });
-    // })
-
-    // socket.on('sendReactionChatGroup', async (data) => {
-    //     const totalReactions = await ChatController.addReactionChat(data);
-    //     io.to(data.messId).emit("getReactionChatGroup", {
-    //         senderId: data.senderId,
-    //         messId: data.messId,
-    //         chat_id: data.chat_id,
-    //         totalReactions: totalReactions
-    //     });
-    // })
-
-    // socket.on('sendNotifyChatCustomAndOut', async (data) => {
-    //     data.type = 'notify'
-    //     const chatId = await ChatController.storeChatAndGetId(data);
-    //     io.to(data.messId).emit("getNotifyChatCustomAndOut", {
-    //         senderId: data.senderId,
-    //         senderName: data.senderName,
-    //         messId: data.messId,
-    //         chatId: chatId,
-    //         message: data.message
-    //     });
-    // })
-
-    // socket.on('sendNotifyChatAddMem', async (data) => {
-    //     data.type = 'addmember'
-    //     const chatId = await ChatController.storeChatAndGetId(data);
-    //     io.to(data.messId).emit("getNotifyChatAddMem", {
-    //         senderId: data.senderId,
-    //         senderName: data.senderName,
-    //         memberId: data.memberId,
-    //         memberName: data.memberName,
-    //         message: data.message,
-    //         chatId: chatId,
-    //         messId: data.messId,
-    //     });
-    // })
 
     socket.on('sendUserLogout', async (data) => {
         console.log('user logout');
@@ -313,6 +241,8 @@ io.on('connection', (socket) => {
 route(app);
 
 handleNotify.start();
+
+checkRecommend.start();
 
 module.exports = server;
 

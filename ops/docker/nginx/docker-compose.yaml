@@ -8,12 +8,13 @@ services:
       - 80:80
     # network_mode: "host"
     volumes:
-      - ./cache:/data/cache
-      - ./proxy_params:/etc/nginx/proxy_params
-      - ./imgproxy.conf:/etc/nginx/conf.d/imgproxy.conf
-      # - ./portainer.conf:/etc/nginx/conf.d/portainer.conf
+      # - ./cache:/data/cache
+      # - ./proxy_params:/etc/nginx/proxy_params
+      # - ./imgproxy.conf:/etc/nginx/conf.d/imgproxy.conf
       - ./fe.conf:/etc/nginx/conf.d/fe.conf
-      - ./api-node.conf:/etc/nginx/conf.d/api-node.conf
+      - ./node.conf:/etc/nginx/conf.d/node.conf
+      # - ./portainer.conf:/etc/nginx/conf.d/portainer.conf
+      # - ./grafana.conf:/etc/nginx/conf.d/grafana.conf
 networks:
   default:
     name: bkchat
