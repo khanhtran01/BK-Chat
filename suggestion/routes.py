@@ -86,14 +86,18 @@ def checkgrouping():
 
     for k, v in result.items():
         predict = get_classifies(v)
-        final[k] = {
-            "name": predict.name,
-            "confidence": predict.confidence
-        }
+        if predict:
+            final[k] = {
+                "name": predict.name,
+                "confidence": predict.confidence
+            }
 
     user_list = get_user_list(clusterer.labels_, userList, reject_list)
     for k, v in user_list.items():
-        final[k]["userList"] = list(v)
+        try:
+            final[k]["userList"] = list(v)
+        except:
+            continue
 
     my_dict_converted2 = {
         str(k): v for k, v in final.items()}
