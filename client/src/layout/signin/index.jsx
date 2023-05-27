@@ -156,7 +156,7 @@ function SignIn() {
           >
             <InputText
               color={textcolor.white}
-              title={"username"}
+              title={"email"}
               text={username}
               setText={onChangeLoginForm}
               name="username"
