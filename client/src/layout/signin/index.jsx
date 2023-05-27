@@ -162,6 +162,7 @@ function SignIn() {
               name="username"
               type={"email"}
               autoComplete={"username"}
+              autoFocus
             />
             <InputText
               name="password"

@@ -125,13 +125,13 @@ export default function ChatInfo() {
           </Box>
           <Typography
             fontWeight={600}
-            marginBottom={0.5}
-            marginTop={3}
+            marginBottom={'24px'}
+            // marginTop={3}
             color={textcolor.primaryGray}
           >
             {`${userData.chatInfo.name}`}
           </Typography>
-          <Box
+          {/* <Box
             display="flex"
             alignItems={"center"}
             marginBottom={"1.5rem"}
@@ -144,7 +144,7 @@ export default function ChatInfo() {
             <Typography color={textcolor.white} fontSize={"1rem"}>
               Active
             </Typography>
-          </Box>
+          </Box> */}
         </Box>
 
         <Box>
