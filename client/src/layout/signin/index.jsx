@@ -162,7 +162,7 @@ function SignIn() {
               name="username"
               type={"email"}
               autoComplete={"username"}
-              autoFocus
+              onKeyDown={handleKeyDown}
             />
             <InputText
               name="password"

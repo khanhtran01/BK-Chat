@@ -31,7 +31,14 @@ function FriendMessage(props) {
   const { message, time, username, avatar, messageInfo, replyFrom, memList } =
     props;
   const options = [
-    { component: <Box>Reply</Box>, handle: () => setReply(messageInfo) },
+    { component: <Box>Reply</Box>, handle: () => {
+      setReply(messageInfo)
+      const input = document.getElementById('message-input-text');
+      if (input != null) {
+        console.log(input);
+        input.focus();
+      }
+    } },
     { component: <Box>Copy</Box>, handle: () => { } },
   ];
   // const handles = [reply(message), () => {}]

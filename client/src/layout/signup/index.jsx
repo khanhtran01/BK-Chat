@@ -106,6 +106,12 @@ function SignUp() {
     setIsSubmiting(false);
   };
 
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      handleSignUp(event);
+    }
+  };
+
   return (
     <Box
       sx={{
@@ -198,6 +204,7 @@ function SignUp() {
                 color={textcolor.white}
                 title={"email"}
                 type="email"
+                onKeyDown={handleKeyDown}
               />
               <InputText
                 name="username"
@@ -205,6 +212,7 @@ function SignUp() {
                 setText={onChangeRegisterFrom}
                 color={textcolor.white}
                 title={"username"}
+                onKeyDown={handleKeyDown}
               />
               <InputText
                 name="password"
@@ -213,6 +221,7 @@ function SignUp() {
                 color={textcolor.white}
                 title={"password"}
                 type="password"
+                onKeyDown={handleKeyDown}
               />
               <InputText
                 name="confirmpassword"
@@ -221,6 +230,7 @@ function SignUp() {
                 color={textcolor.white}
                 title={"confirm password"}
                 type="password"
+                onKeyDown={handleKeyDown}
               />
             </Box>
             <FormGroup>

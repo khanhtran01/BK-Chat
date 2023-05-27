@@ -36,8 +36,13 @@ export default function MyMessage(props) {
   const { message, time, messageInfo, replyFrom, memList, verify } = props;
 
   const options = [
-    { component: <Box>Reply</Box>, handle: () => setReply(messageInfo) },
-    { component: <Box>Delete</Box>, handle: () => {} },
+    {
+      component: <Box>Reply</Box>, handle: () => {
+        setReply(messageInfo)
+        document.getElementById('message-input-text')?.focus();
+      }
+    },
+    { component: <Box>Delete</Box>, handle: () => { } },
   ];
   const { authState } = useContext(AuthContext);
   return (
