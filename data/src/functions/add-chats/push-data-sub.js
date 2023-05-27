@@ -171,15 +171,15 @@ const PushDataSub = async (
                             verify: true,
                             desc: 'User from dataset',
                         });
-                        // await session.run(
-                        //     'merge (a:User {_id: $id, username: $username})',
-                        //     {
-                        //         id: mongoose.Types.ObjectId(
-                        //             data[i].userId
-                        //         ).toString(),
-                        //         username: randomName,
-                        //     }
-                        // );
+                        await session.run(
+                            'merge (a:User {_id: $id, username: $username})',
+                            {
+                                id: mongoose.Types.ObjectId(
+                                    data[i].userId
+                                ).toString(),
+                                username: data[i].userId,
+                            }
+                        );
                         oldMembers.push(
                             mongoose.Types.ObjectId(data[i].userId)
                         );
@@ -191,6 +191,7 @@ const PushDataSub = async (
                 }
             }
         }
+        console.log('🚀 ~ file: push-data-sub.js:195 ~ Done!!');
         process.exit(0);
     });
 };
