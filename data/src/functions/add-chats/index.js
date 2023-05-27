@@ -13,7 +13,6 @@ async function connect() {
         process.exit(1);
     }
 }
-console.log(process.env.CONVERSATIONID);
 
 connect().then(() => {
     try {
@@ -23,13 +22,13 @@ connect().then(() => {
         //     process.env.CONVERSATIONNAME,
         //     process.env.FILE
         // );
-        // PushDataSub(
-        //     process.env.CONVERSATIONID,
-        //     process.env.CONVERSATIONNAME,
-        //     process.env.FILE,
-        //     +process.env.NUMCHAT,
-        //     process.env.CONVERSATIONTYPE
-        // );
+        PushDataSub(
+            process.env.CONVERSATIONID,
+            process.env.CONVERSATIONNAME,
+            process.env.FILE,
+            +process.env.NUMCHAT,
+            process.env.CONVERSATIONTYPE
+        );
     } catch (error) {
         console.log(error);
     }
