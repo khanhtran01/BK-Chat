@@ -1,4 +1,5 @@
 venv
 .env
+google-key.json
 src/__pycache__
 __pycache__

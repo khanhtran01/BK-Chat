@@ -59,3 +59,90 @@ describe('GET /api/user/get-infor', () => {
         expect(res.body.userInfor).toBeDefined();
     });
 });
+
+describe('PUT /api/user/update-personal-info', () => {
+    it('should return a 200 OK status', async () => {
+        const loginResponse = await request(app).post('/api/auth/login').send({
+            email: 'admin1@gmail.com',
+            password: 'admin12345',
+        });
+        const res = await request(app)
+            .put('/api/user/update-personal-info')
+            .set('Authorization', 'Bearer ' + loginResponse.body.token)
+            .send({
+                username: 'admin1',
+                desc: 'update test user information',
+                address: 'VN',
+            });
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.successful).toEqual(true);
+    });
+});
+
+describe('GET /api/user/search-contact', () => {
+    it('should return a 200 OK status and be contacted', async () => {
+        const loginResponse = await request(app).post('/api/auth/login').send({
+            email: 'admin1@gmail.com',
+            password: 'admin12345',
+        });
+        const res = await request(app)
+            .get('/api/user/search-contact')
+            .set('Authorization', 'Bearer ' + loginResponse.body.token)
+            .query({
+                email: 'user2@gmail.com',
+            });
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.isContacted).toEqual(1);
+    });
+
+    it('should return a 200 OK status and not be contacted', async () => {
+        const loginResponse = await request(app).post('/api/auth/login').send({
+            email: 'admin1@gmail.com',
+            password: 'admin12345',
+        });
+        const res = await request(app)
+            .get('/api/user/search-contact')
+            .set('Authorization', 'Bearer ' + loginResponse.body.token)
+            .query({
+                email: 'test@example.com',
+            });
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.isContacted).toEqual(0);
+    });
+});
+
+describe('GET /api/notification/get', () => {
+    it('should return a 200 OK status and suggestions', async () => {
+        const loginResponse = await request(app).post('/api/auth/login').send({
+            email: 'admin1@gmail.com',
+            password: 'admin12345',
+        });
+        const res = await request(app)
+            .get('/api/notification/get')
+            .set('Authorization', 'Bearer ' + loginResponse.body.token);
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.notifications).toBeDefined();
+    });
+});
+
+describe('GET /api/auth/verify-email', () => {
+    it('should return a 200 OK status and message "Email is already verified, or token is not valid"', async () => {
+        const res = await request(app).get('/api/auth/verify-email').query({
+            email: 'test@example.com',
+            token: '106228567',
+        });
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.successful).toEqual(false);
+        expect(res.body.message).toEqual('Email is already verified, or token is not valid');
+    });
+
+    it('should return a 200 OK status and message "Verify Successfully"', async () => {
+        const res = await request(app).get('/api/auth/verify-email').query({
+            email: 'user3@gmail.com',
+            token: '426810263',
+        });
+        expect(res.statusCode).toEqual(200);
+        expect(res.body.successful).toEqual(true);
+        expect(res.body.message).toEqual('Verify Successfully');
+    });
+});
