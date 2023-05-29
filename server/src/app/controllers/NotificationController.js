@@ -71,7 +71,7 @@ class NotificationController {
     async action(req, res, next) {
         try {
             const notificationId = req.body.notifyId;
-            const notification = await Notification.findOne({
+            let notification = await Notification.findOne({
                 _id: notificationId,
                 status: 'pending',
             });
@@ -85,6 +85,10 @@ class NotificationController {
                     $set: { 'member.$.status': req.body.action },
                 },
             );
+            notification = await Notification.findOne({
+                _id: notificationId,
+                status: 'pending',
+            });
             let members = [];
             let flag = true;
             for (let i = 0; i < notification.member.length; i++) {
