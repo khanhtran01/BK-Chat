@@ -2,7 +2,7 @@ const axios = require('axios');
 const Conversation = require('../models/Conversation');
 const Chat = require('../models/Chat');
 const User = require('../models/User');
-// const { redis } = require('../../config/redis');
+const { redis } = require('../../config/redis');
 const userDTOMini = {
     _id: 1,
     email: 1,
@@ -102,32 +102,47 @@ class ChatController {
             let replyChat = null;
             if (data.replyFromChatId) {
                 replyChat = await Chat.findOne({ _id: data.replyFromChatId }).populate('userId', userDTOMini);
-                return {
-                    id: chat._id,
-                    replyChat: replyChat,
-                };
             }
-            // const conversationData = JSON.parse(await redis.get(data.conversationId));
-            // if (parseInt(conversationData.numChat) < 50) {
-            //     conversationData.chats.push({
-            //         _id: chat._id,
-            //         conversationId: data.conversationId,
-            //         userId: {
-            //             _id: data.sender._id,
-            //             email: data.sender.email,
-            //             username: data.sender.username,
-            //             avatar: data.sender.avatar,
-            //         },
-            //         content: data.content,
-            //         type: data.type,
-            //         replyFrom: replyChat,
-            //         createdAt: chat.createdAt,
-            //     });
-            //     conversationData.numChat += 1;
-            //     await redis.set(data.conversationId, JSON.stringify(conversationData));
-            // } else {
-            //     await redis.expire(data.conversationId, -1);
-            // }
+            const conversationData = JSON.parse(await redis.get(data.conversationId));
+            if (parseInt(conversationData.numChat) <= 50) {
+                console.log(112);
+                conversationData.chats.push({
+                    _id: chat._id,
+                    conversationId: data.conversationId,
+                    userId: {
+                        _id: data.sender._id,
+                        email: data.sender.email,
+                        username: data.sender.username,
+                        avatar: data.sender.avatar,
+                    },
+                    content: data.content,
+                    type: data.type,
+                    replyFrom: replyChat,
+                    createdAt: chat.createdAt,
+                });
+                conversationData.numChat += 1;
+                await redis.set(data.conversationId, JSON.stringify(conversationData));
+            } else {
+                console.log(130);
+                conversationData.chats.push({
+                    _id: chat._id,
+                    conversationId: data.conversationId,
+                    userId: {
+                        _id: data.sender._id,
+                        email: data.sender.email,
+                        username: data.sender.username,
+                        avatar: data.sender.avatar,
+                    },
+                    content: data.content,
+                    type: data.type,
+                    replyFrom: replyChat,
+                    createdAt: chat.createdAt,
+                });
+                conversationData.chats.splice(0, 25);
+                conversationData.numChat = 27;
+                await redis.set(data.conversationId, JSON.stringify(conversationData));
+            }
+
             return {
                 id: chat._id,
                 replyChat: replyChat,
