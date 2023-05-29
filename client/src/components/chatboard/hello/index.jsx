@@ -10,6 +10,9 @@ import { Box, Button, Typography } from "@mui/material";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { textcolor } from "../../../colors/index.js";
+import connectUrl from '../../../img/connect/connect.png';
+import logo from '../../../logo/logo.png';
+import increase from './../../../img/increase/improve.png';
 const Slider = () => {
 
   const [width, setWidth] = useState(0);
@@ -21,53 +24,74 @@ const Slider = () => {
         id: 1,
         component: (
           <Box
-          display={"flex"}
-          flexDirection={"column"}
+            display={"flex"}
+            flexDirection={"column"}
+            justifyContent={'center'}
+            alignItems={'center'}
           >
+            <img
+              style={{
+                height: "200px",
+              }}
+              src={logo}
+              alt="connect"
+            />
             <Typography color={textcolor.primaryGray} fontSize={24}>
-              Chào mừng đến với BKChat 1
+              Welcome to BKChat
             </Typography>
+
           </Box>
         ),
       },
       {
         id: 2,
         component: (
-          <Box>
-            <Typography>Chào mừng đến với BKChat 2</Typography>
+          <Box
+            display={"flex"}
+            flexDirection={"column"}
+            justifyContent={'center'}
+            alignItems={'center'}
+          >
+            <img
+              style={{
+                height: "400px",
+              }}
+              src={connectUrl}
+              alt="connect"
+            />
+            <Typography color={textcolor.primaryGray} fontSize={24}>With more connection</Typography>
           </Box>
         ),
       },
       {
         id: 3,
         component: (
-          <Box>
-            <Typography>Chào mừng đến với BKChat 3</Typography>
+          <Box
+            display={"flex"}
+            flexDirection={"column"}
+            justifyContent={'center'}
+            alignItems={'center'}
+          >
+            <img
+              style={{
+                height: "400px",
+              }}
+              src={increase}
+              alt="connect"
+            />
+            <Typography color={textcolor.primaryGray} fontSize={24}>
+            Help users increase the quality of messages
+            </Typography>
+
           </Box>
         ),
-      },
-      {
-        id: 4,
-        component: (
-          <Box>
-            <Typography>Chào mừng đến với BKChat 4</Typography>
-          </Box>
-        ),
-      },
-      {
-        id: 5,
-        component: (
-          <Box>
-            <Typography>Chào mừng đến với BKChat 5</Typography>
-          </Box>
-        ),
-      },
+      }
     ],
   });
   useEffect(() => {
     let currentWidth = referent.current.offsetWidth;
     setWidth(currentWidth);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [useWindowWidth()]);
 
   return (
