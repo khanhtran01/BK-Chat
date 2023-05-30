@@ -159,7 +159,8 @@ function Header() {
               sx={{ cursor: "pointer", color: textcolor.white }}
             />
           </IconButton>
-          <LongMenu
+          {
+            userData.chatInfo.type === "group" && <LongMenu
             icon={
               <MoreHorizIcon
                 sx={{
@@ -172,6 +173,7 @@ function Header() {
               userData.chatInfo.type === "group" ? menuOptions : menuOptions2
             }
           />
+          }
         </Box>
       </Box>
     </>

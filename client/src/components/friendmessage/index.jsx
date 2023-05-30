@@ -39,7 +39,7 @@ function FriendMessage(props) {
         input.focus();
       }
     } },
-    { component: <Box>Copy</Box>, handle: () => { } },
+    { component: <Box>Copy</Box>, handle: () => { navigator.clipboard.writeText(`${message}`) } },
   ];
   // const handles = [reply(message), () => {}]
   return (

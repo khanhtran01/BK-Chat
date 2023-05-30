@@ -42,7 +42,7 @@ export default function MyMessage(props) {
         document.getElementById('message-input-text')?.focus();
       }
     },
-    { component: <Box>Delete</Box>, handle: () => { } },
+    { component: <Box>Copy</Box>, handle: () => { navigator.clipboard.writeText(`${message}`) } },
   ];
   const { authState } = useContext(AuthContext);
   return (

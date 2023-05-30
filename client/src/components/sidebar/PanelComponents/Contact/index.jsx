@@ -28,7 +28,7 @@ function Contact() {
   const [searchInput, setSearchInput] = useState("");
 
   const [contactList, setContactList] = useState([...userData.contactList]);
-
+  // console.log(userData.contactList);
   const { socket } = useContext(SocketContext);
   const { authState: {
     user
