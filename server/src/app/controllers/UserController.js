@@ -42,6 +42,7 @@ class UserController {
                             userId: conversations[i].member[0],
                             username: user_0.username,
                             avatar: user_0.avatar,
+                            email: user_0.email,
                         });
                     } else {
                         allContact.push({
@@ -49,6 +50,7 @@ class UserController {
                             userId: conversations[i].member[1],
                             username: user_1.username,
                             avatar: user_1.avatar,
+                            email: user_1.email,
                         });
                     }
                     user_0.avatar = resizingImg(user_0.avatar);

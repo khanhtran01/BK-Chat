@@ -199,11 +199,13 @@ class ConversationController {
                     allContact.push({
                         userId: conversation.member[0]._id,
                         username: conversation.member[0].username,
+                        email: conversation.member[0].email,
                     });
                 } else {
                     allContact.push({
                         userId: conversation.member[1]._id,
                         username: conversation.member[1].username,
+                        email: conversation.member[1].email,
                     });
                 }
             });
