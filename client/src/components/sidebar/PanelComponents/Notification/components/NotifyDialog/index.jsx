@@ -135,7 +135,7 @@ export default function NotifyDialog({
               </Typography>) : (<Typography sx={{ color: textcolor.primaryGray }}>
                 {`The system proposes to create a subgroup with ${members.length} people from group ${conversationId.name} about topic `}
                 <em>{`${topic}`}</em>
-                {` with confidence ${confidence}`}
+                {` with confidence ${Number(confidence).toFixed(2)}`}
 
               </Typography>)
             }
