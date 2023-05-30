@@ -62,7 +62,6 @@ function Header() {
           <BlockIcon sx={{ fontSize: "18px" }} />
         </Box>
       ),
-      // handle: () => handleLeaveDialog(true),
       handle: () => { },
     },
   ];
