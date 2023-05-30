@@ -1,13 +1,14 @@
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
+const nodemailer = require('nodemailer');
+const Queue = require('bull');
 const User = require('../models/User');
 const verifyToken = require('../../util/verifyToken');
 const randString = require('../../util/randString');
 const mailVerify = require('../../util/mailVerify');
 const forgetPassword = require('../../util/forgetPassword');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const nodemailer = require('nodemailer');
-const Neo4jController = require('./Neo4jController');
 const resizingImg = require('../../util/resizingImg');
+const Neo4jController = require('./Neo4jController');
 const saltRounds = 10;
 const userDTO = {
     _id: 1,
@@ -61,22 +62,15 @@ class AuthenController {
                         uniqueString: randStr,
                     });
                 });
-                const transport = nodemailer.createTransport({
-                    host: 'smtp.gmail.com',
-                    port: 465,
-                    secure: true,
-                    auth: {
-                        user: process.env.ADMIN_EMAIL,
-                        pass: process.env.ADMIN_PASSWORD,
-                    },
+                const mailQueue = new Queue('mailQueuee', process.env.REDIS_URL);
+                mailQueue.add({
+                    adminEmail: process.env.ADMIN_EMAIL,
+                    adminPass: process.env.ADMIN_PASSWORD,
+                    userEmail: req.body.email,
+                    randStr,
+                    feUrl: process.env.FE_URL,
+                    type: 'verify',
                 });
-                const mailOptions = {
-                    from: `BK-Chat <${process.env.ADMIN_EMAIL}>`,
-                    to: `${req.body.email}`,
-                    subject: '🚀 Verify your email ✔',
-                    html: mailVerify(randStr, req.body.email, process.env.FE_URL),
-                };
-                await transport.sendMail(mailOptions);
                 res.status(200).json({ message: 'Register Successfull', successful: true });
             }
         } catch (error) {
@@ -144,22 +138,15 @@ class AuthenController {
             if (user) {
                 const randStr = randString();
                 await User.updateOne({ email: req.query.email }, { uniqueString: randStr });
-                const transport = nodemailer.createTransport({
-                    host: 'smtp.gmail.com',
-                    port: 465,
-                    secure: true,
-                    auth: {
-                        user: process.env.ADMIN_EMAIL,
-                        pass: process.env.ADMIN_PASSWORD,
-                    },
+                const mailQueue = new Queue('mailQueuee', process.env.REDIS_URL);
+                mailQueue.add({
+                    adminEmail: process.env.ADMIN_EMAIL,
+                    adminPass: process.env.ADMIN_PASSWORD,
+                    userEmail: req.query.email,
+                    randStr,
+                    feUrl: process.env.FE_URL,
+                    type: 'forget',
                 });
-                const mailOptions = {
-                    from: `BK-Chat <${process.env.ADMIN_EMAIL}>`,
-                    to: `${req.query.email}`,
-                    subject: '🚀 BK-Chat reset password ✔',
-                    html: forgetPassword(randStr, req.query.email, process.env.FE_URL),
-                };
-                await transport.sendMail(mailOptions);
                 res.status(200).json({ message: 'Email sent successfully', successful: true });
             } else {
                 res.status(200).json({ message: 'Email does not exist', successful: false });

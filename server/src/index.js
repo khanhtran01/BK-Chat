@@ -9,6 +9,8 @@ const cookieParse = require('cookie-parser');
 const http = require('http');
 const server = http.createServer(app);
 const socketio = require('socket.io');
+const nodemailer = require('nodemailer');
+const Queue = require('bull');
 
 const db = require('./config/db/index');
 const redis = require('./config/redis/index');
@@ -21,6 +23,8 @@ const ConversationController = require('./app/controllers/ConversationController
 const { addUser, removeUser, getUser, getUserBySocketId, getStatusUsers } = require('./util/userSocket');
 const handleNotify = require('./util/handleNotify');
 const checkRecommend = require('./util/checkRecommend');
+const mailVerify = require('./util/mailVerify');
+const forgetPassword = require('./util/forgetPassword');
 
 process.env.NODE_ENV = process.env.NODE_ENV ? process.env.NODE_ENV : 'development';
 
@@ -243,6 +247,40 @@ route(app);
 handleNotify.start();
 
 checkRecommend.start();
+
+const mailQueue = new Queue('mailQueuee', process.env.REDIS_URL);
+
+mailQueue.process(async (job, done) => {
+    const { adminEmail, adminPass, userEmail, randStr, feUrl, type } = job.data;
+    const transport = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 465,
+        secure: true,
+        auth: {
+            user: adminEmail,
+            pass: adminPass,
+        },
+    });
+
+    if (type === 'verify') {
+        const mailOptions = {
+            from: `BK-Chat <${adminEmail}>`,
+            to: `${userEmail}`,
+            subject: '🚀 Verify your email ✔',
+            html: mailVerify(randStr, userEmail, feUrl),
+        };
+        await transport.sendMail(mailOptions);
+    } else {
+        const mailOptions = {
+            from: `BK-Chat <${adminEmail}>`,
+            to: `${userEmail}`,
+            subject: '🚀 BK-Chat reset password ✔',
+            html: forgetPassword(randStr, userEmail, feUrl),
+        };
+        await transport.sendMail(mailOptions);
+    }
+    done();
+});
 
 module.exports = server;
 
